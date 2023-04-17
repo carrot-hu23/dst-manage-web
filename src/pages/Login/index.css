@@ -1,0 +1,16 @@
+.login-form {
+    max-width: 300px;
+    margin-left: 13%;
+}
+
+/* .login-form-forgot {
+    float: none;
+}
+
+.ant-col-rtl .login-form-forgot {
+    float: none;
+} */
+
+.login-form-button {
+    width: 100%;
+}
