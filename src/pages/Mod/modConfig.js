@@ -1,5 +1,4 @@
 import { Card, Modal, Button, Space, Row, Col, Form, Select } from 'antd';
-import { map } from 'lodash';
 import { useState } from 'react';
 
 const Option = (props) => {

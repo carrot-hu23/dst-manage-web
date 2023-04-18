@@ -2,7 +2,7 @@ import { Card, Checkbox, Row, Col } from 'antd';
 
 import './mod.css';
 
-const ModItem = (props) => <Card style={{ margin: ' 0 0 16px' }}>
+const ModItem = (props) => <Card style={{margin: ' 0 0 16px' }}>
     <Row onClick={()=>{props.changeMod(props.mod)}}>
         <Col flex="72px">
             <img
