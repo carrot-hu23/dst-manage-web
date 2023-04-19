@@ -33,4 +33,13 @@ module.exports = function (app) {
             '^/version': ''
         },
     }))
+
+    app.use(createProxyMiddleware('/inner', {
+        // target: "http://1.12.223.51:8888/",
+        target: "http://localhost:8000",
+        changeOrigin: true,
+        // pathRewrite: {
+        //     '^/dst': ''
+        // },
+    }))
 }
