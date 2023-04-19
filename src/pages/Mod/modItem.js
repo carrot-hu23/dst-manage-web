@@ -7,14 +7,14 @@ const ModItem = (props) => <Card style={{margin: ' 0 0 16px' }}>
         <Col flex="72px">
             <img
                 alt="example"
-                src={props.mod.modImg}
+                src={props.mod.img}
             />
         </Col>
         <Col flex="auto" style={{ paddingLeft: '16px' }}>
             <Row>
                 <Col span={24}><span style={{
                     fontSize: '16px'
-                }}>{props.mod.modName}</span></Col>
+                }}>{props.mod.name}</span></Col>
             </Row>
             <Row style={{
                 marginTop: '16px'
@@ -23,7 +23,7 @@ const ModItem = (props) => <Card style={{margin: ' 0 0 16px' }}>
                 <Col span={12}>
                     <Checkbox 
                         checked={props.mod.enable}
-                        onChange={()=> {props.changeEnable(props.mod.modId)}}>
+                        onChange={()=> {props.changeEnable(props.mod.id)}}>
                         {props.mod.enable && <span>启用</span>}
                         {!props.mod.enable && <span>禁用</span>}
                     </Checkbox>

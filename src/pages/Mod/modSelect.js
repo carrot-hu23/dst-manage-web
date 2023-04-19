@@ -4,11 +4,11 @@ import { Row, Col, Card } from 'antd';
 import ModItem from './modItem';
 import ModDetail from './modConfig';
 
-const ModSelect = () => {
+const ModSelect = ({modList}) => {
 
     const [mod, setMod] = useState({})
 
-    const [modList, setModList] = useState([])
+    // const [modList, setModList] = useState([])
 
     const changeMod = (mod) => {
         setMod(mod)
@@ -24,7 +24,7 @@ const ModSelect = () => {
         }
         console.log('modList', modList);
 
-        setModList([...modList])
+        // setModList([...modList])
     }
 
     useEffect(() => {
@@ -890,9 +890,8 @@ const ModSelect = () => {
                     }
                 ]
             }]
-        setModList(modData)
-
-        setMod(modData[0])
+        // setModList(modData)
+        setMod(modList[0]||{})
     }, [])
 
     return (<Row gutter={24}>
@@ -904,7 +903,7 @@ const ModSelect = () => {
             }}>
                 <Card style={{ padding: '24px' }}>
                     {modList.map(item => <ModItem
-                        key={item.modId}
+                        key={item.id}
                         mod={item}
                         changeMod={changeMod}
                         changeEnable={changeEnable}
@@ -914,7 +913,7 @@ const ModSelect = () => {
 
         </Col>
         <Col span={14} xs={24} md={14} lg={14}>
-            <ModDetail mod={mod} />
+            {mod.id !== undefined && <ModDetail mod={mod} />}
         </Col>
     </Row>)
 }

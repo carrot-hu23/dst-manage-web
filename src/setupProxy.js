@@ -11,6 +11,7 @@ module.exports = function (app) {
     //     //     '^/dst': ''
     //     // },
     // }))
+
     app.use(createProxyMiddleware('/dst', {
         target: "https://dst.liuyh.com/",
         changeOrigin: true,
@@ -34,12 +35,8 @@ module.exports = function (app) {
         },
     }))
 
-    app.use(createProxyMiddleware('/inner', {
-        // target: "http://1.12.223.51:8888/",
-        target: "http://localhost:8000",
+    app.use(createProxyMiddleware('/py', {
+        target: "http://127.0.0.1:8000/",
         changeOrigin: true,
-        // pathRewrite: {
-        //     '^/dst': ''
-        // },
     }))
 }

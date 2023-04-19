@@ -1,93 +1,108 @@
 import { useEffect, useState } from 'react';
-import { Row, Col, Card, Input, Pagination } from 'antd';
-import { searchMod } from '../../api/modApi';
+import { Row, Col, Card, Input, Pagination, Button } from 'antd';
+import { getModInfo, searchMod } from '../../api/modApi';
 
 const { Search } = Input;
-// const { Meta } = Card;
 
-const ModCard = ({modInfo}) => (
-  <Card
-    hoverable
-    style={{
-      width: 150,
-      padding: '8px',
-    }}
-    cover={
-      <img
-        alt="example"
-        src="https://steamuserimages-a.akamaihd.net/ugc/879754964162469530/9FED5DDBE3EB31E6115EFDC9D96AAF6B2693A577/"
-      />
-    }
-  >
-    <br />
-    {/* <Meta title="防卡两招" description="www.instagram.com" /> */}
-    <span>防卡两招</span>
-    <span>作者：发发</span>
-  </Card>
+const subscribe = (modId, addModList) => {
+
+    getModInfo(modId).then(data => {
+        console.log(data);
+        addModList(current => [...current, data.modInfo])
+    }).catch(error => console.log(error))
+
+
+}
+
+const ModCard = ({ modInfo, addModList }) => (
+    <Card
+        hoverable
+        style={{
+            width: 150,
+            padding: '8px',
+        }}
+        cover={
+            <img
+                alt="example"
+                src={modInfo.img}
+            />
+        }
+    >
+        <br />
+        {/* <Meta title="防卡两招" description="www.instagram.com" /> */}
+        <div>{modInfo.name}</div>
+        {/* <span>作者：{modInfo.author}</span> */}
+        <Button type="primary" onClick={() => subscribe(modInfo.id, addModList)}>订阅</Button>
+    </Card>
 );
 
-const ModSearch = () => {
+const ModSearch = ({ addModList }) => {
 
-  const [modList, setModList] = useState([])
+    const [modList, setModList] = useState([])
 
-  const onSearch = (text) => {
-    searchMod(text).then(data=>{
-        console.log(data);
-    }).catch(error=>{console.log(error);})
-  };
+    const [pageSize, setPageSize] = useState(20)
+    const [page, setPage] = useState(1)
+    const [total, setTotal] = useState(0)
+    const [text, setText] = useState("")
 
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
+    const onSearch = (text) => {
+        setText(text)
+        searchMod(text, page, pageSize).then(data => {
+            console.log(data);
+            setModList(data.data)
+            setPage(data.page)
+            setPageSize(data.size)
+            setTotal(data.total)
+        }).catch(error => { console.log(error); })
+    }
 
-  return (
-    <>
-      <Search
-        placeholder="input search text"
-        onSearch={onSearch}
-        style={{
-          width: 200,
-        }}
-      />
-      <br />
-      <br />
-      <Row>
-        {modList.map(modinfo=>(<Col key={modinfo.id} xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard modInfo={modinfo} />
-          <br />
-        </Col>))}
-        {/* <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-          <br />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col>
-        <Col xs={12} sm={8} md={6} lg={6} xl={4}>
-          <ModCard />
-        </Col> */}
-      </Row>
+    const onShowSizeChange = (current, pageSize) => {
+        setPageSize(pageSize)
+        searchMod(text, current, pageSize).then(data => {
+            console.log(data);
+            setModList(data.data)
+            setPage(data.data)
+            setPage(data.size)
+            setTotal(data.total)
+        }).catch(error => { console.log(error); })
+    }
 
-      <br /><br />
+    const onChange = (page) => {
+        searchMod(text, page, pageSize).then(data => {
+            console.log(data);
+            setModList(data.data)
+            setPage(data.data)
+            setPage(data.size)
+            setTotal(data.total)
+        }).catch(error => { console.log(error); })
+    }
 
-      <Pagination  onShowSizeChange={onShowSizeChange} defaultCurrent={1} total={500} />
-    </>
-  );
+    return (
+        <>
+            <Search
+                placeholder="input search text"
+                onSearch={onSearch}
+                style={{
+                    width: 200,
+                }}
+            />
+            <br />
+            <br />
+            <Row>
+                {modList.map(modinfo => (<Col key={modinfo.id} xs={12} sm={8} md={6} lg={5} xl={4}>
+                    <ModCard modInfo={modinfo} addModList={addModList} />
+                    <br />
+                </Col>))}
+            </Row>
+            <br /><br />
+            <Pagination
+                onShowSizeChange={onShowSizeChange}
+                defaultCurrent={page}
+                pageSize={pageSize}
+                onChange={(i) => onChange(i)}
+                total={total} />
+        </>
+    );
 };
 
 export default ModSearch;

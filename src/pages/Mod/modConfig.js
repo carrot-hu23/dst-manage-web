@@ -66,19 +66,19 @@ const ModDetail = (props) => {
             <Col flex={'100px'}>
                 <img
                     alt="example"
-                    src={props.mod.modImg}
+                    src={props.mod.img}
                 />
             </Col>
             <Col flex="auto" style={{ paddingLeft: '16px' }}>
-                <span>{props.mod.modName}</span><br />
-                <span>作者: {props.mod.author}</span><br />
-                <span>版本: {props.mod.version}</span><br />
+                <span>{props.mod.name}</span><br />
+                <span>作者: {props.mod.mod_config.author}</span><br />
+                <span>版本: {props.mod.v}</span><br />
                 <span>与《饥荒联机版兼容》</span><br />
             </Col>
         </Row>
         <div>
             <br />
-            {props.mod.modDescription}
+            {props.mod.description}
             <br />
             <br />
         </div>
@@ -92,7 +92,7 @@ const ModDetail = (props) => {
         </Space>
 
         <Modal
-            title={`${props.mod.modName} 配置`}
+            title={`${props.mod.name} 配置`}
             // centered
             open={open}
             onOk={() => {
@@ -103,7 +103,7 @@ const ModDetail = (props) => {
             onCancel={() => setOpen(false)}
             width={640}
         >
-            {props.mod.configurationOptions !== undefined && props.mod.configurationOptions.map(config =>
+            {props.mod.mod_config.configuration_options !== undefined && props.mod.mod_config.configuration_options.map(config =>
                 (<Option key={config.name} data={config} form={form} />)
             )}
         </Modal>

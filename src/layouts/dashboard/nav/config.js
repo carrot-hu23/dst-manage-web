@@ -42,7 +42,7 @@ const navConfig = [
     icon: icon('ic_blog')
   },
   {
-    title: 'Log',
+    title: '游戏日志',
     path: '/dashboard/log',
     icon: icon('ic_user'),
   },
