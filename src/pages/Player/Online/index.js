@@ -69,6 +69,7 @@ const Online = ({ playerList }) => {
         <Row align="middle" gutter={[16, 24]} style={{ rowGap: '14px' }}>
             <br />
             {list}
+            {playerList.length === 0 && <span>当前暂无玩家</span>}
         </Row>
     )
 }

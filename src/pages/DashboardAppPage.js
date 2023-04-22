@@ -13,7 +13,7 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 import { countActivePlayes, countRoleRate, countTopNActive } from '../api/statisticsApi';
-import { getBeginWeek, getEndWeek, translateFormat } from '../myuitls/dateUitls';
+import { getBeginWeek, getEndWeek, translateFormat } from '../utils/dateUitls';
 
 // ----------------------------------------------------------------------
 

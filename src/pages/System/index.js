@@ -102,8 +102,8 @@ const System = () => {
                                         <Input />
                                     </Form.Item>
                                     <Form.Item
-                                        label="服务器存档位置"
-                                        name="doNotStarveTogether"
+                                        label="游戏备份路径"
+                                        name="backup"
                                         rules={[
                                             {
                                                 required: true,
@@ -111,7 +111,7 @@ const System = () => {
                                             },
                                         ]}
                                     >
-                                        <Input placeholder="服务器存档位置" />
+                                        <Input placeholder="游戏备份路径" />
                                         {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                                     </Form.Item>
                                     <Form.Item

@@ -14,11 +14,11 @@ NavSection.propTypes = {
 export default function NavSection({ data = [], ...other }) {
   return (
     <Box {...other}>
-      <span style={{
+      {/* <span style={{
         color: '#637381',
         font: '12px',
         padding: '24px 16px 8px'
-      }}>Dashboard</span>
+      }}>Dashboard</span> */}
       <List disablePadding sx={{ p: 1 }}>
         {data.map((item) => (
           <NavItem key={item.title} item={item} />

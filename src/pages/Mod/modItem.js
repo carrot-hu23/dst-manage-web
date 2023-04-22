@@ -23,7 +23,7 @@ const ModItem = (props) => <Card style={{margin: ' 0 0 16px' }}>
                 <Col span={12}>
                     <Checkbox 
                         checked={props.mod.enable}
-                        onChange={()=> {props.changeEnable(props.mod.id)}}>
+                        onChange={()=> {props.changeEnable(props.mod.modid)}}>
                         {props.mod.enable && <span>启用</span>}
                         {!props.mod.enable && <span>禁用</span>}
                     </Checkbox>

@@ -1,4 +1,4 @@
-import { http } from "../myuitls/http"
+import { http } from "../utils/http";
 
 async function logPage(name, page, size) {
     let url

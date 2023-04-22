@@ -20,6 +20,7 @@ import Setting from './pages/System/index';
 import Help from './pages/Help/index';
 import Panel from './pages/Dashboard/index';
 import Mod from './pages/Mod/index';
+import DstServerList from './pages/DstServerList/index';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -42,6 +43,7 @@ export default function Router() {
         { path: 'setting', element: <Setting /> },
         { path: 'help', element: <Help /> },
         { path: 'Mod', element: <Mod /> },
+        { path: 'dst/server', element: <DstServerList /> },
       ],
     },
     {

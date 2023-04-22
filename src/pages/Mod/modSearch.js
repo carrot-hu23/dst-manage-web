@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Row, Col, Card, Input, Pagination, Button } from 'antd';
+import { Row, Col, Card, Input, Pagination, Button,message } from 'antd';
 import { getModInfo, searchMod } from '../../api/modApi';
 
 const { Search } = Input;
 
-const subscribe = (modId, addModList) => {
-
-    getModInfo(modId).then(data => {
-        console.log(data);
-        addModList(current => [...current, data.modInfo])
-    }).catch(error => console.log(error))
-
-
-}
-
-const ModCard = ({ modInfo, addModList }) => (
+const ModCard = ({ modInfo, addModList, subscribe }) => (
+    <a
+    target={'_blank'}
+    href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
     <Card
         hoverable
         style={{
@@ -32,8 +25,9 @@ const ModCard = ({ modInfo, addModList }) => (
         {/* <Meta title="防卡两招" description="www.instagram.com" /> */}
         <div>{modInfo.name}</div>
         {/* <span>作者：{modInfo.author}</span> */}
-        <Button type="primary" onClick={() => subscribe(modInfo.id, addModList)}>订阅</Button>
+        <Button type="primary" onClick={() => subscribe(modInfo.id, modInfo.name, addModList)}>订阅</Button>
     </Card>
+</a>
 );
 
 const ModSearch = ({ addModList }) => {
@@ -45,40 +39,65 @@ const ModSearch = ({ addModList }) => {
     const [total, setTotal] = useState(0)
     const [text, setText] = useState("")
 
-    const onSearch = (text) => {
-        setText(text)
+    const [messageApi, contextHolder] = message.useMessage();
+
+    useEffect(()=>{
+        updateModList("", page, pageSize)
+    }, [])
+
+    const subscribe = (modId,  modName,addModList) => {
+        messageApi.open({
+            type: 'loading',
+            content: `正在订阅 ${modName}`,
+            duration: 0,
+          });
+        // message.info(`正在订阅 ${modName}`)
+        getModInfo(modId).then(data => {
+            console.log(data.data);
+            addModList(current => [...current, data.data])
+
+            // Dismiss manually and asynchronously
+            setTimeout(messageApi.destroy, 1);
+            message.success(`订阅 ${modName} 成功`)
+        }).catch(error => {
+            setTimeout(messageApi.destroy, 1);
+            message.success(`获取 ${modName} 失败`)
+            console.log(error)
+        })
+    }
+
+    const updateModList = (text, page, pageSize)=> {
+        message.info(`正在搜索 "${text}"`)
         searchMod(text, page, pageSize).then(data => {
             console.log(data);
-            setModList(data.data)
-            setPage(data.page)
-            setPageSize(data.size)
-            setTotal(data.total)
-        }).catch(error => { console.log(error); })
+            setModList(data.data.data)
+            setPage(data.data.page)
+            setPageSize(data.data.size)
+            setTotal(data.data.total)
+            message.success(`搜索成功 "${text}"`)
+        }).catch(error => {
+            message.error(`搜索失败 "${text}"`)
+            console.log(error)
+        })
+    }
+
+    const onSearch = (text) => {
+        setText(text)
+        updateModList(text, page, pageSize)
     }
 
     const onShowSizeChange = (current, pageSize) => {
         setPageSize(pageSize)
-        searchMod(text, current, pageSize).then(data => {
-            console.log(data);
-            setModList(data.data)
-            setPage(data.data)
-            setPage(data.size)
-            setTotal(data.total)
-        }).catch(error => { console.log(error); })
+        updateModList(text, current, pageSize)
     }
 
     const onChange = (page) => {
-        searchMod(text, page, pageSize).then(data => {
-            console.log(data);
-            setModList(data.data)
-            setPage(data.data)
-            setPage(data.size)
-            setTotal(data.total)
-        }).catch(error => { console.log(error); })
+        updateModList(text, page, pageSize)
     }
 
     return (
         <>
+            {contextHolder}
             <Search
                 placeholder="input search text"
                 onSearch={onSearch}
@@ -90,7 +109,7 @@ const ModSearch = ({ addModList }) => {
             <br />
             <Row>
                 {modList.map(modinfo => (<Col key={modinfo.id} xs={12} sm={8} md={6} lg={5} xl={4}>
-                    <ModCard modInfo={modinfo} addModList={addModList} />
+                    <ModCard modInfo={modinfo} addModList={addModList} subscribe={subscribe} />
                     <br />
                 </Col>))}
             </Row>

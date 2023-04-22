@@ -1,17 +1,10 @@
-// import { Helmet } from 'react-helmet-async';
+
 import { useRef } from 'react';
-// @mui
-// import {
-//   Card,
-//   Container,
-//   Typography
-// } from '@mui/material';
 import { ProTable } from '@ant-design/pro-components';
 import { Image } from 'antd';
-// components
-// import Scrollbar from '../components/scrollbar';
-import { getPlayerLog } from '../api/logApi';
-import { dstRoles } from '../myuitls/dst';
+
+import { getPlayerLog } from '../api/playerLogApi';
+import { dstRoles } from '../utils/dst';
 
 const columns = [
   {

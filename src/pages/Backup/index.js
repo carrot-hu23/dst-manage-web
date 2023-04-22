@@ -352,7 +352,7 @@ const Backup = () => {
               }}
               // bordered
               search={false}
-              cardBordered
+              // cardBordered
               actionRef={actionRef}
               loading = {loading}
             />

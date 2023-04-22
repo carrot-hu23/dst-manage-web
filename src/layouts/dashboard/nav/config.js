@@ -36,11 +36,11 @@ const navConfig = [
     path: '/dashboard/setting',
     icon: icon('ic_blog')
   },
-  {
-    title: '帮助文档',
-    path: '/dashboard/help',
-    icon: icon('ic_blog')
-  },
+  // {
+  //   title: '帮助文档',
+  //   path: '/dashboard/help',
+  //   icon: icon('ic_blog')
+  // },
   {
     title: '游戏日志',
     path: '/dashboard/log',
@@ -49,6 +49,11 @@ const navConfig = [
   {
     title: '模组',
     path: '/dashboard/mod',
+    icon: icon('ic_user'),
+  },
+  {
+    title: '服务器列表',
+    path: '/dashboard/dst/server',
     icon: icon('ic_user'),
   },
   // {
