@@ -1,5 +1,6 @@
 import { Button, message, Steps,Card } from 'antd';
 import { useState } from 'react';
+
 const steps = [
     {
         title: '检测系统',

@@ -21,6 +21,7 @@ import Help from './pages/Help/index';
 import Panel from './pages/Dashboard/index';
 import Mod from './pages/Mod/index';
 import DstServerList from './pages/DstServerList/index';
+import Begin from './pages/begin/index';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -49,6 +50,10 @@ export default function Router() {
     {
       path: 'login',
       element: <LoginPage />,
+    },
+    {
+      path: 'init',
+      element: <Begin />,
     },
     {
       element: <SimpleLayout />,

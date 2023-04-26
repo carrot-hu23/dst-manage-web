@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
+import { http } from '../../../utils/http';
+
 // mocks_
-import account from '../../../_mock/account';
+// import account from '../../../_mock/account';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +30,27 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
+  const navigate = useNavigate();
+
+  const [account, setAcount] = useState({
+    displayName: '',
+    email: '',
+    photoURL: ''
+  })
+
+  useEffect(() => {
+    const userJson = localStorage.getItem('user');
+    let user = JSON.parse(userJson);
+    if (user === null) {
+      user = {
+        displayName: '',
+        email: '',
+        photoURL: ''
+      }
+    }
+    setAcount(user)
+  }, [])
+
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -34,6 +58,16 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  const logout = async () => {
+    localStorage.clear()
+    const data = await http.get("/api/logout")
+    console.log('logout', data);
+    
+    navigate('/login', { replace: true });
+
+  };
+
 
   return (
     <>
@@ -97,7 +131,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={logout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </Popover>

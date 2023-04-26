@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProCard } from '@ant-design/pro-components';
-import { Skeleton,message } from 'antd';
+import { Skeleton } from 'antd';
 import { Card, Container, Box } from '@mui/material';
 import './index.css';
 
@@ -27,6 +27,7 @@ const Player = () => {
             } else{
                 setPlayerList(data.data)
             }
+            setLoading(false)
         })
         getAdminPlayerListApi()
         .then(data=>{
@@ -45,7 +46,7 @@ const Player = () => {
             } else{
                 setBlacklistPlayerList(data.data.filter(item=>item !== '' && item !== ' '))
             }
-            setLoading(false)
+            
         })
         
     }, [])

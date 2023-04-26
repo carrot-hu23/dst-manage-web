@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Row, Col, Card,Button } from 'antd';
+import { Row, Col, Card } from 'antd';
 import ModItem from './modItem';
 import ModDetail from './modConfig';
 

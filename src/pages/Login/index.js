@@ -24,15 +24,14 @@ const Login = () => {
     const navigate = useNavigate()
 
     const onFinish = async (values) => {
-        //2.登录
+        // 2.登录
         const loginResponse = await http.post("/api/login", values)
         const loginResponseData = loginResponse.data
         if (loginResponseData.code !== 200) {
             message.error("登录失败")
             return
-        }
-
-        //3.跳转
+        }  
+        // 3.跳转
         navigate('/dashboard')
         console.log('Received values of form: ', values);
     }

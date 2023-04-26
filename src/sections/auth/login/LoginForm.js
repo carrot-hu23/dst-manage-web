@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+// @ant
+import { message} from 'antd';
+
 // components
 import Iconify from '../../../components/iconify';
+import { http } from '../../../utils/http';
 
 // ----------------------------------------------------------------------
 
@@ -12,20 +17,35 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
 
-  const handleClick = () => {
+  const handleClick = async() => {
+    const loginResponse = await http.post("/api/login", {
+      username: usernameRef.current.value,
+      password: passwordRef.current.value
+    })
+    const loginResponseData = loginResponse.data
+    if (loginResponseData.code !== 200) {
+        message.error("登录失败")
+        return
+    }
+    localStorage.setItem("token", loginResponseData.data.username)
+    localStorage.setItem("user", JSON.stringify(loginResponseData.data))
+
     navigate('/dashboard', { replace: true });
   };
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField inputRef={usernameRef} name="email" label="admin" />
 
         <TextField
           name="password"
-          label="Password"
+          label="123456"
           type={showPassword ? 'text' : 'password'}
+          inputRef={passwordRef}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

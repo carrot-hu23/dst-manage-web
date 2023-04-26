@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
 // mock
-import account from '../../../_mock/account';
+// import account from '../../../_mock/account';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // components
@@ -39,6 +39,23 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const isDesktop = useResponsive('up', 'lg');
 
+  const [account, setAcount] = useState({
+    displayName: '',
+    email: '',
+    photoURL: ''
+  })
+  useEffect(()=>{
+    const userJson = localStorage.getItem('user');
+    let user = JSON.parse(userJson);
+    if(user === null) {
+      user = {
+        displayName: '',
+        email: '',
+        photoURL: ''
+      }
+    }
+    setAcount(user)
+  },[])
   useEffect(() => {
     if (openNav) {
       onCloseNav();

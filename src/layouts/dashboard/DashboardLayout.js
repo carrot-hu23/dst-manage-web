@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 //
 import Header from './header';
 import Nav from './nav';
+import RequirAuthRoute from '../../filter/RequirAuthRoute';
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +38,7 @@ export default function DashboardLayout() {
 
   return (
     <StyledRoot>
+      <RequirAuthRoute>
       <Header onOpenNav={() => setOpen(true)} />
 
       <Nav openNav={open} onCloseNav={() => setOpen(false)} />
@@ -44,6 +46,7 @@ export default function DashboardLayout() {
       <Main>
         <Outlet />
       </Main>
+      </RequirAuthRoute>
     </StyledRoot>
   );
 }

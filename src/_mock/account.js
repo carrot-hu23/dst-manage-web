@@ -1,9 +1,18 @@
 // ----------------------------------------------------------------------
+const userJson = localStorage.getItem('user');
+const user = JSON.parse(userJson);
+console.log('user', user);
+
+if(user.displayName=== undefined) {
+  user.displayName = ''
+  user.email = ''
+  user.photoURL = ''
+}
 
 const account = {
-  displayName: '猜猜我是谁',
-  email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatars/avatar_default.jpg',
+  displayName: user.displayName,
+  email: user.email,
+  photoURL: user.photoURL,
 };
 
 export default account;

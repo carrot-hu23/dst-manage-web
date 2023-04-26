@@ -10,6 +10,13 @@ async function initApi(user) {
     return response.data
 }
 
+async function isFirstApi(user) {
+    const url = "/api/init"
+    const response = await http.get(url, user)
+    return response.data
+}
+
+
 export {
-    initApi
+    initApi,isFirstApi
 }

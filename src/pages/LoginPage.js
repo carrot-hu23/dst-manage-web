@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -9,6 +12,8 @@ import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
+import { isFirstApi } from '../api/InitApi';
+
 
 // ----------------------------------------------------------------------
 
@@ -42,13 +47,25 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
-
+  const [isFirstTime, setIsFirstTime] = useState(true);
+  useEffect(()=>{
+    isFirstApi().then(data=>{
+      console.log('data', data);
+      if(data.code === 200) {
+        setIsFirstTime(true)
+      } else {
+        setIsFirstTime(false)
+      }
+    })
+    setIsFirstTime(false)
+  },[])
+ 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title> Login | Minimal UI </title>
-      </Helmet>
-
+      </Helmet> */}
+ {isFirstTime ?
       <StyledRoot>
         <Logo
           sx={{
@@ -70,7 +87,7 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Sign in to Dst-Manager-Go
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
@@ -101,7 +118,7 @@ export default function LoginPage() {
             <LoginForm />
           </StyledContent>
         </Container>
-      </StyledRoot>
+      </StyledRoot> : <Navigate to="/init"/>}
     </>
   );
 }
