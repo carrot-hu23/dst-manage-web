@@ -1,18 +1,10 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash'
 import { Card, Modal, Button, Space, Row, Col, Form, Select, Typography } from 'antd';
 
-const { Paragraph, Text } = Typography;
+const { Paragraph } = Typography;
 
 const Option = (props) => {
-
-    function isDefault(value, defaultValue) {
-        if (value !== defaultValue) {
-            return {
-                backgroundColor: '#5793dc'
-            }
-        }
-        return {}
-    }
 
     function init(props) {
         const m = {}
@@ -22,9 +14,15 @@ const Option = (props) => {
         return m
     }
 
+    const handleFormChange = (changedValues, allValues) => {
+        console.log('Changed values:', changedValues, changedValues);
+        console.log('All values:', allValues);
+    };
+
     return (<>
         <Form
             form={props.form}
+            onValuesChange={handleFormChange}
             name="basic"
             labelCol={{
                 span: 8,
@@ -59,13 +57,94 @@ const Option = (props) => {
 }
 
 // eslint-disable-next-line react/prop-types
-const ModDetail = ({ mod, form }) => {
+const OptionSelect = ({ mod, root, setRoot }) => {
+    const [form] = Form.useForm()
+    const [defaultValues, setDefaultValues] = useState({})
+
+    useEffect(() => {
+        // eslint-disable-next-line react/prop-types
+        const options = mod.mod_config.configuration_options
+        if (options !== undefined && options !== null) {
+            const object = {}
+            // eslint-disable-next-line react/prop-types
+            options.forEach(item => {
+                const { name } = item
+                const value = item.default
+                object[name] = value
+            })
+            setDefaultValues(object)
+            console.log('init', object);
+
+        }
+    }, [])
+
+    const handleFormChange = (changedValues, allValues) => {
+        console.log('Changed values:', changedValues);
+        // eslint-disable-next-line no-restricted-syntax
+        for (const fieldName in changedValues) {
+            // eslint-disable-next-line no-prototype-builtins
+            if (changedValues.hasOwnProperty(fieldName)) {
+                const fieldValue = changedValues[fieldName];
+                console.log(`Field ${fieldName} changed to ${fieldValue}`);
+                _.set(root, `${mod.modid}.${fieldName}`, fieldValue)
+            }
+        }
+        const _root = _.cloneDeep(root)
+        setRoot(_root)
+    };
+
+    return (<>
+        <Form
+            form={form}
+            onValuesChange={handleFormChange}
+            name="basic"
+            labelCol={{
+                span: 8,
+            }}
+            wrapperCol={{
+                span: 16,
+            }}
+        // initialValues={defaultValues}
+        >
+            {mod.mod_config.configuration_options !== undefined && mod.mod_config.configuration_options.map(
+                item =>
+                // eslint-disable-next-line react/jsx-key
+                {
+                    if (item.name === 'Title') {
+                        return <h4>{item.label} 配置</h4>
+                    }
+                    return <Form.Item
+                        key={item.label + item.name}
+                        label={item.label}
+                        name={item.name}>
+                        <Select
+                            defaultValue={item.default}
+                            style={{
+                                width: 120,
+                            }}
+                            // onChange={handleChange}
+                            options={item.options.map(option => ({
+                                value: option.data,
+                                label: option.description,
+                            }))}
+                        />
+                    </Form.Item>
+                }
+            )}
+        </Form>
+
+    </>)
+}
+
+
+// eslint-disable-next-line react/prop-types
+const ModDetail = ({ mod, root, setRoot }) => {
 
     const [open, setOpen] = useState(false);
-    // const [form] = Form.useForm()
+    const [form] = Form.useForm()
     const [ellipsis, setEllipsis] = useState(true);
 
-    return <Card style={{ padding: '24px', height: '400px' }}>
+    return <Card style={{ padding: '24px', height: '360px' }}>
 
         <Row>
             <Col flex={'100px'}>
@@ -121,9 +200,11 @@ const ModDetail = ({ mod, form }) => {
             onCancel={() => setOpen(false)}
             width={640}
         >
-            {mod.mod_config.configuration_options !== undefined && mod.mod_config.configuration_options.map(config =>
+            {/* {mod.mod_config.configuration_options !== undefined && mod.mod_config.configuration_options.map(config =>
                 (<Option key={config.label} data={config} form={form} />)
-            )}
+            )} */}
+            {mod.mod_config.configuration_options !== undefined &&
+                <OptionSelect mod={mod} root={root} setRoot={setRoot} />}
         </Modal>
 
     </Card>

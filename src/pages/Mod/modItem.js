@@ -1,4 +1,4 @@
-import { Card, Checkbox, Row, Col } from 'antd';
+import { Card, Checkbox, Row, Col,Switch } from 'antd';
 
 import './mod.css';
 

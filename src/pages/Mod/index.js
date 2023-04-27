@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash'
 
 import { Container, Box } from '@mui/material';
-import { Tabs, Form } from 'antd';
+import { Tabs } from 'antd';
 import ModSelect from './modSelect';
 import ModSearch from './modSearch';
 import { getMyModInfoList } from '../../api/modApi';
@@ -10,39 +11,37 @@ import { getMyModInfoList } from '../../api/modApi';
 const Mod = () => {
 
     const [modList, setModList] = useState([])
-
     const [chooseModList, setChooseModList] = useState([])
-
-    const [forms, setForms] = useState({})
-
-    const initForms = () => {
-        const m = {}
-        modList.forEach(mod => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const newForm = Form.useForm()[0];
-            m[mod.modid] = newForm
-        });
-        setForms(m)
-    }
-
-    
+    const [root, setRoot] = useState({})
 
     useEffect(() => {
         getMyModInfoList()
             .then(data => {
                 setModList(data.data)
-                const m = {}
+                const object = {}
                 data.data.forEach(mod => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    const newForm = Form.useForm()[0];
-                    m[mod.modid] = newForm
+                    const {modid} = mod
+                    const options = mod.mod_config.configuration_options
+                    if(options !== undefined && options !== null) {
+                        options.forEach(item=>{
+                            if(item.default !== '') {
+                                _.set(object, `${modid}.${item.name}`, item.default)
+                            }
+                        })
+                    }
                 });
-                setForms(m)
+                setRoot(object)
+                console.log('root', object);
+                
             }).catch(error => {
                 console.log(error);
             })
-        // initForms()
     }, [])
+
+    useEffect(()=>{
+        console.log('root', root);
+        
+    },[root])
 
     const items = [
         {
@@ -50,10 +49,12 @@ const Mod = () => {
             label: `配置模组`,
             children: <ModSelect
                 modList={modList}
-                forms={forms}
                 setModList={setModList}
-                chooseModList={chooseModList}
-                add={setChooseModList} />,
+                root={root}
+                setRoot={setRoot}
+                // chooseModList={chooseModList}
+                // add={setChooseModList} 
+                />,
         },
         {
             key: '2',

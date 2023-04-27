@@ -47,16 +47,16 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
-  const [isFirstTime, setIsFirstTime] = useState(true);
+  const [isFirstTime, setIsFirstTime] = useState(false);
   useEffect(()=>{
-    isFirstApi().then(data=>{
-      console.log('data', data);
-      if(data.code === 200) {
-        setIsFirstTime(true)
-      } else {
-        setIsFirstTime(false)
-      }
-    })
+    // isFirstApi().then(data=>{
+    //   console.log('data', data);
+    //   if(data.code === 200) {
+    //     setIsFirstTime(true)
+    //   } else {
+    //     setIsFirstTime(false)
+    //   }
+    // })
     setIsFirstTime(false)
   },[])
  
@@ -65,7 +65,7 @@ export default function LoginPage() {
       {/* <Helmet>
         <title> Login | Minimal UI </title>
       </Helmet> */}
- {isFirstTime ?
+ {!isFirstTime ?
       <StyledRoot>
         <Logo
           sx={{

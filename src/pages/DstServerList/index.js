@@ -66,7 +66,8 @@ const DstServerList = () => {
             dataIndex: 'name',
             key: 'name',
             copyable: true,
-            ellipsis: true,
+            // ellipsis: true,
+            width: 300
         },
         {
             title: '当前人数',
@@ -220,6 +221,9 @@ const DstServerList = () => {
                         total: msg.total
                     };
                 }}
+                scroll={{
+                    x: 600,
+                  }}
                 // editable={{
                 //     type: 'multiple',
                 // }}
