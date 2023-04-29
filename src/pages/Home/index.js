@@ -6,7 +6,7 @@ import Master from './Master';
 import Caves from './Caves';
 import Mod from './Mod';
 
-import { getHomeConfigApi } from '../../api/gameApi';
+import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
 
 const Home = () => {
 
@@ -46,6 +46,23 @@ const Home = () => {
         },
     ];
 
+    function saveConfig(type) {
+        console.log("form.getFieldValue()", form.getFieldValue())
+        const data = form.getFieldValue();
+        data.type = type
+        saveHomeConfigApi(data).then(()=>{
+            if(type === 0) {
+                message.success('房间设置完成!')
+            }
+            if(type === 1) {
+                message.success('正在生成新的游戏!')
+            }
+            setCurrent(0)
+        }).catch(error=>{
+            console.log(error)
+            message.error("保存配置失败")
+        })
+    }
 
     const next = () => {
         if (loading) {
@@ -100,8 +117,7 @@ const Home = () => {
                             )}
                             {current === steps.length - 1 && (
                                 <Button type="primary" onClick={() => {
-                                    message.success('房间设置完成!')
-                                    setCurrent(0)
+                                    saveConfig(0)
                                 }}>
                                     保存设置
                                 </Button>
@@ -114,8 +130,7 @@ const Home = () => {
                                         color: '#fff'
                                     }}
                                     onClick={() => {
-                                        message.success('正在生成新的游戏!')
-                                        setCurrent(0)
+                                        saveConfig(1)
                                     }}>
                                     新的游戏
                                 </Button>

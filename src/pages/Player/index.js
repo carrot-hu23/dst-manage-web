@@ -20,35 +20,35 @@ const Player = () => {
     const [blacklistPlayerList, setBlacklistPlayerList] = useState([])
     useEffect(() => {
         getPlayerListApi()
-        .then(data=>{
-            console.log(data);
-            if(data.data === null || data.data === undefined) {
-                setPlayerList([])
-            } else{
-                setPlayerList(data.data)
-            }
-            setLoading(false)
-        })
+            .then(data => {
+                console.log(data);
+                if (data.data === null || data.data === undefined) {
+                    setPlayerList([])
+                } else {
+                    setPlayerList(data.data)
+                }
+                setLoading(false)
+            })
         getAdminPlayerListApi()
-        .then(data=>{
-            console.log(data);
-            if(data.data === null || data.data === undefined) {
-                setAdminPlayerList([])
-            } else{
-                setAdminPlayerList(data.data.filter(item=>item !== '' && item !== ' '))
-            }
-        })
+            .then(data => {
+                console.log(data);
+                if (data.data === null || data.data === undefined) {
+                    setAdminPlayerList([])
+                } else {
+                    setAdminPlayerList(data.data.filter(item => item !== '' && item !== ' '))
+                }
+            })
         getBlackListPlayerListApi()
-        .then(data=>{
-            console.log(data);
-            if(data.data === null || data.data === undefined) {
-                setBlacklistPlayerList([])
-            } else{
-                setBlacklistPlayerList(data.data.filter(item=>item !== '' && item !== ' '))
-            }
-            
-        })
-        
+            .then(data => {
+                console.log(data);
+                if (data.data === null || data.data === undefined) {
+                    setBlacklistPlayerList([])
+                } else {
+                    setBlacklistPlayerList(data.data.filter(item => item !== '' && item !== ' '))
+                }
+
+            })
+
     }, [])
     const tabs = {
         activeKey: tab,
@@ -61,7 +61,7 @@ const Player = () => {
             {
                 label: `黑名单`,
                 key: 'tab2',
-                children: <Blacklist blacklistPlayerList={blacklistPlayerList}/>,
+                children: <Blacklist blacklistPlayerList={blacklistPlayerList} />,
             },
             {
                 label: `管理员`,
@@ -73,15 +73,18 @@ const Player = () => {
             setTab(key);
         },
     }
-    return <Skeleton loading={loading} active >
+    return (<>
         <Container maxWidth="xl">
             <Card>
                 <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-                    <ProCard tabs={tabs} />
+                    <Skeleton loading={loading} active >
+                        <ProCard tabs={tabs} />
+                    </Skeleton>
                 </Box>
             </Card>
         </Container>
-    </Skeleton>
+    </>)
+
 }
 
 export default Player

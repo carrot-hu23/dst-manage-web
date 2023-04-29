@@ -29,8 +29,15 @@ async function getHomeConfigApi() {
     return response.data
 }
 
+async function saveHomeConfigApi(data) {
+    const url = "/api/game/config"
+    const response = await http.post(url, data)
+    return response.data
+}
+
 export {
     updateGameApi,
     startHomeApi,
-    getHomeConfigApi
+    getHomeConfigApi,
+    saveHomeConfigApi
 }

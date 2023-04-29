@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import { ProTable } from '@ant-design/pro-components';
 import { Image } from 'antd';
-
+import { Card, Container, Box } from '@mui/material';
 import { getPlayerLog } from '../api/playerLogApi';
 import { dstRoles } from '../utils/dst';
 
@@ -89,15 +89,12 @@ export default function PlayerLog() {
       {/* <Helmet>
         <title> Player Log </title>
       </Helmet> */}
-
-      {/* <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Player Log
-        </Typography>
-
-        <Card>
-          <Scrollbar>
+      <Container maxWidth="xl">
+          <Box sx={{ p: 3, pb: 1 }} dir="ltr">
             <ProTable
+              scroll={{
+                x: 500,
+              }}
               columns={columns}
               actionRef={actionRef}
               cardBordered
@@ -116,41 +113,13 @@ export default function PlayerLog() {
               //   showSizeChanger: true,
               // }}
               pagination={{
-                pageSize: 5,
+                pageSize: 10,
                 onChange: (page) => console.log(page),
               }}
             // headerTitle="饥荒服务器列表"
             />
-          </Scrollbar>
-        </Card>
-      </Container> */}
-      <ProTable
-        scroll={{
-          x: 500,
-        }}
-        columns={columns}
-        actionRef={actionRef}
-        cardBordered
-        request={async (params = {}, sort, filter) => {
-          console.log(sort, filter);
-          console.log('params', params)
-          const msg = await getPlayerLog(params)
-          return {
-            data: msg.data.data,
-            success: true,
-            total: msg.data.total
-          };
-        }}
-        rowKey="ID"
-        // pagination={{
-        //   showSizeChanger: true,
-        // }}
-        pagination={{
-          pageSize: 10,
-          onChange: (page) => console.log(page),
-        }}
-      // headerTitle="饥荒服务器列表"
-      />
+          </Box>
+      </Container>
     </>
   );
 }
