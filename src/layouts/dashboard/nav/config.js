@@ -47,7 +47,7 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
-    title: '模组',
+    title: '模组设置',
     path: '/dashboard/mod',
     icon: icon('ic_user'),
   },

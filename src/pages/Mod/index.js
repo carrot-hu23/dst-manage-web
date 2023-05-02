@@ -66,7 +66,7 @@ const Mod = () => {
 
 
     return (<Container maxWidth="xl">
-        <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+        <Box sx={{ p: 0, pb: 1 }} dir="ltr">
             <Tabs defaultActiveKey="1" items={items} />
         </Box>
     </Container>)

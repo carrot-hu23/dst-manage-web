@@ -22,6 +22,7 @@ import Panel from './pages/Dashboard/index';
 import Mod from './pages/Mod/index';
 import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
+import ClusterView from './pages/ClusterView/index';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -45,6 +46,7 @@ export default function Router() {
         { path: 'help', element: <Help /> },
         { path: 'Mod', element: <Mod /> },
         { path: 'dst/server', element: <DstServerList /> },
+        { path: 'cluster/view', element: <ClusterView /> },
       ],
     },
     {

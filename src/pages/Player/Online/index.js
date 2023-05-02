@@ -58,7 +58,7 @@ const Online = ({ playerList }) => {
                     <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >复活</Button>
                     <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >踢出</Button>
                     <Button size={'small'} danger onClick={() => { pullPlayer2BlockList(item) }} >拉黑</Button>
-                    <Button size={'small'} type="primary" onClick={() => { pullPlayer2AdminList(item) }} >管理员</Button>
+                    {/* <Button size={'small'} type="primary" onClick={() => { pullPlayer2AdminList(item) }} >管理员</Button> */}
                 </Space>
             </Col>
             <Divider style={{ margin: '10px' }} />

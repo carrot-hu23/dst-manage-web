@@ -51,7 +51,7 @@ const DstServerList = () => {
         }).then(response => {
             setLoading(false)
             const responseData = JSON.parse(response)
-            const {success} = responseData
+            const { success } = responseData
             if (success) {
                 setHomeInfo(responseData)
                 console.log(responseData.successinfo.players)
@@ -198,7 +198,6 @@ const DstServerList = () => {
                     <Card
                         bordered={false}
                         style={{
-                            overflowY: 'auto',
                             height: 500
                         }
 
@@ -223,7 +222,7 @@ const DstServerList = () => {
                 }}
                 scroll={{
                     x: 600,
-                  }}
+                }}
                 // editable={{
                 //     type: 'multiple',
                 // }}

@@ -90,7 +90,7 @@ export default function PlayerLog() {
         <title> Player Log </title>
       </Helmet> */}
       <Container maxWidth="xl">
-          <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+          <Box sx={{ p: 0, pb: 0 }} dir="ltr">
             <ProTable
               scroll={{
                 x: 500,
