@@ -6850,6 +6850,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+luaparse@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npmmirror.com/luaparse/-/luaparse-0.3.1.tgz"
+  integrity sha512-b21h2bFEbtGXmVqguHogbyrMAA0wOHyp9u/rx+w6Yc9pW1t9YjhGUsp87lYcp7pFRqSWN/PhFkrdIqKEUzRjjQ==
+
 magic-string@^0.25.0, magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.npmjs.org/magic-string/-/magic-string-0.25.9.tgz"

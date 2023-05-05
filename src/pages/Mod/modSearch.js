@@ -1,34 +1,39 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Row, Col, Card, Input, Pagination, Button,message } from 'antd';
+import { Row, Col, Card, Input, Pagination, Button, message } from 'antd';
 import { getModInfo, searchMod } from '../../api/modApi';
 
 const { Search } = Input;
 
-const ModCard = ({ modInfo, addModList, subscribe }) => (
-    <a
-    target={'_blank'}
-    href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
-    <Card
+const ModCard = ({ modInfo, addModList, subscribe }) => {
+    const [loading, setLoading] = useState(false)
+    return <Card
         hoverable
         style={{
             width: 150,
             padding: '8px',
         }}
         cover={
-            <img
-                alt="example"
-                src={modInfo.img}
-            />
+            <a
+                target={'_blank'}
+                href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
+                <img
+                    alt="example"
+                    src={modInfo.img}
+                />
+            </a>
         }
     >
         <br />
         {/* <Meta title="防卡两招" description="www.instagram.com" /> */}
         <div>{modInfo.name}</div>
         {/* <span>作者：{modInfo.author}</span> */}
-        <Button type="primary" onClick={() => subscribe(modInfo.id, modInfo.name, addModList)}>订阅</Button>
+        <Button
+            loading={loading}
+            type="primary"
+            onClick={() => subscribe(modInfo.id, modInfo.name, addModList, setLoading)}>订阅</Button>
     </Card>
-</a>
-);
+}
 
 const ModSearch = ({ addModList }) => {
 
@@ -41,16 +46,17 @@ const ModSearch = ({ addModList }) => {
 
     const [messageApi, contextHolder] = message.useMessage();
 
-    useEffect(()=>{
+    useEffect(() => {
         updateModList("", page, pageSize)
     }, [])
 
-    const subscribe = (modId,  modName,addModList) => {
+    const subscribe = (modId, modName, addModList, setLoading) => {
         messageApi.open({
             type: 'loading',
             content: `正在订阅 ${modName}`,
             duration: 0,
-          });
+        });
+        setLoading(true)
         // message.info(`正在订阅 ${modName}`)
         getModInfo(modId).then(data => {
             console.log(data.data);
@@ -59,24 +65,25 @@ const ModSearch = ({ addModList }) => {
             // Dismiss manually and asynchronously
             setTimeout(messageApi.destroy, 1);
             message.success(`订阅 ${modName} 成功`)
+            setLoading(false)
         }).catch(error => {
             setTimeout(messageApi.destroy, 1);
             message.success(`获取 ${modName} 失败`)
+            setLoading(false)
             console.log(error)
         })
     }
 
-    const updateModList = (text, page, pageSize)=> {
-        message.info(`正在搜索 "${text}"`)
+    const updateModList = (text, page, pageSize) => {
+        message.info(`正在搜索`)
         searchMod(text, page, pageSize).then(data => {
-            console.log(data);
             setModList(data.data.data)
             setPage(data.data.page)
             setPageSize(data.data.size)
             setTotal(data.data.total)
-            message.success(`搜索成功 "${text}"`)
+            message.success(`搜索成功`)
         }).catch(error => {
-            message.error(`搜索失败 "${text}"`)
+            message.error(`搜索失败`)
             console.log(error)
         })
     }

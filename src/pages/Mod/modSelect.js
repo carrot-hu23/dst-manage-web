@@ -69,7 +69,8 @@ const ModSelect = ({ modList, setModList, root, setRoot }) => {
                 <Button type="primary" onClick={() => saveModConfig()}  >保存配置</Button>
                 <Button type="primary"  >更新配置</Button>
             </Space>
-            <Divider />
+            <br /><br />
+            {/* <Divider /> */}
             <Row gutter={24}>
                 <Col span={10} xs={24} md={10} lg={10}>
                     <div style={{
@@ -77,14 +78,14 @@ const ModSelect = ({ modList, setModList, root, setRoot }) => {
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>
-                        <Card style={{ padding: '24px' }}>
+                        {modList.length > 0 && <Card style={{ padding: '24px' }}>
                             {modList.map(item => <ModItem
                                 key={item.modid}
                                 mod={item}
                                 changeMod={changeMod}
                                 changeEnable={changeEnable}
                             />)}
-                        </Card>
+                        </Card>}
                     </div>
                     <br />
                 </Col>

@@ -17,7 +17,7 @@ const Mod = () => {
     useEffect(() => {
         getMyModInfoList()
             .then(data => {
-                setModList(data.data)
+                setModList(data.data || [])
                 const object = {}
                 data.data.forEach(mod => {
                     const {modid} = mod

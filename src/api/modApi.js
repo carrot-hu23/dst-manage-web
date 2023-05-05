@@ -12,6 +12,12 @@ async function getModInfo(modId) {
     return response.data
 }
 
+async function deleteModInfo(modId) {
+    const url = `/api/mod/${modId}`
+    const response = await http.delete(url)
+    return response.data
+}
+
 async function getMyModInfoList() {
     const url = '/api/mod'
     const response = await http.get(url)
@@ -20,5 +26,5 @@ async function getMyModInfoList() {
 
 
 export {
-    searchMod,getModInfo, getMyModInfoList
+    searchMod,getModInfo, getMyModInfoList,deleteModInfo
 }

@@ -52,6 +52,11 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
+    title: '世界设置',
+    path: '/dashboard/cluster/view',
+    icon: icon('ic_user'),
+  },
+  {
     title: '服务器列表',
     path: '/dashboard/dst/server',
     icon: icon('ic_user'),
