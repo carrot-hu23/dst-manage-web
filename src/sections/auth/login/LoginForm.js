@@ -39,11 +39,11 @@ export default function LoginForm() {
   return (
     <>
       <Stack spacing={3}>
-        <TextField inputRef={usernameRef} name="email" label="admin" />
+        <TextField inputRef={usernameRef} name="email" label="username" />
 
         <TextField
           name="password"
-          label="123456"
+          label="password"
           type={showPassword ? 'text' : 'password'}
           inputRef={passwordRef}
           InputProps={{

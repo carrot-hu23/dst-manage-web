@@ -78,14 +78,15 @@ const ClusterView = () => {
 
     function saveSetting() {
         // const cluster = formCluster.getFieldValue();
-        const forestOverrides = combineWorldSetting('SURVIVAL_TOGETHER', toLuaString(formForest.getFieldValue()))
-        const cavesOverrides = combineWorldSetting('DST_CAVE', toLuaString(formCave.getFieldValue()))
+        const forestOverrides = toLeveldataoverride('SURVIVAL_TOGETHER', formForest.getFieldValue())
+        const cavesOverrides = toLeveldataoverride('DST_CAVE', formCave.getFieldValue())
 
         formCluster.setFieldValue("masterMapData", forestOverrides)
         formCluster.setFieldValue("cavesMapData", cavesOverrides)
 
         const data = formCluster.getFieldValue()
         data.type = 0
+
         saveHomeConfigApi(data).then(() => {
             message.success('房间设置完成, 请重新启动房间 !')
         }).catch(error => {
@@ -94,20 +95,83 @@ const ClusterView = () => {
         })
     }
 
-
-    function toLuaString(object) {
-        const keys = Object.keys(object)
-        let config = ""
-        keys.forEach(key => {
-            config += `${key}="${object[key]}",\n`
-        })
-        return config
-    }
-
     // eslint-disable-next-line camelcase
-    function combineWorldSetting(world_preset, world_item_str) {
+    function toLeveldataoverride(worldPreset, object) {
+        const keys = Object.keys(object)
+        let overrides = ""
+        keys.forEach(key => {
+            overrides += `${key}="${object[key]}",\n\t\t\t\t`
+        })
+
+        if(worldPreset === "SURVIVAL_TOGETHER") {
+            return `return {
+        desc="标准《饥荒》体验。",
+        hideminimap=false,
+        id="SURVIVAL_TOGETHER",
+        location="forest",
+        max_playlist_position=999,
+        min_playlist_position=0,
+        name="生存",
+        numrandom_set_pieces=4,
+        override_level_string=false,
+        overrides = {${`\n\t\t${overrides}\n\t`}},
+        playstyle="survival",
+        random_set_pieces={
+            "Sculptures_2",
+            "Sculptures_3",
+            "Sculptures_4",
+            "Sculptures_5",
+            "Chessy_1",
+            "Chessy_2",
+            "Chessy_3",
+            "Chessy_4",
+            "Chessy_5",
+            "Chessy_6",
+            "Maxwell1",
+            "Maxwell2",
+            "Maxwell3",
+            "Maxwell4",
+            "Maxwell6",
+            "Maxwell7",
+            "Warzone_1",
+            "Warzone_2",
+            "Warzone_3" 
+        },
+        required_prefabs={ "multiplayer_portal" },
+        required_setpieces={ "Sculptures_1", "Maxwell5" },
+        settings_desc="标准《饥荒》体验。",
+        settings_id="SURVIVAL_TOGETHER",
+        settings_name="生存",
+        substitutes={  },
+        version=4,
+        worldgen_desc="标准《饥荒》体验。",
+        worldgen_id="SURVIVAL_TOGETHER",
+        worldgen_name="生存" 
+    \n}`
+        }
         // eslint-disable-next-line camelcase
-        return `return {\n\toverride_enabled = true,\n\tsettings_preset = "${world_preset}",\n\tworldgen_preset = "${world_preset}",\n\toverrides = {${`\n\t\t${world_item_str}\n\t`}},\n}`;
+        return `return {
+        background_node_range={ 0, 1 },
+        desc="探查洞穴…… 一起！",
+        hideminimap=false,
+        id="DST_CAVE",
+        location="cave",
+        max_playlist_position=999,
+        min_playlist_position=0,
+        name="洞穴",
+        numrandom_set_pieces=0,
+        override_level_string=false,
+        overrides = {${`\n\t\t${overrides}\n\t`}},
+        required_prefabs={ "multiplayer_portal" },
+        settings_desc="探查洞穴…… 一起！",
+        settings_id="DST_CAVE",
+        settings_name="洞穴",
+        substitutes={  },
+        version=4,
+        worldgen_desc="探查洞穴…… 一起！",
+        worldgen_id="DST_CAVE",
+        worldgen_name="洞穴" 
+    \n}`
     }
 
     function beforeHandle(worldData) {

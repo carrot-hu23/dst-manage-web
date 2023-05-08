@@ -141,7 +141,6 @@ const ModDetail = ({ mod, root, setRoot }) => {
     const [ellipsis, setEllipsis] = useState(true);
 
     return <Card style={{
-        padding: '24px',
         height: '360px',
         overflowY: 'auto',
         overflowX: 'auto'

@@ -78,7 +78,7 @@ const ModSelect = ({ modList, setModList, root, setRoot }) => {
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>
-                        {modList.length > 0 && <Card >
+                        {modList.length > 0 && <Card className='modlist'>
                             {modList.map(item => <ModItem
                                 key={item.modid}
                                 mod={item}

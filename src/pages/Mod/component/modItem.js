@@ -10,7 +10,7 @@ const ModItem = (props) => {
 
     const [mod, setMod] = useState({})
 
-    return <Card style={{ margin: ' 0 0 16px' }}>
+    return <Card className='mod' style={{ margin: ' 0 0 16px' }}>
         <Row onClick={() => { props.changeMod(props.mod) }}>
             <Col flex="64px">
                 <img
