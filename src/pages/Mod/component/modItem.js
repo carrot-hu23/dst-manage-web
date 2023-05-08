@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Card, Checkbox, Switch, Popconfirm, Row, Col, Button } from 'antd';
 
 import './mod.css';
-import { deleteModInfo } from '../../api/modApi';
+import { deleteModInfo } from '../../../api/modApi';
 
 
 const ModItem = (props) => {
@@ -12,7 +12,7 @@ const ModItem = (props) => {
 
     return <Card style={{ margin: ' 0 0 16px' }}>
         <Row onClick={() => { props.changeMod(props.mod) }}>
-            <Col flex="72px">
+            <Col flex="64px">
                 <img
                     alt="example"
                     src={props.mod.img}
@@ -25,7 +25,7 @@ const ModItem = (props) => {
                     }}>{props.mod.name}</span></Col>
                 </Row>
                 <Row style={{
-                    marginTop: '16px'
+                    marginTop: '12px'
                 }}>
                     <Col span={12} />
                     <Col span={24}>

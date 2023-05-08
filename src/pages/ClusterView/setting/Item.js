@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Space, Form } from 'antd';
-import MySelect from './mySelect';
+import MySelect from '../mySelect';
 
 const Item = ({ form, data, url, object }) => {
 
     const sortedKeys = Object.keys(data).sort((a, b) => data[a].order - data[b].order);
-
+    useEffect(()=>{},[form,object])
     return (<>
         <div style={{
             height: '400px',

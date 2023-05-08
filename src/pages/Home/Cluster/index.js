@@ -29,6 +29,11 @@ const HomeSetting = (props) => (
         vote: true,
         players: 6
       }}
+      style={{
+        maxHeight: '620px',
+        overflowY: 'auto',
+        padding: 16
+      }}
     >
       <Form.Item
         label="房间名称"

@@ -1,83 +1,77 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import _ from 'lodash'
 import { Card, Modal, Button, Space, Row, Col, Form, Select, Typography } from 'antd';
 
 const { Paragraph } = Typography;
 
-const Option = (props) => {
+// const Option = (props) => {
+//     function init(props) {
+//         const m = {}
+//         const name = props.data.name
+//         const value = props.data.default
+//         m[name] = value
+//         return m
+//     }
+//     const handleFormChange = (changedValues, allValues) => {
+//         console.log('Changed values:', changedValues, changedValues);
+//         console.log('All values:', allValues);
+//     };
+//     return (<>
+//         <Form
+//             form={props.form}
+//             onValuesChange={handleFormChange}
+//             name="basic"
+//             labelCol={{
+//                 span: 8,
+//             }}
+//             wrapperCol={{
+//                 span: 16,
+//             }}
+//             initialValues={
+//                 init(props)
+//             }
+//         >
+//             {props.data.name !== 'Title' && <Form.Item
+//                 label={props.data.label}
+//                 name={props.data.name}>
+//                 <Select
+//                     defaultValue={props.data.default}
+//                     style={{
+//                         width: 120,
+//                     }}
+//                     // onChange={handleChange}
+//                     options={props.data.options.map(option => ({
+//                         value: option.data,
+//                         label: option.description,
+//                     }))}
+//                 />
+//             </Form.Item>}
+//             {/* { (props.data.options.length < 1 || props.data.options[0].data === '') &&<span>{props.data.label}</span>} */}
 
-    function init(props) {
-        const m = {}
-        const name = props.data.name
-        const value = props.data.default
-        m[name] = value
-        return m
-    }
+//         </Form>
 
-    const handleFormChange = (changedValues, allValues) => {
-        console.log('Changed values:', changedValues, changedValues);
-        console.log('All values:', allValues);
-    };
+//     </>)
+// }
 
-    return (<>
-        <Form
-            form={props.form}
-            onValuesChange={handleFormChange}
-            name="basic"
-            labelCol={{
-                span: 8,
-            }}
-            wrapperCol={{
-                span: 16,
-            }}
-            initialValues={
-                init(props)
-            }
-        >
-            {props.data.name !== 'Title' && <Form.Item
-                label={props.data.label}
-                name={props.data.name}>
-                <Select
-                    defaultValue={props.data.default}
-                    style={{
-                        width: 120,
-                    }}
-                    // onChange={handleChange}
-                    options={props.data.options.map(option => ({
-                        value: option.data,
-                        label: option.description,
-                    }))}
-                />
-            </Form.Item>}
-            {/* { (props.data.options.length < 1 || props.data.options[0].data === '') &&<span>{props.data.label}</span>} */}
-
-        </Form>
-
-    </>)
-}
-
-// eslint-disable-next-line react/prop-types
 const OptionSelect = ({ mod, root, setRoot }) => {
     const [form] = Form.useForm()
-    const [defaultValues, setDefaultValues] = useState({})
 
     useEffect(() => {
-        // eslint-disable-next-line react/prop-types
         const options = mod.mod_config.configuration_options
         if (options !== undefined && options !== null) {
             const object = {}
-            // eslint-disable-next-line react/prop-types
             options.forEach(item => {
                 const { name } = item
                 const value = item.default
                 object[name] = value
             })
-            setDefaultValues(object)
             console.log('init', object);
 
         }
     }, [])
 
+    // eslint-disable-next-line no-unused-vars
     const handleFormChange = (changedValues, allValues) => {
         console.log('Changed values:', changedValues);
         // eslint-disable-next-line no-restricted-syntax
@@ -106,31 +100,33 @@ const OptionSelect = ({ mod, root, setRoot }) => {
             }}
         // initialValues={defaultValues}
         >
-            {mod.mod_config.configuration_options !== undefined && mod.mod_config.configuration_options.map(
-                item =>
-                // eslint-disable-next-line react/jsx-key
-                {
-                    if (item.name === 'Title') {
-                        return <h4>{item.label} 配置</h4>
+            {mod.mod_config.configuration_options !== undefined && mod.mod_config.configuration_options
+                .filter(item => item.options !== undefined)
+                .map(
+                    item =>
+                    // eslint-disable-next-line react/jsx-key
+                    {
+                        if (item.name === 'Title' || item.name === '') {
+                            return <h4 key={item.label}>{item.label} 配置</h4>
+                        }
+                        return <Form.Item
+                            key={item.label + item.name}
+                            label={item.label}
+                            name={item.name}>
+                            <Select
+                                defaultValue={item.default}
+                                style={{
+                                    width: 120,
+                                }}
+                                // onChange={handleChange}
+                                options={item.options.map(option => ({
+                                    value: option.data,
+                                    label: option.description,
+                                }))}
+                            />
+                        </Form.Item>
                     }
-                    return <Form.Item
-                        key={item.label + item.name}
-                        label={item.label}
-                        name={item.name}>
-                        <Select
-                            defaultValue={item.default}
-                            style={{
-                                width: 120,
-                            }}
-                            // onChange={handleChange}
-                            options={item.options.map(option => ({
-                                value: option.data,
-                                label: option.description,
-                            }))}
-                        />
-                    </Form.Item>
-                }
-            )}
+                )}
         </Form>
 
     </>)
@@ -144,7 +140,12 @@ const ModDetail = ({ mod, root, setRoot }) => {
     const [form] = Form.useForm()
     const [ellipsis, setEllipsis] = useState(true);
 
-    return <Card style={{ padding: '24px', height: '360px' }}>
+    return <Card style={{
+        padding: '24px',
+        height: '360px',
+        overflowY: 'auto',
+        overflowX: 'auto'
+    }}>
 
         <Row>
             <Col flex={'100px'}>
@@ -166,7 +167,7 @@ const ModDetail = ({ mod, root, setRoot }) => {
                 ellipsis={
                     ellipsis
                         ? {
-                            rows: 5,
+                            rows: 4,
                             expandable: true,
                             symbol: 'more',
                         }

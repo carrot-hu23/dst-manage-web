@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 
 import luaparse from 'luaparse';
-
+import _ from 'lodash'
 import { Container, Box, Card } from '@mui/material';
 import { Tabs, Button, Form, message, Skeleton } from 'antd';
+
+import Mod from '../Mod';
+
 import Forest from './forest';
 import Cave from './cave';
 import HomeSetting from '../Home/Cluster';
-import { getHomeConfigApi } from '../../api/gameApi';
+import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
+
 
 const translateLuaObject = (lua) => {
     const ast = luaparse.parse(lua);
@@ -63,23 +67,53 @@ const ClusterView = () => {
         return { ...translateJsonObject(dstWorldSetting.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(dstWorldSetting.zh.cave.WORLDSETTINGS_GROUP) }
     }
 
-    useEffect(() => {
-        fetch('misc/dst_world_setting.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setDstWorldSetting(data)
-                // 在此处处理配置文件数据
-            })
-            .catch(error => {
-                console.error('无法加载配置文件', error);
-            });
-    }, [])
+    function resetting() {
+        formForest.resetFields()
+        setForestObject({ ...getForestDefaultValues() })
 
-    useEffect(() => {
+        formCave.resetFields()
+        setCaveObject({ ...getCaveDefaultValues() })
+        console.log('getCaveDefaultValues', getCaveDefaultValues());
+    }
+
+    function saveSetting() {
+        // const cluster = formCluster.getFieldValue();
+        const forestOverrides = combineWorldSetting('SURVIVAL_TOGETHER', toLuaString(formForest.getFieldValue()))
+        const cavesOverrides = combineWorldSetting('DST_CAVE', toLuaString(formCave.getFieldValue()))
+
+        formCluster.setFieldValue("masterMapData", forestOverrides)
+        formCluster.setFieldValue("cavesMapData", cavesOverrides)
+
+        const data = formCluster.getFieldValue()
+        data.type = 0
+        saveHomeConfigApi(data).then(() => {
+            message.success('房间设置完成, 请重新启动房间 !')
+        }).catch(error => {
+            console.log(error)
+            message.error("房间设置失败")
+        })
+    }
+
+
+    function toLuaString(object) {
+        const keys = Object.keys(object)
+        let config = ""
+        keys.forEach(key => {
+            config += `${key}="${object[key]}",\n`
+        })
+        return config
+    }
+
+    // eslint-disable-next-line camelcase
+    function combineWorldSetting(world_preset, world_item_str) {
+        // eslint-disable-next-line camelcase
+        return `return {\n\toverride_enabled = true,\n\tsettings_preset = "${world_preset}",\n\tworldgen_preset = "${world_preset}",\n\toverrides = {${`\n\t\t${world_item_str}\n\t`}},\n}`;
+    }
+
+    function beforeHandle(worldData) {
         const fetchHomeConfig = () => getHomeConfigApi()
             .then(data => {
-                console.log(data.data)
+                // console.log(data.data)
                 if (data.data === null || data === undefined) {
                     message.error('获取房间配置失败')
                 }
@@ -88,12 +122,26 @@ const ClusterView = () => {
 
                 // setForestObject(translateLuaObject(data.data.masterMapData))
                 // setCaveObject(translateLuaObject(data.data.cavesMapData))
+                
                 setLoading(false)
-
-                setForestObject({ ...translateLuaObject(data.data.masterMapData), ...getForestDefaultValues() })
-                setCaveObject({ ...translateLuaObject(data.data.cavesMapData), ...getCaveDefaultValues() })
+                setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) }, ...translateLuaObject(data.data.masterMapData) })
+                setCaveObject({ ...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) }, ...translateLuaObject(data.data.cavesMapData) })
             })
         fetchHomeConfig()
+    }
+
+    useEffect(() => {
+        fetch('misc/dst_world_setting.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setDstWorldSetting(data)
+                beforeHandle(data)
+                // 在此处处理配置文件数据
+            })
+            .catch(error => {
+                console.error('无法加载配置文件', error);
+            });
     }, [])
 
     const items = [
@@ -115,7 +163,7 @@ const ClusterView = () => {
         {
             key: '3',
             label: `模组`,
-            children: <>1</>,
+            children: <Mod />,
         },
     ];
 
@@ -124,7 +172,8 @@ const ClusterView = () => {
     return (<Container maxWidth="xl">
         <Card style={{
             padding: 24,
-            height: 650
+            // height: 650,
+            // maxHeight: 1200
         }}>
             <Box sx={{ p: 0, pb: 1 }} dir="ltr">
                 <Skeleton loading={loading} active avatar>
@@ -138,16 +187,14 @@ const ClusterView = () => {
         }}>
             <Button
                 type="primary"
-                onClick={() => {
-                    console.log(formForest.getFieldValue());
-                }} >保存</Button>
+                onClick={() => { saveSetting() }} >保存</Button>
             <Button
                 style={{
                     margin: '0 8px',
                     background: '#13CE66',
                     color: '#fff'
                 }}
-                onClick={() => { formForest.resetFields(); setForestObject({ ...getForestDefaultValues() }) }} >重置</Button>
+                onClick={() => { resetting() }} >重置</Button>
         </Card>
     </Container>)
 }

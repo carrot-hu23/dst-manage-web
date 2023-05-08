@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import _ from "lodash";
 import { Row, Col, Card, Button, Space, Divider, message } from 'antd';
-import ModItem from './modItem';
-import ModDetail from './modConfig';
+import ModItem from './component/modItem';
+import ModDetail from './component/modConfig';
 import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
 
 // eslint-disable-next-line react/prop-types
@@ -78,7 +78,7 @@ const ModSelect = ({ modList, setModList, root, setRoot }) => {
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>
-                        {modList.length > 0 && <Card style={{ padding: '24px' }}>
+                        {modList.length > 0 && <Card >
                             {modList.map(item => <ModItem
                                 key={item.modid}
                                 mod={item}

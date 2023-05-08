@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-no-bind */
 import React from 'react'
 import {Tabs } from 'antd';
-import Item from './Item';
+import Item from '../setting/Item';
 
 
 const Forest = ({ form, forest,object }) => {
