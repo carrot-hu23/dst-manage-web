@@ -109,6 +109,9 @@ const OptionSelect = ({ mod, root, setRoot }) => {
                         if (item.name === 'Title' || item.name === '') {
                             return <h4 key={item.label}>{item.label} 配置</h4>
                         }
+                        if (item.label === undefined || item.label === '') {
+                            return <h4 key={item.name}>{item.name}</h4>
+                        }
                         return <Form.Item
                             key={item.label + item.name}
                             label={item.label}

@@ -5,6 +5,17 @@ import ModItem from './component/modItem';
 import ModDetail from './component/modConfig';
 import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
 
+function containsChinese(str) {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < str.length; i++) {
+      const charCode = str.charCodeAt(i);
+      if (charCode >= 0x4e00 && charCode <= 0x9fff) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 // eslint-disable-next-line react/prop-types
 const ModSelect = ({ modList, setModList, root, setRoot }) => {
 
@@ -34,15 +45,13 @@ const ModSelect = ({ modList, setModList, root, setRoot }) => {
         let config = "return {\n"
         keys.forEach(key => {
             const str = Object.entries(object[key])
+                .filter(([key, value]) => key !== '' && !containsChinese(key))
                 .map(([key, value]) => `${key}=${value.toString()},`)
                 .join("\n");
-            // console.log('key:', key, 'value:', str)
             const workshop = `["workshop-${key}"]={ configuration_options={${str}},enabled=true }`
-            // console.log(workshop)
             config += `  ${workshop},\n`
         })
         config += "}"
-        console.log(config);
 
         getHomeConfigApi()
             .then(data => {
