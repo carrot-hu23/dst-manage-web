@@ -25,12 +25,15 @@ const BackupStatistic = ({size, data}) => {
                     <StatisticCard statistic={{
                         title: '备份大小',
                         value: data,
-                        description: <Statistic title="占比" value="38.5%" />,
-                    }} chart={
-                        <>
-                            <Progress type="circle" percent={30} strokeColor={20 > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
-                        </>
-                    } chartPlacement="left" />
+                        // description: <Statistic title="占比" value="38.5%" />,
+                    }}
+                    // chart={
+                    //     <>
+                    //         <Progress type="circle" percent={30} strokeColor={20 > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
+                    //     </>
+                    // } 
+                    // chartPlacement="left" 
+                    />
                 </StatisticCard.Group>
             </RcResizeObserver>
         </>

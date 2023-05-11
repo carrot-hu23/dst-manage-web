@@ -79,7 +79,6 @@ const GameLog = (props) => {
                 <div className="container-children" style={{ height: "100%" }}>
                     <div id="terminal"  />
                 </div>
-
             </Card>
 
         </>

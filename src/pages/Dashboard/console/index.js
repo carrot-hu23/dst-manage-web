@@ -13,7 +13,10 @@ import { useEffect, useState } from 'react';
 
 import { updateGameApi, startHomeApi } from '../../../api/gameApi';
 import { createBackupApi } from '../../../api/backupApi';
-import CleanArchive from './cleanArchive';
+import CleanArchive from './cleanGame';
+import RestoreBackup from './retoreBackup';
+
+import './index.css'
 
 function controlDst(checked, type) {
     return startHomeApi(checked, type)
@@ -173,7 +176,7 @@ const GameStatus = (props) => {
                     </Form.Item>
 
                     <Form.Item label="恢复游戏备份">
-                        <Button>恢复备份</Button>
+                        <RestoreBackup />
                     </Form.Item>
                 </Form>
             </Card>

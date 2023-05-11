@@ -3,6 +3,8 @@
 import { Space, Upload, message, Button, Modal, Input } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { ProTable } from '@ant-design/pro-components';
+import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 import { Card, Container, Box } from '@mui/material';
 
@@ -12,26 +14,66 @@ import BackupStatistic from './Statistic';
 import { getBackupApi, deleteBackupApi, renameBackupApi } from '../../api/backupApi';
 
 
-const props = {
-  name: 'file',
-  action: 'http://localhost:8888/api/game/backup/upload',
-  // showUploadList: false,
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  customRequest(info) {
-    console.log(info.file, info.fileList);
-  }
+const MyUploadFile = () => {
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('file', file);
+    });
+
+    setUploading(true);
+    // 发送上传请求
+    // 这里使用了axios库，你可以使用你喜欢的库
+    axios.post('/api/game/backup/upload', formData)
+      .then(response => {
+        console.log(response.data);
+        setFileList([]);
+        setUploading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setUploading(false);
+      });
+  };
+
+  const handleRemove = file => {
+    const index = fileList.indexOf(file);
+    const newFileList = fileList.slice();
+    newFileList.splice(index, 1);
+    setFileList(newFileList);
+  };
+
+  const handleBeforeUpload = file => {
+    setFileList([...fileList, file]);
+    return false;
+  };
+
+  return (
+    <div>
+      <Space >
+      <Upload
+        fileList={fileList}
+        beforeUpload={handleBeforeUpload}
+        onRemove={handleRemove}
+      >
+        <Button icon={<UploadOutlined />}>选择文件</Button>
+      </Upload>
+      <Button
+        type="primary"
+        onClick={handleUpload}
+        disabled={fileList.length === 0 || uploading}
+        loading={uploading}
+        // style={{ marginTop: 16 }}
+      >
+        {uploading ? '正在上传' : '开始上传'}
+      </Button>
+      </Space>
+    </div>
+  );
 };
-
-
 
 
 
@@ -285,9 +327,7 @@ const Backup = () => {
 
   const HeaderTitle = () => (
     <Space >
-      <Upload {...props}>
-        <Button type="primary">上传</Button>
-      </Upload>
+      <MyUploadFile />
       <Button type="primary" danger onClick={deleteSelectBackup} >
         删除
       </Button>

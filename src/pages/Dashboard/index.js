@@ -2,7 +2,7 @@ import { Col, Row, notification, Image, Skeleton } from 'antd';
 import { Card, Container, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import GameStatistic from './Statistics';
-import GameStatus from './Status';
+import Console from './console';
 import GameLog from './Log';
 
 import { getGameDashboardApi } from '../../api/gameDashboardApi';
@@ -90,10 +90,9 @@ const Dashboard = () => {
                 dstVersionApi()
                     .then(response => {
                         console.log(response);
-                        if (response !== localVersion) {
-                            openNotification(response)
-                        }
-
+                        // if (response !== localVersion) {
+                        //     openNotification(response)
+                        // }
                     })
             })
     }
@@ -113,9 +112,7 @@ const Dashboard = () => {
     return (
         <>
             <Container maxWidth="xl">
-                <Card>
-                    <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-                        {contextHolder}
+            {contextHolder}
                         <GameStatistic data={gameData} />
                         <br />
                         <div>
@@ -123,7 +120,7 @@ const Dashboard = () => {
 
                                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Skeleton active loading={loading}>
-                                        <GameStatus data={gameData} />
+                                        <Console data={gameData} />
                                     </Skeleton>
                                 </Col>
 
@@ -134,8 +131,6 @@ const Dashboard = () => {
                                 </Col>
                             </Row>
                         </div>
-                    </Box>
-                </Card>
             </Container>
         </>
     );

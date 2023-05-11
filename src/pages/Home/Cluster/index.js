@@ -77,7 +77,7 @@ const HomeSetting = (props) => (
       <Form.Item label="投票" valuePropName="checked" tooltip="是否开启世界投票功能，关闭后世界不能投票" name='vote'>
         <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
       </Form.Item>
-      <Form.Item label="自动暂停" valuePropName="checked" tooltip="开启后没人世界也正常运行" name='pause_when_nobody'>
+      <Form.Item label="自动暂停" valuePropName="checked" tooltip="开启后世界没人将自动暂停" name='pause_when_nobody'>
         <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
       </Form.Item>
 

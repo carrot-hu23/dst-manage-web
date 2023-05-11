@@ -115,12 +115,12 @@ const System = () => {
                                         {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                                     </Form.Item>
                                     <Form.Item
-                                        label="服务器文件夹名"
-                                        name="donot_starve_server_directory"
+                                        label="mod下载路径"
+                                        name="mod_download_path"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Please input donot_starve_server_directory name',
+                                                message: 'Please input mod_download_path',
                                             },
                                         ]}
                                     >
