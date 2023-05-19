@@ -5,7 +5,9 @@ import {
   InputNumber,
   Switch,
   Radio,
-  Tooltip
+  Tooltip,
+  Row,
+  Col,
 } from 'antd';
 
 import { dstGameMod } from '../../../utils/dst';
@@ -27,7 +29,8 @@ const HomeSetting = (props) => (
       initialValues={{
         pvp: false,
         vote: true,
-        players: 6
+        players: 8,
+        steam_group_only: false
       }}
       style={{
         maxHeight: '620px',
@@ -35,6 +38,12 @@ const HomeSetting = (props) => (
         padding: 16
       }}
     >
+      {/* <Row>
+        <Col span={8} push={4}>
+        <h3>基本配置项</h3>
+        </Col>
+      </Row> */}
+      <h3>基本配置项</h3>
       <Form.Item
         label="房间名称"
         name='clusterName'
@@ -95,6 +104,83 @@ const HomeSetting = (props) => (
         ]}>
         <Input placeholder="科雷token令牌" maxLength={200} />
       </Form.Item>
+
+      <Form.Item
+        label="预留位"
+        name='whitelist_slots'>
+        <Input placeholder="预留位" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item
+        label="通信频率"
+        name='tick_rate'>
+        <Input placeholder="通信次数" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item
+        label="控制台"
+        name='tick_rate'>
+        <Input placeholder="console_enabled" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item label="控制台" valuePropName="checked" tooltip="关闭后世界不能使用控制台" name='console_enabled'>
+        <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
+      </Form.Item>
+
+      
+      <Form.Item
+        label="快照数量"
+        name='max_snapshots'>
+        <Input placeholder="max_snapshots" maxLength={200} />
+      </Form.Item>
+
+      <h3>多世界配置项</h3>
+      <Form.Item label="多世界" valuePropName="checked" tooltip="关闭后世界不能使用控制台" name='shard_enabled'>
+        <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
+      </Form.Item>
+
+      
+      <Form.Item
+        label="从世界ip"
+        name='bind_ip'>
+        <Input placeholder="bind_ip" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item
+        label="主世界ip"
+        name='master_ip'>
+        <Input placeholder="master_ip" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item
+        label="通信端口"
+        name='master_port'>
+        <Input placeholder="master_port" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item
+        label="通信密码"
+        name='cluster_key'>
+        <Input placeholder="cluster_key" maxLength={200} />
+      </Form.Item>
+      
+      <h3>Steam 配置项</h3>
+      <Form.Item label="仅steam群组进入" valuePropName="checked" tooltip="关闭后世界不能使用控制台" name='steam_group_only'>
+        <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
+      </Form.Item>
+
+      <Form.Item
+        label="steam群组id"
+        name='steam_group_id'>
+        <Input placeholder="steam_group_id" maxLength={200} />
+      </Form.Item>
+
+      <Form.Item
+        label="群组管理员"
+        name='steam_group_admins'>
+        <Input placeholder="steam_group_admins" maxLength={200} />
+      </Form.Item>
+
     </Form>
   );
 export default HomeSetting;

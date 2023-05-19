@@ -23,6 +23,7 @@ import Mod from './pages/Mod/index';
 import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
 import ClusterView from './pages/ClusterView/index';
+import MultiWorld from './pages/MultiWorld';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -47,6 +48,7 @@ export default function Router() {
         { path: 'Mod', element: <Mod /> },
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
+        { path: 'multi/cluster/view', element: <MultiWorld /> },
       ],
     },
     {
