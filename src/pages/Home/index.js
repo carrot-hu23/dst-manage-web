@@ -6,79 +6,94 @@ import Master from './Master';
 import Caves from './Caves';
 import Mod from './Mod';
 
-import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
+import {
+    getGameConfigApi,
+    saveGameConfigApi
+} from '../../api/gameApi';
 
 const Home = () => {
 
-    const [form] = Form.useForm();
+    const [cluster] = Form.useForm();
+    const [master] = Form.useForm();
+    const [caves] = Form.useForm();
+    const [mod] = Form.useForm()
+
     const [current, setCurrent] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchHomeConfig = () => getHomeConfigApi()
+        const fetchHomeConfig = () => getGameConfigApi()
             .then(data => {
                 console.log(data.data)
                 if (data.data === null || data === undefined) {
                     message.error('获取房间配置失败')
                 }
-                form.setFieldsValue(data.data)
+                cluster.setFieldsValue({...data.data.cluster,...{cluster_token:data.data.cluster_token}})
+                master.setFieldsValue({...{leveldataoverride: data.data.master.leveldataoverride}, ...data.data.master.server_ini})
+                caves.setFieldsValue({...{leveldataoverride: data.data.caves.leveldataoverride}, ...data.data.caves.server_ini})
+                mod.setFieldsValue({modoverrides: data.data.master.modoverrides})
                 setLoading(false)
             })
         fetchHomeConfig()
-    }, [form])
+    }, [caves, cluster, master, mod])
 
     const steps = [
         {
             title: '房间设置',
-            content: (<Cluster form={form} />),
+            content: (<Cluster form={cluster} />),
         },
         {
             title: '地面世界设置',
-            content: (<Master form={form} />),
+            content: (<Master master={master} />),
         },
         {
             title: '洞穴世界设置',
-            content: (<Caves form={form} />),
+            content: (<Caves caves={caves} />),
         },
         {
             title: 'MOD 设置',
-            content: (<Mod form={form} />),
+            content: (<Mod mod={mod} />),
         },
     ];
 
-    function saveConfig(type) {
-        console.log("form.getFieldValue()", form.getFieldValue())
-        const data = form.getFieldValue();
-        data.type = type
-        saveHomeConfigApi(data).then(()=>{
-            if(type === 0) {
-                message.success('房间设置完成!')
+    function saveConfig() {
+
+        const body = {
+            cluster: cluster.getFieldValue(),
+            cluster_token: cluster.getFieldValue().cluster_token,
+            master: {
+                leveldataoverride: master.getFieldValue().leveldataoverride,
+                modoverrides: mod.getFieldValue().modoverrides,
+                server_ini: master.getFieldValue()
+            },
+            caves: {
+                leveldataoverride: caves.getFieldValue().leveldataoverride,
+                modoverrides: mod.getFieldValue().modoverrides,
+                server_ini: caves.getFieldValue()
             }
-            if(type === 1) {
-                message.success('正在生成新的游戏!')
-            }
+        }
+        console.log(body);
+        saveGameConfigApi(body).then(data=>{
+            message.success("保存成功")
             setCurrent(0)
         }).catch(error=>{
-            console.log(error)
-            message.error("保存配置失败")
+            console.log(error);
+            message.error("保存失败")
         })
+        
     }
 
     const next = () => {
         if (loading) {
             return
         }
-        console.log(form.getFieldValue())
-        form.validateFields().then(() => {
-            // 验证通过后进入
-            // const { name, age } = value;
-            // console.log(name, age); // dee 18
+        // console.log(cluster.getFieldValue())
+        cluster.validateFields().then(() => {
             setCurrent(current + 1);
         }).catch(err => {
             // 验证不通过时进入
             message.error(err.errorFields[0].errors[0])
         });
-
     };
     const prev = () => {
         setCurrent(current - 1);
@@ -87,7 +102,6 @@ const Home = () => {
         key: item.title,
         title: item.title,
     }));
-
 
 
     return (
@@ -120,19 +134,6 @@ const Home = () => {
                                     saveConfig(0)
                                 }}>
                                     保存设置
-                                </Button>
-                            )}
-                            {current === steps.length - 1 && (
-                                <Button
-                                    style={{
-                                        margin: '0 8px',
-                                        background: '#F56C6C',
-                                        color: '#fff'
-                                    }}
-                                    onClick={() => {
-                                        saveConfig(1)
-                                    }}>
-                                    新的游戏
                                 </Button>
                             )}
                             {current < steps.length - 1 && (

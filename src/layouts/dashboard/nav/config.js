@@ -61,11 +61,11 @@ const navConfig = [
     path: '/dashboard/dst/server',
     icon: icon('ic_user'),
   },
-  {
-    title: '多层世界',
-    path: '/dashboard/multi/cluster/view',
-    icon: icon('ic_user'),
-  },
+  // {
+  //   title: '多层世界',
+  //   path: '/dashboard/multi/cluster/view',
+  //   icon: icon('ic_user'),
+  // },
 
   // {
   //   title: 'user',

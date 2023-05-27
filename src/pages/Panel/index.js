@@ -1,12 +1,15 @@
-import { Col, Row, notification, Image, Skeleton } from 'antd';
 import { useState, useEffect } from 'react';
-import GameStatistic from './Statistics';
-import Console from './console';
-import GameLog from './Log';
+import { Tabs,Row,Col } from 'antd';
+import { Container, Box } from '@mui/material';
+
+import ControlPanel from './ControlPanel';
+import GameLog2 from './GameLog';
+import GameStatistic from '../Dashboard/Statistics';
+import Console from '../Dashboard/console';
 
 import { getGameDashboardApi } from '../../api/gameDashboardApi';
 import { dstVersionApi } from '../../api/dstApi';
-import ArchiveInfo from './Archive';
+import ArchiveInfo from '../Dashboard/Archive';
 
 
 const initData = {
@@ -42,31 +45,7 @@ const initData = {
     }
 }
 
-
-const Dashboard = () => {
-
-    const [api, contextHolder] = notification.useNotification();
-
-    const updateNoticficationIcon = 'https://www.klei.com/sites/default/files/games/dont-starve-together/assets/dont-starve-togetherlayer2_0.png'
-
-    const openNotification = (params) => {
-        api.open({
-            message: '饥荒有新的版本更新了',
-            description: (
-                <>
-                    请点击更新游戏按钮。
-                    <a target={'_blank'}
-                        href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
-                        rel="noreferrer">
-                        查看更新内容
-                    </a>
-                    <br />
-                    <div>Vserion: {params}</div>
-                </>
-            ),
-            icon: (<Image preview={false} width={32} src={updateNoticficationIcon} />),
-        });
-    };
+const Panel = () => {
 
     const [gameData, setGameData] = useState(initData)
 
@@ -98,9 +77,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-
         firstRequest()
-
         const timer = setInterval(() => {
             initDashboard()
         }, 10000)
@@ -109,29 +86,49 @@ const Dashboard = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const items = [
+        {
+            key: '1',
+            label: `面板操作`,
+            children: <>
+                <GameStatistic data={gameData} />
+                {/* <Row gutter={[16, 8]}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Console data={gameData} />
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <ArchiveInfo />
+                    </Col>
+                </Row> */}
+                <Console data={gameData} />
+            </>,
+        },
+        {
+            key: '2',
+            label: `远程操作`,
+            children: <ControlPanel />,
+        },
+        {
+            key: '3',
+            label: `地面日志`,
+            children: <GameLog2 path={gameData.masterLog} id={"Master"} />,
+        },
+        {
+            key: '4',
+            label: `洞穴日志`,
+            children: <GameLog2 path={gameData.cavesLog} id={"Caves"} />,
+        },
+    ];
+
     return (
         <>
-            {contextHolder}
-            <GameStatistic data={gameData} />
-            <br />
-            <div>
-                <Row gutter={[16, 8]}>
-
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Skeleton active loading={loading}>
-                            <Console data={gameData} />
-                        </Skeleton>
-                    </Col>
-
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Skeleton active loading={loading}>
-                            <GameLog data={gameData.masterLog} />
-                        </Skeleton>
-                    </Col>
-                </Row>
-            </div>
+            <Container maxWidth="xl">
+                <Box sx={{ p: 0, pb: 1 }} dir="ltr">
+                    <Tabs defaultActiveKey="1" items={items} />
+                </Box>
+            </Container>
         </>
-    );
+    )
 };
 
-export default Dashboard
+export default Panel

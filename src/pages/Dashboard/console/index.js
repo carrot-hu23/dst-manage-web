@@ -17,6 +17,7 @@ import CleanArchive from './cleanGame';
 import RestoreBackup from './retoreBackup';
 
 import './index.css'
+import Regenerateworld from './regenerateworld';
 
 function controlDst(checked, type) {
     return startHomeApi(checked, type)
@@ -32,12 +33,12 @@ const GameStatus = (props) => {
 
     const [runStatus, setRunStatus] = useState((props.data.masterStatus || props.data.cavesStatus) || false)
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log("caves", props.data.cavesStatus)
         setMasterStatus(props.data.masterStatus)
         setCavesStatus(props.data.cavesStatus)
         setRunStatus(props.data.masterStatus || props.data.cavesStatus)
-    },[props.data])
+    }, [props.data])
 
     const runStatusOnClinck = (checked, event) => {
         controlDst(checked, 0)
@@ -78,12 +79,12 @@ const GameStatus = (props) => {
         setUpdateStatus(true)
         updateGameApi()
             .then(response => {
-                if(response.code === 200) {
+                if (response.code === 200) {
                     message.success('饥荒更新完成')
                 } else {
                     message.error('饥荒更新失败', response.msg)
                 }
-                
+
                 setUpdateStatus(false)
             })
             .catch(error => {
@@ -172,7 +173,10 @@ const GameStatus = (props) => {
 
                     </Form.Item>
                     <Form.Item label="清理游戏存档" >
-                        <CleanArchive />
+                        <Space>
+                            <CleanArchive />
+                            <Regenerateworld />
+                        </Space>
                     </Form.Item>
 
                     <Form.Item label="恢复游戏备份">

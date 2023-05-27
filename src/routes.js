@@ -18,12 +18,11 @@ import Player from './pages/Player/index';
 import Backup from './pages/Backup/index';
 import Setting from './pages/System/index';
 import Help from './pages/Help/index';
-import Panel from './pages/Dashboard/index';
+import Panel from './pages/Panel/index';
 import Mod from './pages/Mod/index';
 import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
 import ClusterView from './pages/ClusterView/index';
-import MultiWorld from './pages/MultiWorld';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -48,7 +47,6 @@ export default function Router() {
         { path: 'Mod', element: <Mod /> },
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
-        { path: 'multi/cluster/view', element: <MultiWorld /> },
       ],
     },
     {

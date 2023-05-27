@@ -43,6 +43,7 @@
     "@emotion/styled": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
     "@iconify/react": "^4.1.0",
+    "@monaco-editor/react": "^4.5.1",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.11.10",
     "apexcharts": "^3.37.0",

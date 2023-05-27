@@ -1,25 +1,49 @@
-// import React, { useState } from 'react';
-import {
-    Form,
-    Input,
-} from 'antd';
+/* eslint-disable react/jsx-boolean-value */
+import { Tabs} from 'antd';
+import ServerIni from '../ServerIni';
+import Editor from '../Editor';
 
-const { TextArea } = Input;
+const Level = (props) => {
 
-const HomeCaves = (props) => (
-        <Form
-            form={props.form}
-            labelCol={{
-                span: 4,
-            }}
-            // wrapperCol={{
-            //     span: 11,
-            // }}
-            layout="horizontal"
-        >
-            <Form.Item label="洞穴设置" name="cavesMapData">
-                <TextArea rows={12} placeholder="请输入洞穴设置" />
-            </Form.Item>
-        </Form>
-    );
+    function setValue(value) {
+        props.form.setFieldsValue({
+            leveldataoverride: value,
+        });
+    }
+
+    return (
+        <>
+            <Editor
+                value={props.form.getFieldValue().leveldataoverride}
+                // eslint-disable-next-line react/jsx-no-bind
+                setValue={setValue}
+                styleData={{
+                    height: '348px'
+                }}
+            />
+        </>
+    )
+}
+// eslint-disable-next-line react/prop-types
+const HomeCaves = ({ caves }) => {
+
+    const items = [
+        {
+            key: '1',
+            label: `世界配置`,
+            children: <Level form={caves} />,
+        },
+        {
+            key: '2',
+            label: `其他配值`,
+            children: <ServerIni form={caves} isMaster={false} />,
+        },
+    ];
+
+    return (
+        <>
+            <Tabs defaultActiveKey="1" items={items} />
+        </>
+    )
+}
 export default HomeCaves;

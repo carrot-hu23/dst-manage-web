@@ -1,27 +1,50 @@
-// import React, { useState } from 'react';
-import {
-    Form,
-    Input,
-    Button
-} from 'antd';
-// import lodash from 'https://cdn.skypack.dev/lua-json';
+/* eslint-disable react/jsx-boolean-value */
+import { Tabs} from 'antd';
+import ServerIni from '../ServerIni';
+import Editor from '../Editor';
 
-const { TextArea } = Input;
+const Level = (props) => {
 
-const HomeMaster = (props) => (
-        <Form
-            form={props.form}
-            labelCol={{
-                span: 4,
-            }}
-            // wrapperCol={{
-            //     span: 11,
-            // }}
-            layout="horizontal"
-        >
-            <Form.Item label="地面设置" name="masterMapData">
-                <TextArea rows={12} placeholder="请输入地面设置" />
-            </Form.Item>
-        </Form>
-    );
+    function setValue(value) {
+        props.form.setFieldsValue({
+            leveldataoverride: value,
+        });
+    }
+
+    return (
+        <>
+            <Editor
+                value={props.form.getFieldValue().leveldataoverride}
+                // eslint-disable-next-line react/jsx-no-bind
+                setValue={setValue}
+                styleData={{
+                    height: '348px'
+                }}
+            />
+        </>
+    )
+}
+// eslint-disable-next-line react/prop-types
+const HomeMaster = ({ master }) => {
+
+    const items = [
+        {
+            key: '1',
+            label: `世界配置`,
+            children: <Level form={master} />,
+        },
+        {
+            key: '2',
+            label: `其他配值`,
+            children: <ServerIni form={master} isMaster={true} />,
+        },
+    ];
+
+    return (
+        <>
+            <Tabs defaultActiveKey="1" items={items} />
+        </>
+    )
+}
+
 export default HomeMaster;

@@ -9,8 +9,8 @@ import Mod from '../Mod';
 
 import Forest from './forest';
 import Cave from './cave';
-import HomeSetting from '../Home/Cluster';
 import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
+import BaseCluster from './cluster';
 
 
 const translateLuaObject = (lua) => {
@@ -177,16 +177,12 @@ const ClusterView = () => {
     function beforeHandle(worldData) {
         const fetchHomeConfig = () => getHomeConfigApi()
             .then(data => {
-                // console.log(data.data)
                 if (data.data === null || data === undefined) {
                     message.error('获取房间配置失败')
                 }
 
                 formCluster.setFieldsValue(data.data)
 
-                // setForestObject(translateLuaObject(data.data.masterMapData))
-                // setCaveObject(translateLuaObject(data.data.cavesMapData))
-                
                 setLoading(false)
                 setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) }, ...translateLuaObject(data.data.masterMapData) })
                 setCaveObject({ ...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) }, ...translateLuaObject(data.data.cavesMapData) })
@@ -212,7 +208,7 @@ const ClusterView = () => {
         {
             key: '0',
             label: `设置`,
-            children: <HomeSetting form={formCluster} />,
+            children: <BaseCluster form={formCluster} />,
         },
         {
             key: '1',

@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import {
   Form,
   Input,
@@ -6,18 +5,15 @@ import {
   Switch,
   Radio,
   Tooltip,
-  Row,
-  Col,
 } from 'antd';
 
 import { dstGameMod } from '../../../utils/dst';
 
-
 const { TextArea } = Input;
-
 
 const HomeSetting = (props) => (
     <Form
+      // eslint-disable-next-line react/prop-types
       form={props.form}
       labelCol={{
         span: 4,
@@ -30,10 +26,13 @@ const HomeSetting = (props) => (
         pvp: false,
         vote: true,
         players: 8,
-        steam_group_only: false
+        steam_group_only: false,
+        tick_rate: 15,
+        max_snapshots: 6,
+        
       }}
       style={{
-        maxHeight: '620px',
+        maxHeight: '600px',
         overflowY: 'auto',
         padding: 16
       }}
@@ -46,38 +45,26 @@ const HomeSetting = (props) => (
       <h3>基本配置项</h3>
       <Form.Item
         label="房间名称"
-        name='clusterName'
+        name='cluster_name'
         rules={[
           {
             required: true,
             message: '请输入房间名',
           },
         ]}>
-        <Input
-          placeholder="请输入房间名称"
-          // style={{
-          //   width: '60%',
-          // }}
-          allowClear
+        <Input placeholder="请输入房间名称" allowClear
         />
       </Form.Item>
-      <Form.Item label="房间描述" name='clusterDescription'>
+      <Form.Item label="房间描述" name='cluster_description'>
         <TextArea rows={4} placeholder="请输入房间描述" maxLength={200} />
       </Form.Item>
-      <Form.Item label="游戏模式" name='gameMode'>
+      <Form.Item label="游戏模式" name='game_mode'>
           <Radio.Group>
-          {dstGameMod.map(item =>  <Tooltip title={item.description}><Radio key={item.name} value={item.name}> {item.cn} </Radio></Tooltip>)}
+          {dstGameMod.map(item =>  <Tooltip key={item.name} title={item.description}><Radio key={item.name} value={item.name}> {item.cn} </Radio></Tooltip>)}
           </Radio.Group>
         </Form.Item>
 
-      {/* <Form.Item label="游戏模式" name='gameMode'>
-        <Select style={{
-          width: '30%',
-        }}>
-          {dstGameMod.map(item => <Select.Option value={item.name}>{item.cn}</Select.Option>)}
-        </Select>
-      </Form.Item> */}
-      <Form.Item label="玩家人数" tooltip="最大玩家数量" name='maxPlayers' >
+      <Form.Item label="玩家人数" tooltip="最大玩家数量" name='max_players' >
         <InputNumber />
       </Form.Item>
       <Form.Item label="pvp" valuePropName="checked" tooltip="是否开启玩家对战" name='pvp'>
@@ -90,12 +77,12 @@ const HomeSetting = (props) => (
         <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
       </Form.Item>
 
-      <Form.Item label="房间密码" name='clusterPassword'>
-        <Input placeholder="最大长度20" maxLength={20} style={{ width: '50%', }} />
+      <Form.Item label="房间密码" name='cluster_password'>
+        <Input placeholder="最大长度20" maxLength={20} />
       </Form.Item>
       <Form.Item
         label="令牌"
-        name='token'
+        name='cluster_token'
         rules={[
           {
             required: true,
@@ -108,19 +95,13 @@ const HomeSetting = (props) => (
       <Form.Item
         label="预留位"
         name='whitelist_slots'>
-        <Input placeholder="预留位" maxLength={200} />
+        <InputNumber placeholder="预留位" maxLength={200} />
       </Form.Item>
 
       <Form.Item
         label="通信频率"
         name='tick_rate'>
-        <Input placeholder="通信次数" maxLength={200} />
-      </Form.Item>
-
-      <Form.Item
-        label="控制台"
-        name='tick_rate'>
-        <Input placeholder="console_enabled" maxLength={200} />
+        <InputNumber placeholder="通信次数" maxLength={200} />
       </Form.Item>
 
       <Form.Item label="控制台" valuePropName="checked" tooltip="关闭后世界不能使用控制台" name='console_enabled'>
@@ -131,7 +112,7 @@ const HomeSetting = (props) => (
       <Form.Item
         label="快照数量"
         name='max_snapshots'>
-        <Input placeholder="max_snapshots" maxLength={200} />
+        <InputNumber placeholder="max_snapshots" maxLength={200} />
       </Form.Item>
 
       <h3>多世界配置项</h3>
@@ -155,7 +136,7 @@ const HomeSetting = (props) => (
       <Form.Item
         label="通信端口"
         name='master_port'>
-        <Input placeholder="master_port" maxLength={200} />
+        <InputNumber placeholder="master_port" maxLength={200} />
       </Form.Item>
 
       <Form.Item
@@ -165,14 +146,14 @@ const HomeSetting = (props) => (
       </Form.Item>
       
       <h3>Steam 配置项</h3>
-      <Form.Item label="仅steam群组进入" valuePropName="checked" tooltip="关闭后世界不能使用控制台" name='steam_group_only'>
+      <Form.Item label="仅Steam群组进入" valuePropName="checked" name='steam_group_only'>
         <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
       </Form.Item>
 
       <Form.Item
-        label="steam群组id"
+        label="Steam群组ID"
         name='steam_group_id'>
-        <Input placeholder="steam_group_id" maxLength={200} />
+        <InputNumber placeholder="steam_group_id" maxLength={200} />
       </Form.Item>
 
       <Form.Item

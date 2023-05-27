@@ -1,25 +1,26 @@
-// import React, { useState } from 'react';
-import {
-    Form,
-    Input,
-} from 'antd';
 
-const { TextArea } = Input;
+import React from "react";
 
-const HomeMod = (props) => (
-        <Form
-            form={props.form}
-            labelCol={{
-                span: 4,
-            }}
-            // wrapperCol={{
-            //     span: 11,
-            // }} 
-            layout="horizontal"
-        >
-            <Form.Item label="Mod 设置" name="modData">
-                <TextArea rows={12} placeholder="请输入 Mod 设置" />
-            </Form.Item>
-        </Form>
+import Editor from '../Editor';
+
+const HomeMod = (props) => {
+    function setValue(value) {
+        props.mod.setFieldsValue({
+            modoverrides: value,
+        });
+    }
+
+    return (
+        <>
+            <Editor
+                value={props.mod.getFieldValue().modoverrides}
+                // eslint-disable-next-line react/jsx-no-bind
+                setValue={setValue}
+                styleData={{
+                    height: '348px'
+                }}
+            />
+        </>
     );
+}
 export default HomeMod;
