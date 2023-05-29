@@ -4,6 +4,7 @@
 import React from 'react'
 import {Tabs } from 'antd';
 import Item from '../setting/Item';
+import ServerIni from '../../Home/ServerIni';
 
 
 const Forest = ({ form, forest,object }) => {
@@ -22,6 +23,11 @@ const Forest = ({ form, forest,object }) => {
             key: '2',
             label: `世界生成`,
             children: <Item object={object} form={form} data={WORLDGEN_GROUP} url={'./misc/worldgen_customization.webp'} />,
+        },
+        {
+            key: '3',
+            label: `其他设置`,
+            children: <ServerIni form={form} isMaster />,
         },
     ];
 

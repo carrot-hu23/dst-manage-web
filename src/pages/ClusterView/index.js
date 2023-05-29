@@ -14,25 +14,34 @@ import BaseCluster from './cluster';
 
 
 const translateLuaObject = (lua) => {
-    const ast = luaparse.parse(lua);
-    const overrides = ast.body[0].arguments[0].fields.filter(item => item.key.name === 'overrides')
-    const overridesObject = overrides[0].value.fields.reduce((acc, field) => {
-        acc[field.key.name] = field.value.name === 'StringLiteral' ? field.value.value : field.value.raw.replace(/"/g, "");
-        return acc;
-    }, {});
-    // console.log('overridesObject', overridesObject);
-    return overridesObject
+    try {
+        const ast = luaparse.parse(lua);
+        const overrides = ast.body[0].arguments[0].fields.filter(item => item.key.name === 'overrides')
+        const overridesObject = overrides[0].value.fields.reduce((acc, field) => {
+            acc[field.key.name] = field.value.name === 'StringLiteral' ? field.value.value : field.value.raw.replace(/"/g, "");
+            return acc;
+        }, {});
+        // console.log('overridesObject', overridesObject);
+        return overridesObject
+    } catch (error) {
+        return {}
+    }
+
 }
 
 function translateJsonObject(data) {
-    const sortedKeys = Object.keys(data).sort((a, b) => data[a].order - data[b].order);
-    const m = {}
-    sortedKeys.forEach(key => {
-        Object.entries(data[key].items).forEach(([key2, value]) => {
-            m[key2] = value.value
+    try {
+        const sortedKeys = Object.keys(data).sort((a, b) => data[a].order - data[b].order);
+        const m = {}
+        sortedKeys.forEach(key => {
+            Object.entries(data[key].items).forEach(([key2, value]) => {
+                m[key2] = value.value
+            })
         })
-    })
-    return m
+        return m
+    } catch (error) {
+        return {}
+    }
 }
 
 const ClusterView = () => {
@@ -184,8 +193,9 @@ const ClusterView = () => {
                 formCluster.setFieldsValue(data.data)
 
                 setLoading(false)
-                setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) }, ...translateLuaObject(data.data.masterMapData) })
-                setCaveObject({ ...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) }, ...translateLuaObject(data.data.cavesMapData) })
+
+                setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) } ,...translateLuaObject(data.data.masterMapData)})
+                setCaveObject({...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) },...translateLuaObject(data.data.cavesMapData)})
             })
         fetchHomeConfig()
     }

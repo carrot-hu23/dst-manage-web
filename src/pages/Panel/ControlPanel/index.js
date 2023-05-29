@@ -2,7 +2,7 @@ import { Button, Form, Input, message, Space, Row, Col, Card, Divider, Tag, Typo
 import { cavesConsoleApi, masterConsoleApi, rollbackApi, sentBroadcastApi } from '../../../api/gameApi';
 
 const { TextArea } = Input;
-const { Paragraph } = Typography;
+const { Paragraph, Link } = Typography;
 
 
 const ControlPanel = () => {
@@ -125,9 +125,10 @@ const ControlPanel = () => {
                     <Space size={[4, 16]} wrap style={{
                         marginLeft: '32px'
                     }}>
-                        <Tag color="magenta"><Paragraph className='copy' copyable>c_save()</Paragraph></Tag>
-                        <Tag color="red">red</Tag>
-                        <Tag color="volcano">volcano</Tag>
+                        <Tag color="magenta">强制存档<Paragraph className='copy' copyable>c_save()</Paragraph></Tag>
+                        <Tag color="red">重新加载世界（会重启服务器并还原到最近存储点）<Paragraph className='copy' copyable>c_reset()</Paragraph></Tag>
+                        <Tag color="red">回档天数<Paragraph className='copy' copyable>c_rollback(count)</Paragraph></Tag>
+                        {/* <Tag color="volcano">volcano</Tag>
                         <Tag color="orange">orange</Tag>
                         <Tag color="gold">gold</Tag>
                         <Tag color="lime">lime</Tag>
@@ -135,7 +136,10 @@ const ControlPanel = () => {
                         <Tag color="cyan">cyan</Tag>
                         <Tag color="blue">blue</Tag>
                         <Tag color="geekblue">geekblue</Tag>
-                        <Tag color="purple">purple</Tag>
+                        <Tag color="purple">purple</Tag> */}
+                        <Link href="https://dontstarve.fandom.com/zh/wiki/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E9%A5%A5%E8%8D%92%E8%81%94%E6%9C%BA%E7%89%88%E4%B8%AD%E7%9A%84%E5%91%BD%E4%BB%A4?variant=zh" target="_blank">
+                            更多指令参考
+                        </Link>
                     </Space>
                 </Col>
             </Row>

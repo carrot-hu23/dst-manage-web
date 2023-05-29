@@ -5,7 +5,8 @@ import {
     Form,
     Switch,
     Space,
-    Card, message
+    Card,
+    message,
 } from 'antd';
 
 import { DeleteOutlined } from '@ant-design/icons';
@@ -18,6 +19,7 @@ import RestoreBackup from './retoreBackup';
 
 import './index.css'
 import Regenerateworld from './regenerateworld';
+import ArchiveInfo from '../Archive';
 
 function controlDst(checked, type) {
     return startHomeApi(checked, type)

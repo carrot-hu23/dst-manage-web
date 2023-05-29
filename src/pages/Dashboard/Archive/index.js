@@ -9,51 +9,47 @@ const { Paragraph } = Typography;
 
 function parseMata(metaData) {
 
-    const deMataData = window.atob(metaData).slice(0, -1);
-    // console.log(formatText(deMataData));
-
-    const metaAst = luaparse.parse(deMataData);
-
-    const metaFields = metaAst.body[0].arguments[0].fields;
-    let cycles = "";
-    let phase = "";
-    let season = "";
-
-    // 获取时钟
-    const clock = metaFields[0];
-    const seasons = metaFields[1];
-    console.log('clock',clock);
+    try {
+        const deMataData = window.atob(metaData).slice(0, -1);
+        const metaAst = luaparse.parse(deMataData);
+        const metaFields = metaAst.body[0].arguments[0].fields;
+        let cycles = "";
+        let phase = "";
+        let season = "";
     
-    if (clock === undefined || clock.value === undefined) {
-        cycles = "1"
-    } else {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const field of clock.value.fields) {
-            if (field.key.name === "cycles") {
-                cycles = field.value.value + 1;
-            }
-            if (field.key.name === "phase") {
-                phase = field.value.raw;
-            }
-        }
-    }
-    if (seasons === undefined ||seasons.value === undefined) {
-        season = "spring"
-    } else {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const field of seasons.value.fields) {
-            if (field.key.name === "season") {
-                season = field.value.raw;
+        // 获取时钟
+        const clock = metaFields[0];
+        const seasons = metaFields[1];
+        console.log('clock',clock);
+        
+        if (clock === undefined || clock.value === undefined) {
+            cycles = "1"
+        } else {
+            // eslint-disable-next-line no-restricted-syntax
+            for (const field of clock.value.fields) {
+                if (field.key.name === "cycles") {
+                    cycles = field.value.value + 1;
+                }
+                if (field.key.name === "phase") {
+                    phase = field.value.raw;
+                }
             }
         }
+        if (seasons === undefined ||seasons.value === undefined) {
+            season = "spring"
+        } else {
+            // eslint-disable-next-line no-restricted-syntax
+            for (const field of seasons.value.fields) {
+                if (field.key.name === "season") {
+                    season = field.value.raw;
+                }
+            }
+        }
+    
+        return { "cycles": cycles, "phase": phase, "season": season }
+    } catch(error) {
+        return { "cycles": "", "phase": "", "season": "" }
     }
-
-
-
-
-    console.log("cycles:", cycles, "phase:", phase, "season:", season);
-
-    return { "cycles": cycles, "phase": phase, "season": season }
 }
 
 const ArchiveInfo = () => {
@@ -90,16 +86,12 @@ const ArchiveInfo = () => {
     }, [])
 
     return (
-        <Card
-            title="游戏存档"
-            bordered={false}
-        >
             <Form
                 labelCol={{
-                    span: 4,
+                    span: 3,
                 }}
                 // wrapperCol={{
-                //     span: 11,
+                //     span: 14,
                 // }}
                 layout="horizontal"
                 initialValues={{
@@ -146,7 +138,6 @@ const ArchiveInfo = () => {
                     {/* <Paragraph copyable>{archive.ipConnect}</Paragraph> */}
                 </Form.Item>
             </Form>
-        </Card>
     )
 }
 
