@@ -48,6 +48,8 @@ const Mod = ({modoverrides}) => {
     const [modList, setModList] = useState([])
     const [root, setRoot] = useState({})
 
+    const [defaultValuesMap, setDefaultValuesMap] = useState({})
+
     useEffect(() => {
         getMyModInfoList()
             .then(data => {
@@ -65,8 +67,11 @@ const Mod = ({modoverrides}) => {
                     }
                     if(workshopMap.has(modid)) {
                         mod.enable = true
-                    } 
+                    } else {
+                        workshopMap.set(modid, object[modid])
+                    }
                 });
+                setDefaultValuesMap(workshopMap)
                 setModList(data.data || [])
                 setRoot(object)
             }).catch(error => {
@@ -91,6 +96,8 @@ const Mod = ({modoverrides}) => {
                 // chooseModList={chooseModList}
                 // add={setChooseModList} 
                 defaultValuesMap={getWorkShopConfigMap(modoverrides)}
+
+                // defaultValuesMap={defaultValuesMap}
                 />,
         },
         {
