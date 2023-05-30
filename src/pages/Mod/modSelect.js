@@ -17,8 +17,8 @@ function containsChinese(str) {
   }
 
 // eslint-disable-next-line react/prop-types
-const ModSelect = ({ modList, setModList, root, setRoot }) => {
-
+const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
+    
     const [mod, setMod] = useState({})
     const changeMod = (mod) => {
         const _mod = _.cloneDeep(mod);
@@ -103,6 +103,7 @@ const ModSelect = ({ modList, setModList, root, setRoot }) => {
                         mod={mod}
                         root={root}
                         setRoot={setRoot}
+                        defaultValues={defaultValuesMap.get(`${mod.modid}`)}
                     />}
                 </Col>
 

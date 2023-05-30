@@ -233,7 +233,7 @@ const ClusterView = () => {
         {
             key: '3',
             label: `模组`,
-            children: <Mod />,
+            children: <Mod modoverrides={formCluster.getFieldValue().modData} />,
         },
     ];
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash'
+import luaparse from 'luaparse';
 
 import { Container, Box } from '@mui/material';
 import { Tabs } from 'antd';
@@ -7,18 +8,51 @@ import ModSelect from './modSelect';
 import ModSearch from './modSearch';
 import { getMyModInfoList } from '../../api/modApi';
 
+function getWorkShopConfigMap(modConfig) {
 
-const Mod = () => {
+    if (modConfig === undefined || modConfig === null) {
+        return new Map()
+    }
+    try {
+        const ast = luaparse.parse(modConfig)
+        const workshopListAst = ast.body[0].arguments[0].fields
+        // const workshopMap = {}
+        const workshopMap = new Map();
+        // eslint-disable-next-line no-restricted-syntax
+        for (const workshopAst of workshopListAst) {
+            const { key } = workshopAst
+            const { value } = workshopAst
+            const workshopId = key.raw.replace("\n", "")
+            const config = {}
+            
+            workshopMap.set(workshopId.replace('workshop-', '').replace('"','').replace('"',''), config)
+            // eslint-disable-next-line no-restricted-syntax
+            for (const field of value.fields) {
+                if (field.key.name === 'configuration_options') {
+                    // eslint-disable-next-line no-restricted-syntax
+                    for (const configItem of field.value.fields) {
+                        config[configItem.key.name] = configItem.value.value
+                    }
+                }
+            }
+        }
+        return workshopMap
+    } catch (error) {
+        console.log('workshopMap error',error);
+        return new Map()
+    }
+}
+
+const Mod = ({modoverrides}) => {
 
     const [modList, setModList] = useState([])
-    const [chooseModList, setChooseModList] = useState([])
     const [root, setRoot] = useState({})
 
     useEffect(() => {
         getMyModInfoList()
             .then(data => {
-                setModList(data.data || [])
                 const object = {}
+                const workshopMap = getWorkShopConfigMap(modoverrides)
                 data.data.forEach(mod => {
                     const {modid} = mod
                     const options = mod.mod_config.configuration_options
@@ -29,10 +63,12 @@ const Mod = () => {
                             }
                         })
                     }
+                    if(workshopMap.has(modid)) {
+                        mod.enable = true
+                    } 
                 });
+                setModList(data.data || [])
                 setRoot(object)
-                console.log('root', object);
-                
             }).catch(error => {
                 console.log(error);
             })
@@ -54,6 +90,7 @@ const Mod = () => {
                 setRoot={setRoot}
                 // chooseModList={chooseModList}
                 // add={setChooseModList} 
+                defaultValuesMap={getWorkShopConfigMap(modoverrides)}
                 />,
         },
         {

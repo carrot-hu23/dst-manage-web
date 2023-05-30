@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash'
 import { Card, Modal, Button, Space, Row, Col, Form, Select, Typography } from 'antd';
+import MySelect from '../../ClusterView/mySelect';
 
 const { Paragraph } = Typography;
 
@@ -54,7 +55,7 @@ const { Paragraph } = Typography;
 //     </>)
 // }
 
-const OptionSelect = ({ mod, root, setRoot }) => {
+const OptionSelect = ({ mod, root, setRoot,defaultValues }) => {
     const [form] = Form.useForm()
 
     useEffect(() => {
@@ -137,7 +138,7 @@ const OptionSelect = ({ mod, root, setRoot }) => {
 
 
 // eslint-disable-next-line react/prop-types
-const ModDetail = ({ mod, root, setRoot }) => {
+const ModDetail = ({ mod, root, setRoot, defaultValues}) => {
 
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm()
@@ -207,7 +208,7 @@ const ModDetail = ({ mod, root, setRoot }) => {
                 (<Option key={config.label} data={config} form={form} />)
             )} */}
             {mod.mod_config.configuration_options !== undefined &&
-                <OptionSelect mod={mod} root={root} setRoot={setRoot} />}
+                <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}/>}
         </Modal>
 
     </Card>
