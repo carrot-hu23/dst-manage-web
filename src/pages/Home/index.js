@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useParams} from "react-router-dom";
 import { Button, message, Steps, Form, Skeleton } from 'antd';
 import { Container, Card, Box } from '@mui/material';
 import Cluster from './Cluster';
@@ -20,9 +21,10 @@ const Home = () => {
 
     const [current, setCurrent] = useState(0);
     const [loading, setLoading] = useState(true);
+    const  params = useParams()
 
     useEffect(() => {
-        const fetchHomeConfig = () => getGameConfigApi()
+        const fetchHomeConfig = () => getGameConfigApi(params.cluster)
             .then(data => {
                 console.log(data.data)
                 if (data.data === null || data === undefined) {
@@ -73,7 +75,7 @@ const Home = () => {
             }
         }
         console.log(body);
-        saveGameConfigApi(body).then(data=>{
+        saveGameConfigApi(params.cluster,body).then(data=>{
             message.success("保存成功")
             setCurrent(0)
         }).catch(error=>{

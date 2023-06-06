@@ -1,24 +1,28 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Image, Row, Col, Button, Divider, Space, message } from 'antd';
+import {useParams} from "react-router-dom";
 import { kickPlayerApi, killPlayerApi, respawnPlayerApi } from '../../../api/playerApi';
 import { dstRoles } from '../../../utils/dst';
 
 const Online = ({ playerList }) => {
+    
+    const {cluster} = useParams()
+    
     const kickPlayer = (player) => {
-        kickPlayerApi(player)
+        kickPlayerApi(cluster,player)
             .then(response => {
                 message.success(`提出 ${player.name} success`)
             })
     }
     const killPlayer = (player) => {
-        killPlayerApi(player)
+        killPlayerApi(cluster,player)
             .then(response => {
                 message.success(`kill ${player.name} success`)
             })
     }
     const respawnPlayer = (player) => {
-        respawnPlayerApi(player)
+        respawnPlayerApi(cluster,player)
             .then(response => {
                 message.success(`复活 ${player.name} success`)
             })

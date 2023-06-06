@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Tabs,Row,Col } from 'antd';
+import {useParams} from "react-router-dom";
+import { Tabs } from 'antd';
 import { Container, Box } from '@mui/material';
 
 import ControlPanel from './ControlPanel';
@@ -9,7 +10,6 @@ import Console from '../Dashboard/console';
 
 import { getGameDashboardApi } from '../../api/gameDashboardApi';
 import { dstVersionApi } from '../../api/dstApi';
-import ArchiveInfo from '../Dashboard/Archive';
 
 
 const initData = {
@@ -50,16 +50,17 @@ const Panel = () => {
     const [gameData, setGameData] = useState(initData)
 
     const [loading, setLoading] = useState(true)
+    const {cluster} = useParams()
 
     const initDashboard = () => {
-        getGameDashboardApi()
+        getGameDashboardApi(cluster)
             .then(response => {
                 setGameData(response.data)
             })
     }
 
     const firstRequest = () => {
-        getGameDashboardApi()
+        getGameDashboardApi(cluster)
             .then(response => {
 
                 setGameData(response.data)

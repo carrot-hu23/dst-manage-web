@@ -36,21 +36,16 @@ const navConfig = [
     path: '/dashboard/setting',
     icon: icon('ic_blog')
   },
-  // {
-  //   title: '帮助文档',
-  //   path: '/dashboard/help',
-  //   icon: icon('ic_blog')
-  // },
   {
     title: '游戏日志',
     path: '/dashboard/log',
     icon: icon('ic_user'),
   },
-  {
-    title: '模组设置',
-    path: '/dashboard/mod',
-    icon: icon('ic_user'),
-  },
+  // {
+  //   title: '模组设置',
+  //   path: '/dashboard/mod',
+  //   icon: icon('ic_user'),
+  // },
   {
     title: '世界设置',
     path: '/dashboard/cluster/view',
@@ -61,6 +56,12 @@ const navConfig = [
     path: '/dashboard/dst/server',
     icon: icon('ic_user'),
   },
+    {
+    title: '帮助文档',
+    path: '/dashboard/help',
+    icon: icon('ic_blog')
+  },
+
   // {
   //   title: '多层世界',
   //   path: '/dashboard/multi/cluster/view',

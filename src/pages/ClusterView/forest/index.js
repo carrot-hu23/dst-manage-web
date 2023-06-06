@@ -24,11 +24,11 @@ const Forest = ({ form, forest,object }) => {
             label: `世界生成`,
             children: <Item object={object} form={form} data={WORLDGEN_GROUP} url={'./misc/worldgen_customization.webp'} />,
         },
-        {
-            key: '3',
-            label: `其他设置`,
-            children: <ServerIni form={form} isMaster />,
-        },
+        // {
+        //     key: '3',
+        //     label: `其他设置`,
+        //     children: <ServerIni form={form} isMaster />,
+        // },
     ];
 
     return <Tabs defaultActiveKey="1" items={items} />

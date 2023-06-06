@@ -1,4 +1,5 @@
 import { Button, Form, Input, message, Space, Row, Col, Card, Divider, Tag, Typography } from 'antd';
+import {useParams} from "react-router-dom";
 import { cavesConsoleApi, masterConsoleApi, rollbackApi, sentBroadcastApi } from '../../../api/gameApi';
 
 const { TextArea } = Input;
@@ -8,9 +9,10 @@ const { Paragraph, Link } = Typography;
 const ControlPanel = () => {
 
     const [form] = Form.useForm();
+    const {cluster} = useParams()
 
     function rollback(dayNums) {
-        rollbackApi(dayNums)
+        rollbackApi(cluster,dayNums)
             .then(() => {
                 message.success(`回档${dayNums}天成功`)
             }).catch(() => { message.error(`回档${dayNums}天失败`) })
@@ -19,14 +21,14 @@ const ControlPanel = () => {
     function sendMasterInstruct() {
         console.log(form.getFieldValue());
         const msg = form.getFieldValue().master
-        masterConsoleApi(msg)
+        masterConsoleApi(cluster,msg)
             .then(() => {
                 message.success(`发送地面${msg}指令成功`)
             }).catch(() => { message.error(`发送地面${msg}指令失败`) })
     }
     function sendCavesInstruct() {
         const msg = form.getFieldValue().caves
-        cavesConsoleApi(msg)
+        cavesConsoleApi(cluster,msg)
             .then(() => {
                 message.success(`发送洞穴${msg}指令成功`)
             }).catch(() => { message.error(`发送洞穴${msg}指令失败`) })
@@ -34,7 +36,7 @@ const ControlPanel = () => {
     }
     function sendBroadcastInstruct() {
         const msg = form.getFieldValue().broadcast
-        sentBroadcastApi(msg)
+        sentBroadcastApi(cluster,msg)
             .then(() => {
                 message.success(`发送广播${msg}指令成功`)
             }).catch(() => { message.error(`发送广播${msg}指令失败`) })

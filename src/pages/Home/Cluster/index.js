@@ -58,7 +58,16 @@ const HomeSetting = (props) => (
       <Form.Item label="房间描述" name='cluster_description'>
         <TextArea rows={4} placeholder="请输入房间描述" maxLength={200} />
       </Form.Item>
-      <Form.Item label="游戏模式" name='game_mode'>
+      <Form.Item 
+        label="游戏模式"
+        name='game_mode'
+        rules={[
+          {
+            required: true,
+            message: '请选择游戏模式',
+          },
+        ]}
+        >
           <Radio.Group>
           {dstGameMod.map(item =>  <Tooltip key={item.name} title={item.description}><Radio key={item.name} value={item.name}> {item.cn} </Radio></Tooltip>)}
           </Radio.Group>
@@ -116,20 +125,24 @@ const HomeSetting = (props) => (
       </Form.Item>
 
       <h3>多世界配置项</h3>
-      <Form.Item label="多世界" valuePropName="checked" tooltip="关闭后世界不能使用控制台" name='shard_enabled'>
+      <Form.Item label="多世界" valuePropName="checked" tooltip="shard_enabled" name='shard_enabled'>
         <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
       </Form.Item>
 
       
       <Form.Item
         label="从世界ip"
-        name='bind_ip'>
+        name='bind_ip'
+        tooltip="bind_ip"
+        >
         <Input placeholder="bind_ip" maxLength={200} />
       </Form.Item>
 
       <Form.Item
         label="主世界ip"
-        name='master_ip'>
+        name='master_ip'
+        tooltip="master_ip"
+        >
         <Input placeholder="master_ip" maxLength={200} />
       </Form.Item>
 

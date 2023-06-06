@@ -6,6 +6,12 @@ async function loginApi(user) {
     return response.data
 }
 
+async function getUserInfo() {
+    const url = "/api/user"
+    const response = await http.get(url)
+    return response.data
+}
+
 export {
-    loginApi
+    loginApi, getUserInfo
 }

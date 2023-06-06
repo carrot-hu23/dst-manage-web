@@ -7,25 +7,30 @@ import {
     Space,
     Card,
     message,
+    Typography
 } from 'antd';
 
-import { DeleteOutlined } from '@ant-design/icons';
+import {useParams} from "react-router-dom";
 import { useEffect, useState } from 'react';
 
-import { updateGameApi, startHomeApi } from '../../../api/gameApi';
+import { updateGameApi, startHomeApi, archiveApi } from '../../../api/gameApi';
 import { createBackupApi } from '../../../api/backupApi';
 import CleanArchive from './cleanGame';
 import RestoreBackup from './retoreBackup';
 
 import './index.css'
 import Regenerateworld from './regenerateworld';
-import ArchiveInfo from '../Archive';
 
-function controlDst(checked, type) {
-    return startHomeApi(checked, type)
+
+const { Paragraph } = Typography;
+
+function controlDst(cluster,checked, type) {
+    return startHomeApi(cluster,checked, type)
 }
 
 const GameStatus = (props) => {
+
+    const {cluster} = useParams()
 
     const [updateGameStatus, setUpdateStatus] = useState(false)
     const [createBackupStatus, setCreateBackupStatus] = useState(false)
@@ -35,15 +40,34 @@ const GameStatus = (props) => {
 
     const [runStatus, setRunStatus] = useState((props.data.masterStatus || props.data.cavesStatus) || false)
 
+
+    const [archive, setarchive] = useState({
+        ipConnect: ""
+    })
+
     useEffect(() => {
         // console.log("caves", props.data.cavesStatus)
         setMasterStatus(props.data.masterStatus)
         setCavesStatus(props.data.cavesStatus)
         setRunStatus(props.data.masterStatus || props.data.cavesStatus)
+
+        archiveApi(cluster)
+        .then(data => {
+            console.log(data.data);
+            const ar = {
+                clusterName: data.data.clusterName,
+                gameMod: data.data.gameMod,
+                mods: data.data.mods,
+                maxPlayers: data.data.maxPlayers,
+                ipConnect: data.data.ipConnect
+            }
+            setarchive(ar)
+        }).catch(error => console.log(error))
+
     }, [props.data])
 
     const runStatusOnClinck = (checked, event) => {
-        controlDst(checked, 0)
+        controlDst(cluster,checked, 0)
             .then(data => {
                 if (data.code === 200) {
                     message.success('启动游戏成功')
@@ -62,7 +86,7 @@ const GameStatus = (props) => {
         if (!checked && !cavesStatus) {
             setRunStatus(checked)
         }
-        controlDst(checked, 1)
+        controlDst(cluster,checked, 1)
     }
 
     const cavesStatusOnClick = (checked, event) => {
@@ -73,13 +97,13 @@ const GameStatus = (props) => {
         if (!checked && !masterStatus) {
             setRunStatus(checked)
         }
-        controlDst(checked, 2)
+        controlDst(cluster,checked, 2)
     }
 
     const updateGameOnclick = () => {
         message.success('正在更新游戏')
         setUpdateStatus(true)
-        updateGameApi()
+        updateGameApi(cluster)
             .then(response => {
                 if (response.code === 200) {
                     message.success('饥荒更新完成')
@@ -98,7 +122,7 @@ const GameStatus = (props) => {
     const createBackupOnClick = () => {
 
         message.success('正在创建游戏备份')
-        createBackupApi()
+        createBackupApi(cluster)
             .then(response => {
                 message.success('创建游戏备份成功')
                 setCreateBackupStatus(false)
@@ -125,6 +149,10 @@ const GameStatus = (props) => {
                     layout="horizontal"
                     labelAlign={'left'}
                 >
+                     <Form.Item label="世界直连">
+                        <Paragraph copyable>{archive.ipConnect}</Paragraph>
+                    </Form.Item>
+
                     <Form.Item label="饥荒状况">
                         <Space>
                             <Button type={masterStatus ? 'primary' : 'default'} >{masterStatus ? '地面运行中' : '地面未启动'}</Button>

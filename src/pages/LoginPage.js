@@ -49,14 +49,14 @@ export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const [isFirstTime, setIsFirstTime] = useState(false);
   useEffect(()=>{
-    // isFirstApi().then(data=>{
-    //   console.log('data', data);
-    //   if(data.code === 200) {
-    //     setIsFirstTime(true)
-    //   } else {
-    //     setIsFirstTime(false)
-    //   }
-    // })
+    isFirstApi().then(data=>{
+      console.log('data', data);
+      if(data.code === 200) {
+        setIsFirstTime(true)
+      } else {
+        setIsFirstTime(false)
+      }
+    })
     setIsFirstTime(false)
   },[])
  
@@ -87,9 +87,9 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to Dst-Manager-Go
+              饥荒管理控制台面板
             </Typography>
-
+            {/*
             <Typography variant="body2" sx={{ mb: 5 }}>
               Don’t have an account? {''}
               <Link variant="subtitle2">Get started</Link>
@@ -108,7 +108,7 @@ export default function LoginPage() {
                 <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
               </Button>
             </Stack>
-
+            */}
             <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR

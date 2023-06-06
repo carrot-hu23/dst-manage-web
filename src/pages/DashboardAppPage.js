@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 // components
 import { useEffect, useState } from 'react';
+import {useParams} from "react-router-dom";
 // import Iconify from '../components/iconify';
 // sections
 import {
@@ -12,22 +13,22 @@ import {
   AppWebsiteVisits,
   AppConversionRates,
 } from '../sections/@dashboard/app';
-import { countActivePlayes, countRoleRate, countTopNActive } from '../api/statisticsApi';
+import { countActivePlayers, countRoleRate, countTopNActive } from '../api/statisticsApi';
 import { getBeginWeek, getEndWeek, translateFormat } from '../utils/dateUitls';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  const {cluster} = useParams()
   const [userChartData, setUserChartData] = useState({
     title: '',
     xData: [],
     seriesData: []
   })
   useEffect(()=>{
-    countActivePlayes("DAY", getBeginWeek(), getEndWeek())
+    countActivePlayers(cluster, "DAY", getBeginWeek(), getEndWeek())
     .then(response => {
-        console.log('resp', response);
         const {data} = response
         setUserChartData({
             title: "本周玩家趋势",
@@ -58,7 +59,7 @@ export default function DashboardAppPage() {
     chartData: [],
   })
   useEffect(()=>{
-    countTopNActive(10, getBeginWeek(), getEndWeek())
+    countTopNActive(cluster,10, getBeginWeek(), getEndWeek())
     .then(response => {
         const {data} = response
         setTopNActive({
@@ -76,7 +77,7 @@ export default function DashboardAppPage() {
     chartData: [],
   })
   useEffect(()=>{
-    countRoleRate(getBeginWeek(), getEndWeek())
+    countRoleRate(cluster,getBeginWeek(), getEndWeek())
     .then(response => {
         const {data} = response
         setRoleRate({

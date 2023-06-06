@@ -27,7 +27,7 @@ http.interceptors.response.use((response) => response, (error) => {
         // 处理 401 响应状态码
         localStorage.clear()
         
-        window.location.href = '/';
+        window.location.href = '/#/login';
         // const navigate = useNavigate();
         // navigate('/login', { replace: true });
       }

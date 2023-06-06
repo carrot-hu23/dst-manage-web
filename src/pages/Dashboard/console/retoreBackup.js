@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Input, Skeleton, Modal, Card, List, Drawer, Button, Space, Popconfirm, message } from 'antd';
+import { Input, Skeleton, Modal, List, Drawer, Button, Space, Popconfirm, message } from 'antd';
+import {useParams} from "react-router-dom";
 import { getBackupApi } from '../../../api/backupApi';
-
-// import { getBackupApi, openBackupDir, removeDir } from '../../../api/window/backupWindowsApi';
-// import { readDstConfigSync } from '../../../api/window/dstConfigApi';
-// import { unzip } from '../../../api/compressing';
 
 const RestoreBackup = (props) => {
 
@@ -13,9 +10,10 @@ const RestoreBackup = (props) => {
     const [backupList, setBackupList] = useState([])
     const [oldBackupList, setOldBackupList] = useState([])
     const [backupItem, setBackupItem] = useState({})
+    const {cluster} = useParams()
 
     useEffect(() => {
-        getBackupApi().then(data=>{
+        getBackupApi(cluster).then(data=>{
         setBackupList(data.data || [])
         setOldBackupList(data.data  || [])
         }).catch(error=>{
@@ -80,7 +78,7 @@ const RestoreBackup = (props) => {
 
                         <Input placeholder="搜索备份" allowClear
                             onChange={(e) => {
-                                const value = e.target.value
+                                const {value} = e.target
                                 if (value === null || value === '') {
                                     setBackupList(oldBackupList)
                                 } else {

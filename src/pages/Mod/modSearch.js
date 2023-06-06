@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { Row, Col, Card, Input, Pagination, Button, message } from 'antd';
+import {useParams} from "react-router-dom";
 import { getModInfo, searchMod } from '../../api/modApi';
 
 const { Search } = Input;
@@ -45,7 +46,8 @@ const ModSearch = ({ addModList }) => {
     const [text, setText] = useState("")
 
     const [messageApi, contextHolder] = message.useMessage();
-
+    const {cluster} = useParams()
+    
     useEffect(() => {
         updateModList("", page, pageSize)
     }, [])
@@ -58,7 +60,7 @@ const ModSearch = ({ addModList }) => {
         });
         setLoading(true)
         // message.info(`正在订阅 ${modName}`)
-        getModInfo(modId).then(data => {
+        getModInfo(cluster,modId).then(data => {
             console.log(data.data);
             addModList(current => [...current, data.data])
 
@@ -76,7 +78,7 @@ const ModSearch = ({ addModList }) => {
 
     const updateModList = (text, page, pageSize) => {
         message.info(`正在搜索`)
-        searchMod(text, page, pageSize).then(data => {
+        searchMod(cluster, text, page, pageSize).then(data => {
             setModList(data.data.data)
             setPage(data.data.page)
             setPageSize(data.data.size)

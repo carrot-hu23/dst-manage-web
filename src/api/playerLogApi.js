@@ -13,7 +13,7 @@ async function logPage(name, page, size) {
     return response.data
 }
 
-async function getPlayerLog(params) {
+async function getPlayerLog(cluster,params) {
     let url
     if (params.name === undefined || params.name === null || params.name === '') {
         url = `/api/player/log?page=${params.current}&size=${10}`
@@ -22,7 +22,11 @@ async function getPlayerLog(params) {
     }
     
     // const url = `/api/statistics/top/active?N=${N}&startDate=${startDate}&endDate=${endDate}`
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 

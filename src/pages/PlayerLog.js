@@ -1,10 +1,11 @@
-
+import {useParams} from "react-router-dom";
 import { useRef } from 'react';
 import { ProTable } from '@ant-design/pro-components';
 import { Image } from 'antd';
-import { Card, Container, Box } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { getPlayerLog } from '../api/playerLogApi';
 import { dstRoles } from '../utils/dst';
+
 
 const columns = [
   {
@@ -84,6 +85,8 @@ const columns = [
 
 export default function PlayerLog() {
   const actionRef = useRef();
+  const {cluster} = useParams()
+
   return (
     <>
       {/* <Helmet>
@@ -101,7 +104,7 @@ export default function PlayerLog() {
               request={async (params = {}, sort, filter) => {
                 console.log(sort, filter);
                 console.log('params', params)
-                const msg = await getPlayerLog(params)
+                const msg = await getPlayerLog(cluster,params)
                 return {
                   data: msg.data.data,
                   success: true,

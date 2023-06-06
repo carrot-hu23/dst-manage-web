@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import {useParams} from "react-router-dom";
 import { ProCard } from '@ant-design/pro-components';
 import { Skeleton } from 'antd';
 import { Card, Container, Box } from '@mui/material';
@@ -18,8 +19,11 @@ const Player = () => {
     const [playerList, setPlayerList] = useState([])
     const [adminPlayerList, setAdminPlayerList] = useState([])
     const [blacklistPlayerList, setBlacklistPlayerList] = useState([])
+
+    const {cluster} = useParams()
+
     useEffect(() => {
-        getPlayerListApi()
+        getPlayerListApi(cluster)
             .then(data => {
                 console.log(data);
                 if (data.data === null || data.data === undefined) {
@@ -29,7 +33,7 @@ const Player = () => {
                 }
                 setLoading(false)
             })
-        getAdminPlayerListApi()
+        getAdminPlayerListApi(cluster)
             .then(data => {
                 console.log(data);
                 if (data.data === null || data.data === undefined) {
@@ -38,7 +42,7 @@ const Player = () => {
                     setAdminPlayerList(data.data.filter(item => item !== '' && item !== ' '))
                 }
             })
-        getBlackListPlayerListApi()
+        getBlackListPlayerListApi(cluster)
             .then(data => {
                 console.log(data);
                 if (data.data === null || data.data === undefined) {

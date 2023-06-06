@@ -17,10 +17,10 @@ const mainCss = {
     backgroundColor: '#fff',
     borderRadius: '20px',
     width: '400px',
-    height: '350px',
+    height: '600px',
     position: 'absolute',
     left: '50%',
-    top: '35%',
+    top: '50%',
     transform: 'translate(-50%,-50%)',
 }
 
@@ -45,7 +45,7 @@ const Begin = (props) => {
     }
 
     const getInitData = () => {
-        const user = {
+        const userInfo = {
             username: form.getFieldValue("username"),
             password: form.getFieldValue("password"),
             displayName: form.getFieldValue("displayName"),
@@ -59,7 +59,7 @@ const Begin = (props) => {
             mod_download_path: form.getFieldValue("mod_download_path"),
         }
         const data = {
-            user,
+            userInfo,
             dstConfig
         }
         return data
@@ -71,7 +71,7 @@ const Begin = (props) => {
 
         // 1.保存初始化数据
         console.log('initData', initData);
-        const response = await http.post("/open/init", initData)
+        const response = await http.post("/api/init", initData)
         const responseData = response.data
         if (responseData.code !== 200) {
             message.error("初始化数据失败")
@@ -79,7 +79,7 @@ const Begin = (props) => {
         }
 
         // 2.登录
-        const loginResponse = await http.post("/api/login", initData.user)
+        const loginResponse = await http.post("/api/login", initData.userInfo)
         const loginResponseData = loginResponse.data
         if (loginResponseData.code !== 200) {
             message.error("登录失败")
@@ -107,19 +107,13 @@ const Begin = (props) => {
                 )}
                 {current === 2 && (
                     <Setting form={form} />
+                    // <InstallSteamCmd />
                 )}
 
                 {current === 3 && (
                     <End form={form} />
                 )}
                 <br />
-                {current >= 0 && current < 3 && (
-                    <Button type="primary" onClick={() => next()}>
-                        下一步
-                    </Button>
-                )}
-
-
                 {current > 0 && (
                     <Button
                         style={{
@@ -128,6 +122,11 @@ const Begin = (props) => {
                         onClick={() => prev()}
                     >
                         上一步
+                    </Button>
+                )}
+                {current >= 0 && current < 3 && (
+                    <Button type="primary" onClick={() => next()}>
+                        下一步
                     </Button>
                 )}
 

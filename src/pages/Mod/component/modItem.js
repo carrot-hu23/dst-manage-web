@@ -3,13 +3,15 @@ import { useState } from 'react';
 import { Card, Checkbox, Switch, Popconfirm, Row, Col, Button } from 'antd';
 
 import './mod.css';
+import {useParams} from "react-router-dom";
 import { deleteModInfo } from '../../../api/modApi';
 
 
 const ModItem = (props) => {
 
     const [mod, setMod] = useState({})
-
+    const {cluster} = useParams()
+    
     return <Card className='mod' style={{ margin: ' 0 0 16px' }}>
         <Row onClick={() => { props.changeMod(props.mod) }}>
             <Col flex="64px">
@@ -44,7 +46,7 @@ const ModItem = (props) => {
                             // description="是否取消该mod订阅"
                             okText="Yes"
                             cancelText="No"
-                            onConfirm={() => { deleteModInfo(mod.modid) }}
+                            onConfirm={() => { deleteModInfo(cluster,mod.modid) }}
                         >
                             <Button type="text" danger onClick={() => { setMod(props.mod) }}>
                                 删除

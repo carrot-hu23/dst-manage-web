@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { NavLink as RouterLink } from 'react-router-dom';
+import {NavLink as RouterLink, useParams} from 'react-router-dom';
 // @mui
 import { Box, List, ListItemText } from '@mui/material';
 //
@@ -12,7 +12,8 @@ NavSection.propTypes = {
 };
 
 export default function NavSection({ data = [], ...other }) {
-  return (
+    const {cluster} = useParams()
+    return (
     <Box {...other}>
       {/* <span style={{
         color: '#637381',
@@ -21,7 +22,7 @@ export default function NavSection({ data = [], ...other }) {
       }}>Dashboard</span> */}
       <List disablePadding sx={{ p: 1 }}>
         {data.map((item) => (
-          <NavItem key={item.title} item={item} />
+          <NavItem key={item.title} item={item} cluster={cluster}/>
         ))}
       </List>
     </Box>
@@ -34,13 +35,13 @@ NavItem.propTypes = {
   item: PropTypes.object,
 };
 
-function NavItem({ item }) {
+function NavItem({ item, cluster }) {
   const { title, path, icon, info } = item;
 
   return (
     <StyledNavItem
       component={RouterLink}
-      to={path}
+      to={`/${cluster}${path}`}
       sx={{
         '&.active': {
           color: 'text.primary',

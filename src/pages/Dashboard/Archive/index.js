@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import luaparse from 'luaparse';
 
 import { archiveApi } from '../../../api/gameApi';
+import {useParams} from "react-router-dom";
 
 const { Paragraph } = Typography;
 
@@ -57,9 +58,10 @@ const ArchiveInfo = () => {
     const [archive, setArchive] = useState({
         players: []
     })
+    const {cluster} = useParams()
 
     useEffect(() => {
-        archiveApi()
+        archiveApi(cluster)
             .then(data => {
                 console.log(data.data);
                 const ar = {
@@ -135,7 +137,7 @@ const ArchiveInfo = () => {
                     label="世界直连"
                 >
                     <span>{archive.ipConnect}</span>
-                    {/* <Paragraph copyable>{archive.ipConnect}</Paragraph> */}
+                    <Paragraph copyable>{archive.ipConnect}</Paragraph>
                 </Form.Item>
             </Form>
     )

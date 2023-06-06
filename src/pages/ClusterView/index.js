@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import {useParams} from "react-router-dom";
 
 import luaparse from 'luaparse';
 import _ from 'lodash'
@@ -11,6 +12,7 @@ import Forest from './forest';
 import Cave from './cave';
 import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
 import BaseCluster from './cluster';
+
 
 
 const translateLuaObject = (lua) => {
@@ -68,6 +70,8 @@ const ClusterView = () => {
 
     const [loading, setLoading] = useState(true)
 
+    const {cluster} = useParams()
+
     function getForestDefaultValues() {
         return { ...translateJsonObject(dstWorldSetting.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(dstWorldSetting.zh.forest.WORLDSETTINGS_GROUP) }
     }
@@ -96,7 +100,7 @@ const ClusterView = () => {
         const data = formCluster.getFieldValue()
         data.type = 0
 
-        saveHomeConfigApi(data).then(() => {
+        saveHomeConfigApi(cluster,data).then(() => {
             message.success('房间设置完成, 请重新启动房间 !')
         }).catch(error => {
             console.log(error)
@@ -183,8 +187,8 @@ const ClusterView = () => {
     \n}`
     }
 
-    function beforeHandle(worldData) {
-        const fetchHomeConfig = () => getHomeConfigApi()
+    function beforeHandle(cluster,worldData) {
+        const fetchHomeConfig = () => getHomeConfigApi(cluster)
             .then(data => {
                 if (data.data === null || data === undefined) {
                     message.error('获取房间配置失败')
@@ -206,7 +210,7 @@ const ClusterView = () => {
             .then(data => {
                 console.log(data);
                 setDstWorldSetting(data)
-                beforeHandle(data)
+                beforeHandle(cluster,data)
                 // 在此处处理配置文件数据
             })
             .catch(error => {

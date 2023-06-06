@@ -1,12 +1,16 @@
 import { http } from "../utils/http";
 
-async function updateGameApi() {
+async function updateGameApi(cluster) {
     const url = '/api/game/update'
-    const response = await http.get(url)
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function startHomeApi(checked, type) {
+async function startHomeApi(cluster,checked, type) {
 
     console.log('checked:', checked, "type:", type);
     let url = ""
@@ -18,78 +22,126 @@ async function startHomeApi(checked, type) {
     }
 
     // const url = '/api/dashboard'
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
 
-async function getHomeConfigApi() {
+async function getHomeConfigApi(cluster) {
     const url = '/api/game/config'
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function saveHomeConfigApi(data) {
+async function saveHomeConfigApi(cluster, data) {
     const url = "/api/game/config"
-    const response = await http.post(url, data)
+    const response = await http.post(url, data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function getGameConfigApi() {
+async function getGameConfigApi(cluster) {
     const url = '/api/cluster/game/config'
-    const response = await http.get(url)
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function saveGameConfigApi(data) {
+async function saveGameConfigApi(cluster,data) {
     const url = "/api/cluster/game/config"
-    const response = await http.post(url, data)
+    const response = await http.post(url, data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function regenerateworldApi() {
+async function regenerateworldApi(cluster) {
     const url = "/api/game/regenerateworld"
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function cleanWorldApi() {
+async function cleanWorldApi(cluster) {
     const url = "/api/game/clean"
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function archiveApi() {
+async function archiveApi(cluster) {
     const url = "/api/game/archive"
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function rollbackApi(day) {
+async function rollbackApi(cluster,day) {
     const url = `/api/game/rollback?dayNums=${day}`
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 
-async function masterConsoleApi(instruct) {
+async function masterConsoleApi(cluster,instruct) {
     const url = "/api/game/master/console"
     const response = await http.post(url,{
         command: instruct
+    },{
+        headers: {
+            'Cluster': cluster,
+        }
     })
     return response.data
 }
 
-async function cavesConsoleApi(instruct) {
+async function cavesConsoleApi(cluster,instruct) {
     const url = "/api/game/caves/console"
     const response = await http.post(url,{
         command: instruct
+    },{
+        headers: {
+            'Cluster': cluster,
+        }
     })
     return response.data
 }
 
-async function sentBroadcastApi(message) {
+async function sentBroadcastApi(cluster,message) {
     const url = `/api/game/sent/broadcast?message=${message}`
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
     return response.data
 }
 

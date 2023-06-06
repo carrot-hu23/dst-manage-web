@@ -1,19 +1,24 @@
 import { Button, Popconfirm, message } from 'antd';
 import { useState } from 'react';
+import {useParams} from "react-router-dom";
 import { cleanWorldApi } from '../../../api/gameApi';
 
 const CleanArchive = () => {
 
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
+    
+    const {cluster} = useParams()
+    
     const showPopconfirm = () => {
         setOpen(true);
     };
+    
     const handleOk = () => {
         setConfirmLoading(true);
 
         setTimeout(() => {
-            cleanWorldApi()
+            cleanWorldApi(cluster)
                 .then(data => {
                     setOpen(false);
                     setConfirmLoading(false);

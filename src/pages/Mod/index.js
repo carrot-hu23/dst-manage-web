@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import {useParams} from "react-router-dom";
 import _ from 'lodash'
 import luaparse from 'luaparse';
 
@@ -49,9 +50,10 @@ const Mod = ({modoverrides}) => {
     const [root, setRoot] = useState({})
 
     const [defaultValuesMap, setDefaultValuesMap] = useState({})
+    const {cluster} = useParams()
 
     useEffect(() => {
-        getMyModInfoList()
+        getMyModInfoList(cluster)
             .then(data => {
                 const object = {}
                 const workshopMap = getWorkShopConfigMap(modoverrides)

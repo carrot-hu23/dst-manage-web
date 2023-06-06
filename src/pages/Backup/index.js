@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Space, Upload, message, Button, Modal, Input } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import {useParams} from "react-router-dom";
 import { ProTable } from '@ant-design/pro-components';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import { Card, Container, Box } from '@mui/material';
 import BackupStatistic from './Statistic';
 
 import { getBackupApi, deleteBackupApi, renameBackupApi } from '../../api/backupApi';
+
 
 
 const MyUploadFile = () => {
@@ -82,6 +84,9 @@ const Backup = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+
+  const {cluster} = useParams()
+
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -204,7 +209,7 @@ const Backup = () => {
   const inputRef = useRef("");
 
   const updateBackupData = () => {
-    getBackupApi()
+    getBackupApi(cluster)
       .then(data => {
         const backupList = data.data || []
         // eslint-disable-next-line no-plusplus
@@ -236,7 +241,7 @@ const Backup = () => {
       return
     }
     const fileNames = selectBackup.map(item => item.fileName)
-    deleteBackupApi(fileNames)
+    deleteBackupApi(cluster,fileNames)
       .then(data => {
         console.log(data);
         message.success("删除成功")
@@ -252,7 +257,7 @@ const Backup = () => {
     const oldBackupData = backupData
     const newBackupData = oldBackupData.filter(item => value.key !== item.key)
 
-    deleteBackupApi([value.fileName])
+    deleteBackupApi(cluster,[value.fileName])
       .then(data => {
         if (data.code === 200) {
           setTimeout(() => {
@@ -274,7 +279,7 @@ const Backup = () => {
       fileName: value.fileName,
       newName: `${inputRef.current.input.value}.zip`
     }
-    renameBackupApi(data)
+    renameBackupApi(cluster,data)
       .then(data => {
         if (data.code === 200) {
           setTimeout(() => {

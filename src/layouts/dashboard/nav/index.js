@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import {Space} from "antd";
 // mock
 // import account from '../../../_mock/account';
 // hooks
@@ -36,7 +37,8 @@ Nav.propTypes = {
 
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
-
+  const {cluster} = useParams()
+  const navigate = useNavigate();
   const isDesktop = useResponsive('up', 'lg');
 
   const [account, setAcount] = useState({
@@ -71,7 +73,13 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
+        <Space size={'middle'}>
+          <Button variant="outlined" onClick={()=>{
+            navigate("/cluster")
+          }}>返回</Button>
+          <span>集群: {cluster}</span>
+        </Space>
+
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>

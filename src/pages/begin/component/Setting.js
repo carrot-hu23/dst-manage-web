@@ -1,4 +1,7 @@
 import { Form, Input, Tooltip, Button } from 'antd';
+import { useState } from 'react';
+import InstallSteamcmd from './installSteamcmd';
+import InstallDst from './installDst';
 
 const Setting = (props) => {
 
@@ -70,7 +73,7 @@ const Setting = (props) => {
                 <Input placeholder="服务器房间文件名字" />
             </Form.Item>
 
-            <Form.Item
+            {/* <Form.Item
                 label="游戏存档备份路径"
                 name="backup"
                 rules={[
@@ -94,14 +97,22 @@ const Setting = (props) => {
                 ]}
             >
                 <Input placeholder="mod下载路径" />
-            </Form.Item>
+            </Form.Item> */}
 
         </Form>
+        <div>
+            <InstallSteamcmd />
+        </div>
+        <div>
+            <InstallDst />    
+        </div>
+            <div>
         <Tooltip placement="top" title={"导入 qinming99/dst-admin 安装位置"}>
             <Button type="link" onClick={()=>importConfig()}>
                 一键导入dst-admin
             </Button>
         </Tooltip>
+        </div>
 
     </>
 

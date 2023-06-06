@@ -1,6 +1,6 @@
 import { Button, Popconfirm, message } from 'antd';
 import { useState } from 'react';
-import { DeleteOutlined } from '@ant-design/icons';
+import {useParams} from "react-router-dom";
 import { regenerateworldApi } from '../../../api/gameApi';
 
 const Regenerateworld = () => {
@@ -10,11 +10,12 @@ const Regenerateworld = () => {
     const showPopconfirm = () => {
         setOpen(true);
     };
+    const {cluster} = useParams()
     const handleOk = () => {
         setConfirmLoading(true);
         
         setTimeout(() => {
-            regenerateworldApi()
+            regenerateworldApi(cluster)
             .then(data=>{
                 setOpen(false);
                 setConfirmLoading(false);
