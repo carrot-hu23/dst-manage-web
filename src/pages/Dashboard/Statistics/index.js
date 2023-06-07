@@ -41,8 +41,21 @@ const GameStatistic = (props) => {
     const cavesMem = formatData(cavesPs.RSS / 1024, 2) 
     const adminMem = formatData(props.data.memStates / 1024, 2)
 
+    // Nan 问题
+    let cVsz
+    let mVsz
+    if (cavesPs.VSZ === "") {
+        cVsz = 0;
+    } else {
+        cVsz = parseInt(cavesPs.VSZ, 10)
+    }
+    if (masterPs.VSZ === "") {
+        mVsz = 0;
+    } else {
+        mVsz = parseInt(masterPs.VSZ, 10)
+    }
     const dstMemTotal = formatData(parseInt(forestMem, 10) + parseInt(cavesMem, 10), 2)
-    const dstVmemTotal = formatData( (parseInt(cavesPs.VSZ, 10) + parseInt(masterPs.VSZ, 10))/ 1024, 2)
+    const dstVmemTotal = formatData( (cVsz + mVsz)/ 1024, 2)
 
     return (
         <>
