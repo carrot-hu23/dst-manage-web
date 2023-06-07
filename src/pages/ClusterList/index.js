@@ -1,11 +1,12 @@
 import {useNavigate} from "react-router-dom";
-import {Button, Modal, Tag, Form, Input, message, Spin, Popconfirm} from "antd";
+import {Button, Modal, Tag, Form, Input, message, Spin, Popconfirm, Skeleton} from "antd";
 import React, {useRef, useState} from "react";
 import {ProTable} from "@ant-design/pro-components";
 import {Container, Box, IconButton, Stack} from '@mui/material';
 import {createCluster, deleteCluster, queryClusterList} from "../../api/clusterApi";
-import Header from "../../layouts/dashboard/header";
 import AccountPopover from "../../layouts/dashboard/header/AccountPopover";
+import {dstHomeDetailApi} from "../../api/dstApi";
+import HomeDetail from "../DstServerList/home";
 
 
 
@@ -19,18 +20,43 @@ export default () => {
         navigate(`/${cluster}/dashboard/app`);
     }
 
+    const [loading2, setLoading2] = useState(false)
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
+    // 房间信息
+    const [homeInfo, setHomeInfo] = useState({});
+    const viewHomeDetail = (record) => {
+        console.log(record.rowId)
+        console.log(record.region)
+        setLoading2(true)
+        setIsModalOpen2(true);
+
+        dstHomeDetailApi({
+            rowId: record.rowId,
+            region: record.region
+        }).then(response => {
+            const responseData = JSON.parse(response)
+            const { success } = responseData
+            if (success) {
+                setHomeInfo(responseData)
+            }
+            setLoading2(false)
+        })
+    }
+
     const columns = [
         {
             title: '序号',
             dataIndex: 'ID',
             key: 'ID',
             search: false,
+            align: 'center',
             sorter: (a, b) => a.ID - b.ID,
         },
         {
             title: '集群',
             dataIndex: 'clusterName',
             key: 'clusterName',
+            align: 'center',
             sorter: (a, b) => a.clusterName - b.clusterName,
             render: (text, record, _, action) => (
                 <Button type={"link"} onClick={() => to(record.clusterName)}>{record.clusterName}</Button>
@@ -41,21 +67,23 @@ export default () => {
             dataIndex: 'description',
             key: 'description',
             ellipsis: true,
-            search: false
+            search: false,
+            align: 'center',
         },
-        {
-            title: 'uuid',
-            dataIndex: 'uuid',
-            key: 'uuid',
-            ellipsis: true,
-            copyable: true,
-        },
+        // {
+        //     title: 'uuid',
+        //     dataIndex: 'uuid',
+        //     key: 'uuid',
+        //     ellipsis: true,
+        //     copyable: true,
+        // },
         {
             title: '森林',
             dataIndex: 'master',
             key: 'master',
             ellipsis: true,
             search: false,
+            align: 'center',
             render: (text, record, _, action) => (
                 <>
                     {record.master && <Tag color="green">启动</Tag>}
@@ -69,6 +97,7 @@ export default () => {
             key: 'caves',
             ellipsis: true,
             search: false,
+            align: 'center',
             render: (text, record, _, action) => (
                 <>
                     {record.caves && <Tag color="green">启动</Tag>}
@@ -77,33 +106,92 @@ export default () => {
             )
         },
         {
-            title: 'steamcmd',
-            dataIndex: 'steamcmd',
-            key: 'steamcmd',
+            title: '人数',
+            dataIndex: 'connected',
+            key: 'connected',
             ellipsis: true,
-            search: false
+            search: false,
+            align: 'center',
+            render: (text, record, _, action) => (
+                <>
+                {record.master && <span>{record.connected}/{record.maxConnections}</span>}
+                    {!record.master && "-"}
+                </>
+            )
         },
         {
-            title: '饥荒安装位置',
-            dataIndex: 'force_install_dir',
-            key: 'force_install_dir',
-            ellipsis: true,
-            search: false
+            title: '房间详细',
+            dataIndex: 'rowId',
+            key: 'rowId',
+            search: false,
+            align: 'center',
+            render: (text, record, _, action) => (
+                <>
+                    {record.master && <>
+                        <Button type="link" onClick={() => {
+                            viewHomeDetail(record)
+                        }} >查看详情</Button>
+                    </>}
+                    {!record.master && "-"}
+                </>
+            )
         },
         {
-            title: '存档备份路径',
-            dataIndex: 'backup',
-            key: 'backup',
+            title: '季节',
+            dataIndex: 'season',
+            key: 'season',
             ellipsis: true,
-            search: false
+            search: false,
+            align: 'center',
+            render: (text, record, _, action) => (
+                <>
+                    {record.master && <span>{record.season}</span>}
+                    {!record.master && "-"}
+                </>
+            )
         },
         {
-            title: '模组下载路径',
-            dataIndex: 'mod_download_path',
-            key: 'mod_download_path',
+            title: '游戏模式',
+            dataIndex: 'mode',
+            key: 'mode',
             ellipsis: true,
-            search: false
+            search: false,
+            align: 'center',
+            render: (text, record, _, action) => (
+                <>
+                    {record.master && <span>{record.mode}</span>}
+                    {!record.master && "-"}
+                </>
+            )
         },
+        // {
+        //     title: 'steamcmd',
+        //     dataIndex: 'steamcmd',
+        //     key: 'steamcmd',
+        //     ellipsis: true,
+        //     search: false
+        // },
+        // {
+        //     title: '饥荒安装位置',
+        //     dataIndex: 'force_install_dir',
+        //     key: 'force_install_dir',
+        //     ellipsis: true,
+        //     search: false
+        // },
+        // {
+        //     title: '存档备份路径',
+        //     dataIndex: 'backup',
+        //     key: 'backup',
+        //     ellipsis: true,
+        //     search: false
+        // },
+        // {
+        //     title: '模组下载路径',
+        //     dataIndex: 'mod_download_path',
+        //     key: 'mod_download_path',
+        //     ellipsis: true,
+        //     search: false
+        // },
         {
             title: '创建时间',
             dataIndex: 'CreatedAt',
@@ -295,6 +383,21 @@ export default () => {
                     />
                 </Box>
             </Container>
+
+                <Modal
+                    getContainer={false}
+                    open={isModalOpen2}
+                    footer={null}
+                    onOk={()=>{setIsModalOpen2(false)}}
+                    onCancel={()=>{setIsModalOpen2(false)}}
+                >
+                    <Skeleton title loading={loading2} active>
+                        <div style={{height: 500}}>
+                            <HomeDetail home={homeInfo} />
+                        </div>
+                    </Skeleton>
+                </Modal>
+
             </Spin>
         </>
     );
