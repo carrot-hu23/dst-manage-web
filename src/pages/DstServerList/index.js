@@ -195,15 +195,14 @@ const DstServerList = () => {
 
             >
                 <Skeleton title loading={loading} active>
-                    <Card
-                        bordered={false}
+                    <div
                         style={{
                             height: 500
                         }
 
                         }>
                         <HomeDetail home={homeInfo} />
-                    </Card>
+                    </div>
                 </Skeleton>
             </Modal>
 

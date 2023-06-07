@@ -16,7 +16,7 @@ const data = [
 const Players = ({ players }) => (
     <>
         <div style={{
-            height: 450,
+            height: 400,
             overflowY: 'auto',
         }}>
             <List

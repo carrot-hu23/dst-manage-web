@@ -9,6 +9,7 @@ const HomeDetail = (props) => {
     const players = props.home.successinfo.players || []
     const home = props.home.successinfo || {}
     const mods = props.home.successinfo.mods_info || {}
+    console.log("home:", home)
     const items = [
         {
             label: '概要',
