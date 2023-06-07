@@ -45,7 +45,7 @@ const GameLog2 = (props) => {
         // 这里的转发标识为/ws
         let wsPath
         if(window.location.host === 'localhost:3000') {
-            wsPath = "ws://1.12.223.51:8083/ws"
+            wsPath = "ws://1.12.223.51:8082/ws"
         } else {
             wsPath = `ws://${window.location.host}/ws`
         }

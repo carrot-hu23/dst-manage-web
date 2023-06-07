@@ -2,8 +2,10 @@ import {useNavigate} from "react-router-dom";
 import {Button, Modal, Tag, Form, Input, message, Spin, Popconfirm} from "antd";
 import React, {useRef, useState} from "react";
 import {ProTable} from "@ant-design/pro-components";
-import {Container, Box} from '@mui/material';
+import {Container, Box, IconButton, Stack} from '@mui/material';
 import {createCluster, deleteCluster, queryClusterList} from "../../api/clusterApi";
+import Header from "../../layouts/dashboard/header";
+import AccountPopover from "../../layouts/dashboard/header/AccountPopover";
 
 
 
@@ -22,12 +24,14 @@ export default () => {
             title: '序号',
             dataIndex: 'ID',
             key: 'ID',
-            search: false
+            search: false,
+            sorter: (a, b) => a.ID - b.ID,
         },
         {
             title: '集群',
             dataIndex: 'clusterName',
             key: 'clusterName',
+            sorter: (a, b) => a.clusterName - b.clusterName,
             render: (text, record, _, action) => (
                 <Button type={"link"} onClick={() => to(record.clusterName)}>{record.clusterName}</Button>
             )
@@ -67,10 +71,38 @@ export default () => {
             search: false,
             render: (text, record, _, action) => (
                 <>
-                    {record.master && <Tag color="green">启动</Tag>}
-                    {!record.master && <Tag color="purple">未启动</Tag>}
+                    {record.caves && <Tag color="green">启动</Tag>}
+                    {!record.caves && <Tag color="purple">未启动</Tag>}
                 </>
             )
+        },
+        {
+            title: 'steamcmd',
+            dataIndex: 'steamcmd',
+            key: 'steamcmd',
+            ellipsis: true,
+            search: false
+        },
+        {
+            title: '饥荒安装位置',
+            dataIndex: 'force_install_dir',
+            key: 'force_install_dir',
+            ellipsis: true,
+            search: false
+        },
+        {
+            title: '存档备份路径',
+            dataIndex: 'backup',
+            key: 'backup',
+            ellipsis: true,
+            search: false
+        },
+        {
+            title: '模组下载路径',
+            dataIndex: 'mod_download_path',
+            key: 'mod_download_path',
+            ellipsis: true,
+            search: false
         },
         {
             title: '创建时间',
@@ -86,9 +118,8 @@ export default () => {
             render: (_, record) => [
                 // eslint-disable-next-line react/jsx-key
                 (<div>
-                    <Button type="link" onClick={() => {
-
-                    }} key={record.id}>更新</Button>
+                    {/* <Button type="link" onClick={() => {
+                        key={record.id}>更新</Button> */}
 
                     <Popconfirm
                         title="Delete the cluster"
@@ -212,18 +243,22 @@ export default () => {
 
     return (
         <>
-            <br/>
+
             <br/>
             <Spin spinning={loading} tip="正在下载饥荒...请稍等，预计5~20分钟，请提前下载好steamcmd">
             <AddCluster isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} isUpdate setLoading={setLoading}/>
             <Container maxWidth="xl">
+                <div style={{float: 'right'}}>
+                    <AccountPopover />
+
+                </div>
                 <Box sx={{p: 0, pb: 0}} dir="ltr">
-                    <h3>当前还在测试中，部分功能没有实现，当前只是demo阶段</h3>
-                    <span>点击集群进入</span>
+
+                    <br/>
                     <br/>
                     <ProTable
                         scroll={{
-                            x: 500,
+                            x: 800,
                         }}
                         columns={columns}
                         actionRef={actionRef}

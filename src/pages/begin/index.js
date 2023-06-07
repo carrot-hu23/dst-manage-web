@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom"
 
 import Welcome from './component/Welcome';
-import Environment from './component/Environment';
 import Register from './component/Register';
 import Setting from './component/Setting';
 import End from './component/End';
@@ -60,7 +59,7 @@ const Begin = (props) => {
         }
         const data = {
             userInfo,
-            dstConfig
+            // dstConfig
         }
         return data
     }
@@ -88,8 +87,7 @@ const Begin = (props) => {
         localStorage.setItem("token", loginResponseData.data.username)
         localStorage.setItem("user", JSON.stringify(loginResponseData.data))
         // 3.跳转
-        navigate('/dashboard')
-          
+        navigate('/cluster')
     }
 
     return (
@@ -105,12 +103,12 @@ const Begin = (props) => {
                 {current === 1 && (
                     <Register form={form} />
                 )}
-                {current === 2 && (
+                {/* current === 2 && (
                     <Setting form={form} />
                     // <InstallSteamCmd />
-                )}
+                ) */}
 
-                {current === 3 && (
+                {current === 2 && (
                     <End form={form} />
                 )}
                 <br />
@@ -124,13 +122,13 @@ const Begin = (props) => {
                         上一步
                     </Button>
                 )}
-                {current >= 0 && current < 3 && (
+                {current >= 0 && current < 2 && (
                     <Button type="primary" onClick={() => next()}>
                         下一步
                     </Button>
                 )}
 
-                {current === 3 && (
+                {current === 2 && (
                     <Button type="primary" onClick={goIndex}>
                         进入
                     </Button>

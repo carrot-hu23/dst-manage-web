@@ -22,6 +22,11 @@ const navConfig = [
     icon: icon('ic_blog')
   },
   {
+    title: '世界设置',
+    path: '/dashboard/cluster/view',
+    icon: icon('ic_user'),
+  },
+  {
     title: '玩家管理',
     path: '/dashboard/player',
     icon: icon('ic_blog')
@@ -31,11 +36,11 @@ const navConfig = [
     path: '/dashboard/backup',
     icon: icon('ic_blog')
   },
-  {
-    title: '系统设置',
-    path: '/dashboard/setting',
-    icon: icon('ic_blog')
-  },
+  // {
+  //   title: '系统设置',
+  //   path: '/dashboard/setting',
+  //   icon: icon('ic_blog')
+  // },
   {
     title: '游戏日志',
     path: '/dashboard/log',
@@ -46,11 +51,6 @@ const navConfig = [
   //   path: '/dashboard/mod',
   //   icon: icon('ic_user'),
   // },
-  {
-    title: '世界设置',
-    path: '/dashboard/cluster/view',
-    icon: icon('ic_user'),
-  },
   {
     title: '服务器列表',
     path: '/dashboard/dst/server',
