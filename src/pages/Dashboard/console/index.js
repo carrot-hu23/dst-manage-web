@@ -7,7 +7,8 @@ import {
     Space,
     Card,
     message,
-    Typography
+    Typography,
+    Spin
 } from 'antd';
 
 import {useParams} from "react-router-dom";
@@ -44,6 +45,9 @@ const GameStatus = (props) => {
     const [archive, setarchive] = useState({
         ipConnect: ""
     })
+
+    const [startLoading, setStartLoading] = useState(false)
+    const [startText, setStartText] = useState("")
 
     useEffect(() => {
         // console.log("caves", props.data.cavesStatus)
@@ -86,7 +90,24 @@ const GameStatus = (props) => {
         if (!checked && !cavesStatus) {
             setRunStatus(checked)
         }
-        controlDst(cluster,checked, 1)
+        let prefix
+        if (checked) {
+            prefix = "启动"
+            setStartText("正在启动森林。。。")
+        } else {
+            prefix = "关闭"
+            setStartText("正在关闭森林。。。")
+        }
+        setStartLoading(true)
+        controlDst(cluster,checked, 1).then(resp=>{
+            if (resp.code !== 200) {
+                message.error(`${prefix}森林失败`,resp.msg)
+            } else {
+                message.success(`${prefix}森林成功`)
+            }
+            setStartLoading(false)
+            setStartText("")
+        })
     }
 
     const cavesStatusOnClick = (checked, event) => {
@@ -97,7 +118,24 @@ const GameStatus = (props) => {
         if (!checked && !masterStatus) {
             setRunStatus(checked)
         }
-        controlDst(cluster,checked, 2)
+        let prefix
+        if (checked) {
+            prefix = "启动"
+            setStartText("正在启动洞穴。。。")
+        } else {
+            prefix = "关闭"
+            setStartText("正在关闭洞穴。。。")
+        }
+        setStartLoading(true)
+        controlDst(cluster,checked, 2).then(resp=>{
+            if (resp.code !== 200) {
+                message.error(`${prefix}洞穴失败`,resp.msg)
+            } else {
+                message.success(`${prefix}洞穴成功`)
+            }
+            setStartLoading(false)
+            setStartText("")
+        })
     }
 
     const updateGameOnclick = () => {
@@ -135,6 +173,7 @@ const GameStatus = (props) => {
 
     return (
         <>
+            <Spin spinning={startLoading} tip={startText}>
             <Card
                 title="游戏状况"
                 bordered={false}
@@ -160,13 +199,13 @@ const GameStatus = (props) => {
                         </Space>
 
                     </Form.Item>
-                    <Form.Item label="启动地面和洞穴" >
+                    {/* <Form.Item label="启动地面和洞穴" >
                         <Switch checkedChildren="开启" unCheckedChildren="关闭"
                             onClick={(checked, event) => {
                                 runStatusOnClinck(checked, event)
                             }}
                             checked={runStatus} defaultChecked={!props.data.masterStatus || !props.data.cavesStatus} />
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item label="启动地面"  >
                         <Switch
                             checkedChildren="开启" unCheckedChildren="关闭"
@@ -214,6 +253,7 @@ const GameStatus = (props) => {
                     </Form.Item>
                 </Form>
             </Card>
+            </Spin>
         </>
     )
 }

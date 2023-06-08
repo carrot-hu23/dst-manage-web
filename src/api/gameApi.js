@@ -16,9 +16,9 @@ async function startHomeApi(cluster,checked, type) {
     let url = ""
     // 启动
     if(checked) {
-        url = `/api/game/specified/start?type=${type}`
+        url = `/api/game/start?type=${type}`
     } else {
-        url = `/api/game/specified/stop?type=${type}`
+        url = `/api/game/stop?type=${type}`
     }
 
     // const url = '/api/dashboard'

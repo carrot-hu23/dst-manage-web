@@ -21,6 +21,14 @@ async function createCluster(data) {
     return response.data
 }
 
+async function updateCluster(data) {
+    const url  = `/api/cluster`
+    const response = await http.put(url, data,{
+        timeout: 1000 * 60 * 30
+    })
+    return response.data
+}
+
 async function deleteCluster(ID) {
     const url  = `/api/cluster?id=${ID}`
     const response = await http.delete(url)
@@ -30,5 +38,6 @@ async function deleteCluster(ID) {
 export  {
     queryClusterList,
     createCluster,
-    deleteCluster
+    deleteCluster,
+    updateCluster
 }
