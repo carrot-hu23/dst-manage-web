@@ -16,7 +16,12 @@ async function isFirstApi(user) {
     return response.data
 }
 
+async function getNews() {
+    const url = "/steam/dst/news"
+    const response = await http.get(url)
+    return response.data
+}
 
 export {
-    initApi,isFirstApi
+    initApi,isFirstApi,getNews
 }

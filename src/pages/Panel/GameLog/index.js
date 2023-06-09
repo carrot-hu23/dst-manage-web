@@ -1,7 +1,9 @@
-
-import { Card, message } from 'antd';
-import { useEffect } from 'react';
+import {Button, Input, message, Space} from 'antd';
+import {useEffect, useState} from 'react';
+import {FitAddon} from "xterm-addon-fit";
+import {useParams} from "react-router-dom";
 import { newTerminal } from '../../../utils/terminalUtils';
+import {masterConsoleApi} from "../../../api/gameApi";
 
 const terminalTitleTemplate = '[log]#'
 
@@ -37,6 +39,11 @@ const GameLog2 = (props) => {
     useEffect(() => {
         
         const terminal = newTerminal(config, terminalTitleTemplate, props.id)
+        // 进行适应容器元素大小
+        const fitAddon = new FitAddon()
+        terminal.term.loadAddon(fitAddon)
+        fitAddon.fit()
+
         if(!!window.WebSocket && window.WebSocket.prototype.send) {
             // message.success('您的浏览器支持Websocket通信协议')
         } else{
@@ -67,13 +74,42 @@ const GameLog2 = (props) => {
         socket.onclose = (e)=> {
             console.log('webSocket 关闭了');
         }
+        console.log(111111111111)
         return ()=> socket.close()
     }, [props.path])
 
+    const [inputValue, setInputValue] = useState('');
+    const {cluster} = useParams()
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        sendMasterInstruct(cluster, inputValue)
+    };
+
+    function sendMasterInstruct(cluster, value) {
+        masterConsoleApi(cluster,value)
+            .then(() => {
+                setInputValue("")
+            })
+    }
 
     return (
         <div className="container-children" style={{ height: "100%" }}>
             <div id={props.id}  />
+            <br/>
+            <Space.Compact
+                style={{
+                    width: '100%',
+                }}
+                size={'middle'}
+            >
+                <Input value={inputValue} onChange={handleInputChange} />
+                <Button type="primary" onClick={(event)=>handleSubmit(event)}>发送指令</Button>
+            </Space.Compact>
         </div>
     )
 }

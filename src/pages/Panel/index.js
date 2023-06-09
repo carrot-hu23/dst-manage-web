@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import { Tabs } from 'antd';
-import { Container, Box } from '@mui/material';
+import {Image, notification, Skeleton, Tabs} from 'antd';
+import {Container, Box} from '@mui/material';
 
+import GameOperator from "./GameOperator";
 import ControlPanel from './ControlPanel';
 import GameLog2 from './GameLog';
-import GameStatistic from '../Dashboard/Statistics';
-import Console from '../Dashboard/console';
 
-import { getGameDashboardApi } from '../../api/gameDashboardApi';
-import { dstVersionApi } from '../../api/dstApi';
+import {getGameDashboardApi} from '../../api/gameDashboardApi';
+import {dstVersionApi} from '../../api/dstApi';
 
 
 const initData = {
@@ -47,11 +46,34 @@ const initData = {
 
 const Panel = () => {
 
+    const [api, contextHolder] = notification.useNotification();
+
+    const updateNoticficationIcon = 'https://www.klei.com/sites/default/files/games/dont-starve-together/assets/dont-starve-togetherlayer2_0.png'
+
+    const openNotification = (params) => {
+        api.open({
+            message: '饥荒有新的版本更新了',
+            description: (
+                <>
+                    请点击更新游戏按钮。
+                    <a target={'_blank'}
+                       href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
+                       rel="noreferrer">
+                        查看更新内容
+                    </a>
+                    <br />
+                    <div>Vserion: {params}</div>
+                </>
+            ),
+            icon: (<Image preview={false} width={32} src={updateNoticficationIcon} />),
+        });
+    };
+
     const [gameData, setGameData] = useState(initData)
 
     const [loading, setLoading] = useState(true)
     const {cluster} = useParams()
-
+    const [masterLog, setMasterLog] = useState("")
     const initDashboard = () => {
         getGameDashboardApi(cluster)
             .then(response => {
@@ -64,15 +86,15 @@ const Panel = () => {
             .then(response => {
 
                 setGameData(response.data)
+                setMasterLog(response.data.masterLog)
                 setLoading(false)
 
-                const localVersion = response.data.version
+                const localVersion = response.data.version.replace("\n", "")
                 dstVersionApi()
                     .then(response => {
-                        console.log(response);
-                        // if (response !== localVersion) {
-                        //     openNotification(response)
-                        // }
+                        if (response !== parseInt(localVersion, 10)) {
+                            openNotification(response)
+                        }
                     })
             })
     }
@@ -91,41 +113,28 @@ const Panel = () => {
         {
             key: '1',
             label: `面板操作`,
-            children: <>
-                <GameStatistic data={gameData} />
-                {/* <Row gutter={[16, 8]}>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Console data={gameData} />
-                    </Col>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <ArchiveInfo />
-                    </Col>
-                </Row> */}
-                <Console data={gameData} />
-            </>,
+            children: <Skeleton loading={loading}>
+                        <GameOperator gameData={gameData} logPath={masterLog}/>
+                    </Skeleton>,
         },
         {
             key: '2',
             label: `远程操作`,
-            children: <ControlPanel />,
+            children: <ControlPanel/>,
         },
         {
             key: '3',
-            label: `地面日志`,
-            children: <GameLog2 path={gameData.masterLog} id={"Master"} />,
-        },
-        {
-            key: '4',
             label: `洞穴日志`,
-            children: <GameLog2 path={gameData.cavesLog} id={"Caves"} />,
+            children: <GameLog2 path={gameData.cavesLog} id={"Caves"}/>,
         },
     ];
 
     return (
         <>
+            {contextHolder}
             <Container maxWidth="xl">
-                <Box sx={{ p: 0, pb: 1 }} dir="ltr">
-                    <Tabs defaultActiveKey="1" items={items} />
+                <Box sx={{p: 0, pb: 1}} dir="ltr">
+                    <Tabs defaultActiveKey="1" items={items}/>
                 </Box>
             </Container>
         </>

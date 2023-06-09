@@ -1,13 +1,12 @@
 import { Col, Row, notification, Image, Skeleton } from 'antd';
 import { useState, useEffect } from 'react';
+import {useParams} from "react-router-dom";
 import GameStatistic from './Statistics';
 import Console from './console';
 import GameLog from './Log';
 
 import { getGameDashboardApi } from '../../api/gameDashboardApi';
 import { dstVersionApi } from '../../api/dstApi';
-import ArchiveInfo from './Archive';
-import {useParams} from "react-router-dom";
 
 
 const initData = {

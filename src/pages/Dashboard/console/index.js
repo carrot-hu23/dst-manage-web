@@ -174,10 +174,6 @@ const GameStatus = (props) => {
     return (
         <>
             <Spin spinning={startLoading} tip={startText}>
-            <Card
-                title="游戏状况"
-                bordered={false}
-            >
                 <Form
                     labelCol={{
                         span: 6,
@@ -241,18 +237,17 @@ const GameStatus = (props) => {
                         </Space>
 
                     </Form.Item>
-                    <Form.Item label="清理游戏存档" >
+                    <Form.Item label="清理游戏" >
                         <Space>
                             <CleanArchive />
                             <Regenerateworld />
                         </Space>
                     </Form.Item>
 
-                    <Form.Item label="恢复游戏备份">
+                    <Form.Item label="游戏备份">
                         <RestoreBackup />
                     </Form.Item>
                 </Form>
-            </Card>
             </Spin>
         </>
     )
