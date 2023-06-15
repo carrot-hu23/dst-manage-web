@@ -13,14 +13,18 @@ import {
 
 import {useParams} from "react-router-dom";
 import { useEffect, useState } from 'react';
+import {useTranslation} from "react-i18next";
 
 import { updateGameApi, startHomeApi, archiveApi } from '../../../api/gameApi';
 import { createBackupApi } from '../../../api/backupApi';
 import CleanArchive from './cleanGame';
 import RestoreBackup from './retoreBackup';
+import Regenerateworld from './regenerateworld';
 
 import './index.css'
-import Regenerateworld from './regenerateworld';
+
+
+
 
 
 const { Paragraph } = Typography;
@@ -30,6 +34,8 @@ function controlDst(cluster,checked, type) {
 }
 
 const GameStatus = (props) => {
+
+    const { t } = useTranslation()
 
     const {cluster} = useParams()
 
@@ -184,14 +190,14 @@ const GameStatus = (props) => {
                     layout="horizontal"
                     labelAlign={'left'}
                 >
-                     <Form.Item label="世界直连">
+                     <Form.Item label={t('ipConnect')}>
                         <Paragraph copyable>{archive.ipConnect}</Paragraph>
                     </Form.Item>
 
-                    <Form.Item label="饥荒状况">
+                    <Form.Item label={t('dstStatus')}>
                         <Space>
-                            <Button type={masterStatus ? 'primary' : 'default'} >{masterStatus ? '地面运行中' : '地面未启动'}</Button>
-                            <Button type={cavesStatus ? 'primary' : 'default'} >{cavesStatus ? '洞穴运行中' : '洞穴未启动'}</Button>
+                            <Button type={masterStatus ? 'primary' : 'default'} >{masterStatus ? t('masterRunning') : t('masterNotRun')}</Button>
+                            <Button type={cavesStatus ? 'primary' : 'default'} >{cavesStatus ? t('cavesRunning') : t('cavesNotRun')}</Button>
                         </Space>
 
                     </Form.Item>
@@ -202,26 +208,27 @@ const GameStatus = (props) => {
                             }}
                             checked={runStatus} defaultChecked={!props.data.masterStatus || !props.data.cavesStatus} />
                     </Form.Item> */}
-                    <Form.Item label="启动地面"  >
+                    <Form.Item label={t('master')}  >
                         <Switch
-                            checkedChildren="开启" unCheckedChildren="关闭"
+                            checkedChildren={t('start')} unCheckedChildren={t('stop')}
                             onClick={(checked, event) => { masterStatusOnClick(checked, event) }}
                             checked={masterStatus}
                             defaultChecked={masterStatus} />
                     </Form.Item>
-                    <Form.Item label="启动洞穴"  >
-                        <Switch checkedChildren="开启" unCheckedChildren="关闭"
+                    <Form.Item label={t('caves')}  >
+                        <Switch
+                            checkedChildren={t('start')} unCheckedChildren={t('stop')}
                             onClick={(checked, event) => { cavesStatusOnClick(checked, event) }}
                             checked={cavesStatus}
                             defaultChecked={cavesStatus} />
                     </Form.Item>
-                    <Form.Item label="快捷操作">
+                    <Form.Item label={t('quickActions')}>
                         <Space>
                             <Button type="primary"
                                 onClick={() => { updateGameOnclick() }}
                                 loading={updateGameStatus}
                             >
-                                更新游戏
+                                {t('updateGame')}
                             </Button>
 
                             <Button style={{
@@ -232,19 +239,19 @@ const GameStatus = (props) => {
                                 onClick={() => { createBackupOnClick() }}
                                 loading={createBackupStatus}
                             >
-                                创建备份
+                                {t('createBackup')}
                             </Button>
                         </Space>
 
                     </Form.Item>
-                    <Form.Item label="清理游戏" >
+                    <Form.Item label={t('cleanGame')} >
                         <Space>
                             <CleanArchive />
                             <Regenerateworld />
                         </Space>
                     </Form.Item>
 
-                    <Form.Item label="游戏备份">
+                    <Form.Item label={t('gameBackup')}>
                         <RestoreBackup />
                     </Form.Item>
                 </Form>

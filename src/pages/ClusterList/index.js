@@ -1,34 +1,41 @@
-import {useNavigate} from "react-router-dom";
-import {Button, Modal, Tag, Form, Input, message, Spin, Popconfirm, Skeleton} from "antd";
 import React, {useRef, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
+
+import {Button, Modal, Tag, Form, Input, message, Spin, Popconfirm, Skeleton} from "antd";
 import {ProTable} from "@ant-design/pro-components";
 import {Container, Box} from '@mui/material';
+
 import {createCluster, deleteCluster, queryClusterList, updateCluster} from "../../api/clusterApi";
 import AccountPopover from "../../layouts/dashboard/header/AccountPopover";
 import {dstHomeDetailApi} from "../../api/dstApi";
 import HomeDetail from "../DstServerList/home";
 
 
+
 export default () => {
+
+    const { t } = useTranslation()
+
     const actionRef = useRef();
     const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [isOpenAddCluster, setIsOpenAddCluster] = useState(false);
+    const [spinLoading, setSpinLoading] = useState(false)
 
     function to(cluster) {
         navigate(`/${cluster}/dashboard/app`);
     }
 
-    const [loading2, setLoading2] = useState(false)
-    const [isModalOpen2, setIsModalOpen2] = useState(false);
-    const [isModalOpen3, setIsModalOpen3] = useState(false);
+    const [searchLoading, setSearchLoading] = useState(false)
+    const [isOpenHomeDetail, setIsOpenHomeDetail] = useState(false);
+    const [isOpenUpdateCluster, setIsOpenUpdateCluster] = useState(false);
     // 房间信息
     const [homeInfo, setHomeInfo] = useState({});
     const viewHomeDetail = (record) => {
         console.log(record.rowId)
         console.log(record.region)
-        setLoading2(true)
-        setIsModalOpen2(true);
+        setSearchLoading(true)
+        setIsOpenHomeDetail(true);
 
         dstHomeDetailApi({
             rowId: record.rowId,
@@ -39,7 +46,7 @@ export default () => {
             if (success) {
                 setHomeInfo(responseData)
             }
-            setLoading2(false)
+            setSearchLoading(false)
         })
     }
 
@@ -47,7 +54,7 @@ export default () => {
 
     const columns = [
         {
-            title: '序号',
+            title: t('id'),
             dataIndex: 'ID',
             key: 'ID',
             search: false,
@@ -55,7 +62,7 @@ export default () => {
             sorter: (a, b) => a.ID - b.ID,
         },
         {
-            title: '集群',
+            title: t('clusterName'),
             dataIndex: 'clusterName',
             key: 'clusterName',
             align: 'center',
@@ -65,7 +72,7 @@ export default () => {
             )
         },
         {
-            title: '描述',
+            title: t('description'),
             dataIndex: 'description',
             key: 'description',
             search: false,
@@ -79,7 +86,7 @@ export default () => {
         //     copyable: true,
         // },
         {
-            title: '森林',
+            title: t('master'),
             dataIndex: 'master',
             key: 'master',
             ellipsis: true,
@@ -93,7 +100,7 @@ export default () => {
             )
         },
         {
-            title: '洞穴',
+            title: t('caves'),
             dataIndex: 'caves',
             key: 'caves',
             ellipsis: true,
@@ -107,7 +114,7 @@ export default () => {
             )
         },
         {
-            title: '人数',
+            title: t('players'),
             dataIndex: 'connected',
             key: 'connected',
             ellipsis: true,
@@ -121,7 +128,7 @@ export default () => {
             )
         },
         {
-            title: '房间详细',
+            title: t('detail'),
             dataIndex: 'rowId',
             key: 'rowId',
             search: false,
@@ -131,14 +138,14 @@ export default () => {
                     {record.master && record.rowId !== "" && <>
                         <Button type="link" onClick={() => {
                             viewHomeDetail(record)
-                        }}>查看详情</Button>
+                        }}>{t('viewDetail')}</Button>
                     </>}
                     {!record.master && <span>-</span>}
                 </>
             )
         },
         {
-            title: '季节',
+            title: t('season'),
             dataIndex: 'season',
             key: 'season',
             ellipsis: true,
@@ -152,7 +159,7 @@ export default () => {
             )
         },
         {
-            title: '游戏模式',
+            title: t('mode'),
             dataIndex: 'mode',
             key: 'mode',
             ellipsis: true,
@@ -194,14 +201,14 @@ export default () => {
         //     search: false
         // },
         {
-            title: '创建时间',
+            title: t('createDate'),
             dataIndex: 'CreatedAt',
             key: 'CreatedAt',
             valueType: 'dateTime',
             search: false
         },
         {
-            title: '操作',
+            title: t('operation'),
             valueType: 'option',
             key: 'option',
             render: (_, record) => [
@@ -229,7 +236,7 @@ export default () => {
                     </Popconfirm> */}
 
                     <Button type="link" onClick={() => {
-                        setIsModalOpen3(true)
+                        setIsOpenUpdateCluster(true)
                         setCluster(record)
                     }}>Update</Button>
                 </div>)
@@ -260,7 +267,7 @@ export default () => {
                     message.error("更新集群失败")
                 }
                 message.success("更新集群成功")
-                setLoading(false)
+                setSpinLoading(false)
                 actionRef.current?.reload();
                 // setCluster(null)
             })).catch(err => console.log(err))
@@ -268,7 +275,7 @@ export default () => {
 
         return (
             <>
-                <Modal title="更新集群" open={isModalOpen3} onOk={handleOk} onCancel={() => {
+                <Modal title={t('updateCluster')} open={isModalOpen3} onOk={handleOk} onCancel={() => {
                     setIsModalOpen3(false)
                 }}>
                     <Form
@@ -279,12 +286,12 @@ export default () => {
                             span: 6,
                         }}
                     >
-                        <Form.Item label="集群">
+                        <Form.Item label={t('clusterName')}>
                             <span>{cluster.clusterName}</span>
                         </Form.Item>
 
                         <Form.Item
-                            label="描述"
+                            label={t('description')}
                             name='description'
                         >
                             <Input placeholder="请输入描述"
@@ -324,17 +331,17 @@ export default () => {
         };
         return (
             <>
-                <Modal title="创建集群" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title={t('createCluster')} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                     <Form
                         form={form}
                         initialValues={cluster}
                         layout="horizontal"
                         labelCol={{
-                            span: 6,
+                            span: 8,
                         }}
                     >
                         <Form.Item
-                            label="集群"
+                            label={t('clusterName')}
                             name='clusterName'
                             rules={[{required: true, message: '请输入集群',},]}
                         >
@@ -343,7 +350,7 @@ export default () => {
                         </Form.Item>
 
                         <Form.Item
-                            label="描述"
+                            label={t('description')}
                             name='description'
                         >
                             <Input placeholder="请输入描述"
@@ -351,7 +358,7 @@ export default () => {
                         </Form.Item>
 
                         <Form.Item
-                            label="steamcmd路径"
+                            label={t('steamCmdPath')}
                             name='steamcmd'
                             rules={[{required: true, message: '请输入steamcmd路径',},]}
                         >
@@ -360,7 +367,7 @@ export default () => {
                         </Form.Item>
 
                         <Form.Item
-                            label="饥荒安装位置"
+                            label={t('dstPath')}
                             name='force_install_dir'
                             rules={[{required: true, message: '请输入饥荒安装位置',},]}
                         >
@@ -369,7 +376,7 @@ export default () => {
                         </Form.Item>
 
                         <Form.Item
-                            label="备份路径"
+                            label={t('backupPath')}
                             name='backup'
                             rules={[{required: true, message: '请输入备份位置',},]}
                         >
@@ -377,7 +384,7 @@ export default () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            label="模组下载路径"
+                            label={t('modDownloadPath')}
                             name='mod_download_path'
                             rules={[{required: true, message: '请输入模组下载路径',},]}
                         >
@@ -395,9 +402,9 @@ export default () => {
         <>
 
             <br/>
-            <Spin spinning={loading} tip="正在下载饥荒...请稍等，预计5~20分钟，请提前下载好steamcmd">
-                <AddCluster isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} isUpdate setLoading={setLoading}/>
-                <UpdateCluster isModalOpen3={isModalOpen3} setIsModalOpen3={setIsModalOpen3} cluster={cluster}/>
+            <Spin spinning={spinLoading} tip="正在下载饥荒...请稍等，预计5~20分钟，请提前下载好steamcmd">
+                <AddCluster isModalOpen={isOpenAddCluster} setIsModalOpen={setIsOpenAddCluster} isUpdate setLoading={setSpinLoading}/>
+                <UpdateCluster isModalOpen3={isOpenUpdateCluster} setIsModalOpen3={setIsOpenUpdateCluster} cluster={cluster}/>
                 <Container maxWidth="xl">
                     <div style={{float: 'right'}}>
                         <AccountPopover/>
@@ -428,19 +435,19 @@ export default () => {
                                 pageSize: 10,
                                 onChange: (page) => console.log(page),
                             }}
-                            headerTitle="饥荒服务器列表"
+                            headerTitle={t('clusterTableTitle')}
                             toolBarRender={() => [
                                 <Button
                                     key="button"
                                     onClick={() => {
                                         // 添加集群
-                                        setIsModalOpen(true)
+                                        setIsOpenAddCluster(true)
 
                                         // actionRef.current?.reload();
                                     }}
                                     type="primary"
                                 >
-                                    新建集群
+                                    {t('createCluster')}
                                 </Button>,
                             ]}
                         />
@@ -449,16 +456,16 @@ export default () => {
 
                 <Modal
                     getContainer={false}
-                    open={isModalOpen2}
+                    open={isOpenHomeDetail}
                     footer={null}
                     onOk={() => {
-                        setIsModalOpen2(false)
+                        setIsOpenHomeDetail(false)
                     }}
                     onCancel={() => {
-                        setIsModalOpen2(false)
+                        setIsOpenHomeDetail(false)
                     }}
                 >
-                    <Skeleton title loading={loading2} active>
+                    <Skeleton title loading={searchLoading} active>
                         <div style={{height: 500}}>
                             <HomeDetail home={homeInfo}/>
                         </div>

@@ -1,0 +1,67 @@
+{
+  "loginTitle": "Dont Starve Together Management Panel",
+
+  "search": "search",
+  "reset": "reset",
+
+  "clusterTableTitle": "cluster List",
+  "clusterName": "clusterName",
+  "createCluster": "Create Cluster",
+  "createClusterTitle": "Create Cluster",
+  "updateClusterTitle": "Update Cluster",
+  "updateCluster": "Update Cluster",
+  "viewDetail": "view Detail",
+  "id": "id",
+  "description": "description",
+  "master": "Master",
+  "caves": "Caves",
+  "players": "players",
+  "detail": "detail",
+  "mode": "mode",
+  "season": "season",
+  "operation": "operation",
+  "createDate": "createDate",
+  "steamCmdPath": "steamcmd path",
+  "dstPath": "dst server path",
+  "backupPath": "backup path",
+  "modDownloadPath": "mod download path",
+
+
+  "playerActiveOfThisWeek": "This week's player activity",
+  "activePlayer": "active player",
+  "joinPlayer": "join player",
+  "roleRatioOfThisTheWeek": "This week's role ratio",
+  "top10PlayerRankingsOfThisWeek": "This week's Top10 player rankings",
+
+
+  "panel": "Panel",
+  "remote": "Remote",
+  "cavesLog": "CavesLog",
+
+  "ipConnect": "Ip Connect",
+  "dstStatus": "Dst Status",
+  "quickActions": "Quick Actions",
+  "cleanGame": "Clean Game",
+  "gameBackup": "Game Backup",
+
+  "masterRunning": "Master is running",
+  "cavesRunning": "Caves is running",
+  "masterNotRun": "Master is not run",
+  "cavesNotRun": "Caves is not run",
+  "start": "Start",
+  "stop": "Stop",
+  "updateGame": "Update Game",
+  "createBackup": "Create Backup",
+  "cleanArchive ": "Clean Archive",
+  "regenerate": "Regenerate",
+  "restoreBackup": "Restore Backup",
+
+  "rollback1": "Rollback(1)",
+  "rollback2": "Rollback(2)",
+  "rollback3": "Rollback(3)",
+  "rollback4": "Rollback(4)",
+  "rollback5": "Rollback(5)",
+  "rollback6": "Rollback(6)",
+
+  "send": "send"
+}

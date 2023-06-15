@@ -1,7 +1,8 @@
+import {useEffect} from "react";
+
 import {Box, Card, CardHeader, Container, Grid, Typography} from "@mui/material";
 import {Button, message, Space} from "antd";
 
-import {useEffect} from "react";
 import GameStatistic from "../../Dashboard/Statistics";
 import Console from "../../Dashboard/console";
 import GameLog2 from "../GameLog";

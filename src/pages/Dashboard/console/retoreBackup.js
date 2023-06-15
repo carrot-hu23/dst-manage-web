@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Input, Skeleton, Modal, List, Drawer, Button, Space, Popconfirm, message } from 'antd';
+import {useTranslation} from "react-i18next";
 import {useParams} from "react-router-dom";
+
+import { Input, Skeleton, Modal, List, Drawer, Button, Space, Popconfirm, message } from 'antd';
+
 import { getBackupApi } from '../../../api/backupApi';
 
+
 const RestoreBackup = (props) => {
+
+    const { t } = useTranslation()
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -65,7 +71,7 @@ const RestoreBackup = (props) => {
 
     return (
         <>
-        <Button onClick={()=>setIsModalOpen(true)}>恢复备份</Button>
+        <Button onClick={()=>setIsModalOpen(true)}>{t('restoreBackup')}</Button>
             <Modal
                 getContainer={false}
                 open={isModalOpen}
@@ -114,7 +120,7 @@ const RestoreBackup = (props) => {
             </Modal>
 
             <Drawer
-                title="恢复游戏备份"
+                title={t('restoreBackup')}
                 placement={'right'}
                 width={500}
                 onClose={onClose}

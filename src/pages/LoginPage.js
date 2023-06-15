@@ -6,6 +6,7 @@ import {Helmet} from 'react-helmet-async';
 import {styled} from '@mui/material/styles';
 import {Link, Container, Typography, Divider, Stack, Button} from '@mui/material';
 // hooks
+import {useTranslation} from "react-i18next";
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
@@ -13,6 +14,7 @@ import Iconify from '../components/iconify';
 // sections
 import {LoginForm} from '../sections/auth/login';
 import {getNews, isFirstApi} from '../api/InitApi';
+
 
 
 // ----------------------------------------------------------------------
@@ -53,6 +55,7 @@ export default function LoginPage() {
         title: "",
         url: ""
     }])
+    const { t } = useTranslation()
 
     useEffect(() => {
         isFirstApi().then(data => {
@@ -73,9 +76,6 @@ export default function LoginPage() {
 
     return (
         <>
-            <Helmet>
-                <title> Login | 饥荒管理面板 </title>
-            </Helmet>
             {!isFirstTime ?
                 <StyledRoot>
                     {mdUp && (
@@ -100,7 +100,7 @@ export default function LoginPage() {
                     <Container maxWidth="sm">
                         <StyledContent>
                             <Typography variant="h4" gutterBottom>
-                                饥荒管理控制台面板
+                                {t('loginTitle')}
                             </Typography>
                             {/*
             <Typography variant="body2" sx={{ mb: 5 }}>

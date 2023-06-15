@@ -1,9 +1,14 @@
 import { Button, Popconfirm, message } from 'antd';
+
 import { useState } from 'react';
 import {useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
 import { regenerateworldApi } from '../../../api/gameApi';
 
 const Regenerateworld = () => {
+
+    const { t } = useTranslation()
 
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -50,7 +55,7 @@ const Regenerateworld = () => {
             
             type="primary" danger 
                 onClick={showPopconfirm}
-            >重置世界</Button>
+            >{t('regenerate')}</Button>
         </Popconfirm>
     )
 }

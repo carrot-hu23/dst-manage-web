@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import {useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {Image, notification, Skeleton, Tabs} from 'antd';
@@ -45,7 +46,7 @@ const initData = {
 }
 
 const Panel = () => {
-
+    const { t } = useTranslation()
     const [api, contextHolder] = notification.useNotification();
 
     const updateNoticficationIcon = 'https://www.klei.com/sites/default/files/games/dont-starve-together/assets/dont-starve-togetherlayer2_0.png'
@@ -112,19 +113,19 @@ const Panel = () => {
     const items = [
         {
             key: '1',
-            label: `面板操作`,
+            label: t('panel'),
             children: <Skeleton loading={loading}>
                         <GameOperator gameData={gameData} logPath={masterLog}/>
                     </Skeleton>,
         },
         {
             key: '2',
-            label: `远程操作`,
+            label: t('remote'),
             children: <ControlPanel/>,
         },
         {
             key: '3',
-            label: `洞穴日志`,
+            label: t('cavesLog'),
             children: <GameLog2 path={gameData.cavesLog} id={"Caves"}/>,
         },
     ];

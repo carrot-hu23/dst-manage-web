@@ -1,10 +1,15 @@
 import { Button, Popconfirm, message } from 'antd';
+
 import { useState } from 'react';
 import {useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
 import { cleanWorldApi } from '../../../api/gameApi';
 
 const CleanArchive = () => {
-
+    
+    const { t } = useTranslation()
+    
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     
@@ -48,7 +53,7 @@ const CleanArchive = () => {
         >
             <Button type="primary" danger
                 onClick={showPopconfirm}
-            >清理存档</Button>
+            >{t('cleanGame')}</Button>
         </Popconfirm>
     )
 }

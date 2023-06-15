@@ -13,6 +13,10 @@ const HomeOverView = ({home}) => (
             <Form
                 layout="horizontal"
                 labelAlign={'left'}
+                style={{
+                    maxHeight: '520px',
+                    overflowY: 'auto',
+                }}
             >
                 <Space>
                     <div>

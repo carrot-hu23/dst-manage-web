@@ -55,9 +55,6 @@ const ControlPanel = () => {
                         labelCol={{
                             span: 4,
                         }}
-                    // wrapperCol={{
-                    //     span: 12,
-                    // }}
                     >
                         <div>
 

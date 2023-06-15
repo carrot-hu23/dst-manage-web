@@ -1,7 +1,11 @@
 import {Button, Input, message, Space} from 'antd';
+
 import {useEffect, useState} from 'react';
-import {FitAddon} from "xterm-addon-fit";
 import {useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
+import {FitAddon} from "xterm-addon-fit";
+
 import { newTerminal } from '../../../utils/terminalUtils';
 import {masterConsoleApi} from "../../../api/gameApi";
 
@@ -34,8 +38,9 @@ const config = {
 }
 
 const GameLog2 = (props) => {
-    // const [data] = useState({path: props.data});
-    // console.log(data)
+
+    const { t } = useTranslation()
+    
     useEffect(() => {
         
         const terminal = newTerminal(config, terminalTitleTemplate, props.id)
@@ -108,7 +113,7 @@ const GameLog2 = (props) => {
                 size={'middle'}
             >
                 <Input value={inputValue} onChange={handleInputChange} />
-                <Button type="primary" onClick={(event)=>handleSubmit(event)}>发送指令</Button>
+                <Button type="primary" onClick={(event)=>handleSubmit(event)}>{t('send')}</Button>
             </Space.Compact>
         </div>
     )

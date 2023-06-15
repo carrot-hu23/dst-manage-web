@@ -8,7 +8,7 @@ import ThemeProvider from './theme';
 // components
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
-
+import './locales/i18n'
 // ----------------------------------------------------------------------
 
 export default function App() {
