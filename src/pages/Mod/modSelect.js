@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import _ from "lodash";
-import { Row, Col, Card, Button, Space, Tooltip, message } from 'antd';
+import {Row, Col, Card, Button, Space, Tooltip, message} from 'antd';
 import {useParams} from "react-router-dom";
 import ModItem from './component/modItem';
 import ModDetail from './component/modConfig';
-import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
-import { deleteStepupWorkshopApi } from '../../api/modApi';
+import {getHomeConfigApi, saveHomeConfigApi} from '../../api/gameApi';
+import {deleteStepupWorkshopApi} from '../../api/modApi';
 
 function containsChinese(str) {
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < str.length; i++) {
-      const charCode = str.charCodeAt(i);
-      if (charCode >= 0x4e00 && charCode <= 0x9fff) {
-        return true;
-      }
+        const charCode = str.charCodeAt(i);
+        if (charCode >= 0x4e00 && charCode <= 0x9fff) {
+            return true;
+        }
     }
     return false;
-  }
+}
 
 // eslint-disable-next-line react/prop-types
-const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
-    
+const ModSelect = ({modList, setModList, root, setRoot, defaultValuesMap}) => {
+
     const [mod, setMod] = useState({})
     const changeMod = (mod) => {
         const _mod = _.cloneDeep(mod);
@@ -61,7 +61,7 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
                 const homeConfig = data.data
                 homeConfig.modData = config
                 console.log(homeConfig)
-                saveHomeConfigApi(cluster,homeConfig).then(() => {
+                saveHomeConfigApi(cluster, homeConfig).then(() => {
                     message.info("保存mod成功")
                 }).catch(error => {
                     console.log(error);
@@ -73,13 +73,13 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
 
     function deleteStepupWorkshop() {
         deleteStepupWorkshopApi()
-        .then(data => {
-            if(data.code === 200) {
-                message.success("更新模组成功，请重启房间")
-            } else{
-                message.warning("更新模组失败")
-            }
-        })
+            .then(data => {
+                if (data.code === 200) {
+                    message.success("更新模组成功，请重启房间")
+                } else {
+                    message.warning("更新模组失败")
+                }
+            })
     }
 
     useEffect(() => {
@@ -89,12 +89,12 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
     return (
         <>
             <Space>
-                <Button type="primary" onClick={() => saveModConfig()}  >保存配置</Button>
+                <Button type="primary" onClick={() => saveModConfig()}>保存配置</Button>
                 <Tooltip title="点击会删除房间的mods, 重新启动会自动重新下载mod">
-                <   Button type="primary" onClick={()=>deleteStepupWorkshop()} >更新配置</Button>    
+                    <Button type="primary" onClick={() => deleteStepupWorkshop()}>更新配置</Button>
                 </Tooltip>
             </Space>
-            <br /><br />
+            <br/><br/>
             {/* <Divider /> */}
             <Row gutter={24}>
                 <Col span={10} xs={24} md={10} lg={10}>

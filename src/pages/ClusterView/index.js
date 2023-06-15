@@ -1,50 +1,16 @@
 import { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom";
 
-import luaparse from 'luaparse';
-import _ from 'lodash'
 import { Container, Box, Card } from '@mui/material';
 import { Tabs, Button, Form, message, Skeleton } from 'antd';
-
-import Mod from '../Mod';
 
 import Forest from './forest';
 import Cave from './cave';
 import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
 import BaseCluster from './cluster';
 
-
-
-const translateLuaObject = (lua) => {
-    try {
-        const ast = luaparse.parse(lua);
-        const overrides = ast.body[0].arguments[0].fields.filter(item => item.key.name === 'overrides')
-        const overridesObject = overrides[0].value.fields.reduce((acc, field) => {
-            acc[field.key.name] = field.value.name === 'StringLiteral' ? field.value.value : field.value.raw.replace(/"/g, "");
-            return acc;
-        }, {});
-        // console.log('overridesObject', overridesObject);
-        return overridesObject
-    } catch (error) {
-        return {}
-    }
-
-}
-
-function translateJsonObject(data) {
-    try {
-        const sortedKeys = Object.keys(data).sort((a, b) => data[a].order - data[b].order);
-        const m = {}
-        sortedKeys.forEach(key => {
-            Object.entries(data[key].items).forEach(([key2, value]) => {
-                m[key2] = value.value
-            })
-        })
-        return m
-    } catch (error) {
-        return {}
-    }
-}
+import {toLeveldataoverride, translateJsonObject, translateLuaObject} from "../../utils/dstUtils";
+import Mod from "../Mod";
 
 const ClusterView = () => {
 
@@ -108,89 +74,10 @@ const ClusterView = () => {
         })
     }
 
-    // eslint-disable-next-line camelcase
-    function toLeveldataoverride(worldPreset, object) {
-        const keys = Object.keys(object)
-        let overrides = ""
-        keys.forEach(key => {
-            overrides += `${key}="${object[key]}",\n\t\t\t\t`
-        })
-
-        if(worldPreset === "SURVIVAL_TOGETHER") {
-            return `return {
-        desc="标准《饥荒》体验。",
-        hideminimap=false,
-        id="SURVIVAL_TOGETHER",
-        location="forest",
-        max_playlist_position=999,
-        min_playlist_position=0,
-        name="生存",
-        numrandom_set_pieces=4,
-        override_level_string=false,
-        overrides = {${`\n\t\t${overrides}\n\t`}},
-        playstyle="survival",
-        random_set_pieces={
-            "Sculptures_2",
-            "Sculptures_3",
-            "Sculptures_4",
-            "Sculptures_5",
-            "Chessy_1",
-            "Chessy_2",
-            "Chessy_3",
-            "Chessy_4",
-            "Chessy_5",
-            "Chessy_6",
-            "Maxwell1",
-            "Maxwell2",
-            "Maxwell3",
-            "Maxwell4",
-            "Maxwell6",
-            "Maxwell7",
-            "Warzone_1",
-            "Warzone_2",
-            "Warzone_3" 
-        },
-        required_prefabs={ "multiplayer_portal" },
-        required_setpieces={ "Sculptures_1", "Maxwell5" },
-        settings_desc="标准《饥荒》体验。",
-        settings_id="SURVIVAL_TOGETHER",
-        settings_name="生存",
-        substitutes={  },
-        version=4,
-        worldgen_desc="标准《饥荒》体验。",
-        worldgen_id="SURVIVAL_TOGETHER",
-        worldgen_name="生存" 
-    \n}`
-        }
-        // eslint-disable-next-line camelcase
-        return `return {
-        background_node_range={ 0, 1 },
-        desc="探查洞穴…… 一起！",
-        hideminimap=false,
-        id="DST_CAVE",
-        location="cave",
-        max_playlist_position=999,
-        min_playlist_position=0,
-        name="洞穴",
-        numrandom_set_pieces=0,
-        override_level_string=false,
-        overrides = {${`\n\t\t${overrides}\n\t`}},
-        required_prefabs={ "multiplayer_portal" },
-        settings_desc="探查洞穴…… 一起！",
-        settings_id="DST_CAVE",
-        settings_name="洞穴",
-        substitutes={  },
-        version=4,
-        worldgen_desc="探查洞穴…… 一起！",
-        worldgen_id="DST_CAVE",
-        worldgen_name="洞穴" 
-    \n}`
-    }
-
     function beforeHandle(cluster,worldData) {
         const fetchHomeConfig = () => getHomeConfigApi(cluster)
             .then(data => {
-                if (data.data === null || data === undefined) {
+                if (data.data === null) {
                     message.error('获取房间配置失败')
                 }
 

@@ -36,11 +36,11 @@ const navConfig = [
     path: '/dashboard/backup',
     icon: icon('ic_blog')
   },
-  // {
-  //   title: '系统设置',
-  //   path: '/dashboard/setting',
-  //   icon: icon('ic_blog')
-  // },
+  {
+    title: '系统设置',
+    path: '/dashboard/setting',
+    icon: icon('ic_blog')
+  },
   {
     title: '游戏日志',
     path: '/dashboard/log',
@@ -61,38 +61,6 @@ const navConfig = [
     path: '/dashboard/help',
     icon: icon('ic_blog')
   },
-
-  // {
-  //   title: '多层世界',
-  //   path: '/dashboard/multi/cluster/view',
-  //   icon: icon('ic_user'),
-  // },
-
-  // {
-  //   title: 'user',
-  //   path: '/dashboard/user',
-  //   icon: icon('ic_user'),
-  // },
-  // {
-  //   title: 'product',
-  //   path: '/dashboard/products',
-  //   icon: icon('ic_cart'),
-  // },
-  // {
-  //   title: 'blog',
-  //   path: '/dashboard/blog',
-  //   icon: icon('ic_blog'),
-  // },
-  // {
-  //   title: 'login',
-  //   path: '/login',
-  //   icon: icon('ic_lock'),
-  // },
-  // {
-  //   title: 'Not found',
-  //   path: '/404',
-  //   icon: icon('ic_disabled'),
-  // },
 ];
 
 export default navConfig;

@@ -251,9 +251,12 @@ const GameStatus = (props) => {
                         </Space>
                     </Form.Item>
 
-                    <Form.Item label={t('gameBackup')}>
+                    {/*
+                     <Form.Item label={t('gameBackup')}>
                         <RestoreBackup />
                     </Form.Item>
+                     */}
+
                 </Form>
             </Spin>
         </>

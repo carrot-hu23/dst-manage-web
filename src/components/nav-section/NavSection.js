@@ -41,7 +41,7 @@ function NavItem({ item, cluster }) {
   return (
     <StyledNavItem
       component={RouterLink}
-      to={`/${cluster}${path}`}
+      to={path}
       sx={{
         '&.active': {
           color: 'text.primary',

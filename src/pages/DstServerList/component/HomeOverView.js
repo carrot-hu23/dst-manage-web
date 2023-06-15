@@ -5,19 +5,15 @@ const {Paragraph} = Typography;
 // eslint-disable-next-line react/prop-types
 const HomeOverView = ({home}) => (
     <>
-        <div>
+        <div style={{
+            height: 450,
+            overflowY: 'auto',
+        }}>
             <h3>{home.name}</h3>
             <span>{home.desc}</span>
             <br/>
             <br/>
-            <Form
-                layout="horizontal"
-                labelAlign={'left'}
-                style={{
-                    maxHeight: '520px',
-                    overflowY: 'auto',
-                }}
-            >
+            <Form>
                 <Space>
                     <div>
                         <Form.Item label="世界直连">

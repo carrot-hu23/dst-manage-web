@@ -7,6 +7,7 @@ import GameStatistic from "../../Dashboard/Statistics";
 import Console from "../../Dashboard/console";
 import GameLog2 from "../GameLog";
 import RollbackGroup from "../RollbackGroup";
+import RestoreBackup from "../../Dashboard/console/retoreBackup";
 
 
 export default ({gameData, logPath}) => {
