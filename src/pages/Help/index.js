@@ -7,7 +7,7 @@ const Help = () => {
         version: "0"
     })
     useEffect(() => {
-        fetch('config.json')
+        fetch('misc/config.json')
             .then(response => response.json())
             .then(data => {
                 setConfig(data)
