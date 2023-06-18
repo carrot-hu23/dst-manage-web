@@ -43,9 +43,20 @@ async function renameBackupApi(cluster,data) {
     return response.data
 }
 
+async function restoreBackupApi(cluster,fileName) {
+    const url = `/api/game/backup/restore?backupName=${fileName}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     createBackupApi,
     getBackupApi,
     deleteBackupApi,
-    renameBackupApi
+    renameBackupApi,
+    restoreBackupApi
 }
