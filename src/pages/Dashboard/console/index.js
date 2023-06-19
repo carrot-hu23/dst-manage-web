@@ -107,7 +107,8 @@ const GameStatus = (props) => {
         setStartLoading(true)
         controlDst(cluster,checked, 1).then(resp=>{
             if (resp.code !== 200) {
-                message.error(`${prefix}森林失败`,resp.msg)
+                message.error(`${prefix}森林失败${resp.msg}`)
+                message.warning("请检查饥荒服务器路径是否设置正确")
             } else {
                 message.success(`${prefix}森林成功`)
             }
@@ -135,7 +136,8 @@ const GameStatus = (props) => {
         setStartLoading(true)
         controlDst(cluster,checked, 2).then(resp=>{
             if (resp.code !== 200) {
-                message.error(`${prefix}洞穴失败`,resp.msg)
+                message.error(`${prefix}洞穴失败${resp.msg}`)
+                message.warning("请检查饥荒服务器路径是否设置正确")
             } else {
                 message.success(`${prefix}洞穴成功`)
             }
@@ -152,13 +154,14 @@ const GameStatus = (props) => {
                 if (response.code === 200) {
                     message.success('饥荒更新完成')
                 } else {
-                    message.error('饥荒更新失败', response.msg)
+                    message.error(`${response.msg}`)
+                    message.warning("请检查steamcmd路径是否设置正确")
                 }
 
                 setUpdateStatus(false)
             })
             .catch(error => {
-                message.error('饥荒更新失败')
+                message.error(`饥荒更新失败${error}`)
                 setUpdateStatus(false)
             })
     }
@@ -172,7 +175,7 @@ const GameStatus = (props) => {
                 setCreateBackupStatus(false)
             })
             .catch(error => {
-                message.error('创建游戏备份失败')
+                message.error(`创建游戏备份失败${error}`)
                 setCreateBackupStatus(false)
             })
     }

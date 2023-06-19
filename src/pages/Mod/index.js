@@ -5,8 +5,8 @@ import luaparse from 'luaparse';
 
 import { Container, Box } from '@mui/material';
 import { Tabs } from 'antd';
-import ModSelect from './modSelect';
-import ModSearch from './modSearch';
+import ModSelect from './ModSelect';
+import ModSubscribe from './ModSubscribe';
 import { getMyModInfoList } from '../../api/modApi';
 
 function getWorkShopConfigMap(modConfig) {
@@ -105,7 +105,7 @@ const Mod = ({modoverrides}) => {
         {
             key: '2',
             label: `订阅模组`,
-            children: <ModSearch addModList={setModList} />,
+            children: <ModSubscribe addModList={setModList} />,
         },
     ];
 

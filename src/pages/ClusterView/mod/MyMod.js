@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 
 
 import _ from "lodash";
-import ModSelect from "../../Mod/modSelect";
+import ModSelect from "../../Mod/ModSelect";
 
 import {workShopConfigMap} from "../../../utils/dstUtils";
 import {getMyModInfoList} from "../../../api/modApi";

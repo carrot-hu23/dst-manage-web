@@ -1,4 +1,4 @@
-import ModSearch from "../../Mod/modSearch";
+import ModSubscribe from "../../Mod/ModSubscribe";
 
 export default (props)=>{
 
@@ -6,7 +6,7 @@ export default (props)=>{
 
     return(
         <>
-            <ModSearch addModList={setModList} />
+            <ModSubscribe addModList={setModList} />
         </>
     )
 }

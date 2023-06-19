@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { Card, Checkbox, Switch, Popconfirm, Row, Col, Button } from 'antd';
+import {Card, Checkbox, Switch, Popconfirm, Row, Col, Button, message} from 'antd';
 
 import './mod.css';
 import {useParams} from "react-router-dom";
 import { deleteModInfo } from '../../../api/modApi';
 
 
-const ModItem = (props) => {
+const ModInfo = (props) => {
 
     const [mod, setMod] = useState({})
     const {cluster} = useParams()
@@ -40,7 +40,15 @@ const ModItem = (props) => {
                             // description="是否取消该mod订阅"
                             okText="Yes"
                             cancelText="No"
-                            onConfirm={() => { deleteModInfo(cluster,mod.modid) }}
+                            onConfirm={() => {
+                                deleteModInfo(cluster,mod.modid).then(resp=>{
+                                    if (resp.code === 200) {
+                                        message.success("删除模组成功")
+                                    } else {
+                                        message.success("删除模组失败")
+                                    }
+                                })
+                            }}
                         >
                             <Button type="text" danger onClick={() => { setMod(props.mod) }}>
                                 删除
@@ -53,4 +61,4 @@ const ModItem = (props) => {
     </Card>
 }
 
-export default ModItem
+export default ModInfo

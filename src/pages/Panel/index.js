@@ -93,7 +93,7 @@ const Panel = () => {
                 const localVersion = response.data.version.replace("\n", "")
                 dstVersionApi()
                     .then(response => {
-                        if (response !== parseInt(localVersion, 10)) {
+                        if (response > parseInt(localVersion, 10)) {
                             openNotification(response)
                         }
                     })

@@ -2,8 +2,8 @@ import {useEffect, useState} from 'react';
 import _ from "lodash";
 import {Row, Col, Card, Button, Space, Tooltip, message} from 'antd';
 import {useParams} from "react-router-dom";
-import ModItem from './component/modItem';
-import ModDetail from './component/modConfig';
+import ModInfo from './component/ModInfo';
+import ModDetail from './component/ModConfig';
 import {getHomeConfigApi, saveHomeConfigApi} from '../../api/gameApi';
 import {deleteStepupWorkshopApi} from '../../api/modApi';
 
@@ -104,7 +104,7 @@ const ModSelect = ({modList, setModList, root, setRoot, defaultValuesMap}) => {
                         overflowX: 'auto'
                     }}>
                         {modList.length > 0 && <Card className='modlist'>
-                            {modList.map(item => <ModItem
+                            {modList.map(item => <ModInfo
                                 key={item.modid}
                                 mod={item}
                                 changeMod={changeMod}
