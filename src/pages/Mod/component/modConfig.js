@@ -2,20 +2,13 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Card, Modal, Button, Space, Row, Col, Form, Typography } from 'antd';
-import TestSelect from './TestSelect';
+import Select2 from './Select2';
 
 const { Paragraph } = Typography;
 
-const OptionSelect = ({ mod, root, setRoot, defaultValues }) => {
-
-    if(defaultValues === undefined) {
-        defaultValues = root[mod.modid]
-    }
-
-    console.log("OptionSelect defaultValues", defaultValues);
+const OptionSelect = ({ mod, root, setRoot, defaultValues,defaultValuesMap, setDefaultValuesMap}) => {
 
     const [form] = Form.useForm();
-    // const [defaultValues, setDefaultValue] = useState({});
     useEffect(() => {
         const options = mod.mod_config.configuration_options;
         if (options !== undefined && options !== null) {
@@ -44,6 +37,14 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues }) => {
                 const fieldValue = changedValues[fieldName];
                 // console.log(`Field ${fieldName} changed to ${fieldValue}`);
                 _.set(root, `${mod.modid}.${fieldName}`, fieldValue);
+
+                // 同时把 默认的配置 也更新下
+                const newDefaultValue = _.cloneDeep(defaultValuesMap)
+                _.set(newDefaultValue, `${mod.modid}.${fieldName}`, fieldValue)
+                setDefaultValuesMap(newDefaultValue)
+
+                console.log("defaultValuesMap: ",defaultValuesMap)
+                console.log("newDefaultValue: ",newDefaultValue)
             }
         }
         const _root = _.cloneDeep(root);
@@ -75,7 +76,8 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues }) => {
                             if (item.label === undefined || item.label === '') {
                                 return <h4 key={item.name}>{item.name}</h4>;
                             }
-                            return <TestSelect key={item.name} item={item}/>;
+                            console.log("1111111: ",defaultValuesMap.get(`${mod.modid}`), item.name)
+                            return <Select2 key={item.name} item={item} defaultValue={defaultValuesMap.get(`${mod.modid}`)[`"${item.name}"`]}/>;
                         }
                         )}
             </Form>
@@ -84,8 +86,7 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues }) => {
 };
 
 // eslint-disable-next-line react/prop-types
-const ModDetail = ({ mod, root, setRoot, defaultValues }) => {
-    console.log('modDetail defaultValues', defaultValues);
+const ModDetail = ({ mod, root, setRoot, defaultValues,defaultValuesMap,setDefaultValuesMap }) => {
 
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
@@ -106,6 +107,8 @@ const ModDetail = ({ mod, root, setRoot, defaultValues }) => {
                 <Col flex="auto" style={{ paddingLeft: '16px' }}>
                     <span>{mod.name}</span>
                     <br />
+                    <span>{mod.modid}</span>
+                    <br />
                     <span>作者: {mod.mod_config.author}</span>
                     <br />
                     <span>版本: {mod.v}</span>
@@ -120,7 +123,7 @@ const ModDetail = ({ mod, root, setRoot, defaultValues }) => {
                     ellipsis={
                         ellipsis
                             ? {
-                                rows: 4,
+                                rows: 2,
                                 expandable: true,
                                 symbol: 'more',
                             }
@@ -154,13 +157,16 @@ const ModDetail = ({ mod, root, setRoot, defaultValues }) => {
                 open={open}
                 onOk={() => {
                     setOpen(false);
-                    console.log(form.getFieldsValue());
                 }}
                 onCancel={() => setOpen(false)}
                 width={640}
+                destroyOnClose
             >
                 {mod.mod_config.configuration_options !== undefined && (
-                    <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues} />
+                    <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}
+                                  defaultValuesMap={defaultValuesMap}
+                                  setDefaultValuesMap={setDefaultValuesMap}
+                    />
                 )}
             </Modal>
         </Card>

@@ -19,8 +19,10 @@ function containsChinese(str) {
   }
 
 // eslint-disable-next-line react/prop-types
-const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
-    
+const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaultValuesMap }) => {
+
+    // console.log("defaultValuesMap: ",defaultValuesMap)
+
     const [mod, setMod] = useState({})
     const changeMod = (mod) => {
         const _mod = _.cloneDeep(mod);
@@ -40,21 +42,23 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
     }
 
     function saveModConfig() {
-        const chooses = modList.filter(mod => !mod.enable)
+        const chooses = modList.filter(mod => mod.enable)
         const modids = chooses.map(mod => mod.modid)
-        const object = _.omit(root, modids)
-
+        console.log("选择的mod: ",modids)
+        const object = _.pick(root, modids)
         const keys = Object.keys(object)
         let config = "return {\n"
         keys.forEach(key => {
             const str = Object.entries(object[key])
                 .filter(([key, value]) => key !== '' && !containsChinese(key))
-                .map(([key, value]) => `${key}=${value.toString()},`)
+                .map(([key, value]) => `["${key}"]=${value.toString()},`)
                 .join("\n");
             const workshop = `["workshop-${key}"]={ configuration_options={${str}},enabled=true }`
             config += `  ${workshop},\n`
         })
         config += "}"
+
+        console.log(config)
 
         getHomeConfigApi(cluster)
             .then(data => {
@@ -81,7 +85,18 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
             }
         })
     }
-
+    
+    const removeMod = (modId)=> {
+        const newModList = []
+        // eslint-disable-next-line no-restricted-syntax
+        for (const mod of modList) {
+            if (mod.modid !== modId) {
+                newModList.push(mod)
+            }
+        }
+        setModList([...newModList])
+    }
+    
     useEffect(() => {
         setMod(modList[0] || {})
     }, [modList])
@@ -109,6 +124,7 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
                                 mod={item}
                                 changeMod={changeMod}
                                 changeEnable={changeEnable}
+                                removeMod={removeMod}
                             />)}
                         </Card>}
                     </div>
@@ -119,7 +135,9 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
                         mod={mod}
                         root={root}
                         setRoot={setRoot}
-                        defaultValues={defaultValuesMap.get(`${mod.modid}`)}
+                        defaultValues={defaultValuesMap[`${mod.modid}`]}
+                        defaultValuesMap={defaultValuesMap}
+                        setDefaultValuesMap={setDefaultValuesMap}
                     />}
                 </Col>
 
@@ -127,4 +145,4 @@ const ModSelect = ({ modList, setModList, root, setRoot,defaultValuesMap }) => {
         </>)
 }
 
-export default ModSelect
+export default ModList

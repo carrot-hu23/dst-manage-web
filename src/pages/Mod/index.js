@@ -5,8 +5,8 @@ import luaparse from 'luaparse';
 
 import { Container, Box } from '@mui/material';
 import { Tabs } from 'antd';
-import ModSelect from './modSelect';
-import ModSearch from './modSearch';
+import ModList from './ModList';
+import ModSearch from './ModSearch';
 import { getMyModInfoList } from '../../api/modApi';
 
 function getWorkShopConfigMap(modConfig) {
@@ -32,7 +32,8 @@ function getWorkShopConfigMap(modConfig) {
                 if (field.key.name === 'configuration_options') {
                     // eslint-disable-next-line no-restricted-syntax
                     for (const configItem of field.value.fields) {
-                        config[configItem.key.name] = configItem.value.value
+                        config[configItem.key.raw] = configItem.value.value
+                        // console.log("configItem: ", configItem.key.raw, configItem.value.value)
                     }
                 }
             }
@@ -49,7 +50,7 @@ const Mod = ({modoverrides}) => {
     const [modList, setModList] = useState([])
     const [root, setRoot] = useState({})
 
-    const [defaultValuesMap, setDefaultValuesMap] = useState({})
+    const [defaultValuesMap, setDefaultValuesMap] = useState(getWorkShopConfigMap(modoverrides))
     const {cluster} = useParams()
 
     useEffect(() => {
@@ -90,16 +91,15 @@ const Mod = ({modoverrides}) => {
         {
             key: '1',
             label: `配置模组`,
-            children: <ModSelect
+            children: <ModList
                 modList={modList}
                 setModList={setModList}
                 root={root}
                 setRoot={setRoot}
                 // chooseModList={chooseModList}
                 // add={setChooseModList} 
-                defaultValuesMap={getWorkShopConfigMap(modoverrides)}
-
-                // defaultValuesMap={defaultValuesMap}
+                defaultValuesMap={defaultValuesMap}
+                setDefaultValuesMap={setDefaultValuesMap}
                 />,
         },
         {
