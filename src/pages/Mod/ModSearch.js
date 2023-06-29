@@ -36,7 +36,7 @@ const ModCard = ({ modInfo, addModList, subscribe }) => {
     </Card>
 }
 
-const ModSubscribe = ({ addModList }) => {
+const ModSearch = ({ addModList }) => {
 
     const [modList, setModList] = useState([])
 
@@ -61,19 +61,12 @@ const ModSubscribe = ({ addModList }) => {
         setLoading(true)
         // message.info(`正在订阅 ${modName}`)
         getModInfo(cluster,modId).then(data => {
+            console.log(data.data);
+            addModList(current => [...current, data.data])
 
-            if (data.code === 200) {
-                console.log(data.data);
-                addModList(current => [...current, data.data])
-
-                // Dismiss manually and asynchronously
-                setTimeout(messageApi.destroy, 1);
-                message.success(`订阅 ${modName} 成功`)
-            } else {
-                setTimeout(messageApi.destroy, 1);
-                message.error(`订阅模组失败，${data.msg}`)
-                setLoading(false)
-            }
+            // Dismiss manually and asynchronously
+            setTimeout(messageApi.destroy, 1);
+            message.success(`订阅 ${modName} 成功`)
             setLoading(false)
         }).catch(error => {
             setTimeout(messageApi.destroy, 1);
@@ -140,4 +133,4 @@ const ModSubscribe = ({ addModList }) => {
     );
 };
 
-export default ModSubscribe;
+export default ModSearch;

@@ -3,20 +3,26 @@ import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Form, Select } from 'antd';
 
-function TestSelect({ item }) {
-    const [isDefault, setIsDefault] = useState(true)
+function checkDefault(defaultValue1, defaultValue2) {
+    if (defaultValue1 === undefined || defaultValue2 === null) {
+        return true
+    }
+    return defaultValue1 === defaultValue2
+}
 
+function Select2({ item,defaultValue }) {
+    // console.log("label: ", item.label, "name: ", item.name,"defaultValue: ", defaultValue)
+    const [isDefault, setIsDefault] = useState(checkDefault(defaultValue, item.default))
     useEffect(() => {
         
     }, [])
-
     return <Form.Item
         key={item.label + item.name}
         label={item.label}
         name={item.name}>
         <Select
             className={isDefault ? '' : 'selected'}
-            defaultValue={item.default}
+            defaultValue={defaultValue === undefined?item.default: defaultValue}
             style={{
                 width: 120,
             }}
@@ -31,4 +37,4 @@ function TestSelect({ item }) {
     </Form.Item>
 }
 
-export default TestSelect
+export default Select2

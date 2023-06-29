@@ -7,8 +7,8 @@ import {useParams} from "react-router-dom";
 import { deleteModInfo } from '../../../api/modApi';
 
 
-const ModInfo = (props) => {
-
+const ModItem = (props) => {
+    const {removeMod} = props
     const [mod, setMod] = useState({})
     const {cluster} = useParams()
     
@@ -31,6 +31,12 @@ const ModInfo = (props) => {
                 }}>
                     <Col span={12} />
                     <Col span={24}>
+                        {/* <Checkbox
+                            checked={props.mod.enable}
+                            onChange={() => { props.changeEnable(props.mod.modid) }}>
+                            {props.mod.enable && <span>启用</span>}
+                            {!props.mod.enable && <span>禁用</span>}
+                        </Checkbox> */}
                         <Switch checkedChildren="开启" unCheckedChildren="关闭"
                             defaultChecked={props.mod.enable}
                             onChange={() => { props.changeEnable(props.mod.modid) }}
@@ -41,13 +47,13 @@ const ModInfo = (props) => {
                             okText="Yes"
                             cancelText="No"
                             onConfirm={() => {
-                                deleteModInfo(cluster,mod.modid).then(resp=>{
-                                    if (resp.code === 200) {
-                                        message.success("删除模组成功")
-                                    } else {
-                                        message.success("删除模组失败")
-                                    }
-                                })
+                                deleteModInfo(cluster,mod.modid)
+                                    .then(resp=>{
+                                        if (resp.code === 200) {
+                                            message.success("删除模组成功")
+                                            removeMod(mod.modid)
+                                        }
+                                    })
                             }}
                         >
                             <Button type="text" danger onClick={() => { setMod(props.mod) }}>
@@ -61,4 +67,4 @@ const ModInfo = (props) => {
     </Card>
 }
 
-export default ModInfo
+export default ModItem
