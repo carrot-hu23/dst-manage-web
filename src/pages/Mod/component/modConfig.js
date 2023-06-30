@@ -116,75 +116,92 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                 overflowX: 'auto',
             }}
         >
-            <Row>
-                <Col flex={'100px'}>
-                    <img alt="example" src={mod.img}/>
-                </Col>
-                <Col flex="auto" style={{paddingLeft: '16px'}}>
-                    <span>{mod.name}</span>
-                    <br/>
-                    <span>{mod.modid}</span>
-                    <br/>
-                    <span>作者: {mod.mod_config.author}</span>
-                    <br/>
-                    <span>版本: {mod.v}</span>
-                    <br/>
-                    <span>与《饥荒联机版兼容》</span>
-                    <br/>
-                </Col>
-            </Row>
-            <div>
-                <br/>
-                <Paragraph
-                    ellipsis={
-                        ellipsis
-                            ? {
-                                rows: 2,
-                                expandable: true,
-                                symbol: 'more',
-                            }
-                            : false
-                    }
-                >
-                    {mod.description}
-                </Paragraph>
+            {mod.installed && <>
+                <Row>
+                    <Col flex={'100px'}>
+                        <img alt="example" src={mod.img}/>
+                    </Col>
+                    <Col flex="auto" style={{paddingLeft: '16px'}}>
+                        <Space>
+                            <div>
+                            <span style={{
+                                color: '#ff4d4f',
+                                fontSize: '16px',
+                                fontWeight: 100
+                            }}>{mod.name}</span>
+                                <br/>
+                                <span>模组id:{mod.modid}</span>
+                                <br/>
+                                <span>作者: {mod.mod_config.author}</span>
+                            </div>
+                            <div>
+                                <span>版本: {mod.mod_config.version}</span>
+                                <div>最后更新时间: {mod.last_time}</div>
+                                <span>{mod.mod_config.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
+                                <span>{mod.mod_config.dont_starve_compatible === false && <span>-</span>}</span>
+                            </div>
+                        </Space>
 
-                <br/>
-                <br/>
-            </div>
-            <Space>
-                <Button type="primary" onClick={() => setOpen(true)}>
-                    配置
-                </Button>
-                <Button>
-                    <a
-                        target={'_blank'}
-                        href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}
-                        rel="noreferrer"
+                        <br/>
+                    </Col>
+                </Row>
+                <div>
+                    <br/>
+                    <Paragraph
+                        ellipsis={
+                            ellipsis
+                                ? {
+                                    rows: 2,
+                                    expandable: true,
+                                    symbol: 'more',
+                                }
+                                : false
+                        }
                     >
-                        创意工坊
-                    </a>
-                </Button>
-            </Space>
+                        {mod.mod_config.description}
+                    </Paragraph>
 
-            <Modal
-                title={`${mod.name} 配置`}
-                // centered
-                open={open}
-                onOk={() => {
-                    setOpen(false);
-                }}
-                onCancel={() => setOpen(false)}
-                width={640}
-                destroyOnClose
-            >
-                {mod.mod_config.configuration_options !== undefined && (
-                    <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}
-                                  defaultValuesMap={defaultValuesMap}
-                                  setDefaultValuesMap={setDefaultValuesMap}
-                    />
-                )}
-            </Modal>
+                    <br/>
+                    <br/>
+                </div>
+                <Space>
+                    <Button type="primary" onClick={() => setOpen(true)}>
+                        配置
+                    </Button>
+                    <Button>
+                        <a
+                            target={'_blank'}
+                            href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}
+                            rel="noreferrer"
+                        >
+                            创意工坊
+                        </a>
+                    </Button>
+                </Space>
+
+                <Modal
+                    title={`${mod.name} 配置`}
+                    // centered
+                    open={open}
+                    onOk={() => {
+                        setOpen(false);
+                    }}
+                    onCancel={() => setOpen(false)}
+                    width={640}
+                    destroyOnClose
+                >
+                    {mod.mod_config.configuration_options !== undefined && (
+                        <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}
+                                      defaultValuesMap={defaultValuesMap}
+                                      setDefaultValuesMap={setDefaultValuesMap}
+                        />
+                    )}
+                </Modal>
+            </>}
+            {!mod.installed && <>
+                <span>暂无模组，请先订阅</span>
+            </>}
+
         </Card>
     );
 };

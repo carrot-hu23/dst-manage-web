@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Row, Col, Card, Input, Pagination, Button, message } from 'antd';
+import {Row, Col, Card, Input, Pagination, Button, message, Space, Image} from 'antd';
 import {useParams} from "react-router-dom";
 import { getModInfo, searchMod } from '../../api/modApi';
+import {dstRoles} from "../../utils/dst";
 
 const { Search } = Input;
 
@@ -25,10 +26,11 @@ const ModCard = ({ modInfo, addModList, subscribe }) => {
             </a>
         }
     >
-        <br />
-        {/* <Meta title="防卡两招" description="www.instagram.com" /> */}
-        <div>{modInfo.name}</div>
-        {/* <span>作者：{modInfo.author}</span> */}
+            <div>
+                <div>{modInfo.name}</div>
+                <div>最后时间: {modInfo.time}</div>
+                <div>订阅数: {modInfo.sub}</div>
+            </div>
         <Button
             loading={loading}
             type="primary"
@@ -62,6 +64,7 @@ const ModSearch = ({ addModList }) => {
         // message.info(`正在订阅 ${modName}`)
         getModInfo(cluster,modId).then(data => {
             console.log(data.data);
+            data.data.installed = true
             addModList(current => [...current, data.data])
 
             // Dismiss manually and asynchronously

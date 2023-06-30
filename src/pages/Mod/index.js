@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import _ from 'lodash'
 import luaparse from 'luaparse';
 
-import { Container, Box } from '@mui/material';
-import { Tabs } from 'antd';
+import {Container, Box} from '@mui/material';
+import {Tabs} from 'antd';
 import ModList from './ModList';
 import ModSearch from './ModSearch';
-import { getMyModInfoList } from '../../api/modApi';
+import {getMyModInfoList} from '../../api/modApi';
 
 function unstring(str) {
     if (typeof str === 'string') {
@@ -29,17 +29,17 @@ function getWorkShopConfigMap(modConfig) {
         const workshopMap2 = {}
         // eslint-disable-next-line no-restricted-syntax
         for (const workshopAst of workshopListAst) {
-            const { key } = workshopAst
-            const { value } = workshopAst
+            const {key} = workshopAst
+            const {value} = workshopAst
             const workshopId = key.raw.replace("\n", "")
             const config = {}
-            
-            workshopMap.set(workshopId.replace('workshop-', '').replace('"','').replace('"',''), config)
-            workshopMap2[`${workshopId.replace('workshop-', '').replace('"','').replace('"','')}`] = config
+
+            workshopMap.set(workshopId.replace('workshop-', '').replace('"', '').replace('"', ''), config)
+            workshopMap2[`${workshopId.replace('workshop-', '').replace('"', '').replace('"', '')}`] = config
             // eslint-disable-next-line no-restricted-syntax
             for (const field of value.fields) {
                 if (field.key.name === 'configuration_options') {
-                    console.log("field: ",field)
+                    console.log("field: ", field)
                     // eslint-disable-next-line no-restricted-syntax
                     for (const configItem of field.value.fields) {
                         if (configItem.key.raw === undefined) {
@@ -64,13 +64,66 @@ function getWorkShopConfigMap(modConfig) {
                 }
             }
         }
-        console.log("workshopMap2: ",workshopMap2)
         console.log("workshopMap: ",workshopMap)
         return workshopMap
     } catch (error) {
-        console.log('workshopMap error',error);
+        console.log('workshopMap error', error);
         return new Map()
     }
+}
+
+
+function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setModList, setRoot) {
+    const object = {}
+    const workshopMap = getWorkShopConfigMap(modoverrides)
+    console.log("subscribeModList: ", subscribeModList)
+    let subscribeModMap = new Map()
+    if (subscribeModList === undefined || subscribeModList === null) {
+        subscribeModList = []
+    }
+
+    subscribeModList.forEach(mod => {
+        const {modid} = mod
+        const options = mod.mod_config.configuration_options
+        if (options !== undefined && options !== null) {
+            options.forEach(item => {
+                if (item.default !== '') {
+                    _.set(object, `${modid}.${item.name}`, item.default)
+                }
+            })
+        }
+        if (workshopMap.has(modid)) {
+            mod.enable = true
+            mod.installed = true
+        } else {
+            workshopMap.set(modid, object[modid])
+        }
+    });
+
+    subscribeModMap = subscribeModList.reduce((acc, item) => {
+        acc.set(item.modid, item);
+        return acc;
+    }, new Map());
+
+
+    console.log("subscribeModMap: ", subscribeModMap)
+
+    // 如果没有订阅mod
+    workshopMap.forEach((value, key) => {
+        console.log("key: ", key)
+        if (subscribeModMap.get(key) === undefined) {
+            console.log("not subscribe mod: ", key)
+            subscribeModList.push({
+                modid: key,
+                installed: false
+            })
+        }
+    });
+
+    setDefaultValuesMap(workshopMap)
+    setModList(subscribeModList || [])
+    setRoot(object)
+
 }
 
 const Mod = ({modoverrides}) => {
@@ -83,37 +136,15 @@ const Mod = ({modoverrides}) => {
 
     useEffect(() => {
         getMyModInfoList(cluster)
-            .then(data => {
-                const object = {}
-                const workshopMap = getWorkShopConfigMap(modoverrides)
-                data.data.forEach(mod => {
-                    const {modid} = mod
-                    const options = mod.mod_config.configuration_options
-                    if(options !== undefined && options !== null) {
-                        options.forEach(item=>{
-                            if(item.default !== '') {
-                                _.set(object, `${modid}.${item.name}`, item.default)
-                            }
-                        })
-                    }
-                    if(workshopMap.has(modid)) {
-                        mod.enable = true
-                    } else {
-                        workshopMap.set(modid, object[modid])
-                    }
-                });
-                setDefaultValuesMap(workshopMap)
-                setModList(data.data || [])
-                setRoot(object)
-            }).catch(error => {
-                console.log(error);
-            })
+            .then(resp => {
+                initModList(resp.data, modoverrides, setDefaultValuesMap, setModList, setRoot)
+            }).catch(error => console.log(error))
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log('root', root);
-        
-    },[root])
+
+    }, [root])
 
     const items = [
         {
@@ -124,24 +155,21 @@ const Mod = ({modoverrides}) => {
                 setModList={setModList}
                 root={root}
                 setRoot={setRoot}
-                // chooseModList={chooseModList}
-                // add={setChooseModList} 
                 defaultValuesMap={defaultValuesMap}
                 setDefaultValuesMap={setDefaultValuesMap}
-                />,
+            />,
         },
         {
             key: '2',
             label: `订阅模组`,
-            children: <ModSearch addModList={setModList} />,
+            children: <ModSearch addModList={setModList}/>,
         },
     ];
 
 
-
     return (<Container maxWidth="xl">
-        <Box sx={{ p: 0, pb: 1 }} dir="ltr">
-            <Tabs defaultActiveKey="1" items={items} />
+        <Box sx={{p: 0, pb: 1}} dir="ltr">
+            <Tabs defaultActiveKey="1" items={items}/>
         </Box>
     </Container>)
 }

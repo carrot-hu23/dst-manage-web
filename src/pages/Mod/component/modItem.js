@@ -1,70 +1,139 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import {Card, Checkbox, Switch, Popconfirm, Row, Col, Button, message} from 'antd';
+import {useState} from 'react';
+import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin} from 'antd';
 
 import './mod.css';
 import {useParams} from "react-router-dom";
-import { deleteModInfo } from '../../../api/modApi';
+import {deleteModInfo, getModInfo} from '../../../api/modApi';
 
+
+function subscribeMod(modid, modList, setModList, setStartLoading) {
+    setStartLoading(true)
+    getModInfo("", modid).then(data => {
+        console.log(data.data);
+        setStartLoading(false)
+        setModList(current => {
+            // return [...current, data.data]
+            const newModList = []
+            // eslint-disable-next-line no-restricted-syntax
+            for (const mod of current) {
+                if (mod.modid !== modid) {
+                    newModList.push(mod)
+                }
+            }
+            data.data.installed = true
+            newModList.push(data.data)
+            console.log("newModList: ", newModList)
+            return newModList
+        })
+        message.success(`订阅 ${modid} 成功`)
+    }).catch(error => {
+        message.success(`获取 ${modid} 失败`)
+    })
+
+}
 
 const ModItem = (props) => {
-    const {removeMod} = props
+    const {removeMod, modList, setModList} = props
     const [mod, setMod] = useState({})
     const {cluster} = useParams()
-    
-    return <Card className='mod' style={{ margin: ' 0 0 16px' }}>
-        <Row onClick={() => { props.changeMod(props.mod) }}>
-            <Col flex="64px">
-                <img
-                    alt="example"
-                    src={props.mod.img}
-                />
-            </Col>
-            <Col flex="auto" style={{ paddingLeft: '16px' }}>
-                <Row>
-                    <Col span={24}><span style={{
-                        fontSize: '16px'
-                    }}>{props.mod.name}</span></Col>
-                </Row>
-                <Row style={{
-                    marginTop: '12px'
-                }}>
-                    <Col span={12} />
-                    <Col span={24}>
-                        {/* <Checkbox
-                            checked={props.mod.enable}
-                            onChange={() => { props.changeEnable(props.mod.modid) }}>
-                            {props.mod.enable && <span>启用</span>}
-                            {!props.mod.enable && <span>禁用</span>}
-                        </Checkbox> */}
-                        <Switch checkedChildren="开启" unCheckedChildren="关闭"
-                            defaultChecked={props.mod.enable}
-                            onChange={() => { props.changeEnable(props.mod.modid) }}
+    const [startLoading, setStartLoading] = useState(false)
+
+    return <Spin spinning={startLoading} tip={"正在订阅模组"}>
+        <Card className='mod' style={{margin: ' 0 0 16px'}}>
+            <Row onClick={() => {
+                props.changeMod(props.mod)
+            }}>
+                {props.mod.installed && <>
+                    <Col flex="64px">
+                        <img
+                            alt="example"
+                            src={props.mod.img}
                         />
-                        <Popconfirm
-                            title="是否取消该mod订阅"
-                            // description="是否取消该mod订阅"
-                            okText="Yes"
-                            cancelText="No"
-                            onConfirm={() => {
-                                deleteModInfo(cluster,mod.modid)
-                                    .then(resp=>{
-                                        if (resp.code === 200) {
-                                            message.success("删除模组成功")
-                                            removeMod(mod.modid)
-                                        }
-                                    })
-                            }}
-                        >
-                            <Button type="text" danger onClick={() => { setMod(props.mod) }}>
-                                删除
-                            </Button>
-                        </Popconfirm>
                     </Col>
-                </Row>
-            </Col>
-        </Row>
-    </Card>
+                    <Col flex="auto" style={{paddingLeft: '16px'}}>
+                        <Row>
+                            <Col span={24}><span style={{
+                                fontSize: '16px'
+                            }}>{props.mod.name}</span></Col>
+                        </Row>
+                        <Row style={{
+                            marginTop: '12px'
+                        }}>
+                            <Col span={12}/>
+                            <Col span={24}>
+                                <Switch checkedChildren="开启" unCheckedChildren="关闭"
+                                        defaultChecked={props.mod.enable}
+                                        onChange={() => {
+                                            props.changeEnable(props.mod.modid)
+                                        }}
+                                />
+                                <Popconfirm
+                                    title="是否取消该mod订阅"
+                                    okText="Yes"
+                                    cancelText="No"
+                                    onConfirm={() => {
+                                        deleteModInfo(cluster, mod.modid)
+                                            .then(resp => {
+                                                if (resp.code === 200) {
+                                                    message.success("删除模组成功")
+                                                    removeMod(mod.modid)
+                                                }
+                                            })
+                                    }}
+                                >
+                                    <Button type="text" danger onClick={() => {
+                                        setMod(props.mod)
+                                    }}>
+                                        删除
+                                    </Button>
+                                </Popconfirm>
+                            </Col>
+                        </Row>
+                    </Col>
+                </>}
+            </Row>
+            <Row>
+                {props.mod.installed === false && <>
+                    <Col flex="64px">
+                        <img
+                            alt="example"
+                            src={props.mod.img}
+                        />
+                    </Col>
+                    <Col flex="auto" style={{paddingLeft: '16px'}}>
+                        <Row>
+                            <Col span={24}><span style={{
+                                fontSize: '16px'
+                            }}>{props.mod.modid}</span></Col>
+                        </Row>
+                        <Row style={{
+                            marginTop: '12px'
+                        }}>
+                            <Col span={12}/>
+                            <Col span={24}>
+
+                                <Popconfirm
+                                    title="是否订阅mod订阅"
+                                    okText="Yes"
+                                    cancelText="No"
+                                    onConfirm={() => {
+                                        subscribeMod(props.mod.modid, modList, setModList, setStartLoading)
+                                    }}
+                                >
+                                    <Button type="primary" onClick={() => {
+                                        setMod(props.mod)
+                                    }}>
+                                        订阅
+                                    </Button>
+                                </Popconfirm>
+                            </Col>
+                        </Row>
+                    </Col>
+                </>}
+            </Row>
+        </Card>
+    </Spin>
 }
 
 export default ModItem

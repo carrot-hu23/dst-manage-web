@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import _ from "lodash";
-import { Row, Col, Card, Button, Space, Tooltip, message } from 'antd';
+import {Row, Col, Card, Button, Space, Tooltip, message} from 'antd';
 import {useParams} from "react-router-dom";
 import ModItem from './component/modItem';
 import ModDetail from './component/modConfig';
-import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
-import { deleteStepupWorkshopApi } from '../../api/modApi';
+import {getHomeConfigApi, saveHomeConfigApi} from '../../api/gameApi';
+import {deleteStepupWorkshopApi} from '../../api/modApi';
 
 function containsChinese(str) {
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < str.length; i++) {
-      const charCode = str.charCodeAt(i);
-      if (charCode >= 0x4e00 && charCode <= 0x9fff) {
-        return true;
-      }
+        const charCode = str.charCodeAt(i);
+        if (charCode >= 0x4e00 && charCode <= 0x9fff) {
+            return true;
+        }
     }
     return false;
-  }
+}
 
 // eslint-disable-next-line react/prop-types
-const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaultValuesMap }) => {
+const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefaultValuesMap}) => {
 
-    // console.log("defaultValuesMap: ",defaultValuesMap)
+    console.log("modList: ", modList)
 
     const [mod, setMod] = useState({})
     const changeMod = (mod) => {
@@ -81,7 +81,7 @@ const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaul
                 const homeConfig = data.data
                 homeConfig.modData = config
                 console.log(homeConfig)
-                saveHomeConfigApi(cluster,homeConfig).then(() => {
+                saveHomeConfigApi(cluster, homeConfig).then(() => {
                     message.info("保存mod成功")
                 }).catch(error => {
                     console.log(error);
@@ -93,16 +93,16 @@ const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaul
 
     function deleteStepupWorkshop() {
         deleteStepupWorkshopApi()
-        .then(data => {
-            if(data.code === 200) {
-                message.success("更新模组成功，请重启房间")
-            } else{
-                message.warning("更新模组失败")
-            }
-        })
+            .then(data => {
+                if (data.code === 200) {
+                    message.success("更新模组成功，请重启房间")
+                } else {
+                    message.warning("更新模组失败")
+                }
+            })
     }
-    
-    const removeMod = (modId)=> {
+
+    const removeMod = (modId) => {
         const newModList = []
         // eslint-disable-next-line no-restricted-syntax
         for (const mod of modList) {
@@ -112,7 +112,7 @@ const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaul
         }
         setModList([...newModList])
     }
-    
+
     useEffect(() => {
         setMod(modList[0] || {})
     }, [modList])
@@ -120,12 +120,12 @@ const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaul
     return (
         <>
             <Space>
-                <Button type="primary" onClick={() => saveModConfig()}  >保存配置</Button>
+                <Button type="primary" onClick={() => saveModConfig()}>保存配置</Button>
                 <Tooltip title="点击会删除房间的mods, 重新启动会自动重新下载mod">
-                <   Button type="primary" onClick={()=>deleteStepupWorkshop()} >更新配置</Button>    
+                    <   Button type="primary" onClick={() => deleteStepupWorkshop()}>更新配置</Button>
                 </Tooltip>
             </Space>
-            <br /><br />
+            <br/><br/>
             {/* <Divider /> */}
             <Row gutter={24}>
                 <Col span={10} xs={24} md={10} lg={10}>
@@ -141,10 +141,12 @@ const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaul
                                 changeMod={changeMod}
                                 changeEnable={changeEnable}
                                 removeMod={removeMod}
+                                modList={modList}
+                                setModList={setModList}
                             />)}
                         </Card>}
                     </div>
-                    <br />
+                    <br/>
                 </Col>
                 <Col span={14} xs={24} md={14} lg={14}>
                     {mod.modid !== undefined && <ModDetail
