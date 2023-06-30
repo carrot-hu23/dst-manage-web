@@ -15,7 +15,7 @@ import BackupStatistic from './Statistic';
 import {getBackupApi, deleteBackupApi, renameBackupApi, restoreBackupApi} from '../../api/backupApi';
 
 
-const MyUploadFile = () => {
+const MyUploadFile = ({cluster}) => {
     const [fileList, setFileList] = useState([]);
     const [uploading, setUploading] = useState(false);
 
@@ -27,8 +27,11 @@ const MyUploadFile = () => {
 
         setUploading(true);
         // 发送上传请求
-        // 这里使用了axios库，你可以使用你喜欢的库
-        axios.post('/api/game/backup/upload', formData)
+        axios.post('/api/game/backup/upload', formData,{
+                headers: {
+                    'Cluster': cluster,
+                }
+            })
             .then(response => {
                 console.log(response.data);
                 setFileList([]);
@@ -360,7 +363,7 @@ const Backup = () => {
 
     const HeaderTitle = () => (
         <Space>
-            <MyUploadFile/>
+            <MyUploadFile cluster={cluster}/>
             <Button type="primary" danger onClick={deleteSelectBackup}>
                 删除
             </Button>

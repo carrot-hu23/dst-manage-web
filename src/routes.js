@@ -29,10 +29,10 @@ import ClusterList from "./pages/ClusterList";
 export default function Router() {
   const routes = useRoutes([
     {
-      path: '/dashboard',
+      path: '/:cluster/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/:cluster/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
@@ -59,9 +59,13 @@ export default function Router() {
       element: <Begin />,
     },
     {
+      path: '/cluster',
+      element: <ClusterList />,
+    },
+    {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/cluster" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
