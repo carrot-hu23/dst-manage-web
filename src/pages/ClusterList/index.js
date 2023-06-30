@@ -172,34 +172,6 @@ export default () => {
                 </>
             )
         },
-        // {
-        //     title: 'steamcmd',
-        //     dataIndex: 'steamcmd',
-        //     key: 'steamcmd',
-        //     ellipsis: true,
-        //     search: false
-        // },
-        // {
-        //     title: '饥荒安装位置',
-        //     dataIndex: 'force_install_dir',
-        //     key: 'force_install_dir',
-        //     ellipsis: true,
-        //     search: false
-        // },
-        // {
-        //     title: '存档备份路径',
-        //     dataIndex: 'backup',
-        //     key: 'backup',
-        //     ellipsis: true,
-        //     search: false
-        // },
-        // {
-        //     title: '模组下载路径',
-        //     dataIndex: 'mod_download_path',
-        //     key: 'mod_download_path',
-        //     ellipsis: true,
-        //     search: false
-        // },
         {
             title: t('createDate'),
             dataIndex: 'CreatedAt',
@@ -214,9 +186,6 @@ export default () => {
             render: (_, record) => [
                 // eslint-disable-next-line react/jsx-key
                 (<div>
-                    {/* <Button type="link" onClick={() => {
-                        key={record.id}>更新</Button>
-
                     <Popconfirm
                         title="Delete the cluster"
                         description="Are you sure to delete this cluster?"
@@ -233,7 +202,7 @@ export default () => {
                         cancelText="No"
                     >
                         <Button type="link" key={record.id}>Delete</Button>
-                    </Popconfirm> */}
+                    </Popconfirm>
 
                     <Button type="link" onClick={() => {
                         setIsOpenUpdateCluster(true)

@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import { Card, Modal, Button, Space, Row, Col, Form, Typography } from 'antd';
+import {Card, Modal, Button, Space, Row, Col, Form, Typography} from 'antd';
 import Select2 from './Select2';
 
-const { Paragraph } = Typography;
+const {Paragraph} = Typography;
 
-const OptionSelect = ({ mod, root, setRoot, defaultValues,defaultValuesMap, setDefaultValuesMap}) => {
+const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefaultValuesMap}) => {
 
     const [form] = Form.useForm();
     useEffect(() => {
@@ -14,7 +14,7 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues,defaultValuesMap, setD
         if (options !== undefined && options !== null) {
             const object = {};
             options.forEach((item) => {
-                const { name } = item;
+                const {name} = item;
                 const value = item.default;
                 object[name] = value;
             });
@@ -40,11 +40,20 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues,defaultValuesMap, setD
 
                 // 同时把 默认的配置 也更新下
                 const newDefaultValue = _.cloneDeep(defaultValuesMap)
-                _.set(newDefaultValue, `${mod.modid}.${fieldName}`, fieldValue)
+                // _.set(newDefaultValue, `"${mod.modid}".${fieldName}`, fieldValue)
+                console.log("newDefaultValue.get(mod.modid): ", newDefaultValue.get(mod.modid))
+                if (newDefaultValue.get(mod.modid) === undefined || newDefaultValue.get(mod.modid) === null) {
+                    const obj = {
+                        fieldName: fieldValue
+                    }
+                    newDefaultValue.set(mod.modid, obj)
+                } else {
+                    newDefaultValue.get(mod.modid)[`${fieldName}`] = fieldValue
+                }
                 setDefaultValuesMap(newDefaultValue)
 
-                console.log("defaultValuesMap: ",defaultValuesMap)
-                console.log("newDefaultValue: ",newDefaultValue)
+                console.log("defaultValuesMap: ", defaultValuesMap)
+                console.log("newDefaultValue: ", newDefaultValue)
             }
         }
         const _root = _.cloneDeep(root);
@@ -68,17 +77,24 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues,defaultValuesMap, setD
                     mod.mod_config.configuration_options
                         .filter((item) => item.options !== undefined)
                         .map((item) =>
-                        // eslint-disable-next-line react/jsx-key
-                        {
-                            if (item.name === 'Title' || item.name === '') {
-                                return <h4 key={item.label}>{item.label} 配置</h4>;
+                                // eslint-disable-next-line react/jsx-key
+                            {
+                                if (item.name === 'Title' || item.name === '') {
+                                    return <h4 key={item.label}>{item.label} 配置</h4>;
+                                }
+                                if (item.label === undefined || item.label === '') {
+                                    return <h4 key={item.name}>{item.name}</h4>;
+                                }
+                                let defaultValue
+                                if (defaultValuesMap.get(`${mod.modid}`) !== undefined) {
+                                    defaultValue = defaultValuesMap.get(`${mod.modid}`)[`${item.name}`]
+                                } else {
+                                    defaultValue = undefined
+                                }
+                                // console.log("1111111: ",defaultValuesMap, mod.modid, defaultValuesMap.get(`${mod.modid}`), item.name)
+                                return <Select2 key={item.name} item={item}
+                                                defaultValue={defaultValue}/>;
                             }
-                            if (item.label === undefined || item.label === '') {
-                                return <h4 key={item.name}>{item.name}</h4>;
-                            }
-                            console.log("1111111: ",defaultValuesMap.get(`${mod.modid}`), item.name)
-                            return <Select2 key={item.name} item={item} defaultValue={defaultValuesMap.get(`${mod.modid}`)[`"${item.name}"`]}/>;
-                        }
                         )}
             </Form>
         </>
@@ -86,7 +102,7 @@ const OptionSelect = ({ mod, root, setRoot, defaultValues,defaultValuesMap, setD
 };
 
 // eslint-disable-next-line react/prop-types
-const ModDetail = ({ mod, root, setRoot, defaultValues,defaultValuesMap,setDefaultValuesMap }) => {
+const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefaultValuesMap}) => {
 
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
@@ -102,23 +118,23 @@ const ModDetail = ({ mod, root, setRoot, defaultValues,defaultValuesMap,setDefau
         >
             <Row>
                 <Col flex={'100px'}>
-                    <img alt="example" src={mod.img} />
+                    <img alt="example" src={mod.img}/>
                 </Col>
-                <Col flex="auto" style={{ paddingLeft: '16px' }}>
+                <Col flex="auto" style={{paddingLeft: '16px'}}>
                     <span>{mod.name}</span>
-                    <br />
+                    <br/>
                     <span>{mod.modid}</span>
-                    <br />
+                    <br/>
                     <span>作者: {mod.mod_config.author}</span>
-                    <br />
+                    <br/>
                     <span>版本: {mod.v}</span>
-                    <br />
+                    <br/>
                     <span>与《饥荒联机版兼容》</span>
-                    <br />
+                    <br/>
                 </Col>
             </Row>
             <div>
-                <br />
+                <br/>
                 <Paragraph
                     ellipsis={
                         ellipsis
@@ -133,8 +149,8 @@ const ModDetail = ({ mod, root, setRoot, defaultValues,defaultValuesMap,setDefau
                     {mod.description}
                 </Paragraph>
 
-                <br />
-                <br />
+                <br/>
+                <br/>
             </div>
             <Space>
                 <Button type="primary" onClick={() => setOpen(true)}>

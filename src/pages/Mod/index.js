@@ -9,6 +9,13 @@ import ModList from './ModList';
 import ModSearch from './ModSearch';
 import { getMyModInfoList } from '../../api/modApi';
 
+function unstring(str) {
+    if (typeof str === 'string') {
+        return str.replace(/^"(.*)"$/, '$1')
+    }
+    return str
+}
+
 function getWorkShopConfigMap(modConfig) {
 
     if (modConfig === undefined || modConfig === null) {
@@ -19,6 +26,7 @@ function getWorkShopConfigMap(modConfig) {
         const workshopListAst = ast.body[0].arguments[0].fields
         // const workshopMap = {}
         const workshopMap = new Map();
+        const workshopMap2 = {}
         // eslint-disable-next-line no-restricted-syntax
         for (const workshopAst of workshopListAst) {
             const { key } = workshopAst
@@ -27,17 +35,37 @@ function getWorkShopConfigMap(modConfig) {
             const config = {}
             
             workshopMap.set(workshopId.replace('workshop-', '').replace('"','').replace('"',''), config)
+            workshopMap2[`${workshopId.replace('workshop-', '').replace('"','').replace('"','')}`] = config
             // eslint-disable-next-line no-restricted-syntax
             for (const field of value.fields) {
                 if (field.key.name === 'configuration_options') {
+                    console.log("field: ",field)
                     // eslint-disable-next-line no-restricted-syntax
                     for (const configItem of field.value.fields) {
-                        config[configItem.key.raw] = configItem.value.value
+                        if (configItem.key.raw === undefined) {
+                            // eslint-disable-next-line no-continue
+                            continue
+                        }
+                        const name = unstring(configItem.key.raw)
+                        if (configItem.value.value === undefined) {
+                            if (configItem.value.argument !== undefined && configItem.value.operator === "-") {
+                                config[name] = -(configItem.value.argument.value)
+                            } else {
+                                config[name] = configItem.value.value
+                            }
+                        } else if (configItem.value.value === null) {
+                            config[name] = unstring(configItem.value.raw)
+                        } else {
+                            config[name] = configItem.value.value
+                        }
+
                         // console.log("configItem: ", configItem.key.raw, configItem.value.value)
                     }
                 }
             }
         }
+        console.log("workshopMap2: ",workshopMap2)
+        console.log("workshopMap: ",workshopMap)
         return workshopMap
     } catch (error) {
         console.log('workshopMap error',error);

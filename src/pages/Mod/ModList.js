@@ -45,13 +45,30 @@ const ModList = ({ modList, setModList, root, setRoot,defaultValuesMap,setDefaul
         const chooses = modList.filter(mod => mod.enable)
         const modids = chooses.map(mod => mod.modid)
         console.log("选择的mod: ",modids)
+        console.log("defaultValuesMap: ", defaultValuesMap)
         const object = _.pick(root, modids)
-        const keys = Object.keys(object)
+        console.log("root: ", object)
+        const object1 = {}
+        // eslint-disable-next-line no-restricted-syntax
+        for (const id of modids) {
+            defaultValuesMap.get(id)
+            object1[id] = defaultValuesMap.get(id)
+            console.log("id:", defaultValuesMap.get(id))
+        }
+        console.log("object1: ", object1)
+        const object2 = _.merge({}, object, object1)
+        console.log("object2: ", _.merge({}, object, object1))
+        const keys = Object.keys(object2)
         let config = "return {\n"
         keys.forEach(key => {
-            const str = Object.entries(object[key])
+            const str = Object.entries(object2[key])
                 .filter(([key, value]) => key !== '' && !containsChinese(key))
-                .map(([key, value]) => `["${key}"]=${value.toString()},`)
+                .map(([key, value]) => {
+                    if (typeof value === "string") {
+                        return `["${key}"]="${value.toString()}",`
+                    }
+                    return `["${key}"]=${value},`
+                })
                 .join("\n");
             const workshop = `["workshop-${key}"]={ configuration_options={${str}},enabled=true }`
             config += `  ${workshop},\n`
