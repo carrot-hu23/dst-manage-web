@@ -22,6 +22,7 @@ function subscribeMod(modid, modList, setModList, setStartLoading) {
                 }
             }
             data.data.installed = true
+            data.data.enable = true
             newModList.push(data.data)
             console.log("newModList: ", newModList)
             return newModList
