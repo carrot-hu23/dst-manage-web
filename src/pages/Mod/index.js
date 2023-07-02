@@ -96,6 +96,8 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
             mod.enable = true
             mod.installed = true
         } else {
+            mod.enable = false
+            mod.installed = true
             workshopMap.set(modid, object[modid])
         }
     });
