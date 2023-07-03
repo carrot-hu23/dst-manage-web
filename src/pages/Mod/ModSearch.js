@@ -40,7 +40,7 @@ const ModCard = ({ modInfo, addModList, subscribe }) => {
         </Card>
         */}
 
-        <Card style={{margin: '16px'}}>
+        <Card style={{margin: '8px',padding: '4px',}}>
             <Space size={16}>
                 <div>
                     <a
