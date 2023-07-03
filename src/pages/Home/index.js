@@ -11,6 +11,7 @@ import {
     getGameConfigApi,
     saveGameConfigApi
 } from '../../api/gameApi';
+import {customization} from "../../utils/dst";
 
 const Home = () => {
 
@@ -29,6 +30,14 @@ const Home = () => {
                 console.log(data.data)
                 if (data.data === null || data === undefined) {
                     message.error('获取房间配置失败')
+                }
+                if (data.data.cluster.game_mode !== "relaxed" &&
+                    data.data.cluster.game_mode !== "endless" &&
+                    data.data.cluster.game_mode !== "survival" &&
+                    data.data.cluster.game_mode !== "lightsout" ) {
+
+                    data.data.cluster.customization_mode = data.data.cluster.game_mode
+                    data.data.cluster.game_mode = customization
                 }
                 cluster.setFieldsValue({...data.data.cluster,...{cluster_token:data.data.cluster_token}})
                 master.setFieldsValue({...{leveldataoverride: data.data.master.leveldataoverride}, ...data.data.master.server_ini})
@@ -59,9 +68,13 @@ const Home = () => {
     ];
 
     function saveConfig() {
-
+        const clusterData = cluster.getFieldValue()
+        if (clusterData.game_mode === customization) {
+            clusterData.game_mode =  clusterData.customization_mode
+        }
+        console.log("clusterData: ", clusterData)
         const body = {
-            cluster: cluster.getFieldValue(),
+            cluster: clusterData,
             cluster_token: cluster.getFieldValue().cluster_token,
             master: {
                 leveldataoverride: master.getFieldValue().leveldataoverride,

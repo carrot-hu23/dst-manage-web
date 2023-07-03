@@ -11,6 +11,7 @@ import BaseCluster from './cluster';
 
 import {toLeveldataoverride, translateJsonObject, translateLuaObject} from "../../utils/dstUtils";
 import Mod from "../Mod";
+import {customization} from "../../utils/dst";
 
 const ClusterView = () => {
 
@@ -65,6 +66,9 @@ const ClusterView = () => {
 
         const data = formCluster.getFieldValue()
         data.type = 0
+        if (data.gameMode === customization) {
+            data.gameMode =  data.customization_mode
+        }
 
         saveHomeConfigApi(cluster,data).then(() => {
             message.success('房间设置完成, 请重新启动房间 !')
@@ -80,7 +84,13 @@ const ClusterView = () => {
                 if (data.data === null) {
                     message.error('获取房间配置失败')
                 }
-
+                if (data.data.gameMode !== "relaxed" &&
+                    data.data.gameMode !== "endless" &&
+                    data.data.gameMode !== "survival" &&
+                    data.data.gameMode !== "lightsout" ) {
+                    data.data.customization_mode = data.data.gameMode
+                    data.data.gameMode = customization
+                }
                 formCluster.setFieldsValue(data.data)
 
                 setLoading(false)

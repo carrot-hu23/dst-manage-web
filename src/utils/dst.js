@@ -23,6 +23,7 @@ const dstRoles = {
 
 }
 
+const customization = "customization"
 
 // 选择服务器的游戏风格。
 const dstGameMod = [
@@ -55,13 +56,43 @@ const dstGameMod = [
     },
     {
         cn: '暗无天日',
-        name: 'lights out',
+        name: 'lightsout',
         description: `在标准《饥荒》体验的基础上添加黑暗基调。\n
+        `
+    },
+    {
+        cn: '熔炉',
+        name: 'lavaarena',
+        description: `伴随着远古传送门的激活，我们的幸存者发现自己现在被困在一个充满敌意的战火世界里。 如果他们还怀抱着回家的渺茫希望，那就需要团结起来击败战神普格纳的军队以及他的王牌——大熔炉猪战士。\n
+        `
+    },
+    {
+        cn: '暴食',
+        name: 'quagmire',
+        description: `好不容易逃出了熔火大门後，我們的求生者們進到了一個被饥饿的野獸所統治的城市遺跡中。合作煮出美味的料理以緩解噬咬永無止盡的飢餓，避免受到可怕詛咒的折磨。煮出來的料理夠好吃，說不定你還可以回到原本的世界\n
+        `
+    },
+    {
+        cn: '海钓模式',
+        name: 'OceanFishing',
+        description: `海钓随机物品\n
+        `
+    },
+    {
+        cn: '闯关模式',
+        name: 'starvingfloor',
+        description: `饥荒单机版的闯关模式\n
+        `
+    },
+    {
+        cn: '自定义模式',
+        name: customization,
+        description: `自定义模式\n
         `
     },
 
 ]
 
 export {
-    dstRoles, dstGameMod
+    dstRoles, dstGameMod,customization
 }
