@@ -87,7 +87,12 @@ const ClusterView = () => {
                 if (data.data.gameMode !== "relaxed" &&
                     data.data.gameMode !== "endless" &&
                     data.data.gameMode !== "survival" &&
-                    data.data.gameMode !== "lightsout" ) {
+                    data.data.gameMode !== "wilderness" &&
+                    data.data.gameMode !== "lightsout" &&
+                    data.data.gameMode !== "lavaarena" &&
+                    data.data.gameMode !== "quagmire" &&
+                    data.data.gameMode !== "OceanFishing" &&
+                    data.data.gameMode !== "starvingfloor") {
                     data.data.customization_mode = data.data.gameMode
                     data.data.gameMode = customization
                 }

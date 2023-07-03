@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import _ from 'lodash';
 import {Card, Modal, Button, Space, Row, Col, Form, Typography} from 'antd';
 import Select2 from './Select2';
+import {timestampToString} from "../../../utils/dateUitls";
 
 const {Paragraph} = Typography;
 
@@ -136,7 +137,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                             </div>
                             <div>
                                 <span>版本: {mod.mod_config.version}</span>
-                                <div>最后更新时间: {mod.last_time}</div>
+                                <div>最后更新时间: {timestampToString(mod.last_time* 1000)}</div>
                                 <span>{mod.mod_config.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
                                 <span>{mod.mod_config.dont_starve_compatible === false && <span>-</span>}</span>
                             </div>

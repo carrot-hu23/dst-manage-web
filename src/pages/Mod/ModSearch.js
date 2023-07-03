@@ -3,39 +3,68 @@ import { useEffect, useState } from 'react';
 import {Row, Col, Card, Input, Pagination, Button, message, Space, Image} from 'antd';
 import {useParams} from "react-router-dom";
 import { getModInfo, searchMod } from '../../api/modApi';
-import {dstRoles} from "../../utils/dst";
+import {timestampToString} from "../../utils/dateUitls";
 
 const { Search } = Input;
 
 const ModCard = ({ modInfo, addModList, subscribe }) => {
     const [loading, setLoading] = useState(false)
-    return <Card
-        hoverable
-        style={{
-            width: 150,
-            padding: '8px',
-        }}
-        cover={
-            <a
-                target={'_blank'}
-                href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
-                <img
-                    alt="example"
-                    src={modInfo.img}
-                />
-            </a>
-        }
-    >
+    return (<>
+        {/*
+        <Card
+            hoverable
+            style={{
+                width: 150,
+                padding: '4px',
+            }}
+            cover={
+                <a
+                    target={'_blank'}
+                    href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
+                    <img
+                        alt="example"
+                        src={modInfo.img}
+                    />
+                </a>
+            }
+        >
             <div>
                 <div>{modInfo.name}</div>
-                <div>最后时间: {modInfo.time}</div>
+                <div>时间:{timestampToString(modInfo.time*1000)}</div>
                 <div>订阅数: {modInfo.sub}</div>
             </div>
-        <Button
-            loading={loading}
-            type="primary"
-            onClick={() => subscribe(modInfo.id, modInfo.name, addModList, setLoading)}>订阅</Button>
-    </Card>
+            <Button
+                loading={loading}
+                type="primary"
+                onClick={() => subscribe(modInfo.id, modInfo.name, addModList, setLoading)}>订阅</Button>
+        </Card>
+        */}
+
+        <Card style={{margin: '16px'}}>
+            <Space size={16}>
+                <div>
+                    <a
+                        target={'_blank'}
+                        href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
+                        <Image preview={false} width={100} src={modInfo.img} />
+                    </a>
+                </div>
+                <div>
+                    <div>
+                        <div>{modInfo.name}</div>
+                        <div>时间:{timestampToString(modInfo.time*1000)}</div>
+                        <div>订阅数: {modInfo.sub}</div>
+                    </div>
+                    <Button
+                        loading={loading}
+                        type="primary"
+                        size={'small'}
+                        onClick={() => subscribe(modInfo.id, modInfo.name, addModList, setLoading)}>订阅</Button>
+                </div>
+            </Space>
+
+        </Card>
+    </>)
 }
 
 const ModSearch = ({ addModList }) => {
@@ -120,7 +149,7 @@ const ModSearch = ({ addModList }) => {
             <br />
             <br />
             <Row>
-                {modList.map(modinfo => (<Col key={modinfo.id} xs={12} sm={8} md={6} lg={5} xl={4}>
+                {modList.map(modinfo => (<Col key={modinfo.id} xs={24} sm={8} md={8} lg={8} xl={8}>
                     <ModCard modInfo={modinfo} addModList={addModList} subscribe={subscribe} />
                     <br />
                 </Col>))}

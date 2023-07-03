@@ -201,8 +201,21 @@ export function getPriorMonthFirstDay(year, month) {
 };
 
 
+function timestampToString(timestamp) {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 月份从 0 开始，需要加 1
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    const dateString = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    return dateString;
+}
+
 
 export {
     format,
-    translateFormat
+    translateFormat,
+    timestampToString
 }

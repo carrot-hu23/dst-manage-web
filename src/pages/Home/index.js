@@ -34,8 +34,12 @@ const Home = () => {
                 if (data.data.cluster.game_mode !== "relaxed" &&
                     data.data.cluster.game_mode !== "endless" &&
                     data.data.cluster.game_mode !== "survival" &&
-                    data.data.cluster.game_mode !== "lightsout" ) {
-
+                    data.data.cluster.game_mode !== "wilderness" &&
+                    data.data.cluster.game_mode !== "lightsout" &&
+                    data.data.cluster.game_mode !== "lavaarena" &&
+                    data.data.cluster.game_mode !== "quagmire" &&
+                    data.data.cluster.game_mode !== "OceanFishing" &&
+                    data.data.cluster.game_mode !== "starvingfloor") {
                     data.data.cluster.customization_mode = data.data.cluster.game_mode
                     data.data.cluster.game_mode = customization
                 }
