@@ -431,7 +431,7 @@ const Backup = () => {
                     <Box sx={{p: 3, pb: 1}} dir="ltr">
                         <BackupStatistic size={backupData.length} data={backupDataSize}/>
                         <br/>
-
+                        <HeaderTitle />
                         <Table
                             columns={columns}
                             dataSource={dataSource}
