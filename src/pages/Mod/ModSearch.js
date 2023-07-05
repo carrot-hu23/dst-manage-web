@@ -40,20 +40,20 @@ const ModCard = ({ modInfo, addModList, subscribe }) => {
         </Card>
         */}
 
-        <Card style={{margin: '8px',padding: '4px',}}>
-            <Space size={16}>
+        <Card className='mod' style={{margin: '8px',padding: '4px',}}>
+            <Space size={16} wrap>
                 <div>
                     <a
                         target={'_blank'}
                         href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
-                        <Image preview={false} width={100} src={modInfo.img} />
+                        <Image style={{borderRadius: '4px'}} preview={false} width={100} src={modInfo.img} />
                     </a>
                 </div>
                 <div>
                     <div>
                         <div>{modInfo.name}</div>
-                        <div>时间:{timestampToString(modInfo.time*1000)}</div>
-                        <div>订阅数: {modInfo.sub}</div>
+                        <div>时间:&nbsp;{timestampToString(modInfo.time*1000)}</div>
+                        <div>订阅数:&nbsp;{modInfo.sub}</div>
                     </div>
                     <Button
                         loading={loading}
