@@ -3,6 +3,7 @@ import {Tabs} from "antd";
 
 import DstConfigSetting from "./DstConfigSettting";
 import InstallSteamCmd from "./InstallSteamCmd";
+import JobTask from "./JobTaskList";
 
 const System = () => {
     const items = [
@@ -13,6 +14,11 @@ const System = () => {
         },
         {
             key: '2',
+            label: "定时任务",
+            children: <JobTask/>,
+        },
+        {
+            key: '3',
             label: "环境依赖",
             children: <InstallSteamCmd/>,
         },

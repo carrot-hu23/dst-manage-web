@@ -365,7 +365,7 @@ const Backup = () => {
     ]
 
     const HeaderTitle = () => (
-        <Space>
+        <Space wrap>
             <MyUploadFile/>
             <Button type="primary" danger onClick={deleteSelectBackup}>
                 删除
@@ -432,7 +432,11 @@ const Backup = () => {
                         <BackupStatistic size={backupData.length} data={backupDataSize}/>
                         <br/>
                         <HeaderTitle />
+                        <br/><br/>
                         <Table
+                            scroll={{
+                                x: 600,
+                            }}
                             columns={columns}
                             dataSource={dataSource}
                             pagination={{

@@ -108,11 +108,10 @@ const DstConfigSetting = () => {
 
                         <Form.Item
                             wrapperCol={{
-                                offset: 8,
-                                span: 16,
+                                span: 24,
                             }}
                         >
-                            <Button type="primary" htmlType="submit">
+                            <Button style={{margin: "0 auto", display: "block"}} type="primary" htmlType="submit">
                                 保存
                             </Button>
                         </Form.Item>
