@@ -434,6 +434,7 @@ const Backup = () => {
                         <HeaderTitle />
                         <br/><br/>
                         <Table
+                            rowSelection={rowSelection}
                             scroll={{
                                 x: 600,
                             }}

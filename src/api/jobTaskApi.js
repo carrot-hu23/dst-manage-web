@@ -10,6 +10,28 @@ async function getJobTaskListApi(cluster) {
     return response.data
 }
 
+async function addJobTaskApi(cluster, jobTask) {
+    const url = '/api/task'
+    const response = await http.post(url,jobTask,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function deleteJobTaskApi(cluster, jobId) {
+    const url = `/api/task?jobId=${jobId}`
+    const response = await http.delete(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
-    getJobTaskListApi
+    getJobTaskListApi,
+    addJobTaskApi,
+    deleteJobTaskApi
 }
