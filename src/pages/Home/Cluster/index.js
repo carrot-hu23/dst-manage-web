@@ -4,7 +4,7 @@ import {
     InputNumber,
     Switch,
     Radio,
-    Tooltip,
+    Tooltip, Divider,
 } from 'antd';
 
 import {useState} from "react";
@@ -17,6 +17,11 @@ const HomeSetting = (props) => {
     const onRadioChange = (e) => {
         // console.log("onRadioChange:", e.target.value)
         setChoose(e.target.value);
+        // if (e.target.value === 'quagmire') {
+        //     props.form.setFieldValue("pause_when_nobody", false)
+        // } else {
+        //     props.form.setFieldValue("pause_when_nobody", true)
+        // }
     };
 
     return (<>
@@ -45,12 +50,8 @@ const HomeSetting = (props) => {
                 padding: 16
             }}
         >
-            {/* <Row>
-        <Col span={8} push={4}>
-        <h3>基本配置项</h3>
-        </Col>
-      </Row> */}
-            <h3>基本配置项</h3>
+            <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>基本配置项</span></Divider>
+
             <Form.Item
                 label="房间名称"
                 name='cluster_name'
@@ -145,7 +146,8 @@ const HomeSetting = (props) => {
                 <InputNumber placeholder="max_snapshots" maxLength={200}/>
             </Form.Item>
 
-            <h3>多世界配置项</h3>
+            <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>多世界配置项</span></Divider>
+
             <Form.Item label="多世界" valuePropName="checked" tooltip="shard_enabled" name='shard_enabled'>
                 <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
             </Form.Item>
@@ -179,7 +181,8 @@ const HomeSetting = (props) => {
                 <Input placeholder="cluster_key" maxLength={200}/>
             </Form.Item>
 
-            <h3>Steam 配置项</h3>
+            <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>Steam 配置项</span></Divider>
+
             <Form.Item label="仅Steam群组进入" valuePropName="checked" name='steam_group_only'>
                 <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
             </Form.Item>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Card, Modal, Button, Space, Row, Col, Form, Typography} from 'antd';
+import {Card, Modal, Button, Space, Row, Col, Form, Typography, Divider} from 'antd';
 import Select2 from './Select2';
 import {timestampToString} from "../../../utils/dateUitls";
 
@@ -81,10 +81,15 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
                                 // eslint-disable-next-line react/jsx-key
                             {
                                 if (item.name === 'Title' || item.name === '') {
-                                    return <h4 key={item.label}>{item.label} 配置</h4>;
+                                    if (item.label === '') {
+                                        return ""
+                                    }
+                                    return <Divider key={item.label} ><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label} 配置</span></Divider>
+                                    // return <h4 key={item.label}>{item.label} 配置</h4>;
                                 }
                                 if (item.label === undefined || item.label === '') {
-                                    return <h4 key={item.name}>{item.name}</h4>;
+                                    return <Divider key={item.name} ><span style={{fontSize: "14px", fontWeight: "600"}}>{item.name}</span></Divider>
+                                    // return <h4 key={item.name}>{item.name}</h4>;
                                 }
                                 let defaultValue
                                 if (defaultValuesMap.get(`${mod.modid}`) !== undefined) {
@@ -112,43 +117,36 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
     return (
         <Card
             style={{
-                height: '360px',
+                height: '370px',
                 overflowY: 'auto',
                 overflowX: 'auto',
             }}
         >
             {mod.installed && <>
-                <Row>
-                    <Col flex={'100px'}>
-                        <img alt="example" src={mod.img}/>
-                    </Col>
-                    <Col flex="auto" style={{paddingLeft: '16px'}}>
-                        <Space>
-                            <div>
+                <Space size={16} wrap>
+                    <img alt="example" src={mod.img}/>
+                    <div>
                             <span style={{
                                 color: '#ff4d4f',
                                 fontSize: '16px',
                                 fontWeight: 100
                             }}>{mod.name}</span>
-                                <br/>
-                                <span>模组id:{mod.modid}</span>
-                                <br/>
-                                <span>作者: {mod.mod_config.author}</span>
-                            </div>
-                            <div>
-                                <span>版本: {mod.mod_config.version}</span>
-                                <div>最后更新时间: {timestampToString(mod.last_time* 1000)}</div>
-                                <span>{mod.mod_config.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
-                                <span>{mod.mod_config.dont_starve_compatible === false && <span>-</span>}</span>
-                            </div>
-                        </Space>
-
                         <br/>
-                    </Col>
-                </Row>
+                        <span>模组id:{mod.modid}</span>
+                        <br/>
+                        <span>作者: {mod.mod_config.author}</span>
+                    </div>
+                    <div>
+                        <span>版本: {mod.mod_config.version}</span>
+                        <div>最后更新时间: {timestampToString(mod.last_time* 1000)}</div>
+                        <span>{mod.mod_config.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
+                        <span>{mod.mod_config.dont_starve_compatible === false && <span>-</span>}</span>
+                    </div>
+                </Space>
                 <div>
                     <br/>
                     <Paragraph
+                        getContainer={false}
                         ellipsis={
                             ellipsis
                                 ? {
@@ -163,7 +161,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                     </Paragraph>
 
                     <br/>
-                    <br/>
+
                 </div>
                 <Space>
                     <Button type="primary" onClick={() => setOpen(true)}>
@@ -181,6 +179,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                 </Space>
 
                 <Modal
+                    getContainer={document.body}
                     title={`${mod.name} 配置`}
                     // centered
                     open={open}
@@ -191,12 +190,24 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                     width={640}
                     destroyOnClose
                 >
-                    {mod.mod_config.configuration_options !== undefined && (
-                        <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}
-                                      defaultValuesMap={defaultValuesMap}
-                                      setDefaultValuesMap={setDefaultValuesMap}
-                        />
-                    )}
+                    <div style={{
+                        height: '386px',
+                        overflowY: 'auto',
+                        overflowX: 'auto'
+                    }}>
+                        {mod.mod_config.configuration_options !== undefined && (
+                            <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}
+                                          defaultValuesMap={defaultValuesMap}
+                                          setDefaultValuesMap={setDefaultValuesMap}
+                            />
+                        )}
+                        {mod.mod_config.configuration_options === undefined &&<>
+                            <br/>
+                            <br/>
+                            <span>暂无配置。请注意有可能网络问题，导致配置获取不到请求请删除模组重新订阅</span>
+                        </>}
+                    </div>
+
                 </Modal>
             </>}
             {!mod.installed && <>

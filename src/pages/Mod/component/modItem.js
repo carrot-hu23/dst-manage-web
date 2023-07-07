@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react';
-import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin} from 'antd';
+import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin, Space, Typography} from 'antd';
 
 import './mod.css';
 import {useParams} from "react-router-dom";
 import {deleteModInfo, getModInfo} from '../../../api/modApi';
 
+const {Paragraph} = Typography;
 
 function subscribeMod(modid, modList, setModList, setStartLoading) {
     setStartLoading(true)
@@ -46,23 +47,30 @@ const ModItem = (props) => {
                 props.changeMod(props.mod)
             }}>
                 {props.mod.installed && <>
-                    <Col flex="64px">
-                        <img
-                            alt="example"
-                            src={props.mod.img}
-                        />
-                    </Col>
-                    <Col flex="auto" style={{paddingLeft: '16px'}}>
-                        <Row>
-                            <Col span={24}><span style={{
-                                fontSize: '16px'
-                            }}>{props.mod.name}</span></Col>
-                        </Row>
-                        <Row style={{
-                            marginTop: '12px'
-                        }}>
-                            <Col span={12}/>
-                            <Col span={24}>
+                    <div style={{display:"flex", justifyContent:"stretch", flex:"1", overflow:"hidden"}}>
+                        <div style={{flexBasis:"20%", marginRight: "20px"}}>
+                            <img
+                                style={{display: "inline-block", maxWidth: "auto"}}
+                                alt="example"
+                                src={props.mod.img}
+                            />
+                        </div>
+
+                        <div style={{flexBasis:"80%", overflow:"hidden"}}>
+
+                            <div style={{
+                                fontSize: '16px',
+                                paddingBottom: '8px',
+                                maxWidth: '100%',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                            }}
+                            >
+
+                                <span style={{}}>{props.mod.name}</span>
+                            </div>
+                            <div>
                                 <Switch checkedChildren="开启" unCheckedChildren="关闭"
                                         defaultChecked={props.mod.enable}
                                         onChange={() => {
@@ -89,9 +97,9 @@ const ModItem = (props) => {
                                         删除
                                     </Button>
                                 </Popconfirm>
-                            </Col>
-                        </Row>
-                    </Col>
+                            </div>
+                        </div>
+                    </div>
                 </>}
             </Row>
             <Row>

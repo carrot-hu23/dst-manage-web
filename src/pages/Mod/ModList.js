@@ -6,6 +6,7 @@ import ModItem from './component/modItem';
 import ModDetail from './component/modConfig';
 import {getHomeConfigApi, saveHomeConfigApi} from '../../api/gameApi';
 import {deleteStepupWorkshopApi} from '../../api/modApi';
+import {jsObjectToLuaTable, luaTableToJsObject, luaTableToJsObject2} from "../../utils/dstUtils";
 
 function containsChinese(str) {
     // eslint-disable-next-line no-plusplus
@@ -130,7 +131,7 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
             <Row gutter={24}>
                 <Col span={10} xs={24} md={10} lg={10}>
                     <div style={{
-                        height: '360px',
+                        height: '370px',
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>

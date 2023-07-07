@@ -9,7 +9,13 @@ import Cave from './cave';
 import { getHomeConfigApi, saveHomeConfigApi } from '../../api/gameApi';
 import BaseCluster from './cluster';
 
-import {toLeveldataoverride, translateJsonObject, translateLuaObject} from "../../utils/dstUtils";
+import {
+    jsObjectToLuaTable,
+    luaTableToJsObject2,
+    toLeveldataoverride,
+    translateJsonObject,
+    translateLuaObject
+} from "../../utils/dstUtils";
 import Mod from "../Mod";
 import {customization} from "../../utils/dst";
 
@@ -21,7 +27,7 @@ const ClusterView = () => {
 
     const [forestObject, setForestObject] = useState({})
     const [caveObject, setCaveObject] = useState({})
-
+    const [clusterData, setClusterData] = useState({})
     const [dstWorldSetting, setDstWorldSetting] = useState({
         zh: {
             forest: {
@@ -38,6 +44,20 @@ const ClusterView = () => {
     const [loading, setLoading] = useState(true)
 
     const {cluster} = useParams()
+
+    useEffect(() => {
+        fetch('misc/dst_world_setting.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setDstWorldSetting(data)
+                beforeHandle(cluster,data)
+                // 在此处处理配置文件数据
+            })
+            .catch(error => {
+                console.error('无法加载配置文件', error);
+            });
+    }, [])
 
     function getForestDefaultValues() {
         return { ...translateJsonObject(dstWorldSetting.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(dstWorldSetting.zh.forest.WORLDSETTINGS_GROUP) }
@@ -56,13 +76,38 @@ const ClusterView = () => {
         console.log('getCaveDefaultValues', getCaveDefaultValues());
     }
 
-    function saveSetting() {
+    // TODO 除了
+    function saveSetting(masterMapData, cavesMapData) {
         // const cluster = formCluster.getFieldValue();
         const forestOverrides = toLeveldataoverride('SURVIVAL_TOGETHER', formForest.getFieldValue())
-        const cavesOverrides = toLeveldataoverride('DST_CAVE', formCave.getFieldValue())
 
-        formCluster.setFieldValue("masterMapData", forestOverrides)
-        formCluster.setFieldValue("cavesMapData", cavesOverrides)
+        const masterMapDataJsObject = luaTableToJsObject2(masterMapData)
+        const cavesMapDataJsObject = luaTableToJsObject2(cavesMapData)
+
+        let cavesOverrides
+        if (Object.keys(formCave.getFieldValue()).length === 0) {
+            cavesOverrides = cavesMapData
+        } else {
+            cavesMapDataJsObject.overrides = formCave.getFieldValue()
+            cavesOverrides = toLeveldataoverride('DST_CAVE', formCave.getFieldValue())
+        }
+
+        // formCluster.setFieldValue("masterMapData", forestOverrides)
+        // formCluster.setFieldValue("cavesMapData", cavesOverrides)
+
+        masterMapDataJsObject.overrides = formForest.getFieldValue()
+
+        console.log("masterMapDataJsObject: ", masterMapDataJsObject)
+        console.log("cavesMapDataJsObject: ", cavesMapDataJsObject)
+
+        console.log("masterMapDataJsObject lua: ", jsObjectToLuaTable(masterMapDataJsObject))
+        console.log("cavesMapDataJsObject lua: ", jsObjectToLuaTable(cavesMapDataJsObject))
+
+        // formCluster.setFieldValue("masterMapData", forestOverrides)
+        // formCluster.setFieldValue("cavesMapData", cavesOverrides)
+
+        formCluster.setFieldValue("masterMapData", `return ${jsObjectToLuaTable(masterMapDataJsObject)}`)
+        formCluster.setFieldValue("cavesMapData", `return ${jsObjectToLuaTable(cavesMapDataJsObject)}`)
 
         const data = formCluster.getFieldValue()
         data.type = 0
@@ -99,26 +144,12 @@ const ClusterView = () => {
                 formCluster.setFieldsValue(data.data)
 
                 setLoading(false)
-
+                setClusterData(data.data)
                 setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) } ,...translateLuaObject(data.data.masterMapData)})
                 setCaveObject({...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) },...translateLuaObject(data.data.cavesMapData)})
             })
         fetchHomeConfig()
     }
-
-    useEffect(() => {
-        fetch('misc/dst_world_setting.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setDstWorldSetting(data)
-                beforeHandle(cluster,data)
-                // 在此处处理配置文件数据
-            })
-            .catch(error => {
-                console.error('无法加载配置文件', error);
-            });
-    }, [])
 
     const items = [
         {
@@ -163,7 +194,7 @@ const ClusterView = () => {
         }}>
             <Button
                 type="primary"
-                onClick={() => { saveSetting() }} >保存</Button>
+                onClick={() => { saveSetting(clusterData.masterMapData, clusterData.cavesMapData) }} >保存</Button>
             <Button
                 style={{
                     margin: '0 8px',

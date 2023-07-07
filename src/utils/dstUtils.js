@@ -114,6 +114,130 @@ function toLeveldataoverride(worldPreset, object) {
     \n}`
 }
 
+function unstring(str) {
+    if (typeof str === 'string') {
+        return str.replace(/^"(.*)"$/, '$1')
+    }
+    return str
+}
+
+function luaTableToJsObject2(lua) {
+
+    const ast = luaparse.parse(lua)
+    if (ast.body[0].expression !== undefined) {
+        console.log("ast.body[0].expression: ", ast.body[0].expression)
+        const jsObject = luaTableToJsObject(ast.body[0].expression.arguments)
+        console.log("lua expression: ", jsObject)
+        return jsObject
+    }
+
+    const jsObject = luaTableToJsObject(ast.body[0].arguments[0])
+    console.log("lua: ", jsObject)
+    return jsObject
+}
+
+
+function luaTableToJsObject(luaTable) {
+    const jsObject = {};
+    const list = []
+    // eslint-disable-next-line consistent-return
+    luaTable.fields.forEach(field => {
+
+        if (field.key !== undefined && field.key.name !== undefined) {
+            const key = field.key.name || field.key.value;
+            const {value} = field;
+
+            switch (value.type) {
+                case 'StringLiteral':
+                    jsObject[key] = unstring(value.raw);
+                    break;
+                case 'BooleanLiteral':
+                    jsObject[key] = value.value;
+                    break;
+                case 'NumericLiteral':
+                    jsObject[key] = value.value;
+                    break;
+                case 'TableConstructorExpression':
+                    jsObject[key] = luaTableToJsObject(value);
+                    break;
+                default:
+                    break;
+            }
+        } else if (field.value.type === "NumericLiteral") {
+            list.push(field.value.value)
+        } else if (field.value.type === "StringLiteral") {
+            if (field.value.value === undefined || field.value.value === null) {
+                list.push(unstring(field.value.raw))
+            } else {
+                list.push(unstring(field.value.value))
+            }
+        }
+
+        /**
+         *
+         * else if(field.key !== undefined && field.key.raw !== null) {
+         *                 const key = field.key.raw || field.key.raw;
+         *                 const {value} = field;
+         *
+         *                 switch (value.type) {
+         *                     case 'StringLiteral':
+         *                         jsObject[key] = unstring(value.raw);
+         *                         break;
+         *                     case 'BooleanLiteral':
+         *                         jsObject[key] = value.value;
+         *                         break;
+         *                     case 'NumericLiteral':
+         *                         jsObject[key] = value.value;
+         *                         break;
+         *                     case 'TableConstructorExpression':
+         *                         jsObject[key] = luaTableToJsObject(value);
+         *                         break;
+         *                     default:
+         *                         break;
+         *                 }
+         *             }
+         * */
+    });
+    if (list.length > 0) {
+        return list
+    }
+    return jsObject;
+}
+
+
+function jsObjectToLuaTable(obj, indent = '') {
+    if (typeof obj !== 'object' || obj === null) {
+        // 基本类型，直接返回字符串表示
+        if (typeof obj === 'string') {
+            return `"${obj}"`;
+        }
+        return String(obj);
+    }
+    if (Array.isArray(obj)) {
+        // 数组
+        let result = '{\n';
+        const childIndent = `${indent}    `;
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < obj.length; i++) {
+            const value = jsObjectToLuaTable(obj[i], childIndent);
+            result += `${childIndent}[${i + 1}] = ${value},\n`;
+        }
+        result += `${indent}}`;
+        return result;
+    }
+    // 对象
+    let result = '{\n';
+    const childIndent = `${indent}    `;
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in obj) {
+        const value = jsObjectToLuaTable(obj[key], childIndent);
+        result += `${childIndent}${key} = ${value},\n`;
+    }
+    result += `${indent}}`;
+    return result;
+}
+
+
 const translateLuaObject = (lua) => {
     try {
         const ast = luaparse.parse(lua);
@@ -149,5 +273,8 @@ export {
     workShopConfigMap,
     toLeveldataoverride,
     translateLuaObject,
-    translateJsonObject
+    translateJsonObject,
+    luaTableToJsObject,
+    jsObjectToLuaTable,
+    luaTableToJsObject2
 }

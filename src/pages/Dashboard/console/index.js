@@ -198,7 +198,7 @@ const GameStatus = (props) => {
                     </Form.Item>
 
                     <Form.Item label={t('dstStatus')}>
-                        <Space>
+                        <Space wrap>
                             <Button type={masterStatus ? 'primary' : 'default'} >{masterStatus ? t('masterRunning') : t('masterNotRun')}</Button>
                             <Button type={cavesStatus ? 'primary' : 'default'} >{cavesStatus ? t('cavesRunning') : t('cavesNotRun')}</Button>
                         </Space>

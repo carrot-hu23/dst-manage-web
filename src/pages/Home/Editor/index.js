@@ -90,7 +90,7 @@ const Editor = ({value, setValue, styleData}) => {
         <>
             <MonacoEditor
                 height={styleData.height}
-                language="lua"
+                language="plaintext"
                 value={code}
                 onChange={onChange}
                 onMount={handleEditorDidMount}
