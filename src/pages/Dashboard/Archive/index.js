@@ -2,8 +2,8 @@ import { Form, Typography, Card } from 'antd';
 import { useEffect, useState } from 'react';
 import luaparse from 'luaparse';
 
-import { archiveApi } from '../../../api/gameApi';
 import {useParams} from "react-router-dom";
+import { archiveApi } from '../../../api/gameApi';
 
 const { Paragraph } = Typography;
 

@@ -7,7 +7,10 @@ const {Option} = Select;
 
 const jobTaskEnum = {
     "backup": "备份",
-    "update": "更新"
+    "update": "更新",
+    "start": "启动",
+    "stop": "停止",
+    "restart": "重启",
 }
 
 export default () => {
@@ -166,6 +169,9 @@ export default () => {
                         <Select>
                             <Option value="backup">备份</Option>
                             <Option value="update">更新</Option>
+                            <Option value="start">启动</Option>
+                            <Option value="stop">停止</Option>
+                            <Option value="restart">重启</Option>
                         </Select>
                     </Form.Item>
 

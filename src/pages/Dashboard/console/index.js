@@ -15,10 +15,9 @@ import {useParams} from "react-router-dom";
 import { useEffect, useState } from 'react';
 import {useTranslation} from "react-i18next";
 
-import { updateGameApi, startHomeApi, archiveApi } from '../../../api/gameApi';
+import { updateGameApi, startHomeApi } from '../../../api/gameApi';
 import { createBackupApi } from '../../../api/backupApi';
 import CleanArchive from './cleanGame';
-import RestoreBackup from './retoreBackup';
 import Regenerateworld from './regenerateworld';
 
 import './index.css'
@@ -47,11 +46,6 @@ const GameStatus = (props) => {
 
     const [runStatus, setRunStatus] = useState((props.data.masterStatus || props.data.cavesStatus) || false)
 
-
-    const [archive, setarchive] = useState({
-        ipConnect: ""
-    })
-
     const [startLoading, setStartLoading] = useState(false)
     const [startText, setStartText] = useState("")
 
@@ -60,19 +54,6 @@ const GameStatus = (props) => {
         setMasterStatus(props.data.masterStatus)
         setCavesStatus(props.data.cavesStatus)
         setRunStatus(props.data.masterStatus || props.data.cavesStatus)
-
-        archiveApi(cluster)
-        .then(data => {
-            console.log(data.data);
-            const ar = {
-                clusterName: data.data.clusterName,
-                gameMod: data.data.gameMod,
-                mods: data.data.mods,
-                maxPlayers: data.data.maxPlayers,
-                ipConnect: data.data.ipConnect
-            }
-            setarchive(ar)
-        }).catch(error => console.log(error))
 
     }, [props.data])
 
@@ -193,10 +174,6 @@ const GameStatus = (props) => {
                     layout="horizontal"
                     labelAlign={'left'}
                 >
-                     <Form.Item label={t('ipConnect')}>
-                        <Paragraph copyable>{archive.ipConnect}</Paragraph>
-                    </Form.Item>
-
                     <Form.Item label={t('dstStatus')}>
                         <Space wrap>
                             <Button type={masterStatus ? 'primary' : 'default'} >{masterStatus ? t('masterRunning') : t('masterNotRun')}</Button>
