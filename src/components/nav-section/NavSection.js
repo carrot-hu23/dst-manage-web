@@ -32,29 +32,29 @@ export default function NavSection({ data = [], ...other }) {
 // ----------------------------------------------------------------------
 
 NavItem.propTypes = {
-  item: PropTypes.object,
+    item: PropTypes.object,
 };
 
 function NavItem({ item, cluster }) {
-  const { title, path, icon, info } = item;
+    const { title, path, icon, info } = item;
 
-  return (
-    <StyledNavItem
-      component={RouterLink}
-      to={path}
-      sx={{
-        '&.active': {
-          color: 'text.primary',
-          bgcolor: 'action.selected',
-          fontWeight: 'fontWeightBold',
-        },
-      }}
-    >
-      <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
+    return (
+        <StyledNavItem
+            component={RouterLink}
+            to={`/${cluster}${path}`}
+            sx={{
+                '&.active': {
+                    color: 'text.primary',
+                    bgcolor: 'action.selected',
+                    fontWeight: 'fontWeightBold',
+                },
+            }}
+        >
+            <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
 
-      <ListItemText disableTypography primary={title} />
+            <ListItemText disableTypography primary={title} />
 
-      {info && info}
-    </StyledNavItem>
-  );
+            {info && info}
+        </StyledNavItem>
+    );
 }

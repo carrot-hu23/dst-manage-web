@@ -33,7 +33,7 @@ export default function LoginForm() {
     localStorage.setItem("token", loginResponseData.data.username)
     localStorage.setItem("user", JSON.stringify(loginResponseData.data))
 
-    navigate('/', { replace: true });
+    navigate('/cluster', { replace: true });
   };
 
   return (

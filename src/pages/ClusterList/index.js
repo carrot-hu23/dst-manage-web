@@ -332,6 +332,8 @@ export default () => {
         return (
             <>
                 <Modal title={t('createCluster')} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <span>tips: 下面输入的目录路径都要存在</span>
+                    <br/>
                     <Form
                         form={form}
                         initialValues={cluster}

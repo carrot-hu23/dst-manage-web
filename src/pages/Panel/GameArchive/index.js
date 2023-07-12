@@ -46,7 +46,9 @@ export default () => {
     }
     return (
         <>
-            <ul>
+            <ul style={{
+                listStyle: 'none',
+            }}>
                 <li><Span text={"房间:"} /> {archive.clusterName}</li>
                 <li><Span text={"模式:"} /> {archive.gameMod}</li>
                 <li><Span text={"季节:"} /> {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason+archive.remainingdaysinseason})</li>

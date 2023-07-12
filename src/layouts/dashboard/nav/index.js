@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 // @mui
-import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import {styled, alpha} from '@mui/material/styles';
+import {Box, Link, Button, Drawer, Typography, Avatar, Stack} from '@mui/material';
 import {Space} from "antd";
 // mock
 // import account from '../../../_mock/account';
@@ -20,7 +20,7 @@ import navConfig from './config';
 
 const NAV_WIDTH = 280;
 
-const StyledAccount = styled('div')(({ theme }) => ({
+const StyledAccount = styled('div')(({theme}) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
@@ -35,8 +35,8 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-export default function Nav({ openNav, onCloseNav }) {
-  const { pathname } = useLocation();
+export default function Nav({openNav, onCloseNav}) {
+  const {pathname} = useLocation();
   const {cluster} = useParams()
   const navigate = useNavigate();
   const isDesktop = useResponsive('up', 'lg');
@@ -46,10 +46,10 @@ export default function Nav({ openNav, onCloseNav }) {
     email: '',
     photoURL: ''
   })
-  useEffect(()=>{
+  useEffect(() => {
     const userJson = localStorage.getItem('user');
     let user = JSON.parse(userJson);
-    if(user === null) {
+    if (user === null) {
       user = {
         displayName: '',
         email: '',
@@ -57,7 +57,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }
     }
     setAcount(user)
-  },[])
+  }, [])
   useEffect(() => {
     if (openNav) {
       onCloseNav();
@@ -66,37 +66,45 @@ export default function Nav({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const renderContent = (
-    <Scrollbar
-      sx={{
-        height: 1,
-        '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
-      }}
-    >
-      <br/>
-      <br/>
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none">
-          <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
+      <Scrollbar
+          sx={{
+            height: 1,
+            '& .simplebar-content': {height: 1, display: 'flex', flexDirection: 'column'},
+          }}
+      >
+        <Box sx={{px: 2.5, py: 3, display: 'inline-flex'}}>
+          <Space size={'middle'}>
+            <Button variant="outlined" onClick={() => {
+              navigate("/cluster")
+            }}>返回</Button>
+            <span>集群: {cluster}</span>
+          </Space>
 
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
+        </Box>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </StyledAccount>
-        </Link>
-      </Box>
+        <Box sx={{mb: 5, mx: 2.5}}>
+          <Link underline="none">
+            <StyledAccount>
+              <Avatar src={account.photoURL} alt="photoURL"/>
 
-      <NavSection data={navConfig} />
+              <Box sx={{ml: 2}}>
+                <Typography variant="subtitle2" sx={{color: 'text.primary'}}>
+                  {account.displayName}
+                </Typography>
 
-      <Box sx={{ flexGrow: 1 }} />
+                <Typography variant="body2" sx={{color: 'text.secondary'}}>
+                  {account.role}
+                </Typography>
+              </Box>
+            </StyledAccount>
+          </Link>
+        </Box>
 
-      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
+        <NavSection data={navConfig}/>
+
+        <Box sx={{flexGrow: 1}}/>
+
+        {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
           <Box
             component="img"
@@ -119,45 +127,45 @@ export default function Nav({ openNav, onCloseNav }) {
           </Button>
         </Stack>
       </Box> */}
-    </Scrollbar>
+      </Scrollbar>
   );
 
   return (
-    <Box
-      component="nav"
-      sx={{
-        flexShrink: { lg: 0 },
-        width: { lg: NAV_WIDTH },
-      }}
-    >
-      {isDesktop ? (
-        <Drawer
-          open
-          variant="permanent"
-          PaperProps={{
-            sx: {
-              width: NAV_WIDTH,
-              bgcolor: 'background.default',
-              borderRightStyle: 'dashed',
-            },
+      <Box
+          component="nav"
+          sx={{
+            flexShrink: {lg: 0},
+            width: {lg: NAV_WIDTH},
           }}
-        >
-          {renderContent}
-        </Drawer>
-      ) : (
-        <Drawer
-          open={openNav}
-          onClose={onCloseNav}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          PaperProps={{
-            sx: { width: NAV_WIDTH },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
-    </Box>
+      >
+        {isDesktop ? (
+            <Drawer
+                open
+                variant="permanent"
+                PaperProps={{
+                  sx: {
+                    width: NAV_WIDTH,
+                    bgcolor: 'background.default',
+                    borderRightStyle: 'dashed',
+                  },
+                }}
+            >
+              {renderContent}
+            </Drawer>
+        ) : (
+            <Drawer
+                open={openNav}
+                onClose={onCloseNav}
+                ModalProps={{
+                  keepMounted: true,
+                }}
+                PaperProps={{
+                  sx: {width: NAV_WIDTH},
+                }}
+            >
+              {renderContent}
+            </Drawer>
+        )}
+      </Box>
   );
 }
