@@ -1,4 +1,4 @@
 {
-  "version": "1.1.6.docker.0.0.4(server.ini配置修复)",
+  "version": "1.1.6.docker.0714(增加黑白名单)",
   "github": "https://github.com/hujinbo23/dst-admin-go"
 }
