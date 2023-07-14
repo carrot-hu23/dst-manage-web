@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Row, Col, Button, Divider, Space, Image, Tag,Modal } from 'antd';
+import {Row, Col, Button, Divider, Space, Image, Tag, Modal, Popconfirm} from 'antd';
+import {useState} from "react";
 import { dstRoles } from '../../../utils/dst';
+import AddModel from "../AddModel";
 
 
 const find = (playerList, kuId) => playerList.filter(item => item.kuId === kuId)[0]
@@ -26,7 +28,9 @@ const showAdmin = (playerList, kuId) => {
 
 }
 
-const Administrator = ({ adminPlayerList, playerList }) => {
+const Administrator = ({ adminPlayerList, playerList,addAdminlist, deleteAdminlist }) => {
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     // eslint-disable-next-line react/prop-types
     const list = adminPlayerList.map((kuId) => (
@@ -40,8 +44,15 @@ const Administrator = ({ adminPlayerList, playerList }) => {
             </Col>
             <Col xs={24} sm={16} md={16} lg={16} xl={16}>
                 <Space style={{ float: 'right' }}>
-                    <Button type="link" onClick={() => { console.log(kuId); }} >修改</Button>
-                    <Button type="link" danger >删除</Button>
+                    <Popconfirm
+                        title="是否删除管理员"
+                        onConfirm={()=>{deleteAdminlist(kuId)}}
+                        onCancel={()=>{}}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type="link" danger >删除</Button>
+                    </Popconfirm>
                 </Space>
             </Col>
             <Divider style={{ margin: '0px' }} />
@@ -49,9 +60,12 @@ const Administrator = ({ adminPlayerList, playerList }) => {
     ))
 
     return (
-        <Row align="middle" gutter={[8, 20]} style={{ rowGap: '12px' }}>
-            {list}
-        </Row>
+        <>
+            <AddModel title={"添加管理员"} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} add={addAdminlist} />
+            <Row align="middle" gutter={[8, 20]} style={{ rowGap: '12px' }}>
+                {list}
+            </Row>
+        </>
     )
 }
 

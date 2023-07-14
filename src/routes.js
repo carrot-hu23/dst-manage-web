@@ -19,11 +19,10 @@ import Backup from './pages/Backup/index';
 import Setting from './pages/System/index';
 import Help from './pages/Help/index';
 import Panel from './pages/Panel/index';
-import Mod from './pages/Mod/index';
 import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
 import ClusterView from './pages/ClusterView/index';
-import ClusterList from "./pages/ClusterList";
+import ModSetting from "./pages/ModSetting";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -45,7 +44,7 @@ export default function Router() {
         { path: 'backup', element: <Backup /> },
         { path: 'setting', element: <Setting /> },
         { path: 'help', element: <Help /> },
-        { path: 'Mod', element: <Mod /> },
+        { path: 'Mod', element: <ModSetting /> },
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
       ],

@@ -10,7 +10,7 @@ async function getPlayerListApi(cluster) {
     return response.data
 }
 async function getAdminPlayerListApi(cluster) {
-    const url = '/api/game/player/admin'
+    const url = '/api/game/player/adminlist'
     const response = await http.get(url,{
         headers: {
             'Cluster': cluster,
@@ -28,8 +28,8 @@ async function getBlackListPlayerListApi(cluster) {
     return response.data
 }
 
-async function setAdminPlayerListApi(cluster,playerList) {
-    const url = '/api/game/player/admin'
+async function addAdminPlayerListApi(cluster,playerList) {
+    const url = '/api/game/player/adminlist'
     const response = await http.post(url, {
         adminList: playerList
     },{
@@ -39,7 +39,7 @@ async function setAdminPlayerListApi(cluster,playerList) {
     })
     return response.data
 }
-async function setBlackListPlayerListApi(cluster,playerList) {
+async function addBlackListPlayerListApi(cluster,playerList) {
     const url = '/api/game/player/blacklist'
     const response = await http.post(url, {
         blacklist: playerList
@@ -47,6 +47,27 @@ async function setBlackListPlayerListApi(cluster,playerList) {
         headers: {
             'Cluster': cluster,
         }
+    })
+    return response.data
+}
+
+async function deleteAdminPlayerListApi(cluster,playerList) {
+    const url = '/api/game/player/adminlist'
+    const response = await http.post(url, {
+        headers: {
+            'Cluster': cluster,
+        },
+        data:{adminlist: playerList}
+    })
+    return response.data
+}
+async function deleteBlackListPlayerListApi(cluster,playerList) {
+    const url = '/api/game/player/blacklist'
+    const response = await http.delete(url, {
+        headers: {
+            'Cluster': cluster,
+        },
+        data:{blacklist: playerList}
     })
     return response.data
 }
@@ -86,18 +107,12 @@ async function respawnPlayerApi(cluster,player) {
     return response.data
 }
 
-async function pullPlayer2BlockListApi(player) {
-    const url = '/api/game/update'
-    const response = await http.get(url)
-    return response.data
-}
-async function pullPlayer2AdminListApi(player) {
-    const url = '/api/game/update'
-    const response = await http.get(url)
-    return response.data
-}
 
 export {
-    getPlayerListApi, getAdminPlayerListApi, getBlackListPlayerListApi, setAdminPlayerListApi, setBlackListPlayerListApi,
-    kickPlayerApi, killPlayerApi, respawnPlayerApi, pullPlayer2BlockListApi, pullPlayer2AdminListApi
+    getPlayerListApi, getAdminPlayerListApi, getBlackListPlayerListApi,kickPlayerApi, killPlayerApi, respawnPlayerApi,
+    addAdminPlayerListApi,
+    addBlackListPlayerListApi,
+    deleteBlackListPlayerListApi,
+    deleteAdminPlayerListApi,
+
 }

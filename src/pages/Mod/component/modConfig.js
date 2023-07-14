@@ -127,7 +127,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                     <img alt="example" src={mod.img}/>
                     <div>
                             <span style={{
-                                color: '#ff4d4f',
+                                color: '#1677ff',
                                 fontSize: '16px',
                                 fontWeight: 100
                             }}>{mod.name}</span>

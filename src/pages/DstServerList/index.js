@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { ProTable } from '@ant-design/pro-components';
-
-import { Button, Modal, Image, Skeleton, Card } from 'antd';
-import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
+import {ProTable} from '@ant-design/pro-components';
+import {Container, Box} from '@mui/material';
+import {Button, Modal, Image, Skeleton, Card} from 'antd';
+import {dstHomeListApi, dstHomeDetailApi} from '../../api/dstApi';
 
 import HomeDetail from './home';
 
@@ -51,7 +51,7 @@ const DstServerList = () => {
         }).then(response => {
             setLoading(false)
             const responseData = JSON.parse(response)
-            const { success } = responseData
+            const {success} = responseData
             if (success) {
                 setHomeInfo(responseData)
                 console.log(responseData.successinfo.players)
@@ -201,63 +201,67 @@ const DstServerList = () => {
                         }
 
                         }>
-                        <HomeDetail home={homeInfo} />
+                        <HomeDetail home={homeInfo}/>
                     </div>
                 </Skeleton>
             </Modal>
 
-            <ProTable
-                columns={columns}
-                cardBordered
-                request={async (params = {}, sort, filter) => {
-                    console.log(sort, filter);
-                    console.log('params', params)
-                    const msg = await dstHomeListApi(params)
-                    return {
-                        data: msg.data,
-                        success: true,
-                        total: msg.total
-                    };
-                }}
-                scroll={{
-                    x: 600,
-                }}
-                // editable={{
-                //     type: 'multiple',
-                // }}
-                // columnsState={{
-                //     persistenceKey: 'pro-table-singe-demos',
-                //     persistenceType: 'localStorage',
-                //     onChange(value) {
-                //         console.log('value: ', value);
-                //     },
-                // }}
-                rowKey="__rowId"
-                // search={{
-                //     labelWidth: 'auto',
-                // }}
-                // options={{
-                //     setting: {
-                //         listsHeight: 400,
-                //     },
-                // }}
-                pagination={{
-                    pageSize: 10,
-                    onChange: (page) => console.log(page),
-                }}
-                // dateFormatter="string"
-                headerTitle="饥荒服务器列表"
-                toolBarRender={() => [
-                    <Button key="button" type="primary" disabled={!hasSelected > 0}>
-                        导出配置
-                    </Button>,
-                ]}
-                rowSelection={{
-                    type: 'radio',
-                    ...rowSelection
-                }}
-                tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
-            />
+            <Container maxWidth="xl">
+                <Box sx={{p: 0, pb: 0}} dir="ltr">
+                    <ProTable
+                        columns={columns}
+                        cardBordered
+                        request={async (params = {}, sort, filter) => {
+                            console.log(sort, filter);
+                            console.log('params', params)
+                            const msg = await dstHomeListApi(params)
+                            return {
+                                data: msg.data,
+                                success: true,
+                                total: msg.total
+                            };
+                        }}
+                        scroll={{
+                            x: 600,
+                        }}
+                        // editable={{
+                        //     type: 'multiple',
+                        // }}
+                        // columnsState={{
+                        //     persistenceKey: 'pro-table-singe-demos',
+                        //     persistenceType: 'localStorage',
+                        //     onChange(value) {
+                        //         console.log('value: ', value);
+                        //     },
+                        // }}
+                        rowKey="__rowId"
+                        // search={{
+                        //     labelWidth: 'auto',
+                        // }}
+                        // options={{
+                        //     setting: {
+                        //         listsHeight: 400,
+                        //     },
+                        // }}
+                        pagination={{
+                            pageSize: 10,
+                            onChange: (page) => console.log(page),
+                        }}
+                        // dateFormatter="string"
+                        headerTitle="饥荒服务器列表"
+                        toolBarRender={() => [
+                            <Button key="button" type="primary" disabled={!hasSelected > 0}>
+                                导出配置
+                            </Button>,
+                        ]}
+                        rowSelection={{
+                            type: 'radio',
+                            ...rowSelection
+                        }}
+                        tableAlertRender={({selectedRowKeys, selectedRows, onCleanSelected}) => false}
+                    />
+                </Box>
+            </Container>
         </>
     );
 

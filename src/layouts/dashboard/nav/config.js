@@ -26,6 +26,11 @@ const navConfig = [
     path: '/dashboard/cluster/view',
     icon: icon('ic_user'),
   },
+  // {
+  //   title: '模组设置',
+  //   path: '/dashboard/mod',
+  //   icon: icon('ic_user'),
+  // },
   {
     title: '玩家管理',
     path: '/dashboard/player',
@@ -41,11 +46,6 @@ const navConfig = [
     path: '/dashboard/log',
     icon: icon('ic_user'),
   },
-  // {
-  //   title: '模组设置',
-  //   path: '/dashboard/mod',
-  //   icon: icon('ic_user'),
-  // },
   {
     title: '系统设置',
     path: '/dashboard/setting',

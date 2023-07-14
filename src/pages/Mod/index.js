@@ -169,11 +169,7 @@ const Mod = ({modoverrides}) => {
     ];
 
 
-    return (<Container maxWidth="xl">
-        <Box sx={{p: 0, pb: 1}} dir="ltr">
-            <Tabs defaultActiveKey="1" items={items}/>
-        </Box>
-    </Container>)
+    return <Tabs defaultActiveKey="1" items={items}/>
 }
 
 export default Mod
