@@ -14,10 +14,13 @@ const InstallSteamCmd = () => {
         const eventSource = new EventSource('/api/install/steamcmd'); // 替换为你的SSE端点
         eventSource.onmessage = (event) => {
             const newMessage = event.data;
-            if (newMessage.includes("环境安装成功")) {
+            if (newMessage.includes("[successed]")) {
                 message.success("环境安装成功!!!")
                 setLoading(false)
                 eventSource.close()
+                setMessages(prevMessages => {
+                    return [...prevMessages, newMessage].slice(-50);
+                });
                 return
             }
             setMessages(prevMessages => {

@@ -242,13 +242,40 @@ const translateLuaObject = (lua) => {
     try {
         const ast = luaparse.parse(lua);
         const overrides = ast.body[0].arguments[0].fields.filter(item => item.key.name === 'overrides')
+
+        if (overrides.length === 0 ) {
+            const o = ast.body[0].arguments[0].fields.filter(item=>{
+                if (item.key.name !== undefined) {
+                    return item.key.name === 'overrides'
+                }
+                if (item.key.raw !== undefined) {
+                    return  item.key.raw ==='overrides' || item.key.raw.replace(/"/g, "") === 'overrides'
+                }
+                return false
+            })
+            console.log("========", o)
+            const aa = o[0].value.fields.reduce((acc, field) => {
+                if (field.value === undefined) {
+                    console.log("00000000", field)
+                }
+                acc[unstring(field.key.raw)] = field.value.type === 'StringLiteral' ? field.value.raw.replace(/"/g, "") : field.value.raw.replace(/"/g, "");
+                return acc;
+            }, {});
+
+            console.log("++++++++", aa)
+
+            return aa
+        }
+
         const overridesObject = overrides[0].value.fields.reduce((acc, field) => {
             acc[field.key.name] = field.value.name === 'StringLiteral' ? field.value.value : field.value.raw.replace(/"/g, "");
             return acc;
         }, {});
-        // console.log('overridesObject', overridesObject);
+
+        console.log('overridesObject', overridesObject);
         return overridesObject
     } catch (error) {
+        console.log(error)
         return {}
     }
 

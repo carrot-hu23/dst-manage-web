@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Button, Form, Input, message, Skeleton} from 'antd';
+import {Button, Form, Input, message, Skeleton, Radio} from 'antd';
 import {Card, Box} from '@mui/material';
 
 import {readDstConfigSync, writeDstConfigSync} from '../../api/dstConfigApi';
@@ -25,7 +25,7 @@ const DstConfigSetting = () => {
 
 
     const onFinish = (values) => {
-
+        console.log("values", values)
         writeDstConfigSync(values).then(resp => {
             message.success("保存配置成功")
         })
@@ -105,7 +105,36 @@ const DstConfigSetting = () => {
                             <Input placeholder="服务器文件夹名"/>
                             {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                         </Form.Item>
-
+                        <Form.Item
+                            label="beta(暂时未实现)"
+                            name="beta"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input dontstarve_dedicated_server beta',
+                                },
+                            ]}
+                        >
+                            <Radio.Group>
+                                <Radio value={0}>false</Radio>
+                                <Radio value={1}>true</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item
+                            label="bin"
+                            name="bin"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input dontstarve_dedicated_server bin',
+                                },
+                            ]}
+                        >
+                            <Radio.Group>
+                                <Radio value={32}>32</Radio>
+                                <Radio value={64}>64</Radio>
+                            </Radio.Group>
+                        </Form.Item>
                         <Form.Item
                             wrapperCol={{
                                 span: 24,

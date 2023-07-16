@@ -56,13 +56,13 @@
   "regenerate": "重置世界",
   "restoreBackup": "恢复备份",
 
-  "rollback1": "Rollback(1)",
-  "rollback2": "Rollback(2)",
-  "rollback3": "Rollback(3)",
-  "rollback4": "Rollback(4)",
-  "rollback5": "Rollback(5)",
-  "rollback6": "Rollback(6)",
-
+  "rollback1": "回档1天",
+  "rollback2": "回档2天",
+  "rollback3": "回档3天",
+  "rollback4": "回档4天",
+  "rollback5": "回档5天",
+  "rollback6": "回档6天",
+  "c_save": "保存存档",
   "send": "发送"
 
 

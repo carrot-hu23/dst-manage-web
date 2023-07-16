@@ -1,4 +1,4 @@
 {
-  "version": "1.1.6.docker.0714(增加黑白名单)",
+  "version": "1.1.6.docker.0716(增加64位启动)",
   "github": "https://github.com/hujinbo23/dst-admin-go"
 }
