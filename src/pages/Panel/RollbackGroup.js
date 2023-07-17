@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next";
 
 import {Button, message, Space} from "antd";
 
-import {rollbackApi} from "../../api/gameApi";
+import {masterConsoleApi, rollbackApi} from "../../api/gameApi";
 
 
 export default ()=> {
@@ -18,9 +18,18 @@ export default ()=> {
                 message.success(`回档${dayNums}天成功`)
             }).catch(() => { message.error(`回档${dayNums}天失败`) })
     }
-    
+
+    function cSave() {
+        masterConsoleApi(cluster,"c_save()")
+            .then(() => {
+                message.success(`存档保存成功`)
+            }).catch(() => { message.error(`存档保存失败`) })
+    }
+
     return(
         <>
+            <Button type={"primary"} onClick={() => { cSave() }} >{t('c_save')}</Button>
+            <br/><br/>
             <Space size={'small'} wrap>
                 <Button onClick={() => { rollback(1) }} >{t('rollback1')}</Button>
                 <Button onClick={() => { rollback(2) }} >{t('rollback2')}</Button>
@@ -29,6 +38,7 @@ export default ()=> {
                 <Button onClick={() => { rollback(5) }} >{t('rollback5')}</Button>
                 <Button onClick={() => { rollback(6) }} >{t('rollback6')}</Button>
             </Space>
+
         </>
     )
 }

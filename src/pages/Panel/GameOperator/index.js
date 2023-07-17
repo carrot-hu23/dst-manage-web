@@ -35,7 +35,7 @@ export default ({gameData, logPath}) => {
                     </Card>
                     <br/>
                     <Card>
-                        <Box sx={{p: 3, pb: 1}} dir="ltr">
+                        <Box sx={{p: 3}} dir="ltr">
                             <RollbackGroup />
                         </Box>
                     </Card>

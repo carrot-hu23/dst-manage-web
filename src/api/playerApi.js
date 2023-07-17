@@ -53,7 +53,7 @@ async function addBlackListPlayerListApi(cluster,playerList) {
 
 async function deleteAdminPlayerListApi(cluster,playerList) {
     const url = '/api/game/player/adminlist'
-    const response = await http.post(url, {
+    const response = await http.delete(url, {
         headers: {
             'Cluster': cluster,
         },

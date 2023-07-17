@@ -103,7 +103,7 @@ const HomeSetting = (props) => {
                        name='vote'>
                 <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
             </Form.Item>
-            <Form.Item label="自动暂停" valuePropName="checked" tooltip="开启后世界没人将自动暂停"
+            <Form.Item label="自动暂停" valuePropName="checked" tooltip="世界没人时将自动暂停"
                        name='pause_when_nobody'>
                 <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
             </Form.Item>
@@ -154,7 +154,7 @@ const HomeSetting = (props) => {
 
 
             <Form.Item
-                label="从世界ip"
+                label="绑定ip"
                 name='bind_ip'
                 tooltip="bind_ip"
             >

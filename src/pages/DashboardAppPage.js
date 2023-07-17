@@ -12,6 +12,7 @@ import {
 } from '../sections/@dashboard/app';
 import {countActivePlayers, countRoleRate, countTopNActive} from '../api/statisticsApi';
 import {getBeginWeek, getEndWeek, translateFormat} from '../utils/dateUitls';
+import {dstRolesMap} from "../utils/dst";
 
 
 // ----------------------------------------------------------------------
@@ -86,7 +87,7 @@ export default function DashboardAppPage() {
                         if (item.role === '') {
                             return ({label: "other", value: item.count})
                         }
-                        return ({label: item.role, value: item.count})
+                        return ({label: dstRolesMap[item.role], value: item.count})
                     })
                 })
             })

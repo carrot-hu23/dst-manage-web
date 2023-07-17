@@ -4,6 +4,7 @@ import {Tabs} from "antd";
 import DstConfigSetting from "./DstConfigSettting";
 import InstallSteamCmd from "./InstallSteamCmd";
 import JobTask from "./JobTaskList";
+import OtherSettiing from "./OtherSettiing";
 
 const System = () => {
     const items = [
@@ -19,6 +20,11 @@ const System = () => {
         },
         {
             key: '3',
+            label: "自动维护",
+            children: <OtherSettiing/>,
+        },
+        {
+            key: '4',
             label: "环境依赖",
             children: <InstallSteamCmd/>,
         },

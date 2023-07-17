@@ -103,11 +103,20 @@ const ClusterView = () => {
         console.log("masterMapDataJsObject lua: ", jsObjectToLuaTable(masterMapDataJsObject))
         console.log("cavesMapDataJsObject lua: ", jsObjectToLuaTable(cavesMapDataJsObject))
 
-        // formCluster.setFieldValue("masterMapData", forestOverrides)
-        // formCluster.setFieldValue("cavesMapData", cavesOverrides)
 
-        formCluster.setFieldValue("masterMapData", `return ${jsObjectToLuaTable(masterMapDataJsObject)}`)
-        formCluster.setFieldValue("cavesMapData", `return ${jsObjectToLuaTable(cavesMapDataJsObject)}`)
+        // TODO 这里如果 key 全是 [] 包裹着，暂时全部替换掉，只保留 overrides 配置，其他都换成默认的
+        if (masterMapDataJsObject.id  === undefined) {
+            console.log("<<<<<<<<<<<<<<",forestOverrides)
+            formCluster.setFieldValue("masterMapData", forestOverrides)
+        } else {
+            formCluster.setFieldValue("masterMapData", `return ${jsObjectToLuaTable(masterMapDataJsObject)}`)
+        }
+        if (cavesMapDataJsObject.id === undefined) {
+            formCluster.setFieldValue("cavesMapData", cavesOverrides)
+        } else {
+            formCluster.setFieldValue("cavesMapData", `return ${jsObjectToLuaTable(cavesMapDataJsObject)}`)
+        }
+
 
         const data = formCluster.getFieldValue()
         data.type = 0
