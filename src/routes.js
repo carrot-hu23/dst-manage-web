@@ -23,6 +23,7 @@ import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
 import ClusterView from './pages/ClusterView/index';
 import ModSetting from "./pages/ModSetting";
+import DynamicForm from "./pages/8Level";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -47,6 +48,7 @@ export default function Router() {
         { path: 'Mod', element: <ModSetting /> },
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
+        { path: '8level', element: <DynamicForm /> },
       ],
     },
     {
