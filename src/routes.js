@@ -24,6 +24,10 @@ import Begin from './pages/begin/index';
 import ClusterView from './pages/ClusterView/index';
 import ModSetting from "./pages/ModSetting";
 import DynamicForm from "./pages/8Level";
+import LevelList from "./pages/LevelList";
+import Level from "./pages/LevelList/Leveldataoverride";
+import Modoverrides from "./pages/LevelList/Modoverrides";
+import ServerIni from "./pages/LevelList/ServerIni";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -49,6 +53,10 @@ export default function Router() {
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
         { path: '8level', element: <DynamicForm /> },
+        { path: 'level', element: <LevelList /> },
+        { path: 'level/leveldataoverride/:levelName/:levelType', element: <Level /> },
+        { path: 'level/modoverrides/:levelName', element: <Modoverrides /> },
+        { path: 'level/serverIni/:levelName', element: <ServerIni /> },
       ],
     },
     {

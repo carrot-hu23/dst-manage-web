@@ -29,7 +29,9 @@ const ServerIni = ({ form, isMaster }) => (
             页面自动分配的端口不会与已填写的端口重复，但页面不会擅自修改自行填写的端口，所以确保不要填写重复的端口。
             `}
         >
-            <InputNumber placeholder="范围: 10998-11018" />
+            <InputNumber style={{
+                width: 200,
+            }} placeholder="范围: 10998-11018" />
         </Form.Item>
 
         <Form.Item
