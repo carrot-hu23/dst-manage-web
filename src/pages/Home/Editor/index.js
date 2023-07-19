@@ -7,6 +7,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import MonacoEditor from "@monaco-editor/react";
 import luaparse from "luaparse";
+import {Beautify} from "lua-format";
 
 const Editor = ({value, setValue, styleData}) => {
 
@@ -61,6 +62,16 @@ const Editor = ({value, setValue, styleData}) => {
         check(value)
     }
 
+    function beautifyLua(luaCode) {
+        const code = Beautify(luaCode, {
+            RenameVariables: true,
+            RenameGlobals: false,
+            SolveMath: true
+        })
+        const watermark = `--discord.gg/boronide, code generated using luamin.js™\n\n\n\n\n`
+        return code.replace(watermark, "")
+    }
+
     function handleEditorDidMount(editor, monaco) {
         // here is another way to get monaco instance
         // you can also store it in `useRef` for further usage
@@ -81,6 +92,11 @@ const Editor = ({value, setValue, styleData}) => {
                 // const formatCode = formatText(editorRef.current.getValue());
                 // editorRef.current.setValue(formatCode);
                 // setCode(formatCode);
+                console.log("---------")
+                const formatCode = beautifyLua(editorRef.current.getValue(), '\x20\x20')
+                console.log(formatCode)
+                editorRef.current.setValue(formatCode)
+                setCode(formatCode);
             }
         });
         check(editorRef.current.getValue())
@@ -89,17 +105,19 @@ const Editor = ({value, setValue, styleData}) => {
     return (
         <>
             <MonacoEditor
-                height={styleData.height}
-                language="plaintext"
+                height={styleData.height || 500}
+                language={styleData.language || "plaintext"}
                 value={code}
                 onChange={onChange}
                 onMount={handleEditorDidMount}
+                theme={styleData.theme || 'light'}
             />
-            <br />
+            <br/>
             <span style={{
                 marginLeft: '12px',
                 color: 'red'
-            }} >{error}</span>
+
+            }}>{error}</span>
         </>
     );
 }

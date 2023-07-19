@@ -6885,6 +6885,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lua-format@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.npmmirror.com/lua-format/-/lua-format-1.4.1.tgz"
+  integrity sha512-+szXHscQq0y88HvWvRqou31sZxmpHeaqpXFBwqGmOLLN7QUh3oSKEPDkWubglK/M0Kn6N8Op+gzvFXeo5MEBsw==
+
 luaparse@^0.3.1:
   version "0.3.1"
   resolved "https://registry.npmmirror.com/luaparse/-/luaparse-0.3.1.tgz"

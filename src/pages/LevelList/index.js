@@ -99,7 +99,9 @@ export default () => {
                                                 <Space size={8} wrap>
                                                     <div><Button type={"primary"} danger >删除世界</Button></div>
                                                     <div><Button type={"link"}
-                                                                 onClick={() => navigate(`/dashboard/level/leveldataoverride/${level.levelName}/${level.levelType}`)}>世界配置</Button></div>
+                                                                 onClick={() => navigate(`/dashboard/level/leveldataoverride/${level.levelName}/${level.levelType}`)}>可视化配置</Button></div>
+                                                    <div><Button type={"link"}
+                                                                 onClick={() => navigate(`/dashboard/level/leveldataoverride2/${level.levelName}/${level.levelType}`)}>世界配置</Button></div>
                                                     <div>
                                                         <Button type={"link"}
                                                                 onClick={() => navigate(`/dashboard/level/modoverrides/${level.levelName}`)}>模组配置</Button>

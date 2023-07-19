@@ -1,13 +1,24 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {Button, Form, message, Skeleton, Space,Spin} from "antd";
+import {Button, Form, message, Skeleton, Space, Spin} from "antd";
 import {Container, Card, Box} from '@mui/material';
-
-import {translateJsonObject, translateLuaObject} from "../../../utils/dstUtils";
-import {getLevelLeveldataoverrideApi, saveLevelServerIniApi} from "../../../api/levelApi";
+import {ArrowLeftOutlined} from '@ant-design/icons';
 
 import Forest from "../../ClusterView/forest";
 import Cave from "../../ClusterView/cave";
+
+import {
+    getLevelLeveldataoverrideApi,
+    saveLevelLeveldataoverrideApi,
+} from "../../../api/levelApi";
+
+import {
+    jsObjectToLuaTable,
+    luaTableToJsObject2,
+    toLeveldataoverride,
+    translateJsonObject,
+    translateLuaObject
+} from "../../../utils/dstUtils";
 
 export default () => {
 
@@ -62,13 +73,41 @@ export default () => {
     }, [])
 
     function saveLeveldataoverride() {
-        const Leveldataoverride = formLevel.getFieldValue()
-        console.log(Leveldataoverride)
+
         setBtnLoading(true)
-        setTimeout(() => {
+
+        const overrides = formLevel.getFieldValue()
+        let leveldataoverrideStr1
+        if (levelType === "MASTER") {
+            leveldataoverrideStr1 = toLeveldataoverride('SURVIVAL_TOGETHER', formLevel.getFieldValue())
+        } else if (levelType === "CAVES") {
+            leveldataoverrideStr1 = toLeveldataoverride('DST_CAVE', formLevel.getFieldValue())
+        }
+        const leveldataoverrideJsObject = luaTableToJsObject2(leveldataoverride)
+
+        leveldataoverrideJsObject.overrides = overrides
+        const leveldataoverrideStr2 = jsObjectToLuaTable(leveldataoverrideJsObject);
+        // console.log("leveldataoverrideJsObject: ", leveldataoverrideJsObject)
+        // console.log("leveldataoverrideJsObject lua: ", leveldataoverrideStr2)
+        let data
+        if (leveldataoverrideJsObject.id === undefined) {
+            data = leveldataoverrideStr1
+        } else {
+            data = `return ${leveldataoverrideStr2}`
+        }
+        console.log("leveldataoverride: ", data)
+        saveLevelLeveldataoverrideApi(cluster, {
+            levelName,
+            leveldataoverride: data
+        }).then(resp => {
+            if (resp.code === 200) {
+                message.success("保存成功")
+            } else {
+                message.error("保存失败")
+            }
             setBtnLoading(false)
-            message.success("保存成功")
-        }, 1000)
+        })
+
     }
 
     return <>
@@ -77,9 +116,13 @@ export default () => {
                 <Card>
                     <Box sx={{p: 2}} dir="ltr">
                         <Space size={32} wrap>
-                            <Button type={"primary"} onClick={() => navigate(`/dashboard/level`)}>返回</Button>
-                            <Button type={"primary"} loading={btnLoading}
-                                    onClick={() => saveLeveldataoverride()}>保存配置</Button>
+                            <Button type={"link"} icon={<ArrowLeftOutlined/>}
+                                    onClick={() => navigate(`/dashboard/level`)}>返回</Button>
+                            <Button type={"primary"}
+                                    loading={loading}
+                                    onClick={() => saveLeveldataoverride()}>
+                                {loading?'正在加载配置':'保存配置'}
+                            </Button>
                         </Space>
                     </Box>
                 </Card>

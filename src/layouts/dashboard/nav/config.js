@@ -9,57 +9,57 @@ const navConfig = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
-    icon: icon('ic_analytics'),
+    icon: icon('trending-up'),
   },
   {
     title: '操作面板',
     path: '/dashboard/panel',
-    icon: icon('ic_analytics'),
+    icon: icon('monitor'),
   },
   {
     title: '房间设置',
     path: '/dashboard/home',
-    icon: icon('ic_blog')
+    icon: icon('home')
   },
   {
     title: '世界设置',
     path: '/dashboard/cluster/view',
-    icon: icon('ic_user'),
+    icon: icon('layers'),
   },
-  // {
-  //   title: '模组设置',
-  //   path: '/dashboard/mod',
-  //   icon: icon('ic_user'),
-  // },
+  {
+    title: '多层世界',
+    path: '/dashboard/level',
+    icon: icon('layers'),
+  },
   {
     title: '玩家管理',
     path: '/dashboard/player',
-    icon: icon('ic_blog')
+    icon: icon('users')
   },
   {
     title: '游戏备份',
     path: '/dashboard/backup',
-    icon: icon('ic_blog')
+    icon: icon('folder')
   },
   {
     title: '游戏日志',
     path: '/dashboard/log',
-    icon: icon('ic_user'),
+    icon: icon('database'),
   },
   {
     title: '系统设置',
     path: '/dashboard/setting',
-    icon: icon('ic_blog')
+    icon: icon('settings')
   },
   {
     title: '服务器列表',
     path: '/dashboard/dst/server',
-    icon: icon('ic_user'),
+    icon: icon('server'),
   },
     {
     title: '帮助文档',
     path: '/dashboard/help',
-    icon: icon('ic_blog')
+    icon: icon('github')
   },
 ];
 

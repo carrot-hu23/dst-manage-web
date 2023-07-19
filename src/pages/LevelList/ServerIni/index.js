@@ -1,5 +1,6 @@
 import {Box, Card, Container} from "@mui/material";
 import {Button, Form, message, Skeleton, Space, Spin} from "antd";
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import ServerIni from "../../Home/ServerIni";
@@ -48,9 +49,12 @@ export default () => {
                 <Card>
                     <Box sx={{p: 2}} dir="ltr">
                         <Space size={32} wrap>
-                            <Button type={"primary"} onClick={() => navigate(`/dashboard/level`)}>返回</Button>
-                            <Button type={"primary"} loading={btnLoading}
-                                    onClick={() => saveServerIni()}>保存配置</Button>
+                            <Button type={"link"} icon={<ArrowLeftOutlined />} onClick={() => navigate(`/dashboard/level`)}>返回</Button>
+                            <Button type={"primary"}
+                                    loading={btnLoading}
+                                    onClick={() => saveServerIni()}>
+                                {loading?'正在加载配置':'保存配置'}
+                            </Button>
                         </Space>
                     </Box>
                 </Card>
@@ -62,7 +66,7 @@ export default () => {
                             fontWeight: '600'
                         }}>{levelName}</span>
                         <Skeleton loading={loading} active>
-                            <ServerIni form={serverIniForm} isMaster/>
+                            <ServerIni form={serverIniForm} isMaster={false}/>
                         </Skeleton>
                     </Box>
                 </Card>

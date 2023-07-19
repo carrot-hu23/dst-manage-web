@@ -9,6 +9,8 @@ import {FitAddon} from "xterm-addon-fit";
 import { newTerminal } from '../../../utils/terminalUtils';
 import {masterConsoleApi} from "../../../api/gameApi";
 
+import './xterm.css';
+
 const terminalTitleTemplate = '[log]#'
 
 const config = {
@@ -29,8 +31,8 @@ const config = {
     cursorBlink: true,
     theme: {
         //   字体
-        foreground: '#ffffff',
-        background: '#000000',
+        foreground: '#D4D4D4',
+        background: '#1E1E1E',
         // 光标
         cursor: 'help',
         lineHeight: 18,

@@ -122,18 +122,23 @@ function unstring(str) {
 }
 
 function luaTableToJsObject2(lua) {
+    try {
+        const ast = luaparse.parse(lua)
+        if (ast.body[0].expression !== undefined) {
+            console.log("ast.body[0].expression: ", ast.body[0].expression)
+            const jsObject = luaTableToJsObject(ast.body[0].expression.arguments)
+            console.log("lua expression: ", jsObject)
+            return jsObject
+        }
 
-    const ast = luaparse.parse(lua)
-    if (ast.body[0].expression !== undefined) {
-        console.log("ast.body[0].expression: ", ast.body[0].expression)
-        const jsObject = luaTableToJsObject(ast.body[0].expression.arguments)
-        console.log("lua expression: ", jsObject)
+        const jsObject = luaTableToJsObject(ast.body[0].arguments[0])
+        console.log("lua: ", jsObject)
         return jsObject
+    } catch (error) {
+        console.log(error)
+        return {}
     }
 
-    const jsObject = luaTableToJsObject(ast.body[0].arguments[0])
-    console.log("lua: ", jsObject)
-    return jsObject
 }
 
 
