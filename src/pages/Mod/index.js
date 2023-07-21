@@ -24,7 +24,7 @@ function getWorkShopConfigMap(modConfig) {
     try {
         const ast = luaparse.parse(modConfig)
         const workshopListAst = ast.body[0].arguments[0].fields
-        // const workshopMap = {}
+        console.log("+++++++++", workshopListAst)
         const workshopMap = new Map();
         const workshopMap2 = {}
         // eslint-disable-next-line no-restricted-syntax
@@ -32,6 +32,9 @@ function getWorkShopConfigMap(modConfig) {
             const {key} = workshopAst
             const {value} = workshopAst
             const workshopId = key.raw.replace("\n", "")
+            if (workshopId === 1595631294 || workshopId === '1595631294') {
+                console.log("=========", workshopAst)
+            }
             const config = {}
 
             workshopMap.set(workshopId.replace('workshop-', '').replace('"', '').replace('"', ''), config)
@@ -43,20 +46,34 @@ function getWorkShopConfigMap(modConfig) {
                     // eslint-disable-next-line no-restricted-syntax
                     for (const configItem of field.value.fields) {
                         if (configItem.key.raw === undefined) {
-                            // eslint-disable-next-line no-continue
-                            continue
-                        }
-                        const name = unstring(configItem.key.raw)
-                        if (configItem.value.value === undefined) {
-                            if (configItem.value.argument !== undefined && configItem.value.operator === "-") {
-                                config[name] = -(configItem.value.argument.value)
+                            // 饥荒本地生成的配置
+                            if(configItem.key.name !== undefined) {
+                                const name = unstring(configItem.key.name)
+                                if (configItem.value.value === undefined) {
+                                    if (configItem.value.argument !== undefined && configItem.value.operator === "-") {
+                                        config[name] = -(configItem.value.argument.value)
+                                    } else {
+                                        config[name] = configItem.value.value
+                                    }
+                                } else if (configItem.value.value === null) {
+                                    config[name] = unstring(configItem.value.raw)
+                                } else {
+                                    config[name] = configItem.value.value
+                                }
+                            }
+                        } else {
+                            const name = unstring(configItem.key.raw)
+                            if (configItem.value.value === undefined) {
+                                if (configItem.value.argument !== undefined && configItem.value.operator === "-") {
+                                    config[name] = -(configItem.value.argument.value)
+                                } else {
+                                    config[name] = configItem.value.value
+                                }
+                            } else if (configItem.value.value === null) {
+                                config[name] = unstring(configItem.value.raw)
                             } else {
                                 config[name] = configItem.value.value
                             }
-                        } else if (configItem.value.value === null) {
-                            config[name] = unstring(configItem.value.raw)
-                        } else {
-                            config[name] = configItem.value.value
                         }
 
                         // console.log("configItem: ", configItem.key.raw, configItem.value.value)

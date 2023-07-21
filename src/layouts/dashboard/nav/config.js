@@ -27,11 +27,6 @@ const navConfig = [
     icon: icon('layers'),
   },
   {
-    title: '多层世界',
-    path: '/dashboard/level',
-    icon: icon('layers'),
-  },
-  {
     title: '玩家管理',
     path: '/dashboard/player',
     icon: icon('users')
