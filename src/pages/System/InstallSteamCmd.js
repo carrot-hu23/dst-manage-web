@@ -40,6 +40,10 @@ const InstallSteamCmd = () => {
                     okText="Yes"
                     cancelText="No"
                 >
+                    <div>
+                        tips: 如果安装后启动不了房间，请手动执行 install_centos.sh 或者 install_ubuntu.sh
+                        <br/>
+                    </div>
                     <Button type="primary" loading={loading}>点击安装环境</Button>
                 </Popconfirm>
 

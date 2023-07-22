@@ -1,4 +1,4 @@
-import {Container} from '@mui/material';
+import {Card, Box, Container} from '@mui/material';
 import {useEffect, useState} from "react";
 import {Image, Space} from "antd";
 import aliPayImage from './alipay.jpg';
@@ -22,21 +22,31 @@ const Help = () => {
 
     return (
         <Container maxWidth="xl">
-            <h1>帮助文档</h1>
-            {config.version}
-            <br/>
-            <div>
-                github 地址: {config.github}
-            </div>
-            <br/>
-            <br/>
-            <div>
-                <h3>请作者喝一杯咖啡：</h3>
-                <Space size={32} wrap>
-                    <Image style={{borderRadius: '4px'}} preview={false} width={160} src={aliPayImage} />
-                    <Image style={{borderRadius: '4px'}} preview={false} width={160} src={wechatpayImage} />
-                </Space>
-            </div>
+            <Card>
+                <Box sx={{p: 2}} dir="ltr">
+                    <h1>帮助文档</h1>
+                    {config.version}
+                    <br/>
+                    <div>
+                        github 地址:
+                        <a
+                            target={'_blank'}
+                            href={config.github}
+                            rel="noreferrer"
+                        >
+                            {config.github}
+                        </a>
+                    </div>
+                    <br/>
+                    <div>
+                        <h3>请作者喝一杯咖啡：</h3>
+                        <Space size={32} wrap>
+                            <Image style={{borderRadius: '4px'}} preview={false} width={160} src={aliPayImage}/>
+                            <Image style={{borderRadius: '4px'}} preview={false} width={160} src={wechatpayImage}/>
+                        </Space>
+                    </div>
+                </Box>
+            </Card>
         </Container>
     )
 }
