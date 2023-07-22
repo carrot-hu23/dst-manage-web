@@ -115,7 +115,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
     const [ellipsis, setEllipsis] = useState(true);
 
     return (
-        <Card
+        <div
             style={{
                 height: '370px',
                 overflowY: 'auto',
@@ -214,7 +214,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                 <span>暂无模组，请先订阅</span>
             </>}
 
-        </Card>
+        </div>
     );
 };
 

@@ -176,11 +176,11 @@ const ClusterView = () => {
             label: `洞穴`,
             children: <Cave form={formCave} object={caveObject} cave={dstWorldSetting.zh.cave} />,
         },
-        {
-            key: '3',
-            label: `模组`,
-            children: <Mod modoverrides={formCluster.getFieldValue().modData} />,
-        },
+        // {
+        //     key: '3',
+        //     label: `模组`,
+        //     children: <Mod modoverrides={formCluster.getFieldValue().modData} />,
+        // },
     ];
 
 

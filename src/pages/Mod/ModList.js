@@ -6,7 +6,6 @@ import ModItem from './component/modItem';
 import ModDetail from './component/modConfig';
 import {getHomeConfigApi, saveHomeConfigApi} from '../../api/gameApi';
 import {deleteStepupWorkshopApi} from '../../api/modApi';
-import {jsObjectToLuaTable, luaTableToJsObject, luaTableToJsObject2} from "../../utils/dstUtils";
 
 function containsChinese(str) {
     // eslint-disable-next-line no-plusplus
@@ -127,40 +126,42 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                 </Tooltip>
             </Space>
             <br/><br/>
-            {/* <Divider /> */}
-            <Row gutter={24}>
-                <Col span={10} xs={24} md={10} lg={10}>
-                    <div style={{
-                        height: '370px',
-                        overflowY: 'auto',
-                        overflowX: 'auto'
-                    }}>
-                        {modList.length > 0 && <Card className='modlist'>
-                            {modList.map(item => <ModItem
-                                key={item.modid}
-                                mod={item}
-                                changeMod={changeMod}
-                                changeEnable={changeEnable}
-                                removeMod={removeMod}
-                                modList={modList}
-                                setModList={setModList}
-                            />)}
-                        </Card>}
-                    </div>
-                    <br/>
-                </Col>
-                <Col span={14} xs={24} md={14} lg={14}>
-                    {mod.modid !== undefined && <ModDetail
-                        mod={mod}
-                        root={root}
-                        setRoot={setRoot}
-                        defaultValues={defaultValuesMap[`${mod.modid}`]}
-                        defaultValuesMap={defaultValuesMap}
-                        setDefaultValuesMap={setDefaultValuesMap}
-                    />}
-                </Col>
 
-            </Row>
+            <Card className='modlist'>
+                <Row gutter={24}>
+                    <Col span={10} xs={24} md={10} lg={10}>
+                        <div style={{
+                            height: '370px',
+                            overflowY: 'auto',
+                            overflowX: 'auto'
+                        }}>
+                            {modList.length > 0 && <div>
+                                {modList.map(item => <ModItem
+                                    key={item.modid}
+                                    mod={item}
+                                    changeMod={changeMod}
+                                    changeEnable={changeEnable}
+                                    removeMod={removeMod}
+                                    modList={modList}
+                                    setModList={setModList}
+                                />)}
+                            </div>}
+                        </div>
+                        <br/>
+                    </Col>
+                    <Col span={14} xs={24} md={14} lg={14}>
+                        {mod.modid !== undefined && <ModDetail
+                            mod={mod}
+                            root={root}
+                            setRoot={setRoot}
+                            defaultValues={defaultValuesMap[`${mod.modid}`]}
+                            defaultValuesMap={defaultValuesMap}
+                            setDefaultValuesMap={setDefaultValuesMap}
+                        />}
+                    </Col>
+
+                </Row>
+            </Card>
         </>)
 }
 

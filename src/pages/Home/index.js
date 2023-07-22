@@ -127,7 +127,7 @@ const Home = () => {
         <>
             <Container maxWidth="xl">
                 <Card>
-                    <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+                    <Box sx={{ p: 3}} dir="ltr">
                         <Steps current={current} items={items} size="small" />
                         <br /><br />
                         <Skeleton loading={loading} active avatar>

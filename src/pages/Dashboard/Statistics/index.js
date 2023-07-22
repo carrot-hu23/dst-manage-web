@@ -22,6 +22,7 @@ const GameStatistic = (props) => {
     const cpuUsage = formatData(props.data.cpu.cpuPercent || 0, 2);
     const memFree = `${formatData((props.data.mem.free || 0) / GB, 2)  } GB`;
     const memUsage = formatData(props.data.mem.usedPercent || 0, 2);
+    const memUsageGB = `${formatData((memUsage / 100) * (props.data.mem.total / 1024 / 1024 / 1024), 2)} GB`
 
     const diskTotal = (props.data.disk.devices || []).map((item) => Number(item.total))
         // eslint-disable-next-line no-restricted-globals
@@ -96,8 +97,8 @@ const GameStatistic = (props) => {
 
                     <Divider type={responsive ? 'horizontal' : 'vertical'} />
                     <StatisticCard statistic={{
-                        title: '内存剩余',
-                        value: memFree,
+                        title: '内存使用',
+                        value: memUsageGB,
                         description: <Statistic title="总内存" value={`${formatData(props.data.mem.total / 1024 / 1024 / 1024, 2)  } GB`} />,
                     }} chart={
                         <>

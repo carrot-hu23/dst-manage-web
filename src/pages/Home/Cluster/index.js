@@ -149,7 +149,7 @@ const HomeSetting = (props) => {
             <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>多世界配置项</span></Divider>
 
             <Form.Item label="多世界" valuePropName="checked" tooltip="shard_enabled" name='shard_enabled'>
-                <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
+                <Switch checkedChildren="开启" unCheckedChildren="关闭" />
             </Form.Item>
 
 
