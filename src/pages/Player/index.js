@@ -148,7 +148,7 @@ const Player = () => {
     return (<>
         <Container maxWidth="xl">
             <Card>
-                <Box sx={{p: 3, pb: 1}} dir="ltr">
+                <Box sx={{p: 3}} dir="ltr">
                     <Skeleton loading={loading} active>
                         <ProCard tabs={tabs}/>
                     </Skeleton>

@@ -1,58 +1,30 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {Row, Col, Card, Input, Pagination, Button, message, Space, Image} from 'antd';
 import {useParams} from "react-router-dom";
-import { getModInfo, searchMod } from '../../api/modApi';
+import {getModInfo, searchMod} from '../../api/modApi';
 import {timestampToString} from "../../utils/dateUitls";
+import {fShortenNumber} from "../../utils/formatNumber";
 
-const { Search } = Input;
+const {Search} = Input;
+const {Meta} = Card;
 
-const ModCard = ({ modInfo, addModList, subscribe }) => {
+const ModCard = ({modInfo, addModList, subscribe}) => {
     const [loading, setLoading] = useState(false)
     return (<>
-        {/*
-        <Card
-            hoverable
-            style={{
-                width: 150,
-                padding: '4px',
-            }}
-            cover={
-                <a
-                    target={'_blank'}
-                    href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
-                    <img
-                        alt="example"
-                        src={modInfo.img}
-                    />
-                </a>
-            }
-        >
-            <div>
-                <div>{modInfo.name}</div>
-                <div>时间:{timestampToString(modInfo.time*1000)}</div>
-                <div>订阅数: {modInfo.sub}</div>
-            </div>
-            <Button
-                loading={loading}
-                type="primary"
-                onClick={() => subscribe(modInfo.id, modInfo.name, addModList, setLoading)}>订阅</Button>
-        </Card>
-        */}
-
-        <Card className='mod' style={{margin: '8px',padding: '4px',}}>
+        <Card className='mod' style={{margin: '8px', padding: '4px',}}>
             <Space size={16} wrap>
                 <div>
                     <a
                         target={'_blank'}
-                        href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer" >
-                        <Image style={{borderRadius: '4px'}} preview={false} width={100} src={modInfo.img} />
+                        href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer">
+                        <Image style={{borderRadius: '4px'}} preview={false} width={100} src={modInfo.img}/>
                     </a>
                 </div>
                 <div>
                     <div>
                         <div>{modInfo.name}</div>
-                        <div>时间:&nbsp;{timestampToString(modInfo.time*1000)}</div>
+                        <div>时间:&nbsp;{timestampToString(modInfo.time * 1000)}</div>
                         <div>订阅数:&nbsp;{modInfo.sub}</div>
                     </div>
                     <Button
@@ -67,8 +39,46 @@ const ModCard = ({ modInfo, addModList, subscribe }) => {
     </>)
 }
 
-const ModSearch = ({ addModList }) => {
+const ModCard2 = ({modinfo, addModList, subscribe}) => {
+    const [loading, setLoading] = useState(false)
+    return (<>
+        <Card
+            key={modinfo.id}
+            hoverable
+            style={{
+                width: 156,
+            }}
+            cover={<a
+                target={'_blank'}
+                href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modinfo.id}`} rel="noreferrer">
+                <img alt="example" style={{
+                    height: 160
+                }} src={modinfo.img}/>
+            </a>}
+        >
+            <Meta title={modinfo.name}/>
 
+            <div style={{
+                fontSize: '12px',
+                paddingTop: '2px',
+                paddingBottom: '2px'
+            }}>{timestampToString(modinfo.time * 1000)}</div>
+            <div style={{
+                fontSize: '12px',
+                paddingBottom: '2px'
+            }}>
+                订阅数:&nbsp;{fShortenNumber(modinfo.sub)}</div>
+            <Button
+                loading={loading}
+                type="primary"
+                size={'small'}
+                onClick={() => subscribe(modinfo.id, modinfo.name, addModList, setLoading)}>订阅</Button>
+        </Card>
+        <br/>
+    </>)
+}
+
+const ModSearch = ({addModList}) => {
     const [modList, setModList] = useState([])
 
     const [pageSize, setPageSize] = useState(20)
@@ -81,7 +91,7 @@ const ModSearch = ({ addModList }) => {
     
     useEffect(() => {
         updateModList("", page, pageSize)
-    }, [])
+    }, [page])
 
     const subscribe = (modId, modName, addModList, setLoading) => {
         messageApi.open({
@@ -91,7 +101,7 @@ const ModSearch = ({ addModList }) => {
         });
         setLoading(true)
         // message.info(`正在订阅 ${modName}`)
-        getModInfo(cluster,modId).then(data => {
+        getModInfo(cluster, modId).then(data => {
             console.log(data.data);
             data.data.installed = true
             addModList(current => [...current, data.data])
@@ -124,7 +134,7 @@ const ModSearch = ({ addModList }) => {
 
     const onSearch = (text) => {
         setText(text)
-        updateModList(text, page, pageSize)
+        updateModList(text, 1, pageSize)
     }
 
     const onShowSizeChange = (current, pageSize) => {
@@ -146,21 +156,29 @@ const ModSearch = ({ addModList }) => {
                     width: 200,
                 }}
             />
-            <br />
-            <br />
+            <br/>
+            <br/>
             <Row>
-                {modList.map(modinfo => (<Col key={modinfo.id} xs={24} sm={8} md={8} lg={8} xl={8}>
+                {/*
+                 {modList.map(modinfo => (<Col key={modinfo.id} xs={24} sm={8} md={8} lg={8} xl={8}>
                     <ModCard modInfo={modinfo} addModList={addModList} subscribe={subscribe} />
                     <br />
                 </Col>))}
+                */}
+                {modList.map(modinfo => (
+                    <Col key={modinfo.id} xs={12} sm={8} md={6} lg={4} xl={4}>
+                        <ModCard2 modinfo={modinfo} addModList={addModList} subscribe={subscribe}/>
+                    </Col>
+                ))}
+
             </Row>
-            <br /><br />
+            <br/><br/>
             <Pagination
                 onShowSizeChange={onShowSizeChange}
-                defaultCurrent={page}
+                current={page}
                 pageSize={pageSize}
                 onChange={(i) => onChange(i)}
-                total={total} />
+                total={total}/>
         </>
     );
 };

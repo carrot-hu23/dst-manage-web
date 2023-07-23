@@ -57,6 +57,8 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+
+    navigate('/dashboard/user/Profile', { replace: true });
   };
 
   const logout = async () => {
