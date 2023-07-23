@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {ProTable} from '@ant-design/pro-components';
-import {Container, Box} from '@mui/material';
-import {Button, Modal, Image, Skeleton, Card} from 'antd';
-import {dstHomeListApi, dstHomeDetailApi} from '../../api/dstApi';
+import { ProTable } from '@ant-design/pro-components';
+import { Container, Box } from '@mui/material';
+import { Button, Modal, Image, Skeleton, Card } from 'antd';
+import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
 
 import HomeDetail from './home';
 
@@ -51,7 +51,7 @@ const DstServerList = () => {
         }).then(response => {
             setLoading(false)
             const responseData = JSON.parse(response)
-            const {success} = responseData
+            const { success } = responseData
             if (success) {
                 setHomeInfo(responseData)
                 console.log(responseData.successinfo.players)
@@ -168,6 +168,46 @@ const DstServerList = () => {
             </div>),
         },
         {
+            disable: true,
+            title: '模组',
+            key: 'mods',
+            dataIndex: 'mods',
+            filters: true,
+            onFilter: true,
+            ellipsis: true,
+            valueType: 'select',
+            valueEnum: {
+                "": {
+                    key: '1115',
+                    text: '任意',
+                    status: '',
+                },
+                "0": {
+                    key: '1113',
+                    text: '无模组',
+                    status: '0',
+                },
+                "1": {
+                    key: '1114',
+                    text: '有模组',
+                    status: '1',
+                },
+
+            },
+            // eslint-disable-next-line no-unused-vars
+            render: (text, record, _, action) => (<div>
+                {record.mods === 1 && (
+                    <Image
+                        preview={false}
+                        width={28}
+                        src="https://dst.liuyh.com/static/img/dstui/icon/mods.png"
+                    />
+
+                    // <LockOutlined />
+                )}
+            </div>),
+        },
+        {
             title: '操作',
             valueType: 'option',
             key: 'option',
@@ -201,13 +241,13 @@ const DstServerList = () => {
                         }
 
                         }>
-                        <HomeDetail home={homeInfo}/>
+                        <HomeDetail home={homeInfo} />
                     </div>
                 </Skeleton>
             </Modal>
 
             <Container maxWidth="xl">
-                <Box sx={{p: 0, pb: 0}} dir="ltr">
+                <Box sx={{ p: 0, pb: 0 }} dir="ltr">
                     <ProTable
                         columns={columns}
                         cardBordered
@@ -258,7 +298,7 @@ const DstServerList = () => {
                             type: 'radio',
                             ...rowSelection
                         }}
-                        tableAlertRender={({selectedRowKeys, selectedRows, onCleanSelected}) => false}
+                        tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
                     />
                 </Box>
             </Container>

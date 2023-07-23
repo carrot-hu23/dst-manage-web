@@ -14,7 +14,7 @@ async function getHomeListApi(params) {
         sort_way: 1,
         search_type: 1,
         search_content: params.name,
-        mod: 1
+        mod: params.mods
     }, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
@@ -24,7 +24,7 @@ async function getHomeListApi(params) {
 }
 
 export async function dstHomeListApi(params) {
-    const response =  await getHomeListApi(params)
+    const response = await getHomeListApi(params)
     const responseData = JSON.parse(response)
     const data = responseData.successinfo.data
     const homelist = data.map(value => {
@@ -62,7 +62,7 @@ export async function dstHomeListApi(params) {
         last_page: responseData.successinfo.last_page,
         fetch_time_delta: responseData.successinfo.fetch_time_delta
     }
-    
+
     return temp
 }
 
@@ -82,7 +82,7 @@ export async function dstHomeDetailApi(params) {
 
 export function getPlayer(response) {
     const success = response.success
-    if(!success) {
+    if (!success) {
         return []
     }
     return response.successinfo.players
