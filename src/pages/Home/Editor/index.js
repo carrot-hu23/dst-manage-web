@@ -21,6 +21,9 @@ const Editor = ({value, setValue, styleData}) => {
     }, [])
 
     function check(value) {
+        if (styleData.language !== undefined && styleData.language !== "lua") {
+            return
+        }
         try {
             luaparse.parse(value);
 
@@ -112,7 +115,7 @@ const Editor = ({value, setValue, styleData}) => {
                 onMount={handleEditorDidMount}
                 theme={styleData.theme || 'light'}
             />
-            <br/>
+
             <span style={{
                 marginLeft: '12px',
                 color: 'red'

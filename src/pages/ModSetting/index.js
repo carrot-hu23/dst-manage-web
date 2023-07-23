@@ -15,12 +15,18 @@ export default () => {
     useEffect(() => {
         setLoading(true)
         getHomeConfigApi(cluster)
-            .then(data => {
-                if (data.data === null) {
+            .then(resp => {
+                if (resp.data === null) {
                     message.error('获取房间配置失败')
                 } else {
-                    setClusterData(data.data)
-                    console.log(data.data.modData)
+                    if (resp.data.modData === undefined ||
+                        resp.data.modData === null ||
+                        resp.data.modData === '') {
+                        setClusterData("return {}")
+                    } else {
+                        setClusterData(resp.data)
+                    }
+                    console.log(resp.data.modData)
                 }
                 setLoading(false)
             })

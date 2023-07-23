@@ -44,10 +44,21 @@ async function countRoleRate(cluster,startDate, endDate) {
     })
     return response.data
 }
-
+// /api/statistics/regenerate?N=10
+async function lastThNRegenerateApi(cluster,N) {
+    const url = `/api/statistics/regenerate?N=${N}`
+    // const url = `/api/statistics/top/active?N=${N}&startDate=${startDate}&endDate=${endDate}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
 export {
     countActivePlayers,
     countTopNDeath,
     countTopNActive,
-    countRoleRate
+    countRoleRate,
+    lastThNRegenerateApi,
 }

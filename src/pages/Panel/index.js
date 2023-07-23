@@ -10,6 +10,7 @@ import GameLog2 from './GameLog';
 
 import {getGameDashboardApi} from '../../api/gameDashboardApi';
 import {dstVersionApi} from '../../api/dstApi';
+import Announce from "./Announce";
 
 
 const initData = {
@@ -120,11 +121,16 @@ const Panel = () => {
         },
         {
             key: '2',
+            label: t('announce'),
+            children: <Announce />,
+        },
+        {
+            key: '3',
             label: t('remote'),
             children: <ControlPanel/>,
         },
         {
-            key: '3',
+            key: '4',
             label: t('cavesLog'),
             children: <GameLog2 path={gameData.cavesLog} id={"Caves"}/>,
         },

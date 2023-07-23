@@ -1,6 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {useTheme} from '@mui/material/styles';
-import {Grid, Container, Typography} from '@mui/material';
+import {Grid, Container, Typography, CardHeader, Box, Card} from '@mui/material';
+import { Timeline } from 'antd';
 // components
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
@@ -10,7 +11,7 @@ import {
     AppWebsiteVisits,
     AppConversionRates,
 } from '../sections/@dashboard/app';
-import {countActivePlayers, countRoleRate, countTopNActive} from '../api/statisticsApi';
+import {countActivePlayers, countRoleRate, countTopNActive, lastThNRegenerateApi} from '../api/statisticsApi';
 import {getBeginWeek, getEndWeek, translateFormat} from '../utils/dateUitls';
 import {dstRolesMap} from "../utils/dst";
 
@@ -96,6 +97,23 @@ export default function DashboardAppPage() {
             })
     }, [])
 
+    const [timelineList, setTimelineList] = useState([])
+    useEffect(()=>{
+        lastThNRegenerateApi(cluster, 10)
+            .then(response => {
+                const {data} = response
+                const regenerates = data.map(regenerate=>{
+                    const  data = new Date(regenerate.CreatedAt)
+                    return {children: data.toLocaleString()}
+                })
+                setTimelineList(regenerates)
+            })
+            .catch(ereor => {
+                console.error(ereor);
+            })
+
+    },[])
+
     return (
         <>
             <Container maxWidth="xl">
@@ -134,6 +152,18 @@ export default function DashboardAppPage() {
                         />
                     </Grid>
 
+                    <Grid item xs={12} md={6} lg={4}>
+                        <Card >
+                            <CardHeader title={"最近重置时间线"} />
+                            <br/>
+                            <Box sx={{ mx: 3 }} dir="ltr">
+                                <Timeline
+                                    items={timelineList}
+                                />
+                            </Box>
+                        </Card>
+
+                    </Grid>
                 </Grid>
             </Container>
         </>

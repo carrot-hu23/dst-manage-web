@@ -44,9 +44,29 @@ const Home = () => {
                     data.data.cluster.game_mode = customization
                 }
                 cluster.setFieldsValue({...data.data.cluster,...{cluster_token:data.data.cluster_token}})
-                master.setFieldsValue({...{leveldataoverride: data.data.master.leveldataoverride}, ...data.data.master.server_ini})
-                caves.setFieldsValue({...{leveldataoverride: data.data.caves.leveldataoverride}, ...data.data.caves.server_ini})
-                mod.setFieldsValue({modoverrides: data.data.master.modoverrides})
+                if (data.data.master.leveldataoverride === undefined ||
+                    data.data.master.leveldataoverride === null ||
+                    data.data.master.leveldataoverride === '') {
+                    master.setFieldsValue({...{leveldataoverride: "return {}"}, ...data.data.master.server_ini})
+                } else {
+                    master.setFieldsValue({...{leveldataoverride: data.data.master.leveldataoverride}, ...data.data.master.server_ini})
+                }
+                if (data.data.caves.leveldataoverride === undefined ||
+                    data.data.caves.leveldataoverride === null ||
+                    data.data.caves.leveldataoverride === '') {
+                    caves.setFieldsValue({...{leveldataoverride: "return {}"}, ...data.data.caves.server_ini})
+                } else {
+                    caves.setFieldsValue({...{leveldataoverride: data.data.caves.leveldataoverride}, ...data.data.caves.server_ini})
+                }
+
+                if (data.data.master.modoverrides === undefined ||
+                    data.data.master.modoverrides === null ||
+                    data.data.master.modoverrides === '') {
+                    mod.setFieldsValue({modoverrides: "return {}"})
+                } else {
+                    mod.setFieldsValue({modoverrides: data.data.master.modoverrides})
+                }
+
                 setLoading(false)
             })
         fetchHomeConfig()
