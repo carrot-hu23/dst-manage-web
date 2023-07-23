@@ -1,3 +1,4 @@
+import { map } from "lodash";
 import { http } from "../utils/http";
 
 const dstHomeServerListUrl = "/api/dst/home/server"
@@ -26,32 +27,16 @@ async function getHomeListApi(params) {
 export async function dstHomeListApi(params) {
     const response = await getHomeListApi(params)
     const responseData = JSON.parse(response)
+    const fields = responseData.successinfo.fields
     const data = responseData.successinfo.data
-    const homelist = data.map(value => {
-        return {
-            __rowId: value[0],
-            clienthosted: value[1],
-            dedicated: value[2],
-            fo: value[3],
-            kleiofficial: value[4],
-            connected: value[5],
-            maxconnections: value[6],
-            intent: value[7],
-            mode: value[8],
-            mods: value[9],
-            name: value[10],
-            password: value[11],
-            platform: value[12],
-            pvp: value[13],
-            season: value[14],
-            clanonly: value[15],
-            steamclanid: value[16],
-            regionName: value[17],
-            countryCode: value[18],
-            isp: value[19],
-            region: value[20]
 
-        }
+    const homelist = data.map(value => {
+        const info = {}
+        fields.map((key, index) => {
+            info[key] = value[index]
+            return key
+        })
+        return info
     })
     const temp = {
         data: homelist,
