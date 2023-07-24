@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import _ from 'lodash';
 import { Form, Select } from 'antd';
 
 function checkDefault(defaultValue1, defaultValue2) {

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom";
 
+import { parse,format } from "lua-json";
+
 import { Container, Box, Card } from '@mui/material';
 import { Tabs, Button, Form, message, Skeleton } from 'antd';
 
@@ -81,8 +83,8 @@ const ClusterView = () => {
         // const cluster = formCluster.getFieldValue();
         const forestOverrides = toLeveldataoverride('SURVIVAL_TOGETHER', formForest.getFieldValue())
 
-        const masterMapDataJsObject = luaTableToJsObject2(masterMapData)
-        const cavesMapDataJsObject = luaTableToJsObject2(cavesMapData)
+        const masterMapDataJsObject = parse(masterMapData)
+        const cavesMapDataJsObject = parse(cavesMapData)
 
         let cavesOverrides
         if (Object.keys(formCave.getFieldValue()).length === 0) {
@@ -109,12 +111,12 @@ const ClusterView = () => {
             console.log("<<<<<<<<<<<<<<",forestOverrides)
             formCluster.setFieldValue("masterMapData", forestOverrides)
         } else {
-            formCluster.setFieldValue("masterMapData", `return ${jsObjectToLuaTable(masterMapDataJsObject)}`)
+            formCluster.setFieldValue("masterMapData", format(masterMapDataJsObject))
         }
         if (cavesMapDataJsObject.id === undefined) {
             formCluster.setFieldValue("cavesMapData", cavesOverrides)
         } else {
-            formCluster.setFieldValue("cavesMapData", `return ${jsObjectToLuaTable(cavesMapDataJsObject)}`)
+            formCluster.setFieldValue("cavesMapData", format(cavesMapDataJsObject))
         }
 
 
@@ -154,8 +156,8 @@ const ClusterView = () => {
 
                 setLoading(false)
                 setClusterData(data.data)
-                setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) } ,...translateLuaObject(data.data.masterMapData)})
-                setCaveObject({...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) },...translateLuaObject(data.data.cavesMapData)})
+                setForestObject({ ...{ ...translateJsonObject(worldData.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.forest.WORLDSETTINGS_GROUP) } ,...parse(data.data.masterMapData).overrides})
+                setCaveObject({...{ ...translateJsonObject(worldData.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(worldData.zh.cave.WORLDSETTINGS_GROUP) },...parse(data.data.cavesMapData).overrides})
             })
         fetchHomeConfig()
     }

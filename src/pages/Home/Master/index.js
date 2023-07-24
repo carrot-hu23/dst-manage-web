@@ -18,7 +18,8 @@ const Level = (props) => {
                 // eslint-disable-next-line react/jsx-no-bind
                 setValue={setValue}
                 styleData={{
-                    height: '348px'
+                    height: '348px',
+                    language: 'lua'
                 }}
             />
         </>

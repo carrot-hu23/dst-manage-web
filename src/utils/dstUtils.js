@@ -1,4 +1,5 @@
 import luaparse from "luaparse";
+import {Beautify} from "lua-format";
 
 function workShopConfigMap(modConfig) {
 
@@ -301,6 +302,16 @@ function translateJsonObject(data) {
     }
 }
 
+function beautifyLua(luaCode) {
+    const code = Beautify(luaCode, {
+        RenameVariables: true,
+        RenameGlobals: false,
+        SolveMath: true
+    })
+    const watermark = `--discord.gg/boronide, code generated using luamin.js™\n\n\n\n\n`
+    return code.replace(watermark, "")
+}
+
 export {
     workShopConfigMap,
     toLeveldataoverride,
@@ -308,5 +319,7 @@ export {
     translateJsonObject,
     luaTableToJsObject,
     jsObjectToLuaTable,
-    luaTableToJsObject2
+    luaTableToJsObject2,
+
+    beautifyLua,
 }

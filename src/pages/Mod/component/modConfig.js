@@ -87,10 +87,7 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
                                     return <Divider key={item.label} ><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label} 配置</span></Divider>
                                     // return <h4 key={item.label}>{item.label} 配置</h4>;
                                 }
-                                if (item.label === undefined || item.label === '') {
-                                    return <Divider key={item.name} ><span style={{fontSize: "14px", fontWeight: "600"}}>{item.name}</span></Divider>
-                                    // return <h4 key={item.name}>{item.name}</h4>;
-                                }
+
                                 let defaultValue
                                 if (defaultValuesMap.get(`${mod.modid}`) !== undefined) {
                                     defaultValue = defaultValuesMap.get(`${mod.modid}`)[`${item.name}`]
@@ -98,7 +95,7 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
                                     defaultValue = undefined
                                 }
                                 // console.log("1111111: ",defaultValuesMap, mod.modid, defaultValuesMap.get(`${mod.modid}`), item.name)
-                                return <Select2 key={item.name} item={item}
+                                return <Select2 key={item.name+defaultValue} item={item}
                                                 defaultValue={defaultValue}/>;
                             }
                         )}

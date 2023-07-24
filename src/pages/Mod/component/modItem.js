@@ -97,6 +97,10 @@ const ModItem = (props) => {
                                         删除
                                     </Button>
                                 </Popconfirm>
+                                <Button type="link" onClick={() => {
+                                }}>
+                                    编辑
+                                </Button>
                             </div>
                         </div>
                     </div>

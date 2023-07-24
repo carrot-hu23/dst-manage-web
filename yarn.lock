@@ -6852,7 +6852,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.npmjs.org/lodash.uniq/-/lodash.uniq-4.5.0.tgz"
   integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
 
-lodash@^4.0.1, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.0.1, lodash@^4.17.11, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.npmmirror.com/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -6889,6 +6889,19 @@ lua-format@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmmirror.com/lua-format/-/lua-format-1.4.1.tgz"
   integrity sha512-+szXHscQq0y88HvWvRqou31sZxmpHeaqpXFBwqGmOLLN7QUh3oSKEPDkWubglK/M0Kn6N8Op+gzvFXeo5MEBsw==
+
+lua-json@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/lua-json/-/lua-json-1.0.1.tgz"
+  integrity sha512-KLlpjbEMVmQFBo0eg9gCk9Y7ZCFvyHTZj7+AmDdLO1yiVk8JYS8npPW45vvz5Ay0Vt8EMEqYxY5BNEJWakMTLQ==
+  dependencies:
+    lodash "^4.17.11"
+    luaparse "^0.2.1"
+
+luaparse@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npmmirror.com/luaparse/-/luaparse-0.2.1.tgz"
+  integrity sha512-VKBcryd5nJte4ZNR29NOk8F/UkMipjeb4yoxcSS51z6QAzg9DXUC2WsfLniS0J1eh3pr/ZL3e9ha6V8fhoLbBQ==
 
 luaparse@^0.3.1:
   version "0.3.1"
