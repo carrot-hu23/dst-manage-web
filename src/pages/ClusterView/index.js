@@ -111,12 +111,12 @@ const ClusterView = () => {
             console.log("<<<<<<<<<<<<<<",forestOverrides)
             formCluster.setFieldValue("masterMapData", forestOverrides)
         } else {
-            formCluster.setFieldValue("masterMapData", format(masterMapDataJsObject))
+            formCluster.setFieldValue("masterMapData", format(masterMapDataJsObject, {singleQuote: false}))
         }
         if (cavesMapDataJsObject.id === undefined) {
             formCluster.setFieldValue("cavesMapData", cavesOverrides)
         } else {
-            formCluster.setFieldValue("cavesMapData", format(cavesMapDataJsObject))
+            formCluster.setFieldValue("cavesMapData", format(cavesMapDataJsObject,{singleQuote: false}))
         }
 
 

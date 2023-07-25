@@ -10,12 +10,26 @@ async function autoCheckStatusApi(cluster) {
     return response.data
 }
 
-async function enableAutoCheckRunApi(cluster, enable) {
+async function enableAutoCheckMasterRunApi(cluster, enable) {
     let e = 0
     if (enable) {
         e = 1
     }
-    const url = `/api/auto/check/run?enable=${e}`
+    const url = `/api/auto/check/master?enable=${e}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function enableAutoCheckCavesRunApi(cluster, enable) {
+    let e = 0
+    if (enable) {
+        e = 1
+    }
+    const url = `/api/auto/check/caves?enable=${e}`
     const response = await http.get(url,{
         headers: {
             'Cluster': cluster,
@@ -40,6 +54,7 @@ async function enableAutoCheckUpdateVersionApi(cluster, enable) {
 
 export {
     autoCheckStatusApi,
-    enableAutoCheckRunApi,
+    enableAutoCheckMasterRunApi,
+    enableAutoCheckCavesRunApi,
     enableAutoCheckUpdateVersionApi,
 }

@@ -63,13 +63,15 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                 if (workshopObject[workshopId] === undefined) {
                     workshopObject[workshopId] = {}
                 }
-                const workshop = `"workshop-${workshopId}"`
+                const workshop = `workshop-${workshopId}`
                 workShops[workshop] = {
                     configuration_options: workshopObject[workshopId],
-                    enable: true
+                    enabled: true
                 }
             })
-            return format(workShops)
+            return format(workShops, {
+                singleQuote: false
+            })
         } catch (error) {
             console.log(error)
             return "return {}"

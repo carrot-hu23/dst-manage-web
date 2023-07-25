@@ -4,7 +4,12 @@ import {useParams} from "react-router-dom";
 import {Box, Card} from '@mui/material';
 import {Switch, Form, Spin, Skeleton, message} from "antd";
 
-import {autoCheckStatusApi, enableAutoCheckRunApi, enableAutoCheckUpdateVersionApi} from "../../api/autoCheckApi";
+import {
+    autoCheckStatusApi,
+    enableAutoCheckCavesRunApi,
+    enableAutoCheckMasterRunApi,
+    enableAutoCheckUpdateVersionApi
+} from "../../api/autoCheckApi";
 
 
 export default () => {
@@ -26,9 +31,22 @@ export default () => {
             })
     }, [])
 
-    function changeRun(checked, event) {
+    function changeMasterRun(checked, event) {
         setSpin(true)
-        enableAutoCheckRunApi(cluster, checked)
+        enableAutoCheckMasterRunApi(cluster, checked)
+            .then(resp => {
+                setSpin(false)
+                if (resp.code === 200) {
+                    message.success("设置成功")
+                } else {
+                    message.error("设置失败")
+                }
+            })
+    }
+
+    function changeCavesRun(checked, event) {
+        setSpin(true)
+        enableAutoCheckCavesRunApi(cluster, checked)
             .then(resp => {
                 setSpin(false)
                 if (resp.code === 200) {
@@ -67,19 +85,28 @@ export default () => {
                     <Skeleton loading={loading}>
                         <Spin spinning={spin}>
                             <Form
-                                // labelCol={{
-                                //     span: 8,
-                                // }}
+                                labelCol={{
+                                    span: 4,
+                                }}
                                 // wrapperCol={{
                                 //     span: 16,
                                 // }}
                             >
                                 <Form.Item
-                                    label="自动宕机恢复"
+                                    label="地面自动宕机恢复"
                                     tooltip={"默认五分钟没有启动，将自动重启"}
                                 >
-                                    <Switch defaultChecked={status.gameRunning}
-                                            onChange={(c, e) => changeRun(c, e)}
+                                    <Switch defaultChecked={status.masterRunning}
+                                            onChange={(c, e) => changeMasterRun(c, e)}
+                                            checkedChildren="开启"
+                                            unCheckedChildren="关闭"/>
+                                </Form.Item>
+                                <Form.Item
+                                    label="洞穴自动宕机恢复"
+                                    tooltip={"默认五分钟没有启动，将自动重启"}
+                                >
+                                    <Switch defaultChecked={status.cavesRunning}
+                                            onChange={(c, e) => changeCavesRun(c, e)}
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>

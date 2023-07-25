@@ -12,6 +12,7 @@ import {
     saveGameConfigApi
 } from '../../api/gameApi';
 import {customization} from "../../utils/dst";
+import CavesMod from "./CavesMod";
 
 const Home = () => {
 
@@ -65,6 +66,7 @@ const Home = () => {
                     mod.setFieldsValue({modoverrides: "return {}"})
                 } else {
                     mod.setFieldsValue({modoverrides: data.data.master.modoverrides})
+                    mod.setFieldsValue({cavesModoverrides: data.data.caves.modoverrides})
                 }
 
                 setLoading(false)
@@ -86,8 +88,12 @@ const Home = () => {
             content: (<Caves caves={caves} />),
         },
         {
-            title: 'MOD 设置',
+            title: '地面 MOD 设置',
             content: (<Mod mod={mod} />),
+        },
+        {
+            title: '洞穴 MOD 设置',
+            content: (<CavesMod mod={mod} />),
         },
     ];
 
@@ -96,7 +102,6 @@ const Home = () => {
         if (clusterData.game_mode === customization) {
             clusterData.game_mode =  clusterData.customization_mode
         }
-        console.log("clusterData: ", clusterData)
         const body = {
             cluster: clusterData,
             cluster_token: cluster.getFieldValue().cluster_token,
@@ -107,19 +112,24 @@ const Home = () => {
             },
             caves: {
                 leveldataoverride: caves.getFieldValue().leveldataoverride,
-                modoverrides: mod.getFieldValue().modoverrides,
+                modoverrides: mod.getFieldValue().cavesModoverrides,
                 server_ini: caves.getFieldValue()
             }
         }
         console.log(body);
-        saveGameConfigApi(params.cluster,body).then(data=>{
-            message.success("保存成功")
-            setCurrent(0)
-        }).catch(error=>{
-            console.log(error);
-            message.error("保存失败")
-        })
-        
+        saveGameConfigApi(params.cluster,body)
+            .then(resp=>{
+                if (resp.code === 200 ) {
+                    message.success("保存成功")
+                    setCurrent(0)
+                } else {
+                    message.error("保存失败")
+                }
+            }).catch(error=>{
+                console.log(error);
+                message.error("保存失败")
+            })
+
     }
 
     const next = () => {
@@ -160,8 +170,6 @@ const Home = () => {
                                 <Button
                                     style={{
                                         margin: '0 8px',
-                                        background: '#13CE66',
-                                        color: '#fff'
                                     }}
                                     onClick={() => prev()}
                                 >
