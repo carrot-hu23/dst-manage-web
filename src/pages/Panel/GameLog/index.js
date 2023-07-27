@@ -58,10 +58,14 @@ const GameLog2 = (props) => {
                 message.error('对不起, 您的浏览器不支持Websocket通信协议')
             }
             // 这里的转发标识为/ws
-            let wsPath
-            if(window.location.host === 'localhost:3000') {
-                wsPath = "ws://1.12.223.51:8082/ws"
+
+            let  wsPath
+            // eslint-disable-next-line no-restricted-globals
+            if (location.protocol === 'https:') {
+                // 当前页面使用 HTTPS 协议
+                wsPath = `wss://${window.location.host}/ws`
             } else {
+                // 当前页面使用 HTTP 协议
                 wsPath = `ws://${window.location.host}/ws`
             }
             socket = new WebSocket(wsPath)

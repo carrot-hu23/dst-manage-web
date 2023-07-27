@@ -42,6 +42,8 @@ const HomeSetting = (props) => {
                 steam_group_only: false,
                 tick_rate: 15,
                 max_snapshots: 6,
+                shard_enabled: false,
+
 
             }}
             style={{
