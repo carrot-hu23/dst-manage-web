@@ -34,11 +34,17 @@
   "top10PlayerRankingsOfThisWeek": "本周Top10活跃玩家",
 
 
-  "panel": "面板操作",
-  "remote": "远程操作",
-  "cavesLog": "洞穴日志",
+  "Panel": "面板操作",
+  "Remote": "远程操作",
+  "MasterLog": "森林日志",
+  "CavesLog": "洞穴日志",
 
-  "ipConnect": "Ip 直连",
+  "IpConnect": "直连",
+  "ClusterName": "房间",
+  "GameMod": "模式",
+  "Season": "天数",
+  "Mods": "模组",
+
   "dstStatus": "饥荒状况",
   "quickActions": "快捷操作",
   "cleanGame": "清理游戏",
@@ -65,6 +71,17 @@
   "c_save": "保存存档",
   "send": "发送",
 
-  "announce": "公告设置"
+  "Announce": "公告设置",
 
+  "server": "后台",
+
+
+  "DontStarveTogetherMemory": "饥荒占用内存",
+  "SWAP": "虚拟内存",
+  "MemoryUsage": "内存使用",
+  "TotalMem": "总内存",
+  "CpuUsage": "cpu 使用",
+  "CpuCores": "cpu 核心",
+  "DiskFree": "磁盘剩余",
+  "TotalDisk": "总的磁盘"
 }

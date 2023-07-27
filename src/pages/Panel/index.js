@@ -11,6 +11,8 @@ import GameLog2 from './GameLog';
 import {getGameDashboardApi} from '../../api/gameDashboardApi';
 import {dstVersionApi} from '../../api/dstApi';
 import Announce from "./Announce";
+import ServerIni from "../Home/ServerIni";
+import ServerLog from "./ServerLog";
 
 
 const initData = {
@@ -114,25 +116,30 @@ const Panel = () => {
     const items = [
         {
             key: '1',
-            label: t('panel'),
+            label: t('Panel'),
             children: <Skeleton loading={loading}>
                         <GameOperator gameData={gameData} logPath={masterLog}/>
                     </Skeleton>,
         },
         {
             key: '2',
-            label: t('announce'),
+            label: t('Announce'),
             children: <Announce />,
         },
         {
             key: '3',
-            label: t('remote'),
+            label: t('Remote'),
             children: <ControlPanel/>,
         },
         {
             key: '4',
-            label: t('cavesLog'),
-            children: <GameLog2 path={gameData.cavesLog} id={"Caves"}/>,
+            label: t('MasterLog'),
+            children: <ServerLog levelName={"Master"}/>,
+        },
+        {
+            key: '5',
+            label: t('CavesLog'),
+            children: <ServerLog levelName={"Caves"}/>,
         },
     ];
 

@@ -9,7 +9,7 @@ import MonacoEditor from "@monaco-editor/react";
 import luaparse from "luaparse";
 import {Beautify} from "lua-format";
 
-const Editor = ({value, setValue, styleData}) => {
+const Editor = ({value, setValue, styleData, readOnly}) => {
 
     const [error, setError] = useState("");
     const [code, setCode] = useState("");
@@ -18,7 +18,7 @@ const Editor = ({value, setValue, styleData}) => {
 
     useEffect(() => {
         setCode(value)
-    }, [])
+    }, [value])
 
     function check(value) {
         if (styleData.language !== undefined && styleData.language !== "lua") {
@@ -114,6 +114,9 @@ const Editor = ({value, setValue, styleData}) => {
                 onChange={onChange}
                 onMount={handleEditorDidMount}
                 theme={styleData.theme || 'light'}
+                options={{
+                    readOnly, // 设置只读模式
+                }}
             />
 
             <span style={{

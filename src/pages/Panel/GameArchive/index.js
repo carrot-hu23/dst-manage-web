@@ -1,17 +1,20 @@
-import {Typography, Space} from 'antd';
-import { useEffect, useState } from 'react';
+import {Typography, Space, Form} from 'antd';
+import {useEffect, useState} from 'react';
 
+import {useTranslation} from "react-i18next";
 import {useParams} from "react-router-dom";
-import { archiveApi } from '../../../api/gameApi';
+import {archiveApi} from '../../../api/gameApi';
 
 import './index.css';
 
-const { Paragraph } = Typography;
+
+const {Paragraph} = Typography;
 
 export default () => {
 
     const [archive, setArchive] = useState({players: []})
     const {cluster} = useParams()
+    const {t} = useTranslation()
 
     useEffect(() => {
         archiveApi(cluster)
@@ -25,7 +28,7 @@ export default () => {
                     ipConnect: data.data.ipConnect,
                     meta: data.data.meta
                 }
-                const { players } = data.data
+                const {players} = data.data
                 if (players === null) {
                     ar.players = []
                 } else {
@@ -41,21 +44,33 @@ export default () => {
             }).catch(error => console.log(error))
 
     }, [])
-    const Span = ({text})=> {
-       return <span style={{paddingRight: '8px'}}>{text}</span>
+    const Span = ({text}) => {
+        return <span style={{paddingRight: '8px'}}>{text}</span>
     }
     return (
         <>
-            <ul style={{
-                listStyle: 'none',
-            }}>
-                <li><Span text={"房间:"} /> {archive.clusterName}</li>
-                <li><Span text={"模式:"} /> {archive.gameMod}</li>
-                <li><Span text={"季节:"} /> {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason+archive.remainingdaysinseason})</li>
-                <li><Span text={"模组:"} /> {archive.mods}</li>
-                <li><Space><Span text={"直连:"} /><Paragraph copyable>{archive.ipConnect}</Paragraph></Space></li>
-            </ul>
-
+            <table>
+                <tr>
+                    <td>{`${t('ClusterName')} :`}</td>
+                    <td> {archive.clusterName}</td>
+                </tr>
+                <tr>
+                    <td>{`${t('GameMod')} : `}</td>
+                    <td> {archive.gameMod}</td>
+                </tr>
+                <tr>
+                    <td>{`${t('Season')} : `}</td>
+                    <td> {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason + archive.remainingdaysinseason})</td>
+                </tr>
+                <tr>
+                    <td>{`${t('Mods')} : `}</td>
+                    <td> {archive.mods}</td>
+                </tr>
+                <tr>
+                    <td>{`${t('IpConnect')} : `}</td>
+                    <td> <Paragraph copyable>{archive.ipConnect}</Paragraph></td>
+                </tr>
+            </table>
         </>
     )
 }

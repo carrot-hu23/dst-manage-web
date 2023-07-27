@@ -37,11 +37,8 @@ export default () => {
         getAnnounceSettingApi(cluster)
             .then(resp=>{
                 if (resp.code === 200) {
-                    message.success("获取配置成功")
                     form.setFieldsValue(resp.data)
                     setUint(resp.data.intervalUnit)
-                } else {
-                    message.error("获取配置失败")
                 }
                 setLoading(false)
             })

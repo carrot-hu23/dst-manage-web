@@ -4,6 +4,7 @@ import RcResizeObserver from 'rc-resize-observer';
 import { useState } from 'react';
 
 import { Progress, Tooltip } from 'antd';
+import {useTranslation} from "react-i18next";
 
 // import dstLogo from '../../../assets/Dont_Starve_Together_Logo.png'
 
@@ -13,6 +14,8 @@ function formatData(data, num) {
 
 const { Statistic, Divider } = StatisticCard;
 const GameStatistic = (props) => {
+
+    const { t } = useTranslation()
 
     const MB = 1024 * 1024 
     const GB = 1024 * MB
@@ -72,10 +75,10 @@ const GameStatistic = (props) => {
                                 <Tooltip placement="rightTop" style={{
                                     background: '#fff'
                                 }} title={(<div>
-                                    地面占用: {forestMem}MB<Progress percent={formatData(forestMem/(props.data.mem.total / 1024/1024)*100,2)} size="small" strokeColor={'#5BD171'} status="active" />
-                                    洞穴占用: {cavesMem}MB<Progress percent={formatData(cavesMem/(props.data.mem.total / 1024/1024)*100,2)} size="small" status="active" />
-                                    管理后台占用: {adminMem}MB<Progress percent={formatData(adminMem/(props.data.mem.total / 1024/1024)*100,2)} size="small" status="active" />
-                                </div>)} >饥荒内存占用
+                                    {t('master')}: {forestMem}MB<Progress percent={formatData(forestMem/(props.data.mem.total / 1024/1024)*100,2)} size="small" strokeColor={'#5BD171'} status="active" />
+                                    {t('caves')}: {cavesMem}MB<Progress percent={formatData(cavesMem/(props.data.mem.total / 1024/1024)*100,2)} size="small" status="active" />
+                                    {t('server')}: {adminMem}MB<Progress percent={formatData(adminMem/(props.data.mem.total / 1024/1024)*100,2)} size="small" status="active" />
+                                </div>)} >{t('DontStarveTogetherMemory')}
 
                                 </Tooltip>
                             </div>),
@@ -89,7 +92,7 @@ const GameStatistic = (props) => {
                             // ),
                             description: (
                                 <>
-                                    <Statistic title="虚拟内存" value={`${dstVmemTotal  } MB`} />
+                                    <Statistic title={t('SWAP')} value={`${dstVmemTotal  } MB`} />
                                 </>
                             ),
                         }}
@@ -97,9 +100,9 @@ const GameStatistic = (props) => {
 
                     <Divider type={responsive ? 'horizontal' : 'vertical'} />
                     <StatisticCard statistic={{
-                        title: '内存使用',
+                        title: t('MemoryUsage'),
                         value: memUsageGB,
-                        description: <Statistic title="总内存" value={`${formatData(props.data.mem.total / 1024 / 1024 / 1024, 2)  } GB`} />,
+                        description: <Statistic title={t('TotalMem')} value={`${formatData(props.data.mem.total / 1024 / 1024 / 1024, 2)  } GB`} />,
                     }} chart={
                         <>
                             <Progress type="circle" percent={memUsage} strokeColor={memUsage > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
@@ -107,9 +110,9 @@ const GameStatistic = (props) => {
                     } chartPlacement="left" />
                     <StatisticCard statistic={
                         {
-                            title: 'CPU 使用',
+                            title: t('CpuUsage'),
                             value: `${cpuUsage  } %`,
-                            description: <Statistic title="CPU核心数" value={props.data.cpu.cores} />,
+                            description: <Statistic title={t('CpuCores')} value={props.data.cpu.cores} />,
                         }} chart={
                             <>
                                 <Progress type="circle" percent={cpuUsage} strokeColor={cpuUsage > 70 ? 'red' : ''} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
@@ -117,9 +120,9 @@ const GameStatistic = (props) => {
                         } chartPlacement="left" />
 
                     <StatisticCard statistic={{
-                        title: '磁盘剩余',
+                        title: t('DiskFree'),
                         value: `${formatData(diskFree, 2)  } GB`,
-                        description: <Statistic title="总存储" value={`${formatData(diskTotal, 2)  } GB`} />,
+                        description: <Statistic title={t('TotalDisk')} value={`${formatData(diskTotal, 2)  } GB`} />,
                     }} chart={
                         <>
                             <Progress type="circle" percent={diskUsage} strokeColor={diskUsage > 90 ? 'red' : ''} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />

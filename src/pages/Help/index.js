@@ -28,6 +28,16 @@ const Help = () => {
                     {config.version}
                     <br/>
                     <div>
+                        开源协议:
+                        <a
+                            target={'_blank'}
+                            href={'https://github.com/hujinbo23/dst-admin-go/blob/main/LICENSE'}
+                            rel="noreferrer"
+                        >
+                            GPL-3.0 license
+                        </a>
+                    </div>
+                    <div>
                         github 地址:
                         <a
                             target={'_blank'}

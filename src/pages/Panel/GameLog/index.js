@@ -50,39 +50,53 @@ const GameLog2 = (props) => {
         const fitAddon = new FitAddon()
         terminal.term.loadAddon(fitAddon)
         fitAddon.fit()
+        let socket
+        try {
+            if(!!window.WebSocket && window.WebSocket.prototype.send) {
+                // message.success('您的浏览器支持Websocket通信协议')
+            } else{
+                message.error('对不起, 您的浏览器不支持Websocket通信协议')
+            }
+            // 这里的转发标识为/ws
+            let wsPath
+            if(window.location.host === 'localhost:3000') {
+                wsPath = "ws://1.12.223.51:8082/ws"
+            } else {
+                wsPath = `ws://${window.location.host}/ws`
+            }
+            socket = new WebSocket(wsPath)
+            socket.onopen= ()=> {
+                console.log("webSocket连接成功")
+                socket.send("nihao")
+                const message = `tailf ${props.path}`
+                console.log('path',props.path)
+                socket.send(message)
+            }
+            socket.onerror= ()=> {
+                console.log("连接错误");
+            }
+            socket.onmessage = (e)=> {
 
-        if(!!window.WebSocket && window.WebSocket.prototype.send) {
-            // message.success('您的浏览器支持Websocket通信协议')
-        } else{
-            message.error('对不起, 您的浏览器不支持Websocket通信协议')
+                terminal.term.writeln(e.data)
+            }
+            socket.onclose = (e)=> {
+                console.log('webSocket 关闭了');
+            }
+            console.log(111111111111)
+        } catch (error) {
+            console.log(error)
+            message.error("webSocket error, 请检查nginx配置或者其他路由")
         }
-        // 这里的转发标识为/ws
-        let wsPath
-        if(window.location.host === 'localhost:3000') {
-            wsPath = "ws://1.12.223.51:8082/ws"
-        } else {
-            wsPath = `ws://${window.location.host}/ws`
+        return ()=> {
+            try {
+                if (socket !== null) {
+                    socket.close()
+                }
+            } catch (error) {
+                console.log(error)
+                message.error("webSocket close error")
+            }
         }
-        const socket = new WebSocket(wsPath)
-        socket.onopen= ()=> {
-            console.log("webSocket连接成功")
-            socket.send("nihao")
-            const message = `tailf ${props.path}`
-            console.log('path',props.path)
-            socket.send(message)
-        }
-        socket.onerror= ()=> {
-            console.log("连接错误");
-        }
-        socket.onmessage = (e)=> {
-            
-            terminal.term.writeln(e.data)
-        }
-        socket.onclose = (e)=> {
-            console.log('webSocket 关闭了');
-        }
-        console.log(111111111111)
-        return ()=> socket.close()
     }, [props.path])
 
     const [inputValue, setInputValue] = useState('');

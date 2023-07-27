@@ -38,8 +38,8 @@
   "remote": "Remote",
   "cavesLog": "CavesLog",
 
-  "ipConnect": "Ip Connect",
-  "dstStatus": "Dst Status",
+  "ipConnect": "ip_connect",
+  "dstStatus": "Status",
   "quickActions": "Quick Actions",
   "cleanGame": "Clean Game",
   "gameBackup": "Game Backup",
