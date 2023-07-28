@@ -123,13 +123,13 @@ const Panel = () => {
         },
         {
             key: '2',
-            label: t('Announce'),
-            children: <Announce />,
+            label: t('Remote'),
+            children: <ControlPanel/>,
         },
         {
             key: '3',
-            label: t('Remote'),
-            children: <ControlPanel/>,
+            label: t('Announce'),
+            children: <Announce />,
         },
         {
             key: '4',

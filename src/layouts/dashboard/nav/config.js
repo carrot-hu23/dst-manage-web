@@ -56,7 +56,12 @@ const navConfig = [
     path: '/dashboard/dst/server',
     icon: icon('server'),
   },
-    {
+  {
+    title: '外部链接',
+    path: '/dashboard/link',
+    icon: icon('external-link')
+  },
+  {
     title: '帮助文档',
     path: '/dashboard/help',
     icon: icon('github')

@@ -1,4 +1,5 @@
-import { Button, Form, Input, message, Space, Row, Col, Card, Divider, Tag, Typography } from 'antd';
+import { Button, Form, Input, message, Space, Row, Col, Divider, Tag, Typography } from 'antd';
+import {Box, Card} from "@mui/material";
 import {useParams} from "react-router-dom";
 import { cavesConsoleApi, masterConsoleApi, rollbackApi, sentBroadcastApi } from '../../../api/gameApi';
 
@@ -46,6 +47,7 @@ const ControlPanel = () => {
 
     return (
         <Card>
+            <Box sx={{p: 3}} dir="ltr">
             <Row gutter={[16, 8]}>
                 <Col xs={24} sm={24} md={16} lg={16} xl={16}>
                     <Form
@@ -142,6 +144,7 @@ const ControlPanel = () => {
                     </Space>
                 </Col>
             </Row>
+            </Box>
         </Card>
     );
 };

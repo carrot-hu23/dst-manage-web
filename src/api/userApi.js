@@ -10,16 +10,17 @@ async function getUserInfoApi(cluster) {
     return response.data
 }
 
-// async function saveAnnounceSettingApi(cluster, data) {
-//     const url = `/api/game/announce/setting`
-//     const response = await http.post(url,data,{
-//         headers: {
-//             'Cluster': cluster,
-//         }
-//     })
-//     return response.data
-// }
+async function updateUserApi(cluster, data) {
+    const url = `/api/user`
+    const response = await http.post(url,data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
 
 export {
     getUserInfoApi,
+    updateUserApi,
 }

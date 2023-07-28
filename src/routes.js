@@ -24,6 +24,7 @@ import Begin from './pages/begin/index';
 import ClusterView from './pages/ClusterView/index';
 import ModSetting from "./pages/ModSetting";
 import UserProfile from "./pages/User/UserProfile";
+import Link from "./pages/WebLink";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -49,6 +50,7 @@ export default function Router() {
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
         { path: 'user/Profile', element: <UserProfile /> },
+        { path: 'link', element: <Link /> },
       ],
     },
     {

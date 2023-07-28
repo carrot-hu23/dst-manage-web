@@ -5,6 +5,7 @@ import DstConfigSetting from "./DstConfigSettting";
 import InstallSteamCmd from "./InstallSteamCmd";
 import JobTask from "./JobTaskList";
 import OtherSettiing from "./OtherSettiing";
+import WebLinkSetting from "./WebLinkSetting";
 
 const System = () => {
     const items = [
@@ -27,6 +28,11 @@ const System = () => {
             key: '4',
             label: "环境依赖",
             children: <InstallSteamCmd/>,
+        },
+        {
+            key: '5',
+            label: "外部链接",
+            children: <WebLinkSetting />,
         },
     ];
     return (

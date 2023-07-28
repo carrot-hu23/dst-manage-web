@@ -5,36 +5,32 @@ import {
     Form,
     Switch,
     Space,
-    Card,
     message,
     Typography,
     Spin
 } from 'antd';
 
 import {useParams} from "react-router-dom";
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {useTranslation} from "react-i18next";
 
-import { updateGameApi, startHomeApi } from '../../../api/gameApi';
-import { createBackupApi } from '../../../api/backupApi';
+import {updateGameApi, startHomeApi} from '../../../api/gameApi';
+import {createBackupApi} from '../../../api/backupApi';
 import CleanArchive from './cleanGame';
 import Regenerateworld from './regenerateworld';
 
 import './index.css'
 
 
+const {Paragraph} = Typography;
 
-
-
-const { Paragraph } = Typography;
-
-function controlDst(cluster,checked, type) {
-    return startHomeApi(cluster,checked, type)
+function controlDst(cluster, checked, type) {
+    return startHomeApi(cluster, checked, type)
 }
 
 const GameStatus = (props) => {
 
-    const { t } = useTranslation()
+    const {t} = useTranslation()
 
     const {cluster} = useParams()
 
@@ -58,14 +54,27 @@ const GameStatus = (props) => {
     }, [props.data])
 
     const runStatusOnClinck = (checked, event) => {
-        controlDst(cluster,checked, 0)
+        let prefix
+        if (checked) {
+            prefix = "启动"
+            setStartText("正在启动游戏。。。")
+        } else {
+            prefix = "关闭"
+            setStartText("正在关闭游戏。。。")
+        }
+        setStartLoading(true)
+        controlDst(cluster, checked, 0)
             .then(data => {
                 if (data.code === 200) {
-                    message.success('启动游戏成功')
+                    message.success(`${prefix}游戏成功`)
+                } else {
+                    message.error(`${prefix}游戏失败`)
                 }
                 setMasterStatus(checked)
                 setCavesStatus(checked)
                 setRunStatus(checked)
+                setStartLoading(false)
+                setStartText("")
             })
     }
 
@@ -86,7 +95,7 @@ const GameStatus = (props) => {
             setStartText("正在关闭森林。。。")
         }
         setStartLoading(true)
-        controlDst(cluster,checked, 1).then(resp=>{
+        controlDst(cluster, checked, 1).then(resp => {
             if (resp.code !== 200) {
                 message.error(`${prefix}森林失败${resp.msg}`)
                 message.warning("请检查饥荒服务器路径是否设置正确")
@@ -115,7 +124,7 @@ const GameStatus = (props) => {
             setStartText("正在关闭洞穴。。。")
         }
         setStartLoading(true)
-        controlDst(cluster,checked, 2).then(resp=>{
+        controlDst(cluster, checked, 2).then(resp => {
             if (resp.code !== 200) {
                 message.error(`${prefix}洞穴失败${resp.msg}`)
                 message.warning("请检查饥荒服务器路径是否设置正确")
@@ -176,37 +185,46 @@ const GameStatus = (props) => {
                 >
                     <Form.Item label={t('dstStatus')}>
                         <Space wrap>
-                            <Button type={masterStatus ? 'primary' : 'default'} >{masterStatus ? t('masterRunning') : t('masterNotRun')}</Button>
-                            <Button type={cavesStatus ? 'primary' : 'default'} >{cavesStatus ? t('cavesRunning') : t('cavesNotRun')}</Button>
+                            <Button
+                                type={masterStatus ? 'primary' : 'default'}>{masterStatus ? t('masterRunning') : t('masterNotRun')}</Button>
+                            <Button
+                                type={cavesStatus ? 'primary' : 'default'}>{cavesStatus ? t('cavesRunning') : t('cavesNotRun')}</Button>
                         </Space>
 
                     </Form.Item>
-                    {/* <Form.Item label="启动地面和洞穴" >
+                    <Form.Item label="启动">
                         <Switch checkedChildren="开启" unCheckedChildren="关闭"
-                            onClick={(checked, event) => {
-                                runStatusOnClinck(checked, event)
-                            }}
-                            checked={runStatus} defaultChecked={!props.data.masterStatus || !props.data.cavesStatus} />
-                    </Form.Item> */}
-                    <Form.Item label={t('master')}  >
-                        <Switch
-                            checkedChildren={t('start')} unCheckedChildren={t('stop')}
-                            onClick={(checked, event) => { masterStatusOnClick(checked, event) }}
-                            checked={masterStatus}
-                            defaultChecked={masterStatus} />
+                                onClick={(checked, event) => {
+                                    runStatusOnClinck(checked, event)
+                                }}
+                                checked={runStatus}
+                                defaultChecked={!props.data.masterStatus || !props.data.cavesStatus}/>
                     </Form.Item>
-                    <Form.Item label={t('caves')}  >
+                    <Form.Item label={t('master')}>
                         <Switch
                             checkedChildren={t('start')} unCheckedChildren={t('stop')}
-                            onClick={(checked, event) => { cavesStatusOnClick(checked, event) }}
+                            onClick={(checked, event) => {
+                                masterStatusOnClick(checked, event)
+                            }}
+                            checked={masterStatus}
+                            defaultChecked={masterStatus}/>
+                    </Form.Item>
+                    <Form.Item label={t('caves')}>
+                        <Switch
+                            checkedChildren={t('start')} unCheckedChildren={t('stop')}
+                            onClick={(checked, event) => {
+                                cavesStatusOnClick(checked, event)
+                            }}
                             checked={cavesStatus}
-                            defaultChecked={cavesStatus} />
+                            defaultChecked={cavesStatus}/>
                     </Form.Item>
                     <Form.Item label={t('quickActions')}>
                         <Space>
                             <Button type="primary"
-                                onClick={() => { updateGameOnclick() }}
-                                loading={updateGameStatus}
+                                    onClick={() => {
+                                        updateGameOnclick()
+                                    }}
+                                    loading={updateGameStatus}
                             >
                                 {t('updateGame')}
                             </Button>
@@ -216,18 +234,20 @@ const GameStatus = (props) => {
                                 background: '#13CE66',
                                 color: '#fff'
                             }}
-                                onClick={() => { createBackupOnClick() }}
-                                loading={createBackupStatus}
+                                    onClick={() => {
+                                        createBackupOnClick()
+                                    }}
+                                    loading={createBackupStatus}
                             >
                                 {t('createBackup')}
                             </Button>
                         </Space>
 
                     </Form.Item>
-                    <Form.Item label={t('cleanGame')} >
+                    <Form.Item label={t('cleanGame')}>
                         <Space>
-                            <CleanArchive />
-                            <Regenerateworld />
+                            <CleanArchive/>
+                            <Regenerateworld/>
                         </Space>
                     </Form.Item>
 

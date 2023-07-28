@@ -24,6 +24,8 @@ const HEADER_DESKTOP = 92;
 const StyledRoot = styled(AppBar)(({ theme }) => ({
   ...bgBlur({ color: theme.palette.background.default }),
   boxShadow: 'none',
+    zIndex: 1,
+    position: 'absolute',
   [theme.breakpoints.up('lg')]: {
     width: `calc(100% - ${NAV_WIDTH + 1}px)`,
   },
@@ -58,7 +60,10 @@ export default function Header({ onOpenNav }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
 
-        <Searchbar />
+          {/*
+          TODO 暂时去掉搜索
+          <Searchbar />
+          */}
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack

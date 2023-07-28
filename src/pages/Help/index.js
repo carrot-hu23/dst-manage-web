@@ -23,7 +23,7 @@ const Help = () => {
     return (
         <Container maxWidth="xl">
             <Card>
-                <Box sx={{p: 2}} dir="ltr">
+                <Box sx={{p: 3}} dir="ltr">
                     <h1>帮助文档</h1>
                     {config.version}
                     <br/>

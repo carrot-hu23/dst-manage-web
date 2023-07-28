@@ -1,7 +1,8 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-import {Card, Form, InputNumber, Select, Radio, Button, message, Skeleton,Switch} from "antd";
+import {Form, InputNumber, Select, Radio, Button, message, Skeleton,Switch} from "antd";
+import {Box, Card} from "@mui/material";
 
 import Editor from "../../Home/Editor";
 import {getAnnounceSettingApi, saveAnnounceSettingApi} from "../../../api/announceApi";
@@ -59,6 +60,7 @@ export default () => {
 
     return <>
         <Card>
+            <Box sx={{p: 3}} dir="ltr">
             <Skeleton loading={loading} >
                 <Form
                     form={form}
@@ -123,6 +125,7 @@ export default () => {
             }}>
                 保存
             </Button>
+            </Box>
         </Card>
     </>
 }
