@@ -42,9 +42,7 @@ const HomeSetting = (props) => {
                 steam_group_only: false,
                 tick_rate: 15,
                 max_snapshots: 6,
-                shard_enabled: false,
-
-
+                bind_ip: '127.0.0.1'
             }}
             style={{
                 maxHeight: '600px',
@@ -151,7 +149,7 @@ const HomeSetting = (props) => {
             <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>多世界配置项</span></Divider>
 
             <Form.Item label="多世界" valuePropName="checked" tooltip="shard_enabled" name='shard_enabled'>
-                <Switch checkedChildren="开启" unCheckedChildren="关闭" />
+                <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
             </Form.Item>
 
 
