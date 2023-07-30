@@ -5,7 +5,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { useState, useRef, useEffect } from "react";
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor from '@uiw/react-monacoeditor';
 import luaparse from "luaparse";
 import {Beautify} from "lua-format";
 
@@ -60,8 +60,9 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
     }
 
     function onChange(value) {
+        console.log(value)
         setValue(value)
-        setCode(value);
+        // setCode(value);
         check(value)
     }
 
@@ -110,12 +111,18 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
             <MonacoEditor
                 height={styleData.height || 500}
                 language={styleData.language || "plaintext"}
-                value={code}
+                value={value}
                 onChange={onChange}
-                onMount={handleEditorDidMount}
+
+                editorDidMount={handleEditorDidMount}
+                // onMount={handleEditorDidMount}
                 theme={styleData.theme || 'light'}
                 options={{
-                    readOnly, // 设置只读模式
+                    selectOnLineNumbers: true,
+                    roundedSelection: false,
+                    cursorStyle: 'line',
+                    automaticLayout: false,
+                    theme: 'vs-dark',
                 }}
             />
 
