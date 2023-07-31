@@ -52,9 +52,39 @@ async function enableAutoCheckUpdateVersionApi(cluster, enable) {
     return response.data
 }
 
+async function enableAutoCheckMasterModUpdateApi(cluster, enable) {
+    let e = 0
+    if (enable) {
+        e = 1
+    }
+    const url = `/api/auto/check/master/mod?enable=${e}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function enableAutoCheckCavesModUpdateApi(cluster, enable) {
+    let e = 0
+    if (enable) {
+        e = 1
+    }
+    const url = `/api/auto/check/caves/mod?enable=${e}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     autoCheckStatusApi,
     enableAutoCheckMasterRunApi,
     enableAutoCheckCavesRunApi,
     enableAutoCheckUpdateVersionApi,
+    enableAutoCheckMasterModUpdateApi,
+    enableAutoCheckCavesModUpdateApi,
 }

@@ -5,8 +5,8 @@ import {Box, Card} from '@mui/material';
 import {Switch, Form, Spin, Skeleton, message} from "antd";
 
 import {
-    autoCheckStatusApi,
-    enableAutoCheckCavesRunApi,
+    autoCheckStatusApi, enableAutoCheckCavesModUpdateApi,
+    enableAutoCheckCavesRunApi, enableAutoCheckMasterModUpdateApi,
     enableAutoCheckMasterRunApi,
     enableAutoCheckUpdateVersionApi
 } from "../../api/autoCheckApi";
@@ -69,12 +69,28 @@ export default () => {
             })
     }
 
-    function changeGameMod(checked, event) {
-        console.log("run", checked)
-        setStatus(current => {
-            current.updateGameMod = checked
-            return current
-        })
+    function changeMasterModUpdate(checked, event) {
+        enableAutoCheckMasterModUpdateApi(cluster, checked)
+            .then(resp => {
+                setSpin(false)
+                if (resp.code === 200) {
+                    message.success("设置成功")
+                } else {
+                    message.error("设置失败")
+                }
+            })
+    }
+
+    function changeCavesModUpdate(checked, event) {
+        enableAutoCheckCavesModUpdateApi(cluster, checked)
+            .then(resp => {
+                setSpin(false)
+                if (resp.code === 200) {
+                    message.success("设置成功")
+                } else {
+                    message.error("设置失败")
+                }
+            })
     }
 
     return (
@@ -120,18 +136,26 @@ export default () => {
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
-                                {/*
                                 <Form.Item
-                                    label="智能模组更新"
-                                    name="update"
-                                    tooltip={"当房间mod版本需要更新时，会自动更新房间，注意会重启房间"}
+                                    label="森林模组更新"
+                                    name="masterModUpdate"
+                                    tooltip={"默认每20分钟检查一次mod，注意会重启房间"}
                                 >
-                                    <Switch defaultChecked={status.updateGameMod}
-                                            onChange={(c, e) => changeGameMod(c, e)}
+                                    <Switch defaultChecked={status.updateMasterMod}
+                                            onChange={(c, e) => changeMasterModUpdate(c, e)}
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
-                                */}
+                                <Form.Item
+                                    label="洞穴模组更新"
+                                    name="cavesModUpdate"
+                                    tooltip={"默认每20分钟检查一次mod，注意会重启房间"}
+                                >
+                                    <Switch defaultChecked={status.updateCavesMod}
+                                            onChange={(c, e) => changeCavesModUpdate(c, e)}
+                                            checkedChildren="开启"
+                                            unCheckedChildren="关闭"/>
+                                </Form.Item>
                             </Form>
                         </Spin>
                     </Skeleton>

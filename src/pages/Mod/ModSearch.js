@@ -91,7 +91,7 @@ const ModSearch = ({addModList}) => {
     
     useEffect(() => {
         updateModList("", page, pageSize)
-    }, [page])
+    }, [])
 
     const subscribe = (modId, modName, addModList, setLoading) => {
         messageApi.open({
