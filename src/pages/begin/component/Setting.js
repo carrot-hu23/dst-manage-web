@@ -1,5 +1,4 @@
 import { Form, Input, Tooltip, Button } from 'antd';
-import { useState } from 'react';
 import InstallSteamcmd from './installSteamcmd';
 import InstallDst from './installDst';
 

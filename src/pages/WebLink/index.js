@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {Container, Box, Card} from '@mui/material';
+import {Container} from '@mui/material';
 import {Tabs} from "antd";
 
 import EmbeddedPage from "../System/EmbeddedPage";

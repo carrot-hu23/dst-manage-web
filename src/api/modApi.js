@@ -51,6 +51,28 @@ async function deleteStepupWorkshopApi(cluster) {
 }
 
 
+async function getModInfoFileApi(cluster,modId) {
+    const url = `/api/mod/modinfo/${modId}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function updateModApi(cluster,modId) {
+    const url = `/api/mod/${modId}`
+    const response = await http.put(url,{},{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
-    searchMod,getModInfo, getMyModInfoList,deleteModInfo,deleteStepupWorkshopApi
+    searchMod,getModInfo, getMyModInfoList,deleteModInfo,deleteStepupWorkshopApi,
+    getModInfoFileApi,
+    updateModApi
 }

@@ -17,7 +17,7 @@ import Home from './pages/Home/index';
 import Player from './pages/Player/index';
 import Backup from './pages/Backup/index';
 import Setting from './pages/System/index';
-import Help from './pages/Help/index';
+import Github from './pages/Github/index';
 import Panel from './pages/Panel/index';
 import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
@@ -25,6 +25,8 @@ import ClusterView from './pages/ClusterView/index';
 import ModSetting from "./pages/ModSetting";
 import UserProfile from "./pages/User/UserProfile";
 import Link from "./pages/WebLink";
+import Modinfo from "./pages/Mod/Modinfo";
+import Help from "./pages/Help";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -45,12 +47,14 @@ export default function Router() {
         { path: 'player', element: <Player /> },
         { path: 'backup', element: <Backup /> },
         { path: 'setting', element: <Setting /> },
+        { path: 'github', element: <Github /> },
         { path: 'help', element: <Help /> },
         { path: 'Mod', element: <ModSetting /> },
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'cluster/view', element: <ClusterView /> },
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
+        { path: 'modinfo/:modId', element: <Modinfo /> },
       ],
     },
     {

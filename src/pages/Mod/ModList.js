@@ -244,6 +244,8 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                     <Col span={14} xs={24} md={14} lg={14}>
                         {mod.modid !== undefined && <ModDetail
                             mod={mod}
+                            setMod={setMod}
+                            setModList={setModList}
                             root={root}
                             setRoot={setRoot}
                             defaultValues={defaultValuesMap[`${mod.modid}`]}

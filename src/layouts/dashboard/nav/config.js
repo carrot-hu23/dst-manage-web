@@ -62,9 +62,14 @@ const navConfig = [
     icon: icon('external-link')
   },
   {
+    title: 'Github',
+    path: '/dashboard/github',
+    icon: icon('github')
+  },
+  {
     title: '帮助文档',
     path: '/dashboard/help',
-    icon: icon('github')
+    icon: icon('help-circle')
   },
 ];
 

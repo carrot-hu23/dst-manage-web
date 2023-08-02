@@ -1,17 +1,4 @@
-:where(.css-dev-only-do-not-override-10ed4xt).mod.ant-card .ant-card-body {
-    padding: 0px;
-    border-radius: 0 0 8px 8px;
-}
-:where(.css-10ed4xt).mod.ant-card .ant-card-body {
-    padding: 0px;
-    border-radius: 0 0 8px 8px;
-}
-
-:where(.css-dev-only-do-not-override-10ed4xt).modlist.ant-card .ant-card-body {
-    padding: 8px;
-    border-radius: 0 0 8px 8px;
-}
-:where(.css-10ed4xt).modlist.ant-card .ant-card-body {
-    padding: 8px;
+.mod.ant-card .ant-card-body {
+    padding: 4px;
     border-radius: 0 0 8px 8px;
 }

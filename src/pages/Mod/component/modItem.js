@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react';
-import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin, Space, Typography} from 'antd';
+import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin} from 'antd';
 
 import './mod.css';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {deleteModInfo, getModInfo} from '../../../api/modApi';
-
-const {Paragraph} = Typography;
 
 function subscribeMod(modid, modList, setModList, setStartLoading) {
     setStartLoading(true)
@@ -36,6 +34,9 @@ function subscribeMod(modid, modList, setModList, setStartLoading) {
 }
 
 const ModItem = (props) => {
+
+    const navigate = useNavigate();
+
     const {removeMod, modList, setModList} = props
     const [mod, setMod] = useState({})
     const {cluster} = useParams()
@@ -97,10 +98,13 @@ const ModItem = (props) => {
                                         删除
                                     </Button>
                                 </Popconfirm>
-                                <Button type="link" onClick={() => {
-                                }}>
+                                {/*
+                                <Button type="link" onClick={
+                                    () => navigate(`/dashboard/modinfo/${props.mod.modid}`)
+                                }>
                                     编辑
                                 </Button>
+                                */}
                             </div>
                         </div>
                     </div>

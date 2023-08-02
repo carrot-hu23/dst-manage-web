@@ -1,4 +1,4 @@
-import {Container, Box, Card} from '@mui/material';
+import {Container} from '@mui/material';
 import {Tabs} from "antd";
 
 import DstConfigSetting from "./DstConfigSettting";

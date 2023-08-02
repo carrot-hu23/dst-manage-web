@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Card, Modal, Button, Space, Row, Col, Form, Typography, Divider} from 'antd';
+import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin} from 'antd';
 import Select2 from './Select2';
 import {timestampToString} from "../../../utils/dateUitls";
+import {updateModApi} from "../../../api/modApi";
 
 const {Paragraph} = Typography;
 
@@ -105,11 +106,40 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
 };
 
 // eslint-disable-next-line react/prop-types
-const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefaultValuesMap}) => {
+const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defaultValuesMap, setDefaultValuesMap}) => {
 
     const [open, setOpen] = useState(false);
-    const [form] = Form.useForm();
     const [ellipsis, setEllipsis] = useState(true);
+    const [spinning,setSpinning] = useState(false)
+
+    function updateMod() {
+        setSpinning(true)
+        updateModApi("", mod.modid)
+            .then(resp=>{
+                if (resp.code === 200) {
+                    const newMod = resp.data
+                    newMod.installed = true
+                    setModList(current=>{
+                        let index = 0;
+                        // eslint-disable-next-line no-plusplus
+                        for (let i = 0; i < current.length; i++) {
+                            if (current[i].modid === newMod.modid) {
+                                index = i
+                                if (current.enable) {
+                                    newMod.enable = true
+                                }
+                            }
+                        }
+                        current[index] = newMod
+                        console.log(current)
+                        return [...current]
+                    })
+                    setMod(newMod)
+                    setSpinning(false)
+                    message.success("更新成功")
+                }
+            })
+    }
 
     return (
         <div
@@ -120,13 +150,13 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
             }}
         >
             {mod.installed && <>
+                <Spin spinning={spinning} tip={"正在更新模组"} >
                 <Space size={16} wrap>
                     <img alt="example" src={mod.img}/>
                     <div>
                             <span style={{
-                                color: '#1677ff',
                                 fontSize: '16px',
-                                fontWeight: 100
+                                fontWeight: 500
                             }}>{mod.name}</span>
                         <br/>
                         <span>模组id:{mod.modid}</span>
@@ -173,6 +203,16 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                             创意工坊
                         </a>
                     </Button>
+                    <Popconfirm
+                        title="是否更新mod"
+                        okText="Yes"
+                        cancelText="No"
+                        onConfirm={()=>updateMod()}
+                    >
+                        <Button type="primary" >
+                            更新
+                        </Button>
+                    </Popconfirm>
                 </Space>
 
                 <Modal
@@ -206,6 +246,7 @@ const ModDetail = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefa
                     </div>
 
                 </Modal>
+                </Spin>
             </>}
             {!mod.installed && <>
                 <span>暂无模组，请先订阅</span>

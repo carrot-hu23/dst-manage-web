@@ -1,64 +1,33 @@
-import {Card, Box, Container} from '@mui/material';
-import {useEffect, useState} from "react";
-import {Image, Space} from "antd";
-import aliPayImage from './alipay.jpg';
-import wechatpayImage from './wechatpay.png';
+import {Box, Card, Container} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import CollapseWithMarkdown from "./CollapseWithMarkdown";
 
-const Help = () => {
+export default ()=>{
 
-    const [config, setConfig] = useState({
-        version: "0"
-    })
-    useEffect(() => {
-        fetch('misc/config.json')
-            .then(response => response.json())
+    const [markdownContent, setMarkdownContent] = useState("")
+    useEffect(()=>{
+        fetch('misc/FQA.md')
+            .then(response => response.text())
             .then(data => {
-                setConfig(data)
+                console.log(data)
+                setMarkdownContent(data)
             })
             .catch(error => {
                 console.error('无法加载config配置文件', error);
             });
-    }, [])
+    },[])
 
-    return (
+    return<>
         <Container maxWidth="xl">
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
-                    <h1>帮助文档</h1>
-                    {config.version}
-                    <br/>
+                    <h4>帮助文档</h4>
+
                     <div>
-                        开源协议:
-                        <a
-                            target={'_blank'}
-                            href={'https://github.com/hujinbo23/dst-admin-go/blob/main/LICENSE'}
-                            rel="noreferrer"
-                        >
-                            GPL-3.0 license
-                        </a>
-                    </div>
-                    <div>
-                        github 地址:
-                        <a
-                            target={'_blank'}
-                            href={config.github}
-                            rel="noreferrer"
-                        >
-                            {config.github}
-                        </a>
-                    </div>
-                    <br/>
-                    <div>
-                        <h3>请作者喝一杯咖啡：</h3>
-                        <Space size={32} wrap>
-                            <Image style={{borderRadius: '4px'}} preview={false} width={160} src={aliPayImage}/>
-                            <Image style={{borderRadius: '4px'}} preview={false} width={160} src={wechatpayImage}/>
-                        </Space>
+                        <CollapseWithMarkdown markdownContent={markdownContent} />
                     </div>
                 </Box>
             </Card>
         </Container>
-    )
+    </>
 }
-
-export default Help

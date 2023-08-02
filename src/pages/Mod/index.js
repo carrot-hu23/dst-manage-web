@@ -4,7 +4,7 @@ import _ from 'lodash'
 import luaparse from 'luaparse';
 import { parse } from "lua-json";
 
-import {Tabs} from 'antd';
+import {Skeleton, Tabs} from 'antd';
 import ModList from './ModList';
 import ModSearch from './ModSearch';
 import {getMyModInfoList} from '../../api/modApi';
@@ -180,11 +180,13 @@ const Mod = ({modoverrides}) => {
 
     const [defaultValuesMap, setDefaultValuesMap] = useState(getWorkShopConfigMap2(modoverrides))
     const {cluster} = useParams()
-
+    const [loading, setLoading] =useState(false)
     useEffect(() => {
+        setLoading(true)
         getMyModInfoList(cluster)
             .then(resp => {
                 initModList(resp.data, modoverrides, setDefaultValuesMap, setModList, setRoot)
+                setLoading(false)
             }).catch(error => console.log(error))
     }, [])
 
@@ -214,7 +216,9 @@ const Mod = ({modoverrides}) => {
     ];
 
 
-    return <Tabs defaultActiveKey="1" items={items}/>
+    return <Skeleton loading={loading} >
+        <Tabs defaultActiveKey="1" items={items}/>
+    </Skeleton>
 }
 
 export default Mod

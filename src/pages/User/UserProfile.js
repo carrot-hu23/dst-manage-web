@@ -1,4 +1,4 @@
-import {Button, Form, Input, Image, message, Skeleton} from 'antd';
+import {Button, Form, Input, message, Skeleton} from 'antd';
 import {Card, Container, Box, Typography} from '@mui/material';
 import {useEffect, useState} from "react";
 import {getUserInfoApi, updateUserApi} from "../../api/userApi";

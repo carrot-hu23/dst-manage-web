@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
-import {Row, Col, Card, Input, Pagination, Button, message, Space, Image} from 'antd';
+import {Row, Col, Card, Input, Pagination, Button, message} from 'antd';
 import {useParams} from "react-router-dom";
 import {getModInfo, searchMod} from '../../api/modApi';
 import {timestampToString} from "../../utils/dateUitls";
@@ -8,36 +8,6 @@ import {fShortenNumber} from "../../utils/formatNumber";
 
 const {Search} = Input;
 const {Meta} = Card;
-
-const ModCard = ({modInfo, addModList, subscribe}) => {
-    const [loading, setLoading] = useState(false)
-    return (<>
-        <Card className='mod' style={{margin: '8px', padding: '4px',}}>
-            <Space size={16} wrap>
-                <div>
-                    <a
-                        target={'_blank'}
-                        href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${modInfo.id}`} rel="noreferrer">
-                        <Image style={{borderRadius: '4px'}} preview={false} width={100} src={modInfo.img}/>
-                    </a>
-                </div>
-                <div>
-                    <div>
-                        <div>{modInfo.name}</div>
-                        <div>时间:&nbsp;{timestampToString(modInfo.time * 1000)}</div>
-                        <div>订阅数:&nbsp;{modInfo.sub}</div>
-                    </div>
-                    <Button
-                        loading={loading}
-                        type="primary"
-                        size={'small'}
-                        onClick={() => subscribe(modInfo.id, modInfo.name, addModList, setLoading)}>订阅</Button>
-                </div>
-            </Space>
-
-        </Card>
-    </>)
-}
 
 const ModCard2 = ({modinfo, addModList, subscribe}) => {
     const [loading, setLoading] = useState(false)
