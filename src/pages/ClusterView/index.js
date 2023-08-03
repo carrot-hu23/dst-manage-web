@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import { parse,format } from "lua-json";
 
 import { Container, Box, Card } from '@mui/material';
-import { Tabs, Button, Form, message, Skeleton } from 'antd';
+import {Tabs, Button, Form, message, Skeleton, Spin} from 'antd';
 
 import Forest from './forest';
 import Cave from './cave';
@@ -44,6 +44,7 @@ const ClusterView = () => {
     })
 
     const [loading, setLoading] = useState(true)
+    const [spinning, setSpinning] = useState(false)
 
     const {cluster} = useParams()
 
@@ -70,12 +71,15 @@ const ClusterView = () => {
     }
 
     function resetting() {
+
         formForest.resetFields()
         setForestObject({ ...getForestDefaultValues() })
 
         formCave.resetFields()
         setCaveObject({ ...getCaveDefaultValues() })
-        console.log('getCaveDefaultValues', getCaveDefaultValues());
+
+        message.success("重置成功")
+
     }
 
     // TODO 除了
@@ -163,11 +167,11 @@ const ClusterView = () => {
     }
 
     const items = [
-        {
-            key: '0',
-            label: `设置`,
-            children: <BaseCluster form={formCluster} />,
-        },
+        // {
+        //     key: '0',
+        //     label: `设置`,
+        //     children: <BaseCluster form={formCluster} />,
+        // },
         {
             key: '1',
             label: `森林`,
@@ -194,14 +198,16 @@ const ClusterView = () => {
             // maxHeight: 1200
         }}>
             <Box sx={{ p: 0, pb: 1 }} dir="ltr">
-                <Skeleton loading={loading} active avatar>
+                <Spin spinning={spinning}>
+                <Skeleton loading={loading} active>
                     <Tabs defaultActiveKey="1" items={items} />
                 </Skeleton>
+                </Spin>
             </Box>
         </Card>
         <br />
         <Card style={{
-            padding: 24
+            padding: 12
         }}>
             <Button
                 type="primary"

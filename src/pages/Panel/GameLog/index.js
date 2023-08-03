@@ -10,6 +10,7 @@ import { newTerminal } from '../../../utils/terminalUtils';
 import {masterConsoleApi} from "../../../api/gameApi";
 
 import './xterm.css';
+import Editor from "../../Home/Editor";
 
 const terminalTitleTemplate = '[log]#'
 
@@ -42,14 +43,9 @@ const config = {
 const GameLog2 = (props) => {
 
     const { t } = useTranslation()
-    
+    const [log, setLog] = useState("")
     useEffect(() => {
-        
-        const terminal = newTerminal(config, terminalTitleTemplate, props.id)
-        // 进行适应容器元素大小
-        const fitAddon = new FitAddon()
-        terminal.term.loadAddon(fitAddon)
-        fitAddon.fit()
+
         let socket
         try {
             if(!!window.WebSocket && window.WebSocket.prototype.send) {
@@ -66,7 +62,7 @@ const GameLog2 = (props) => {
                 wsPath = `wss://${window.location.host}/ws`
             } else {
                 // 当前页面使用 HTTP 协议
-                wsPath = `ws://${window.location.host}/ws`
+                wsPath = `ws://1.12.223.51:8082/ws`
             }
             socket = new WebSocket(wsPath)
             socket.onopen= ()=> {
@@ -80,13 +76,11 @@ const GameLog2 = (props) => {
                 console.log("连接错误");
             }
             socket.onmessage = (e)=> {
-
-                terminal.term.writeln(e.data)
+                setLog(current=>`${current+e.data}\n`)
             }
             socket.onclose = (e)=> {
                 console.log('webSocket 关闭了');
             }
-            console.log(111111111111)
         } catch (error) {
             console.log(error)
             message.error("webSocket error, 请检查nginx配置或者其他路由")
@@ -124,7 +118,17 @@ const GameLog2 = (props) => {
 
     return (
         <div className="container-children" style={{ height: "100%" }}>
-            <div id={props.id}  />
+           <Editor value={log}
+                   readOnly
+                   styleData={{
+                       language: "javascript",
+                       theme: "vs-dark",
+                       height: '480px',
+                       minimap: {
+                           enabled: false
+                       }
+                   }}
+           />
             <br/>
             <Space.Compact
                 style={{

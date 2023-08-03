@@ -3,6 +3,7 @@ import { http } from "../utils/http";
 async function updateGameApi(cluster) {
     const url = '/api/game/update'
     const response = await http.get(url, {
+        timeout: 1000*60*10,
         headers: {
             'Cluster': cluster,
         }

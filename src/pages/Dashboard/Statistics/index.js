@@ -17,15 +17,19 @@ const GameStatistic = (props) => {
 
     const { t } = useTranslation()
 
-    const MB = 1024 * 1024 
+    const MB = 1024 * 1024
     const GB = 1024 * MB
 
     const [responsive, setResponsive] = useState(false);
 
-    const cpuUsage = formatData(props.data.cpu.cpuPercent || 0, 2);
-    const memFree = `${formatData((props.data.mem.free || 0) / GB, 2)  } GB`;
-    const memUsage = formatData(props.data.mem.usedPercent || 0, 2);
-    const memUsageGB = `${formatData((memUsage / 100) * (props.data.mem.total / 1024 / 1024 / 1024), 2)} GB`
+    const cpuUsedPercent = formatData(props.data.cpu.cpuUsedPercent || 0, 2);
+    const cpuPercent = props.data.cpu.cpuPercent || []
+    const cpuCores = props.data.cpu.cores
+
+    const memTotal = formatData(props.data.mem.total || 0, 2);
+    const memUsedPercent = formatData(props.data.mem.usedPercent || 0, 2);
+    const memUsed = formatData(props.data.mem.used || 0, 2);
+    const memAvailable = formatData(props.data.mem.available || 0, 2);
 
     const diskTotal = (props.data.disk.devices || []).map((item) => Number(item.total))
         // eslint-disable-next-line no-restricted-globals
@@ -41,8 +45,8 @@ const GameStatistic = (props) => {
     const {cavesPs} = props.data;
     const {masterPs} = props.data;
 
-    const forestMem =formatData(masterPs.RSS / 1024, 2) 
-    const cavesMem = formatData(cavesPs.RSS / 1024, 2) 
+    const forestMem =formatData(masterPs.RSS / 1024, 2)
+    const cavesMem = formatData(cavesPs.RSS / 1024, 2)
     const adminMem = formatData(props.data.memStates / 1024, 2)
 
     // Nan 问题
@@ -101,21 +105,32 @@ const GameStatistic = (props) => {
                     <Divider type={responsive ? 'horizontal' : 'vertical'} />
                     <StatisticCard statistic={{
                         title: t('MemoryUsage'),
-                        value: memUsageGB,
-                        description: <Statistic title={t('TotalMem')} value={`${formatData(props.data.mem.total / 1024 / 1024 / 1024, 2)  } GB`} />,
+                        value: `${formatData(memUsed / 1024 / 1024 / 1024, 2)  } GB`,
+                        description: <Statistic title={t('TotalMem')} value={`${formatData(memAvailable / 1024 / 1024 / 1024, 2)  } / ${formatData(memTotal / 1024 / 1024 / 1024, 2)  } GB`} />,
                     }} chart={
                         <>
-                            <Progress type="circle" percent={memUsage} strokeColor={memUsage > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
+                            <Progress type="circle" percent={memUsedPercent} strokeColor={memUsedPercent > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
                         </>
                     } chartPlacement="left" />
+
                     <StatisticCard statistic={
                         {
                             title: t('CpuUsage'),
-                            value: `${cpuUsage  } %`,
-                            description: <Statistic title={t('CpuCores')} value={props.data.cpu.cores} />,
+                            value: `${cpuUsedPercent} %`,
+                            description: <Statistic title={t('CpuCores')} value={cpuCores} />,
                         }} chart={
                             <>
-                                <Progress type="circle" percent={cpuUsage} strokeColor={cpuUsage > 70 ? 'red' : ''} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
+                            <Tooltip placement="rightTop" style={{
+                                background: '#fff'
+                            }} title={(
+                                <div>
+                                {cpuPercent !== undefined && cpuPercent.map((value, index)=>
+                                    <div>
+                                    {`核心${index}`}: {formatData(value,2)}%<Progress percent={formatData(value,2)} size="small" strokeColor={'#5BD171'} status="active" />
+                                    </div>)}
+                                </div>)} >
+                                <Progress type="circle" percent={cpuUsedPercent} strokeColor={cpuUsedPercent > 70 ? 'red' : ''} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
+                            </Tooltip>
                             </>
                         } chartPlacement="left" />
 

@@ -39,15 +39,17 @@ export default () => {
 
     return (
         <>
-            <Skeleton loading={loading} active avatar>
+
                 <Container maxWidth="xl">
                     <Card>
                         <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+                            <Skeleton loading={loading} active>
                             <Mod modoverrides={clusterData.modData}/>
+                            </Skeleton>
                         </Box>
                     </Card>
                 </Container>
-            </Skeleton>
+
         </>
     )
 }

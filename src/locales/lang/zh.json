@@ -80,7 +80,7 @@
   "SWAP": "虚拟内存",
   "MemoryUsage": "内存使用",
   "TotalMem": "总内存",
-  "CpuUsage": "cpu 使用",
+  "CpuUsage": "cpu 负载",
   "CpuCores": "cpu 核心",
   "DiskFree": "磁盘剩余",
   "TotalDisk": "总的磁盘"

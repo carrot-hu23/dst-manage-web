@@ -18,6 +18,10 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
 
     useEffect(() => {
         setCode(value)
+        if (editorRef.current) {
+            // 每次数据更新后将最后一行滚动到可视区域
+            editorRef.current.revealLine(editorRef.current.getModel().getLineCount());
+        }
     }, [value])
 
     function check(value) {
@@ -60,7 +64,6 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
     }
 
     function onChange(value) {
-        console.log(value)
         setValue(value)
         // setCode(value);
         check(value)
@@ -81,7 +84,6 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
         // you can also store it in `useRef` for further usage
         monacoRef.current = monaco;
         editorRef.current = editor;
-
         // 将命令与右键菜单关联
         editor.addAction({
             id: "formatLuaCode",
@@ -96,9 +98,7 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
                 // const formatCode = formatText(editorRef.current.getValue());
                 // editorRef.current.setValue(formatCode);
                 // setCode(formatCode);
-                console.log("---------")
                 const formatCode = beautifyLua(editorRef.current.getValue(), '\x20\x20')
-                console.log(formatCode)
                 editorRef.current.setValue(formatCode)
                 setCode(formatCode);
             }
@@ -121,8 +121,12 @@ const Editor = ({value, setValue, styleData, readOnly}) => {
                     selectOnLineNumbers: true,
                     roundedSelection: false,
                     cursorStyle: 'line',
-                    automaticLayout: false,
-                    theme: 'vs-dark',
+                    automaticLayout: true,
+                    // theme: 'vs-dark',
+                    readOnly,
+                    minimap: styleData.minimap || {
+                        enabled: true
+                    },
                 }}
             />
 
