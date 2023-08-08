@@ -24,7 +24,8 @@ const BackupStatistic = ({size, data}) => {
                     <Divider type={responsive ? 'horizontal' : 'vertical'} />
                     <StatisticCard statistic={{
                         title: '备份大小',
-                        value: data,
+                        // value: `${data} GB`,
+                        value: data > 1 ? `${data} GB`:`${data * 1024} MB`,
                         // description: <Statistic title="占比" value="38.5%" />,
                     }}
                     // chart={

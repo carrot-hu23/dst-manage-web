@@ -1,12 +1,23 @@
 import {useParams} from "react-router-dom";
 import {useRef} from 'react';
 import {ProTable} from '@ant-design/pro-components';
-import {Button, Image, message, Popconfirm} from 'antd';
+import {Button, Image, message, Popconfirm, Tag, Typography} from 'antd';
 import {Container, Box} from '@mui/material';
+
 import {getPlayerLog} from '../api/playerLogApi';
-import {dstRoles} from '../utils/dst';
+import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
 
+
+const { Text } = Typography;
+
+const playerActionEnum = {
+    "[LeaveAnnouncement]": '离开房间',
+    "[JoinAnnouncement]": '加入房间',
+    "[Say]": '聊天',
+    "[DeathAnnouncement]": '死亡',
+    "[ResurrectAnnouncement]": '复活',
+}
 
 export default function PlayerLog() {
     const actionRef = useRef();
@@ -25,6 +36,7 @@ export default function PlayerLog() {
             dataIndex: 'role',
             key: 'role',
             ellipsis: true,
+            valueEnum: dstRolesMap,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
                 <Image preview={false} width={36.8} src={dstRoles[record.role] || dstRoles.mod}/>
@@ -36,8 +48,9 @@ export default function PlayerLog() {
             key: 'kuId',
             ellipsis: true,
             // eslint-disable-next-line no-unused-vars
+            //  <Text copyable>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
             render: (text, record, _, action) => (
-                <span>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</span>
+                <Text>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
             )
         },
         {
@@ -66,23 +79,32 @@ export default function PlayerLog() {
             dataIndex: 'CreatedAt',
             key: 'CreatedAt',
             valueType: 'dateTime',
+            search: false
+        },
+        {
+            title: 'Ip',
+            dataIndex: 'ip',
+            key: 'ip',
+            valueType: 'string',
+            search: false
         },
         {
             title: 'Action',
             dataIndex: 'action',
             key: 'action',
-            // ellipsis: true,
+           valueEnum: playerActionEnum,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
-                {record.action === '[JoinAnnouncement]' && <span>加入房间</span>}
-                {record.action === '[LeaveAnnouncement]' && <span>离开房间</span>}
-                {record.action === '[DeathAnnouncement]' && <span>死亡</span>}
-                {record.action === '[ResurrectAnnouncement]' && <span>复活</span>}
-                {record.action === '[Say]' && <span>聊天</span>}
+                {record.action === '[JoinAnnouncement]' && <Tag color="magenta">加入</Tag>}
+                {record.action === '[LeaveAnnouncement]' &&  <Tag>离开</Tag>}
+                {record.action === '[DeathAnnouncement]' && <Tag color="red">死亡</Tag>}
+                {record.action === '[ResurrectAnnouncement]' && <Tag color="green">复活</Tag>}
+                {record.action === '[Say]' && <Tag color="gold">聊天</Tag>}
             </div>)
         },
         {
             title: 'ActionDesc',
+            search: false,
             dataIndex: 'actionDesc',
             key: 'actionDesc',
             ellipsis: true,
@@ -90,6 +112,7 @@ export default function PlayerLog() {
         {
             title: '操作',
             key: 'index',
+            search: false,
             render: (text, record, _, action) => (
                 <div>
                     <Popconfirm
@@ -107,7 +130,7 @@ export default function PlayerLog() {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button type="link" danger>拉黑</Button>
+                        <Button size={'small'} type={'primary'} danger>拉黑</Button>
                     </Popconfirm>
                 </div>)
         },
@@ -126,24 +149,22 @@ export default function PlayerLog() {
                         actionRef={actionRef}
                         cardBordered
                         request={async (params = {}, sort, filter) => {
-                            console.log(sort, filter);
+                            // console.log(sort, filter);
                             console.log('params', params)
-                            const msg = await getPlayerLog(cluster, params)
+                            const resp = await getPlayerLog(cluster, params)
                             return {
-                                data: msg.data.data,
+                                data: resp.data.data,
                                 success: true,
-                                total: msg.data.total
+                                total: resp.data.total
                             };
                         }}
                         rowKey="ID"
-                        // pagination={{
-                        //   showSizeChanger: true,
-                        // }}
                         pagination={{
                             pageSize: 10,
+                            showSizeChanger: false,
                             onChange: (page) => console.log(page),
                         }}
-                        // headerTitle="饥荒服务器列表"
+                        headerTitle="玩家日志"
                     />
                 </Box>
             </Container>

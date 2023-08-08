@@ -328,7 +328,7 @@ const Backup = () => {
             title: '创建时间',
             dataIndex: 'createTime',
             key: 'createTime',
-            valueType: 'dateTime',
+            render: (createTime) => <span>{new Date(createTime).toLocaleString()}</span>,
             sorter: (a, b) => b.createTime - a.createTime,
         },
         {
