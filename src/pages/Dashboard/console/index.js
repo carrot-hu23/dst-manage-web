@@ -7,7 +7,7 @@ import {
     Space,
     message,
     Typography,
-    Spin
+    Spin, Popconfirm
 } from 'antd';
 
 import {useParams} from "react-router-dom";
@@ -20,6 +20,7 @@ import CleanArchive from './cleanGame';
 import Regenerateworld from './regenerateworld';
 
 import './index.css'
+import {deleteStepupWorkshopApi} from "../../../api/modApi";
 
 
 const {Paragraph} = Typography;
@@ -44,6 +45,8 @@ const GameStatus = (props) => {
 
     const [startLoading, setStartLoading] = useState(false)
     const [startText, setStartText] = useState("")
+
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         // console.log("caves", props.data.cavesStatus)
@@ -170,6 +173,17 @@ const GameStatus = (props) => {
             })
     }
 
+    function deleteStepupWorkshop() {
+        deleteStepupWorkshopApi()
+            .then(data => {
+                if (data.code === 200) {
+                    message.success("更新模组成功，请重启房间")
+                } else {
+                    message.warning("更新模组失败")
+                }
+            })
+    }
+
     return (
         <>
             <Spin spinning={startLoading} tip={startText}>
@@ -245,9 +259,25 @@ const GameStatus = (props) => {
 
                     </Form.Item>
                     <Form.Item label={t('cleanGame')}>
-                        <Space>
+                        <Space wrap>
                             <CleanArchive/>
                             <Regenerateworld/>
+
+                            <Popconfirm
+                                title="是否更新房间模组"
+                                description={(
+                                    <span>
+                        当房间出现服务器模板版本过低时点击
+                            <br />
+                        点击后请重新启动房间
+                        </span>
+                                )}
+                                open={open}
+                                onConfirm={()=>deleteStepupWorkshop()}
+                                onCancel={()=>setOpen(false)}
+                            >
+                                <Button type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
+                            </Popconfirm>
                         </Space>
                     </Form.Item>
 

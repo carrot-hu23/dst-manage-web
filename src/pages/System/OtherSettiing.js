@@ -136,6 +136,7 @@ export default () => {
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
+                                {/*
                                 <Form.Item
                                     label="森林模组更新"
                                     name="masterModUpdate"
@@ -156,6 +157,7 @@ export default () => {
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
+                                                                */}
                             </Form>
                         </Spin>
                     </Skeleton>

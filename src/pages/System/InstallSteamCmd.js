@@ -43,6 +43,7 @@ const InstallSteamCmd = () => {
                     <div>
                         tips: 如果安装后启动不了房间，请手动执行 install_centos.sh 或者 install_ubuntu.sh
                         <br/>
+                        <p>docker版本请勿点击安装，docker版本环境默认已经安装好了</p>
                     </div>
                     <Button type="primary" loading={loading}>点击安装环境</Button>
                 </Popconfirm>

@@ -88,6 +88,9 @@ export default function DashboardAppPage() {
                         if (item.role === '') {
                             return ({label: "other", value: item.count})
                         }
+                        if (!(item.role in dstRolesMap)) {
+                            return ({label: item.role, value: item.count})
+                        }
                         return ({label: dstRolesMap[item.role], value: item.count})
                     })
                 })

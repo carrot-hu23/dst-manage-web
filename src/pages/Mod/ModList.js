@@ -214,7 +214,7 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
             <Space>
                 <Button type="primary" onClick={() => saveModConfig2()}>保存配置</Button>
                 <Tooltip title="点击会删除房间的mods, 重新启动会自动重新下载mod">
-                    <   Button type="primary" onClick={() => deleteStepupWorkshop()}>更新配置</Button>
+                    <   Button type="primary" onClick={() => deleteStepupWorkshop()}>更新模组</Button>
                 </Tooltip>
             </Space>
             <br/><br/>

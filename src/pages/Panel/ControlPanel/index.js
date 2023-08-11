@@ -127,7 +127,7 @@ const ControlPanel = () => {
                         marginLeft: '32px'
                     }}>
                         <Tag color="magenta">强制存档<Paragraph className='copy' copyable>c_save()</Paragraph></Tag>
-                        <Tag color="red">重新加载世界（会重启服务器并还原到最近存储点）<Paragraph className='copy' copyable>c_reset()</Paragraph></Tag>
+                        <Tag color="red">重新加载世界<Paragraph className='copy' copyable>c_reset()</Paragraph></Tag>
                         <Tag color="red">回档天数<Paragraph className='copy' copyable>c_rollback(count)</Paragraph></Tag>
                         {/* <Tag color="volcano">volcano</Tag>
                         <Tag color="orange">orange</Tag>

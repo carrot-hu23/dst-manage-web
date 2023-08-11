@@ -62,7 +62,7 @@ const GameLog2 = (props) => {
                 wsPath = `wss://${window.location.host}/ws`
             } else {
                 // 当前页面使用 HTTP 协议
-                wsPath = `ws://1.12.223.51:8082/ws`
+                wsPath = `ws://${window.location.host}/ws`
             }
             socket = new WebSocket(wsPath)
             socket.onopen= ()=> {
@@ -119,6 +119,7 @@ const GameLog2 = (props) => {
     return (
         <div className="container-children" style={{ height: "100%" }}>
            <Editor value={log}
+                   setValue={e=>e}
                    readOnly
                    styleData={{
                        language: "javascript",
