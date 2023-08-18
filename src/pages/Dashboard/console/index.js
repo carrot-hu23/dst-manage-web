@@ -69,7 +69,7 @@ const GameStatus = (props) => {
         controlDst(cluster, checked, 0)
             .then(data => {
                 if (data.code === 200) {
-                    message.success(`${prefix}游戏成功`)
+                    message.success(`正在${prefix}游戏。。。`)
                 } else {
                     message.error(`${prefix}游戏失败`)
                 }
@@ -103,7 +103,7 @@ const GameStatus = (props) => {
                 message.error(`${prefix}森林失败${resp.msg}`)
                 message.warning("请检查饥荒服务器路径是否设置正确")
             } else {
-                message.success(`${prefix}森林成功`)
+                message.success(`正在${prefix}森林。。。`)
             }
             setStartLoading(false)
             setStartText("")
@@ -181,6 +181,7 @@ const GameStatus = (props) => {
                 } else {
                     message.warning("更新模组失败")
                 }
+                setOpen(false)
             })
     }
 
@@ -192,7 +193,7 @@ const GameStatus = (props) => {
                         span: 6,
                     }}
                     wrapperCol={{
-                        span: 14,
+                        span: 24,
                     }}
                     layout="horizontal"
                     labelAlign={'left'}
@@ -233,7 +234,7 @@ const GameStatus = (props) => {
                             defaultChecked={cavesStatus}/>
                     </Form.Item>
                     <Form.Item label={t('quickActions')}>
-                        <Space>
+                        <Space size={8} wrap>
                             <Button type="primary"
                                     onClick={() => {
                                         updateGameOnclick()
@@ -244,7 +245,6 @@ const GameStatus = (props) => {
                             </Button>
 
                             <Button style={{
-                                margin: '0 8px',
                                 background: '#13CE66',
                                 color: '#fff'
                             }}
@@ -256,31 +256,27 @@ const GameStatus = (props) => {
                                 {t('createBackup')}
                             </Button>
                         </Space>
-
                     </Form.Item>
-                    <Form.Item label={t('cleanGame')}>
-                        <Space wrap>
-                            <CleanArchive/>
-                            <Regenerateworld/>
-
-                            <Popconfirm
-                                title="是否更新房间模组"
-                                description={(
-                                    <span>
+                    <Form.Item label={t('其他操作')}>
+                        <Space size={8} wrap>
+                        <CleanArchive/>
+                        <Popconfirm
+                            title="是否更新房间模组"
+                            description={(
+                                <span>
                         当房间出现服务器模板版本过低时点击
                             <br />
                         点击后请重新启动房间
                         </span>
-                                )}
-                                open={open}
-                                onConfirm={()=>deleteStepupWorkshop()}
-                                onCancel={()=>setOpen(false)}
-                            >
-                                <Button type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
-                            </Popconfirm>
+                            )}
+                            open={open}
+                            onConfirm={()=>deleteStepupWorkshop()}
+                            onCancel={()=>setOpen(false)}
+                        >
+                            <Button type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
+                        </Popconfirm>
                         </Space>
                     </Form.Item>
-
                     {/*
                      <Form.Item label={t('gameBackup')}>
                         <RestoreBackup />

@@ -43,7 +43,11 @@ const CleanArchive = () => {
     return (
         <Popconfirm
             title="是否清理"
-            description="清理后将丢失数据，请做好备份"
+            description={<>
+                <div>和重置世界稍微有点区别</div>
+                <div>这个操作会删除你Master/Caves 文件的</div>
+                <div>save 和 backup server_log 等文件</div>
+            </>}
             open={open}
             onConfirm={handleOk}
             okButtonProps={{

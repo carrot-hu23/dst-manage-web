@@ -1,7 +1,7 @@
 import {Button, Form, Input, message, Modal, Popconfirm, Space, Table} from "antd";
 import {Box, Card} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {addWebLinkApi, deleteWebLinkApi, getWebLinkListApi} from "../../api/WebLinkApi";
+import {addWebLinkApi, deleteWebLinkApi, getWebLinkListApi} from "../../../api/WebLinkApi";
 
 
 export default () => {

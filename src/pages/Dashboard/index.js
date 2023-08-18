@@ -91,10 +91,9 @@ const Dashboard = () => {
                 const localVersion = response.data.version
                 dstVersionApi()
                     .then(response => {
-                        console.log(response);
-                        // if (response !== localVersion) {
-                        //     openNotification(response)
-                        // }
+                        if (response !== localVersion) {
+                            openNotification(response)
+                        }
                     })
             })
     }

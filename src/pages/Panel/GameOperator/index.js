@@ -43,7 +43,7 @@ export default ({gameData, logPath}) => {
                 <Grid item xs={12} md={6} lg={8}>
                     <Card style={{
                         padding: '12px',
-                        height: '560px'
+                        height: '600px'
                     }}>
                         <GameLog2 path={logPath} id={"Master"} />
                     </Card>

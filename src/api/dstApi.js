@@ -92,7 +92,11 @@ async function dstVersionApi() {
     const response = await http.get(dstVersionAUrl)
     return response.data
 }
-
+export async function lobbyServerDetailApi(region, rowId) {
+    const url = `/lobby/server/query/detail?rowId=${rowId}&region=${region}`
+    const response = await http.get(url)
+    return response.data
+}
 
 export {
     dstVersionApi

@@ -66,7 +66,7 @@ export default ({levelName}) => {
                         <Editor value={logs}
                                 setValue={v => v}
                                 readOnly
-                                styleData={{language: "text", theme: "vs-dark"}}
+                                styleData={{language: "javascript", theme: "vs-dark"}}
                         />
                     </Skeleton>
                 </Box>

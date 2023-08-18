@@ -3,7 +3,7 @@ import {Button, Divider, message, Popconfirm} from 'antd';
 import {Box, Card} from '@mui/material';
 
 
-const InstallSteamCmd = () => {
+const Index = () => {
 
     const [loading,setLoading] = useState(false)
     const [messages, setMessages] = useState([]);
@@ -67,4 +67,4 @@ const InstallSteamCmd = () => {
     )
 }
 
-export default InstallSteamCmd
+export default Index

@@ -1,11 +1,15 @@
+import React from "react";
+
 import {Container} from '@mui/material';
 import {Tabs} from "antd";
 
-import DstConfigSetting from "./DstConfigSettting";
+
+import DstConfigSetting from "./DstConfigSetting";
+import TimedTask from "./TimedTask";
+import Automatic from "./Automatic";
 import InstallSteamCmd from "./InstallSteamCmd";
-import JobTask from "./JobTaskList";
-import OtherSettiing from "./OtherSettiing";
 import WebLinkSetting from "./WebLinkSetting";
+import AutoCheck from "./Automatic/AutoCheck";
 
 const System = () => {
     const items = [
@@ -17,20 +21,35 @@ const System = () => {
         {
             key: '2',
             label: "定时任务",
-            children: <JobTask/>,
+            children: <TimedTask/>,
         },
         {
             key: '3',
-            label: "自动维护",
-            children: <OtherSettiing/>,
+            label: "宕机恢复",
+            children: <Automatic/>,
         },
         {
             key: '4',
+            label: "自动更新游戏",
+            children: <AutoCheck name={"updateGameVersion"} title={"自动更新游戏"} />,
+        },
+        {
+            key: '5',
+            label: "自动更新森林模组",
+            children: <AutoCheck name={"updateMasterMod"} title={"自动更新森林模组"} />,
+        },
+        {
+            key: '6',
+            label: "自动更新洞穴模组",
+            children: <AutoCheck name={"updateCavesMod"} title={"自动更新洞穴模组"} />,
+        },
+        {
+            key: '7',
             label: "环境依赖",
             children: <InstallSteamCmd/>,
         },
         {
-            key: '5',
+            key: '8',
             label: "外部链接",
             children: <WebLinkSetting />,
         },

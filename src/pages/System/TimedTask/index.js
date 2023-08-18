@@ -1,16 +1,23 @@
-import {Button, Form, Image, Input, message, Modal, Popconfirm, Select, Space, Table, Tag} from "antd";
+import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Table, Tag,InputNumber} from "antd";
 import {Box, Card} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../api/jobTaskApi";
+import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../../api/jobTaskApi";
 
 const {Option} = Select;
+const { TextArea } = Input;
 
 const jobTaskEnum = {
-    "backup": "备份",
-    "update": "更新",
-    "start": "启动",
-    "stop": "停止",
-    "restart": "重启",
+    "backup": "备份存档",
+    "update": "更新更新",
+    "start": "启动游戏",
+    "stop": "停止游戏",
+    "startMaster": "启动森林",
+    "stopMaster": "停止森林",
+    "startCaves": "启动洞穴",
+    "stopCaves": "停止洞穴",
+    "restart": "重启游戏",
+    "restartMaster": "重启森林",
+    "restartCaves": "重启洞穴",
 }
 
 export default () => {
@@ -26,12 +33,28 @@ export default () => {
     function getJobTaskList() {
         getJobTaskListApi("")
             .then(resp => {
-                setData(resp.data || [])
+                const {data} = resp
+                setData(data || [])
             })
     }
     useEffect(() => {
         getJobTaskList()
     }, [])
+
+    const ShowAnnouncement = ({announcement}) =>{
+        if (announcement === null || announcement === undefined) {
+            announcement = ""
+        }
+        const list = announcement.split("\n")
+
+        return(<>
+            {list.map(item=>(
+                <div>
+                    {item}
+                </div>
+            ))}
+        </>)
+    }
 
     const columns = [
         {
@@ -75,6 +98,12 @@ export default () => {
             title: '备注',
             dataIndex: 'comment',
             key: 'comment',
+        },
+        {
+            title: '公告',
+            dataIndex: 'announcement',
+            key: 'announcement',
+            render: (text, record, _, action)=> <ShowAnnouncement announcement={record.announcement} />
         },
         {
             title: '类型',
@@ -151,6 +180,10 @@ export default () => {
                     labelCol={{
                         span: 6,
                     }}
+                    initialValues={{
+                        times: 1,
+                        sleep: 5
+                    }}
                 >
                     <Form.Item
                         label={"cron 表达式"}
@@ -167,11 +200,17 @@ export default () => {
                         rules={[{required: true, message: '请选择类型',},]}
                     >
                         <Select>
-                            <Option value="backup">备份</Option>
-                            <Option value="update">更新</Option>
-                            <Option value="start">启动</Option>
-                            <Option value="stop">停止</Option>
-                            <Option value="restart">重启</Option>
+                            <Option value="backup">备份存档</Option>
+                            <Option value="restart">重启世界</Option>
+                            <Option value="restartMaster">重启森林</Option>
+                            <Option value="restartCaves">重启洞穴</Option>
+                            <Option value="update">更新游戏</Option>
+                            <Option value="start">启动游戏</Option>
+                            <Option value="stop">停止游戏</Option>
+                            <Option value="startMaster">启动森林</Option>
+                            <Option value="stopMaster">停止森林</Option>
+                            <Option value="startCaves">启动洞穴</Option>
+                            <Option value="stopCaves">停止洞穴</Option>
                         </Select>
                     </Form.Item>
 
@@ -182,7 +221,30 @@ export default () => {
                         <Input placeholder="备注"
                         />
                     </Form.Item>
-
+                    <Form.Item
+                        label={"公告"}
+                        name='announcement'
+                    >
+                        <TextArea rows={6} placeholder="请输入公告。tips: 发送公告后，默认 5s 后将执行操作" />
+                    </Form.Item>
+                    <Form.Item
+                        label={"延迟"}
+                        name='sleep'
+                    >
+                        <InputNumber
+                            addonAfter="秒"
+                            style={{width: 120,}}
+                            placeholder="设置多少秒后执行" />
+                    </Form.Item>
+                    <Form.Item
+                        label={"公告次数"}
+                        name='times'
+                    >
+                        <InputNumber
+                            addonAfter="次"
+                            style={{width: 120,}}
+                            placeholder="公告次数" />
+                    </Form.Item>
                 </Form>
             </Modal>
         )

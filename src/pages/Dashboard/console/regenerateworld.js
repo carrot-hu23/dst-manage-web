@@ -48,12 +48,8 @@ const Regenerateworld = () => {
             }}
             onCancel={handleCancel}
         >
-            <Button 
-            style={{
-                margin: '0 8px',
-            }}
-            
-            type="primary" danger 
+            <Button
+                type="primary" danger
                 onClick={showPopconfirm}
             >{t('regenerate')}</Button>
         </Popconfirm>

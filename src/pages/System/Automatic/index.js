@@ -1,16 +1,15 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
-import {Box, Card} from '@mui/material';
-import {Switch, Form, Spin, Skeleton, message} from "antd";
+import {Box, Card, CardHeader} from '@mui/material';
+import {Switch, Form, Spin, Skeleton, message, Input, Tabs} from "antd";
 
 import {
     autoCheckStatusApi, enableAutoCheckCavesModUpdateApi,
     enableAutoCheckCavesRunApi, enableAutoCheckMasterModUpdateApi,
     enableAutoCheckMasterRunApi,
     enableAutoCheckUpdateVersionApi
-} from "../../api/autoCheckApi";
-
+} from "../../../api/autoCheckApi";
 
 export default () => {
 
@@ -126,6 +125,7 @@ export default () => {
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
+                                {/*
                                 <Form.Item
                                     label="智能游戏更新"
                                     name="update"
@@ -136,7 +136,6 @@ export default () => {
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
-                                {/*
                                 <Form.Item
                                     label="森林模组更新"
                                     name="masterModUpdate"
@@ -157,7 +156,7 @@ export default () => {
                                             checkedChildren="开启"
                                             unCheckedChildren="关闭"/>
                                 </Form.Item>
-                                                                */}
+                                */}
                             </Form>
                         </Spin>
                     </Skeleton>

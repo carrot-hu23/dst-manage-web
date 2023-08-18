@@ -105,7 +105,7 @@ const Begin = (props) => {
                 )}
                 {/* current === 2 && (
                     <Setting form={form} />
-                    // <InstallSteamCmd />
+                    // <Index />
                 ) */}
 
                 {current === 2 && (

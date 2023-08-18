@@ -1,15 +1,14 @@
 import {useEffect, useState} from 'react';
 import {Button, Form, Input, message, Skeleton, Radio} from 'antd';
 import {Card, Box} from '@mui/material';
-
-import {readDstConfigSync, writeDstConfigSync} from '../../api/dstConfigApi';
+import {readDstConfigSync, writeDstConfigSync} from "../../../api/dstConfigApi";
 
 const onFinishFailed = (errorInfo) => {
     message.error("保存配置失败")
     console.log('Failed:', errorInfo);
 };
 
-const DstConfigSetting = () => {
+export default () => {
 
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(true)
@@ -150,5 +149,3 @@ const DstConfigSetting = () => {
         </Card>
     )
 }
-
-export default DstConfigSetting

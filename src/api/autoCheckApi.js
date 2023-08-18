@@ -80,6 +80,31 @@ async function enableAutoCheckCavesModUpdateApi(cluster, enable) {
     return response.data
 }
 
+async function autoCheckApi(cluster, name) {
+    const url = `/api/auto/check?name=${name}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function saveAutoCheckApi(cluster, data) {
+    if (data.enable) {
+        data.enable = 1
+    } else {
+        data.enable = 0
+    }
+    const url = `/api/auto/check`
+    const response = await http.post(url,data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     autoCheckStatusApi,
     enableAutoCheckMasterRunApi,
@@ -87,4 +112,7 @@ export {
     enableAutoCheckUpdateVersionApi,
     enableAutoCheckMasterModUpdateApi,
     enableAutoCheckCavesModUpdateApi,
+
+    autoCheckApi,
+    saveAutoCheckApi
 }

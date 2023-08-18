@@ -1,8 +1,8 @@
-import {Typography, Space, Form} from 'antd';
+import {Typography, Space, Form, Button} from 'antd';
 import {useEffect, useState} from 'react';
 
 import {useTranslation} from "react-i18next";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
 import './index.css';
@@ -11,8 +11,12 @@ import './index.css';
 const {Paragraph} = Typography;
 
 export default () => {
+    const navigate = useNavigate();
 
-    const [archive, setArchive] = useState({players: []})
+    const [archive, setArchive] = useState({
+        players: [],
+        maxPlayers: 0
+    })
     const {cluster} = useParams()
     const {t} = useTranslation()
 
@@ -69,6 +73,13 @@ export default () => {
                 <tr>
                     <td>{`${t('IpConnect')} : `}</td>
                     <td> <Paragraph copyable>{archive.ipConnect}</Paragraph></td>
+                </tr>
+                <tr>
+                    <td>{`人数 : `}</td>
+                    <td>
+                        <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
+                        <Button type={"link"} onClick={()=>{navigate(`/dashboard/player`)}}>详情</Button>
+                    </td>
                 </tr>
             </table>
         </>

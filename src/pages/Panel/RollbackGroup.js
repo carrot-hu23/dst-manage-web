@@ -4,6 +4,7 @@ import {useTranslation} from "react-i18next";
 import {Button, message, Space} from "antd";
 
 import {masterConsoleApi, rollbackApi} from "../../api/gameApi";
+import Regenerateworld from "../Dashboard/console/regenerateworld";
 
 
 export default ()=> {
@@ -28,9 +29,12 @@ export default ()=> {
 
     return(
         <>
-            <Button type={"primary"} onClick={() => { cSave() }} >{t('c_save')}</Button>
-            <br/><br/>
             <Space size={'small'} wrap>
+                <Button type={"primary"} onClick={() => { cSave() }} >{t('c_save')}</Button>
+                <Regenerateworld/>
+            </Space>
+            <br/><br/>
+            <Space size={8} wrap>
                 <Button onClick={() => { rollback(1) }} >{t('rollback1')}</Button>
                 <Button onClick={() => { rollback(2) }} >{t('rollback2')}</Button>
                 <Button onClick={() => { rollback(3) }} >{t('rollback3')}</Button>
