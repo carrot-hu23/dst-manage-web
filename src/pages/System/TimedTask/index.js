@@ -1,6 +1,10 @@
-import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Table, Tag,InputNumber} from "antd";
-import {Box, Card} from "@mui/material";
 import React, {useEffect, useState} from "react";
+
+import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Table, Tag,InputNumber,TimePicker} from "antd";
+import {Box, Card} from "@mui/material";
+
+import { converter } from 'react-js-cron'
+
 import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../../api/jobTaskApi";
 
 const {Option} = Select;
@@ -154,6 +158,22 @@ export default () => {
 
     const AddJobTaskModal = ({isModalOpen, setIsModalOpen}) => {
 
+        const onChange = (time, timeString) => {
+            console.log(time, timeString);
+            const converted = converter.getCronStringFromValues(
+                'day', // period: 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'reboot'
+                [], // months: number[] | undefined
+                [],  // monthDays: number[] | undefined
+                [], // weekDays: number[] | undefined
+                [time.$H], // hours: number[] | undefined
+                [time.$m], // minutes: number[] | undefined
+                false // humanizeValue?: boolean
+            )
+
+            console.log('cron string:', converted)
+
+        };
+
         const [form] = Form.useForm()
         const handleOk = () => {
             form.validateFields().then(() => {
@@ -163,6 +183,19 @@ export default () => {
                 message.error(err.errorFields[0].errors[0])
             });
             const data = form.getFieldsValue()
+            console.log(data)
+            const converted = converter.getCronStringFromValues(
+                'day', // period: 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'reboot'
+                [], // months: number[] | undefined
+                [],  // monthDays: number[] | undefined
+                [], // weekDays: number[] | undefined
+                [data.date.$H], // hours: number[] | undefined
+                [data.date.$m], // minutes: number[] | undefined
+                false // humanizeValue?: boolean
+            )
+            data.cron = converted
+            console.log('cron string:', converted)
+            console.log(data)
             addJobTaskApi("", data).then((response => {
                 if (response.code !== 200) {
                     message.error("创建定时任务失败")
@@ -185,14 +218,16 @@ export default () => {
                         sleep: 5
                     }}
                 >
+
+
                     <Form.Item
-                        label={"cron 表达式"}
-                        name='cron'
-                        rules={[{required: true, message: '请输入cron表达式',},]}
+                        label={"时间"}
+                        name='date'
+                        rules={[{required: true, message: '请选择时间',},]}
                     >
-                        <Input placeholder="请输入cron表达式"
-                        />
+                        <TimePicker onChange={onChange} format={'HH:mm'} />
                     </Form.Item>
+
 
                     <Form.Item
                         label={"类型"}
