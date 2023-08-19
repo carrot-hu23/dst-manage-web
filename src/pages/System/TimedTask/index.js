@@ -12,7 +12,7 @@ const { TextArea } = Input;
 
 const jobTaskEnum = {
     "backup": "备份存档",
-    "update": "更新更新",
+    "update": "更新游戏",
     "start": "启动游戏",
     "stop": "停止游戏",
     "startMaster": "启动森林",
