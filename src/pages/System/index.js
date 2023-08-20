@@ -10,6 +10,7 @@ import Automatic from "./Automatic";
 import InstallSteamCmd from "./InstallSteamCmd";
 import WebLinkSetting from "./WebLinkSetting";
 import AutoCheck from "./Automatic/AutoCheck";
+import AutoMod from "./AutoMod";
 
 const System = () => {
     const items = [
@@ -30,26 +31,21 @@ const System = () => {
         },
         {
             key: '4',
-            label: "自动更新游戏",
+            label: "更新游戏",
             children: <AutoCheck name={"updateGameVersion"} title={"自动更新游戏"} />,
         },
         {
             key: '5',
-            label: "自动更新森林模组",
-            children: <AutoCheck name={"updateMasterMod"} title={"自动更新森林模组"} />,
+            label: "更新模组",
+            children: <AutoMod />,
         },
         {
             key: '6',
-            label: "自动更新洞穴模组",
-            children: <AutoCheck name={"updateCavesMod"} title={"自动更新洞穴模组"} />,
-        },
-        {
-            key: '7',
             label: "环境依赖",
             children: <InstallSteamCmd/>,
         },
         {
-            key: '8',
+            key: '7',
             label: "外部链接",
             children: <WebLinkSetting />,
         },

@@ -29,10 +29,10 @@ const HomeSetting = (props) => {
             // eslint-disable-next-line react/prop-types
             form={props.form}
             labelCol={{
-                span: 4,
+                span: 6,
             }}
             wrapperCol={{
-                span: 11,
+                span: 12,
             }}
             layout="horizontal"
             initialValues={{

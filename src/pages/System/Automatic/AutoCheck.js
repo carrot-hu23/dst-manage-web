@@ -15,6 +15,9 @@ export default ({name, title})=>{
         autoCheckApi("", name)
             .then(resp=>{
                 if (resp.code === 200) {
+                    if (resp.data.interval === 0) {
+                        resp.data.interval = 5
+                    }
                     form.setFieldsValue(resp.data)
                 }
                 setLoading(false)
@@ -38,14 +41,22 @@ export default ({name, title})=>{
     }
 
     return(<>
-        <Card>
+        <Card style={{
+            width: "540px"
+        }}>
             <Box sx={{p: 3}} dir="ltr">
                 <Skeleton loading={loading}>
                     <Spin spinning={spin}>
+                        <div>
+                            {title}
+                        </div>
                         <Form
                             form={form}
                             labelCol={{
-                                span: 4,
+                                span: 8,
+                            }}
+                            wrapperCol={{
+                                span: 16,
                             }}
                             initialValues={{
                                 interval: 20,
@@ -53,7 +64,7 @@ export default ({name, title})=>{
                             }}
                         >
                             <Form.Item
-                                label={title}
+                                label={'开启'}
                                 name='enable'
                                 valuePropName="checked"
                             >

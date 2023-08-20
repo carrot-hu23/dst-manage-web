@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import {Tag} from "antd";
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
@@ -64,6 +65,7 @@ export default function Header({ onOpenNav }) {
           TODO 暂时去掉搜索
           <Searchbar />
           */}
+          <Tag color="#2784FF">8层版本</Tag>
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack

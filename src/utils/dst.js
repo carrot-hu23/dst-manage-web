@@ -53,13 +53,6 @@ const customization = "customization"
 // 选择服务器的游戏风格。
 const dstGameMod = [
     {
-        cn: '轻松',
-        name: 'relaxed',
-        description: `更轻松的游戏方式,更少受到来自世界的威胁。\n 
-        饥饿、寒冷、过热和黑暗将不会杀死冒险家。\n
-        降低冒险家受到的伤害。永远可以在绚丽之门复活。\n`
-    },
-    {
         cn: '无尽',
         name: 'endless',
         description: `永不结束的饥荒沙盒模式。\n

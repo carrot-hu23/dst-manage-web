@@ -16,21 +16,31 @@ const navConfig = [
     path: '/dashboard/panel',
     icon: icon('monitor'),
   },
+  // {
+  //   title: '房间设置',
+  //   path: '/dashboard/home',
+  //   icon: icon('home')
+  // },
   {
     title: '房间设置',
-    path: '/dashboard/home',
+    path: '/dashboard/cluster',
     icon: icon('home')
   },
   {
     title: '世界设置',
-    path: '/dashboard/cluster/view',
-    icon: icon('layers'),
+    path: '/dashboard/8level',
+    icon: icon('layers')
   },
-  {
-    title: '模组配置',
-    path: '/dashboard/mod',
-    icon: icon('package'),
-  },
+  // {
+  //   title: '世界设置',
+  //   path: '/dashboard/cluster/view',
+  //   icon: icon('layers'),
+  // },
+  // {
+  //   title: '模组配置',
+  //   path: '/dashboard/mod',
+  //   icon: icon('package'),
+  // },
   {
     title: '玩家管理',
     path: '/dashboard/player',

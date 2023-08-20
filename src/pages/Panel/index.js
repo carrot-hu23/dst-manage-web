@@ -6,12 +6,10 @@ import {Container, Box} from '@mui/material';
 
 import GameOperator from "./GameOperator";
 import ControlPanel from './ControlPanel';
-import GameLog2 from './GameLog';
 
 import {getGameDashboardApi} from '../../api/gameDashboardApi';
 import {dstVersionApi} from '../../api/dstApi';
 import Announce from "./Announce";
-import ServerIni from "../Home/ServerIni";
 import ServerLog from "./ServerLog";
 
 
@@ -121,25 +119,20 @@ const Panel = () => {
                         <GameOperator gameData={gameData} logPath={masterLog}/>
                     </Skeleton>,
         },
-        {
-            key: '2',
-            label: t('Remote'),
-            children: <ControlPanel/>,
-        },
-        {
-            key: '3',
-            label: t('Announce'),
-            children: <Announce />,
-        },
+        // {
+        //     key: '2',
+        //     label: t('Remote'),
+        //     children: <ControlPanel/>,
+        // },
+        // {
+        //     key: '3',
+        //     label: t('Announce'),
+        //     children: <Announce />,
+        // },
         {
             key: '4',
-            label: t('MasterLog'),
-            children: <ServerLog levelName={"Master"}/>,
-        },
-        {
-            key: '5',
-            label: t('CavesLog'),
-            children: <ServerLog levelName={"Caves"}/>,
+            label: t('游戏日志'),
+            children: <ServerLog/>,
         },
     ];
 

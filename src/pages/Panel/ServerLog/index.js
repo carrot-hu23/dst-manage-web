@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Skeleton, Space, Input} from "antd";
+import {Button, Spin, Skeleton, Space, Input, Select} from "antd";
 import React, {useEffect, useRef, useState} from "react";
 
 import {useParams} from "react-router-dom";
@@ -8,12 +8,14 @@ import Editor from "../../Home/Editor";
 import {readLevelServerLogApi} from "../../../api/level";
 
 
-export default ({levelName}) => {
+export default () => {
 
     const {cluster} = useParams()
     const [loading, setLoading] = useState(false)
     const [spinLoading, setSpinLoading] = useState(false)
     const [logs, setLogs] = useState(``)
+
+    const [levelName, setLevelName] = useState("Master")
 
     useEffect(() => {
         setLoading(true)
@@ -27,6 +29,8 @@ export default ({levelName}) => {
                         logs += `${line}\n`
                     })
                     setLogs(logs)
+                } else {
+                    setLogs(["读取日志失败！！！"])
                 }
                 setLoading(false)
             })
@@ -47,9 +51,15 @@ export default ({levelName}) => {
                         logs += `${line}\n`
                     })
                     setLogs(logs)
+                }else {
+                    setLogs("读取日志失败！！！")
                 }
                 setSpinLoading(false)
             })
+    }
+
+    const handleChange = (value) => {
+        setLevelName(value)
     }
 
     return <>
@@ -58,6 +68,47 @@ export default ({levelName}) => {
                 <Box sx={{p: 3}} dir="ltr">
 
                     <Space.Compact style={{width: '100%'}}>
+                        <Select
+                            defaultValue="Master"
+                            style={{
+                                width: 120,
+                            }}
+                            onChange={handleChange}
+                            options={[
+                                {
+                                    value: 'Master',
+                                    label: '主 世 界',
+                                },
+                                {
+                                    value: 'Slave1',
+                                    label: '从世界1',
+                                },
+                                {
+                                    value: 'Slave2',
+                                    label: '从世界2',
+                                },
+                                {
+                                    value: 'Slave3',
+                                    label: '从世界3',
+                                },
+                                {
+                                    value: 'Slave4',
+                                    label: '从世界4',
+                                },
+                                {
+                                    value: 'Slave5',
+                                    label: '从世界5',
+                                },
+                                {
+                                    value: 'Slave6',
+                                    label: '从世界6',
+                                },
+                                {
+                                    value: 'Slave7',
+                                    label: '从世界7',
+                                },
+                            ]}
+                        />
                         <Input defaultValue="100" ref={inputRef}/>
                         <Button type="primary" onClick={() => pullLog()}>拉取</Button>
                     </Space.Compact>

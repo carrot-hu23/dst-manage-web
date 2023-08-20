@@ -198,6 +198,7 @@ const GameStatus = (props) => {
                     layout="horizontal"
                     labelAlign={'left'}
                 >
+                    {/*
                     <Form.Item label={t('dstStatus')}>
                         <Space wrap>
                             <Button
@@ -233,6 +234,7 @@ const GameStatus = (props) => {
                             checked={cavesStatus}
                             defaultChecked={cavesStatus}/>
                     </Form.Item>
+                    */}
                     <Form.Item label={t('quickActions')}>
                         <Space size={8} wrap>
                             <Button type="primary"
