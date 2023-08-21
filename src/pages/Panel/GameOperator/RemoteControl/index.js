@@ -26,7 +26,6 @@ export default () => {
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")
-                    setCommand("")
                 } else {
                     message.error("发送指令失败")
                 }

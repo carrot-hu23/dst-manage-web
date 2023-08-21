@@ -3,7 +3,7 @@
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
-import {Image, Skeleton, Col, Button, Divider, Space, message, Spin, Select} from 'antd';
+import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select} from 'antd';
 import {Card, Container, Box} from '@mui/material';
 
 import {dstRoles} from '../../../utils/dst';
@@ -40,44 +40,46 @@ const Online = () => {
             })
     }
 
-    async function sendCommand(levelName, command) {
-        return sendCommandApi(cluster, levelName, command)
-    }
 
     const kickPlayer = (player) => {
-        setLoading(true)
-        const command = `TheNet:Kick("${player}")`
-        const resp = sendCommand(levelName, command)
-        if (resp.code === 200) {
-            message.success(`提出 ${player.name} success`)
-        } else {
-            message.error(`提出 ${player.name} error`)
-        }
-        setLoading(false)
+        setSpin(true)
+        const command = `TheNet:Kick(\\"${player.kuId}"\\)`
+        sendCommandApi(cluster, levelName, command)
+            .then(resp=>{
+                if (resp.code === 200) {
+                    message.success(`提出 ${player.name} success`)
+                } else {
+                    message.error(`提出 ${player.name} error`)
+                }
+                setSpin(false)
+            })
     }
     const killPlayer = (player) => {
-        setLoading(true)
-        const command = `UserToPlayer("${player}"):PushEvent('death')`
-        const resp = sendCommand(levelName, command)
-        if (resp.code === 200) {
-            message.success(`kill ${player.name} success`)
-        } else {
-            message.error(`kill ${player.name} error`)
-        }
-        setLoading(false)
+        setSpin(true)
+        const command = `UserToPlayer(\\"${player.kuId}\\"):PushEvent('death')`
+        sendCommandApi(cluster, levelName, command)
+            .then(resp=>{
+                if (resp.code === 200) {
+                    message.success(`kill ${player.name} success`)
+                } else {
+                    message.error(`kill ${player.name} error`)
+                }
+                setSpin(false)
+            })
     }
     const respawnPlayer = (player) => {
 
-        setLoading(true)
-        const command = `UserToPlayer("${player}"):PushEvent('respawnfromghost')`
-        const resp = sendCommand(levelName, command)
-        if (resp.code === 200) {
-            message.success(`kill ${player.name} success`)
-        } else {
-            message.error(`kill ${player.name} error`)
-        }
-        setLoading(false)
-
+        setSpin(true)
+        const command = `UserToPlayer(\\"${player.kuId}\\"):PushEvent('respawnfromghost')`
+        sendCommandApi(cluster, levelName, command)
+            .then(resp=>{
+                if (resp.code === 200) {
+                    message.success(`复活 ${player.name} success`)
+                } else {
+                    message.error(`复活 ${player.name} error`)
+                }
+                setSpin(false)
+            })
     }
 
 
@@ -89,13 +91,13 @@ const Online = () => {
             <Col xs={18} sm={10} md={10} lg={10} xl={10}>
                 <Space align="center" size={'middle'}>
                     <div>
-                        <Image preview={false} width={48} src={dstRoles[item.role]}/>
+                        <Image preview={false} width={48} src={dstRoles[item.role]} />
                     </div>
                     <div>
                         {item.name}
                     </div>
                     <div>
-                        <span style={{color: '#1677ff'}}>{item.kuId}</span>
+                        <span style={{ color: '#1677ff' }}>{item.kuId}</span>
                     </div>
                 </Space>
             </Col>
@@ -108,19 +110,13 @@ const Online = () => {
             <Col xs={24} sm={10} md={10} lg={10} xl={10}>
                 <Spin spinning={loading}>
                     <Space wrap>
-                        <Button size={'small'} type="primary" onClick={() => {
-                            killPlayer(item)
-                        }}>K I L L</Button>
-                        <Button size={'small'} type="primary" onClick={() => {
-                            respawnPlayer(item)
-                        }}>复活</Button>
-                        <Button size={'small'} type="primary" onClick={() => {
-                            kickPlayer(item)
-                        }}>踢出</Button>
+                        <Button size={'small'} type="primary" onClick={() => { killPlayer(item) }} >K I L L</Button>
+                        <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >复活</Button>
+                        <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >踢出</Button>
                     </Space>
                 </Spin>
             </Col>
-            <Divider style={{margin: '10px'}}/>
+            <Divider style={{ margin: '10px' }} />
 
         </>
     ))
@@ -129,7 +125,7 @@ const Online = () => {
         <Container maxWidth="xl">
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
-                    <Spin spinning={spin} tip={"正在查询玩家中"}>
+                    <Spin spinning={spin}>
                         <Skeleton loading={loading} active>
                             <Space size={8}>
                                 <span>世界</span>
@@ -178,12 +174,14 @@ const Online = () => {
                                     queryPlayers()
                                 }}>查询</Button>
                             </Space>
-                            <br/>
-                            {list}
+                            <br/><br/>
                             <div>
-                                <br/>
-                                <br/>
-                                {playerList.length === 0 && <span>当前暂无玩家</span>}
+                                <Row align="middle" gutter={[16, 24]} style={{ rowGap: '14px' }}>
+                                {list}
+                                    <br/>
+                                    <br/>
+                                    {playerList.length === 0 && <span>当前暂无玩家</span>}
+                                </Row>
                             </div>
                         </Skeleton>
                     </Spin>
