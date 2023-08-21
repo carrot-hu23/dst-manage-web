@@ -1,10 +1,13 @@
-import {Divider, Tabs} from "antd";
+import {useState} from "react";
+
+import {Tabs} from "antd";
 
 import Leveldataoverride from "./Leveldataoverride";
 import Modoverrides from "./Modoverrides";
 import ServerIni from "../../Home/ServerIni";
+import LeveldataoverrideView from "./LeveldataoverrideView";
 
-export default ({levelForm})=>{
+export default ({levelForm, dstWorldSetting})=>{
 
     const items = [
         {
@@ -21,6 +24,11 @@ export default ({levelForm})=>{
             key: '3',
             label: `端口配置`,
             children: <ServerIni form={levelForm} />
+        },
+        {
+            key: '4',
+            label: `可视化`,
+            children: <LeveldataoverrideView levelForm={levelForm} dstWorldSetting={dstWorldSetting} />
         },
     ]
 

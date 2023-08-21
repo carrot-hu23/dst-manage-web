@@ -28,6 +28,19 @@ export default () => {
     const [current, setCurrent] = useState(0);
     const [loading, setLoading] = useState(false);
 
+    const [dstWorldSetting, setDstWorldSetting] = useState({
+        zh: {
+            forest: {
+                WORLDGEN_GROUP: {},
+                WORLDSETTINGS_GROUP: {}
+            },
+            cave: {
+                WORLDGEN_GROUP: {},
+                WORLDSETTINGS_GROUP: {}
+            }
+        }
+    })
+
     useEffect(() => {
         setLoading(true)
         getLevelConfigApi("")
@@ -43,6 +56,14 @@ export default () => {
                     slave5.setFieldsValue({...resp.data.slave5, ...resp.data.slave5.server_ini})
                     slave6.setFieldsValue({...resp.data.slave6, ...resp.data.slave6.server_ini})
                     slave7.setFieldsValue({...resp.data.slave7, ...resp.data.slave7.server_ini})
+                    fetch('misc/dst_world_setting.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            setDstWorldSetting(data)
+                        })
+                        .catch(error => {
+                            console.error('无法加载配置文件', error);
+                        })
                 } else {
                     message.success("获取配置失败")
                 }
@@ -51,41 +72,37 @@ export default () => {
     }, [])
 
     const steps = [
-        // {
-        //     title: '房间设置',
-        //     content: <Cluster form={clusterIni}/>
-        // },
         {
             title: '主世界',
-            content: <Master levelForm={master}/>
+            content: <Master levelForm={master} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界1',
-            content: <Slave1 levelForm={slave1}/>
+            content: <Slave1 levelForm={slave1} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界2',
-            content: <Slave2 levelForm={slave2}/>
+            content: <Slave2 levelForm={slave2} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界3',
-            content: <Slave3 levelForm={slave3}/>
+            content: <Slave3 levelForm={slave3} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界4',
-            content: <Slave4 levelForm={slave4}/>
+            content: <Slave4 levelForm={slave4} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界5',
-            content: <Slave5 levelForm={slave5}/>
+            content: <Slave5 levelForm={slave5} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界6',
-            content: <Slave6 levelForm={slave6}/>
+            content: <Slave6 levelForm={slave6} dstWorldSetting={dstWorldSetting}/>
         },
         {
             title: '从世界7',
-            content: <Slave7 levelForm={slave7}/>
+            content: <Slave7 levelForm={slave7} dstWorldSetting={dstWorldSetting}/>
         },
     ]
 
