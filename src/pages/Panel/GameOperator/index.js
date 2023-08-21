@@ -1,11 +1,10 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 import {Box, Card, Grid} from "@mui/material";
-import {Space, Tag, Typography} from "antd";
+import {Skeleton, Space, Tag, Typography} from "antd";
 
-import GameStatistic from "../../Dashboard/Statistics";
 import Console from "../../Dashboard/console";
-import GameLog2 from "../GameLog";
+
 import RollbackGroup from "../RollbackGroup";
 import GameArchive from "../GameArchive";
 import GameStart from "./GameStart";
@@ -17,44 +16,20 @@ export default ({gameData, logPath}) => {
     useEffect(()=>{},[logPath])
     return (
         <>
-            <Card>
-                <GameStatistic data={gameData}/>
-            </Card>
-
-            <br/>
             <Grid container spacing={3}>
                 <Grid item xs={24} md={24} lg={24}>
-                    <Card>
-                    <Box sx={{p: 3, pb: 1}} dir="ltr">
-                        <GameArchive />
-                    </Box>
-                    </Card>
+                    <GameStart />
                 </Grid>
+
                 <Grid item xs={12} md={6} lg={4}>
 
-                    {/*
                     <Card>
                         <Box sx={{p: 3, pb: 1}} dir="ltr">
                             <GameArchive />
                         </Box>
                     </Card>
                     <br/>
-                    */}
 
-                    <Card>
-                        <Box sx={{p: 3}} dir="ltr">
-                            <Space size={16} wrap>
-                                <GameStart title={"主 世 界"} levelName={"master"} />
-                                <GameStart title={"从世界1"} levelName={"master"} />
-                                <GameStart title={"从世界2"} levelName={"master"} />
-                                <GameStart title={"从世界3"} levelName={"master"} />
-                                <GameStart title={"从世界4"} levelName={"master"} />
-                                <GameStart title={"从世界5"} levelName={"master"} />
-                                <GameStart title={"从世界6"} levelName={"master"} />
-                                <GameStart title={"从世界7"} levelName={"master"} />
-                            </Space>
-                        </Box>
-                    </Card>
                     <br/>
 
                     <Card>

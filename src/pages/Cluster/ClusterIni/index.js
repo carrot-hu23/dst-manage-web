@@ -125,19 +125,6 @@ export default () => {
                         <Form.Item label="玩家人数" tooltip="最大玩家数量" name='max_players'>
                             <InputNumber/>
                         </Form.Item>
-                        <Form.Item label="pvp" valuePropName="checked" tooltip="是否开启玩家对战" name='pvp'>
-                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
-                        </Form.Item>
-                        <Form.Item label="投票" valuePropName="checked"
-                                   tooltip="是否开启世界投票功能，关闭后世界不能投票"
-                                   name='vote'>
-                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
-                        </Form.Item>
-                        <Form.Item label="自动暂停" valuePropName="checked" tooltip="世界没人时将自动暂停"
-                                   name='pause_when_nobody'>
-                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
-                        </Form.Item>
-
                         <Form.Item label="房间密码" name='cluster_password'>
                             <Input placeholder="最大长度20" maxLength={20}/>
                         </Form.Item>
@@ -151,6 +138,18 @@ export default () => {
                                 },
                             ]}>
                             <Input placeholder="科雷token令牌" maxLength={200}/>
+                        </Form.Item>
+                        <Form.Item label="pvp" valuePropName="checked" tooltip="是否开启玩家对战" name='pvp'>
+                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
+                        </Form.Item>
+                        <Form.Item label="投票" valuePropName="checked"
+                                   tooltip="是否开启世界投票功能，关闭后世界不能投票"
+                                   name='vote'>
+                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
+                        </Form.Item>
+                        <Form.Item label="自动暂停" valuePropName="checked" tooltip="世界没人时将自动暂停"
+                                   name='pause_when_nobody'>
+                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
                         </Form.Item>
 
                         <Form.Item
@@ -175,6 +174,12 @@ export default () => {
                             label="快照数量"
                             name='max_snapshots'>
                             <InputNumber placeholder="max_snapshots" maxLength={200}/>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="游戏语言"
+                            name='language'>
+                            <Input placeholder="cn"/>
                         </Form.Item>
 
                         <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>多世界配置项</span></Divider>

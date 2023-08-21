@@ -6,7 +6,7 @@ const Welcome = () => (
                     width={200}
                     src="/assets/pig.fig"
                 /> */}
-                <img src="/assets/illustrations/illustration_login.png" alt="login" />
+                <img src="/assets/illustrations/illustration_login3.png" alt="login" />
             </div>
         </>
     )

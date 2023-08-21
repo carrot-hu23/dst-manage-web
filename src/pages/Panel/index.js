@@ -73,7 +73,7 @@ const Panel = () => {
 
     const [gameData, setGameData] = useState(initData)
 
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const {cluster} = useParams()
     const [masterLog, setMasterLog] = useState("")
     const initDashboard = () => {
@@ -102,12 +102,6 @@ const Panel = () => {
     }
 
     useEffect(() => {
-        firstRequest()
-        const timer = setInterval(() => {
-            initDashboard()
-        }, 10000)
-        return () => clearInterval(timer)
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

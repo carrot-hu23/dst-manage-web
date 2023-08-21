@@ -95,6 +95,11 @@ export default () => {
     const prev = () => {
         setCurrent(current - 1);
     };
+
+    const onChange = (value) => {
+        setCurrent(value);
+    };
+
     const items = steps.map((item) => ({
         key: item.title,
         title: item.title,
@@ -159,7 +164,7 @@ export default () => {
         <Container maxWidth="xl">
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
-                    <Steps current={current} items={items} size="small"/>
+                    <Steps current={current} items={items} size="small" onChange={onChange} />
                     <br/><br/>
                     <Skeleton loading={loading} active avatar>
                         <div>{steps[current].content}</div>
@@ -177,6 +182,7 @@ export default () => {
                                 上一步
                             </Button>
                         )}
+                        {/*
                         {current === steps.length - 1 && (
                             <Button type="primary" onClick={() => {
                                 saveLevelConfig()
@@ -184,6 +190,16 @@ export default () => {
                                 保存设置
                             </Button>
                         )}
+                        */}
+                        <Button
+                            type="primary"
+                            style={{
+                                float: 'right',
+                                backgroundColor: '#13CE66'
+                            }}
+                            onClick={() => {saveLevelConfig()}}>
+                            保存设置
+                        </Button>
                         {current < steps.length - 1 && (
                             <Button type="primary" onClick={() => next()}>
                                 下一步

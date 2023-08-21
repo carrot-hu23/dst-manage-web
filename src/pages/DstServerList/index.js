@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { ProTable } from '@ant-design/pro-components';
 import { Container, Box } from '@mui/material';
-import { Button, Modal, Image, Skeleton, Card } from 'antd';
+import {Button, Modal, Image, Skeleton, Card, message} from 'antd';
 import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
 
 import HomeDetail from './home';
@@ -54,7 +54,9 @@ const DstServerList = () => {
             const { success } = responseData
             if (success) {
                 setHomeInfo(responseData)
-                console.log(responseData.successinfo.players)
+            } else {
+                message.warning("请求Klei服务器超时")
+                setIsModalOpen(false)
             }
 
         })

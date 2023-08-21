@@ -106,6 +106,57 @@ async function saveClusterIniApi(cluster, data) {
     return response.data
 }
 
+async function getLevelStatusApi(cluster) {
+    const url = '/api/game/8level/status'
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function startLevelApi(cluster,levelName,checked) {
+
+    let url = ""
+    // 启动
+    if(checked) {
+        url = `api/game/8level/start?levelName=${levelName}`
+    } else {
+        url = `api/game/8level/stop?levelName=${levelName}`
+    }
+
+    // const url = '/api/dashboard'
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function sendCommandApi(cluster,levelName,command) {
+
+    const url = `/api/game/8level/command?levelName=${levelName}&command=${command}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function getOnlinePlayersApi(cluster,levelName) {
+
+    const url = `/api/game/8level/players?levelName=${levelName}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     getLevelConfigApi,
     saveLevelConfigApi,
@@ -121,4 +172,10 @@ export {
 
     getClusterIniApi,
     saveClusterIniApi,
+
+    getLevelStatusApi,
+    startLevelApi,
+
+    sendCommandApi,
+    getOnlinePlayersApi,
 }

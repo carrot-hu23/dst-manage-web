@@ -48,8 +48,7 @@ const ServerIni = ({ form, isMaster }) => (
         <Form.Item
             label="世界名"
             name="name"
-            tooltip={`
-            `}
+            tooltip={`name`}
         >
             <Input placeholder="世界名" />
         </Form.Item>
@@ -80,14 +79,18 @@ const ServerIni = ({ form, isMaster }) => (
 
         <Form.Item
             label="认证端口"
-            name='authentication_port'>
-            <Input placeholder="authentication_port" maxLength={200} />
+            name='authentication_port'
+            tooltip={`authentication_port`}
+        >
+            <InputNumber placeholder="authentication_port" maxLength={200} />
         </Form.Item>
 
         <Form.Item
             label="世界端口"
-            name='master_server_port'>
-            <Input placeholder="master_server_port" maxLength={200} />
+            name='master_server_port'
+            tooltip={`master_server_port`}
+        >
+            <InputNumber placeholder="master_server_port" maxLength={200} />
         </Form.Item>
     </Form>
 );

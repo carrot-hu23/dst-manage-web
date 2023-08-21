@@ -1,11 +1,16 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
+const ipUrl = process.env.REACT_APP_API_URL
+
 // eslint-disable-next-line func-names
 module.exports = function (app) {
 
     app.use(createProxyMiddleware('/api', {
-        target: "http://1.12.223.51:8084/",
+        target: ipUrl,
         changeOrigin: true,
     }))
-
+    app.use(createProxyMiddleware('/steam', {
+        target: ipUrl,
+        changeOrigin: true,
+    }))
 }

@@ -112,9 +112,9 @@ export default ({title, tips, getApi, saveApi}) => {
                                         {
                                             // eslint-disable-next-line consistent-return
                                             validator: async (_, names) => {
-                                                if (!names || names.length < 1) {
-                                                    return Promise.reject(new Error('At least 1 passengers'));
-                                                }
+                                                // if (!names || names.length < 1) {
+                                                //     return Promise.reject(new Error('At least 1 passengers'));
+                                                // }
                                             },
                                         },
                                     ]}
@@ -147,12 +147,10 @@ export default ({title, tips, getApi, saveApi}) => {
                                                             }}
                                                         />
                                                     </Form.Item>
-                                                    {fields.length > 1 ? (
-                                                        <MinusCircleOutlined
+                                                    {<MinusCircleOutlined
                                                             className="dynamic-delete-button"
                                                             onClick={() => remove(field.name)}
-                                                        />
-                                                    ) : null}
+                                                        />}
                                                 </Form.Item>
                                             ))}
                                             <Form.Item>

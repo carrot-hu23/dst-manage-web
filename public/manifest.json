@@ -1,6 +1,6 @@
 {
-  "short_name": "Minimal App",
-  "name": "React Material Minimal UI Kit",
+  "short_name": "饥荒控制面板",
+  "name": "饥荒控制面板",
   "icons": [
     {
       "src": "favicon/android-chrome-192x192.png",

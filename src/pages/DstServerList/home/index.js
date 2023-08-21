@@ -1,12 +1,9 @@
-import {useEffect, useState} from "react";
-
 import { Tabs } from 'antd';
 
 import Players from '../component/Players';
 import HomeOverView from '../component/HomeOverView';
 import HomeModInfo from '../component/HomeModInfo';
 
-import {getMyModInfoList} from "../../../api/modApi";
 import Secondaries from "./Secondaries";
 
 const HomeDetail = (props) => {
@@ -19,15 +16,6 @@ const HomeDetail = (props) => {
     }
     const mods = props.home.successinfo.mods_info || []
     const secondaries = props.home.successinfo.secondaries || []
-    const [subscribedModList, setSubscribedModList] = useState([])
-    useEffect(()=>{
-        getMyModInfoList()
-            .then(resp=>{
-                if (resp.code === 200) {
-                    setSubscribedModList(resp.data)
-                }
-            })
-    }, [])
 
     const items = [
         {
@@ -44,11 +32,7 @@ const HomeDetail = (props) => {
             label: '模组',
             key: '3',
             children: (<div>
-                {<HomeModInfo
-                    mods={mods}
-                    subscribedModList={subscribedModList}
-                    setSubscribedModList={setSubscribedModList}
-                />}
+                {<HomeModInfo mods={mods}/>}
             </div>)
         },
         {

@@ -29,6 +29,7 @@ import Modinfo from "./pages/Mod/Modinfo";
 import Help from "./pages/Help";
 import EightLevels from "./pages/EightLevels";
 import Cluster from "./pages/Cluster";
+import OnlinePlayers from "./pages/Player/OnlinePlayers";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -48,7 +49,7 @@ export default function Router() {
         { path: 'home', element: <Home /> },
         { path: 'cluster', element: <Cluster /> },
         { path: '8level', element: <EightLevels /> },
-        { path: 'player', element: <Player /> },
+        { path: 'player', element: <OnlinePlayers /> },
         { path: 'backup', element: <Backup /> },
         { path: 'setting', element: <Setting /> },
         { path: 'github', element: <Github /> },
