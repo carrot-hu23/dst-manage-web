@@ -15,7 +15,7 @@ function getLevelObject(value) {
     }
 }
 
-export default ({valueRef, dstWorldSetting}) => {
+export default ({valueRef, dstWorldSetting, changeValue}) => {
 
     const levelObject = getLevelObject(valueRef.current)
     const levelType = levelObject.location
@@ -35,37 +35,79 @@ export default ({valueRef, dstWorldSetting}) => {
                 height: '400px',
                 overflowY: 'auto',
             }}>
-                <Group
-                    valueRef={valueRef}
-                    data={forestWorldSettingsGroup}
-                    url={"./misc/worldsettings_customization.webp"}
-                    leveldataoverrideObject={leveldataoverrideObject}
-                    onStateChange={(name, newValue) => {
-                        setLeveldataoverrideObject(current=> {
-                            current[name]=newValue
-                            return {...current}
-                        })
-                    }}
-                />
+                {levelType === 'forest' && (<>
+                        <h2>世界设置</h2>
+                    <Group
+                        valueRef={valueRef}
+                        data={forestWorldSettingsGroup}
+                        url={"./misc/worldsettings_customization.webp"}
+                        leveldataoverrideObject={leveldataoverrideObject}
+                        onStateChange={(name, newValue) => {
+                            setLeveldataoverrideObject(current=> {
+                                current[name]=newValue
+                                return {...current}
+                            })
+                        }}
+                        changeValue={changeValue}
+                    />
+                        <h2>世界生成</h2>
+                    <Group
+                        valueRef={valueRef}
+                        data={forestWorldGenGroup}
+                        url={"./misc/worldgen_customization.webp"}
+                        leveldataoverrideObject={leveldataoverrideObject}
+                        onStateChange={(name, newValue) => {
+                            setLeveldataoverrideObject(current=> {
+                                current[name]=newValue
+                                return {...current}
+                            })
+                        }}
+                        changeValue={changeValue}
+                    />
+                    </>
+                )}
+                {levelType === 'cave' && (<>
+                        <h2>世界设置</h2>
+                        <Group
+                            valueRef={valueRef}
+                            data={cavesWorldSettingsGroup}
+                            url={"./misc/worldsettings_customization.webp"}
+                            leveldataoverrideObject={leveldataoverrideObject}
+                            onStateChange={(name, newValue) => {
+                                setLeveldataoverrideObject(current=> {
+                                    current[name]=newValue
+                                    return {...current}
+                                })
+                            }}
+                            changeValue={changeValue}
+                        />
+                        <h2>世界生成</h2>
+                        <Group
+                            valueRef={valueRef}
+                            data={cavesWorldGenGroup}
+                            url={"./misc/worldgen_customization.webp"}
+                            leveldataoverrideObject={leveldataoverrideObject}
+                            onStateChange={(name, newValue) => {
+                                setLeveldataoverrideObject(current=> {
+                                    current[name]=newValue
+                                    return {...current}
+                                })
+                            }}
+                            changeValue={changeValue}
+                        />
+                    </>
+                )}
 
-                <Group
-                    valueRef={valueRef}
-                    data={forestWorldGenGroup}
-                    url={"./misc/worldgen_customization.webp"}
-                    leveldataoverrideObject={leveldataoverrideObject}
-                    onStateChange={(name, newValue) => {
-                        setLeveldataoverrideObject(current=> {
-                            current[name]=newValue
-                            return {...current}
-                        })
-                    }}
-                />
+                {(levelType !== 'forest' && levelType !== 'cave') && (<>
+                    <span>暂不支持此类型世界配置文件可视化 {levelType}</span>
+                </>)}
+
             </div>
         </>
     )
 }
 
-const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange}) => {
+const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, changeValue}) => {
     return (<>
         {Object.keys(data)
             .sort((a, b) => data[a].order - data[b].order)
@@ -105,6 +147,7 @@ const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange}) =>
                                             name={key2}
                                             valueRef={valueRef}
                                             onStateChange={onStateChange}
+                                            changeValue={changeValue}
                                         />
                                     </div>
                                 </Space>)
@@ -115,7 +158,7 @@ const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange}) =>
     </>)
 }
 
-const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange}) => {
+const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange, changeValue}) => {
     const [isDefault, setIsDefault] = useState(true);
 
     useEffect(() => {
@@ -133,8 +176,8 @@ const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange
         data.overrides[name] = value
 
         onStateChange(name, value)
-        valueRef.current = format(data)
-
+        // valueRef.current = format(data)
+        changeValue(format(data))
     }
 
     const selectClassName = isDefault ? "" : "selected";

@@ -1,9 +1,10 @@
 import Editor from "../../../../Home/Editor";
 
-export default ({valueRef}) => {
+export default ({valueRef, changeValue}) => {
 
     function onchange(value) {
-        valueRef.current = value
+        // valueRef.current = value
+        changeValue(value)
     }
 
     return (

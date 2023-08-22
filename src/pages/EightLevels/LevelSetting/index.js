@@ -1,5 +1,3 @@
-import {useState} from "react";
-
 import {Tabs} from "antd";
 
 import Leveldataoverride from "./Leveldataoverride";
@@ -9,6 +7,11 @@ import ServerIni from "../../Home/ServerIni";
 export default ({levelForm, dstWorldSetting})=>{
 
     const items = [
+        // {
+        //     key: '1',
+        //     label: `世界配置`,
+        //     children: <Leveldataoverride levelForm={levelForm}  dstWorldSetting={dstWorldSetting}/>
+        // },
         {
             key: '1',
             label: `世界配置`,

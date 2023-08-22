@@ -58,42 +58,15 @@ return {
 }
 `
 
-export default () => {
+export default ({leveldataoverride, dstWorldSetting, changeValue}) => {
 
     const ref = useRef(leveldataoverride)
-    const [dstWorldSetting, setDstWorldSetting] = useState({
-        zh: {
-            forest: {
-                WORLDGEN_GROUP: {},
-                WORLDSETTINGS_GROUP: {}
-            },
-            cave: {
-                WORLDGEN_GROUP: {},
-                WORLDSETTINGS_GROUP: {}
-            }
-        }
-    })
-
     const [view, setView] = useState(true)
-    function changeView(value) {
-        setView(value)
+    function updateValue(newValue) {
+        changeValue(newValue)
+        ref.current = newValue
+        // console.log(newValue)
     }
-
-    useEffect(() => {
-        // 获取用户的 Overrides
-        // setUserOverrides()
-
-        // 获取世界默认配置文件
-        fetch('misc/dst_world_setting.json')
-            .then(response => response.json())
-            .then(data => {
-                setDstWorldSetting(data)
-            })
-            .catch(error => {
-                console.error('无法加载配置文件', error);
-            })
-
-    }, [])
     return (
         <>
             <Switch
@@ -101,8 +74,11 @@ export default () => {
                 onClick={(checked, event) => setView(checked)}
                 checked={view}
                 defaultChecked={view}/>
-            {view && <ConfigEditor valueRef={ref} />}
-            {!view && <ConfigViewEditor valueRef={ref}  dstWorldSetting={dstWorldSetting} />}
+            <br/><br/>
+            {/* eslint-disable-next-line react/jsx-no-bind */}
+            {view && <ConfigEditor valueRef={ref} changeValue={updateValue} />}
+            {/* eslint-disable-next-line react/jsx-no-bind */}
+            {!view && <ConfigViewEditor changeValue={updateValue} valueRef={ref}  dstWorldSetting={dstWorldSetting} />}
         </>
     )
 

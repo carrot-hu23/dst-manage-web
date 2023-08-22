@@ -1,6 +1,6 @@
 import {Card, Box, Container} from '@mui/material';
 import {useEffect, useState} from "react";
-import {Image, Space} from "antd";
+import {Image, Space, Tag} from "antd";
 import aliPayImage from './alipay.jpg';
 import wechatpayImage from './wechatpay.png';
 
@@ -25,7 +25,10 @@ export default () => {
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
                     <h1>帮助文档</h1>
-                    {config.version}
+                    版本:
+                    <Tag color="#2784FF" >
+                        {config.version}
+                    </Tag>
                     <br/>
                     <div>
                         开源协议:
@@ -34,7 +37,7 @@ export default () => {
                             href={'https://github.com/hujinbo23/dst-admin-go/blob/main/LICENSE'}
                             rel="noreferrer"
                         >
-                            GPL-3.0 license
+                            GPL-3.0 license(未经授权禁止商用，否则追究法律责任)
                         </a>
                     </div>
                     <div>
@@ -47,7 +50,7 @@ export default () => {
                             {config.github}
                         </a>
                     </div>
-                    <br/>
+
                     <div>
                         <h3>请作者喝一杯咖啡：</h3>
                         <Space size={32} wrap>
