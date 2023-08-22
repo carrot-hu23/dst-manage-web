@@ -30,6 +30,7 @@ import Help from "./pages/Help";
 import EightLevels from "./pages/EightLevels";
 import Cluster from "./pages/Cluster";
 import OnlinePlayers from "./pages/Player/OnlinePlayers";
+import Forest from "./pages/EightLevels/LevelSetting/Forest";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -60,6 +61,8 @@ export default function Router() {
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
         { path: 'modinfo/:modId', element: <Modinfo /> },
+
+        { path: 'view', element: <Forest /> },
       ],
     },
     {

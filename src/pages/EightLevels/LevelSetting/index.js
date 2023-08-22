@@ -5,7 +5,6 @@ import {Tabs} from "antd";
 import Leveldataoverride from "./Leveldataoverride";
 import Modoverrides from "./Modoverrides";
 import ServerIni from "../../Home/ServerIni";
-import LeveldataoverrideView from "./LeveldataoverrideView";
 
 export default ({levelForm, dstWorldSetting})=>{
 
@@ -13,7 +12,7 @@ export default ({levelForm, dstWorldSetting})=>{
         {
             key: '1',
             label: `世界配置`,
-            children: <Leveldataoverride levelForm={levelForm} />
+            children: <Leveldataoverride levelForm={levelForm}  dstWorldSetting={dstWorldSetting}/>
         },
         {
             key: '2',
@@ -25,11 +24,11 @@ export default ({levelForm, dstWorldSetting})=>{
             label: `端口配置`,
             children: <ServerIni form={levelForm} />
         },
-        {
-            key: '4',
-            label: `可视化`,
-            children: <LeveldataoverrideView levelForm={levelForm} dstWorldSetting={dstWorldSetting} />
-        },
+        // {
+        //     key: '4',
+        //     label: `可视化`,
+        //     children: <LeveldataoverrideView levelForm={levelForm} dstWorldSetting={dstWorldSetting} />
+        // },
     ]
 
     return(
