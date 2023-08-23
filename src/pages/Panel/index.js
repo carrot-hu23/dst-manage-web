@@ -5,11 +5,9 @@ import {Image, notification, Skeleton, Tabs} from 'antd';
 import {Container, Box} from '@mui/material';
 
 import GameOperator from "./GameOperator";
-import ControlPanel from './ControlPanel';
 
 import {getGameDashboardApi} from '../../api/gameDashboardApi';
 import {dstVersionApi} from '../../api/dstApi';
-import Announce from "./Announce";
 import ServerLog from "./ServerLog";
 
 

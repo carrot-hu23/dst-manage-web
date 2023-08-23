@@ -1,9 +1,5 @@
-import {useEffect, useState} from "react";
-import {Button, Space, Switch} from "antd";
-
-import Editor from "../../../Home/Editor";
-import LeveldataoverrideView from "../LeveldataoverrideView";
-import Forest from "../Forest";
+import {useEffect} from "react";
+import Forest from "../LeveldataoverrideView";
 
 
 export default ({levelForm, dstWorldSetting}) => {

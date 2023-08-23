@@ -1,7 +1,8 @@
+/* eslint-disable */
 import React, {useEffect, useState} from "react";
 
 import {Box, Card, Container} from "@mui/material";
-import {Button, Form, message, Skeleton, Steps} from "antd";
+import {Button, Form, message, Skeleton, Space, Steps} from "antd";
 
 import Master from "./Master";
 import Slave1 from "./Slave1";
@@ -13,6 +14,8 @@ import Slave6 from "./Slave6";
 import Slave7 from "./Slave7";
 
 import {getLevelConfigApi, saveLevelConfigApi} from "../../api/8level";
+import SamePortSettings from "./SamePortSettings";
+import ShareConfig from "./ShareConfig";
 
 export default () => {
 
@@ -24,6 +27,17 @@ export default () => {
     const [slave5] = Form.useForm();
     const [slave6] = Form.useForm();
     const [slave7] = Form.useForm();
+
+    const levelFormMap = {
+        Master: master,
+        Slave1: slave1,
+        Slave2: slave2,
+        Slave3: slave3,
+        Slave4: slave4,
+        Slave5: slave5,
+        Slave6: slave6,
+        Slave7: slave7,
+    }
 
     const [current, setCurrent] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -177,6 +191,116 @@ export default () => {
             })
     }
 
+    function syncModConfig(levelName, levelList) {
+
+        levelList.forEach(syncLevelName=>{
+
+            const levelForm = levelFormMap[levelName]
+            const syncLevelForm = levelFormMap[syncLevelName]
+
+            const syncModoverrides = levelForm.getFieldValue().modoverrides
+            syncLevelForm.setFieldsValue({
+                modoverrides: syncModoverrides,
+            });
+        })
+    }
+
+    function syncLeveldataConfig(levelName, levelList) {
+
+        levelList.forEach(syncLevelName=>{
+
+            const levelForm = levelFormMap[levelName]
+            const syncLevelForm = levelFormMap[syncLevelName]
+
+            const syncLeveldataoverride = levelForm.getFieldValue().leveldataoverride
+            syncLevelForm.setFieldsValue({
+                leveldataoverride: syncLeveldataoverride,
+            });
+            console.log(levelName, syncLevelName, syncLeveldataoverride)
+        })
+    }
+
+    function syncAllSlaveLevelModConfig(syncLevelName) {
+        const syncModoverrides = master.getFieldValue().modoverrides
+        slave1.setFieldsValue({modoverrides: syncModoverrides,});
+        slave2.setFieldsValue({modoverrides: syncModoverrides,});
+        slave3.setFieldsValue({modoverrides: syncModoverrides,});
+        slave4.setFieldsValue({modoverrides: syncModoverrides,});
+        slave5.setFieldsValue({modoverrides: syncModoverrides,});
+        slave6.setFieldsValue({modoverrides: syncModoverrides,});
+        slave7.setFieldsValue({modoverrides: syncModoverrides,});
+    }
+
+    function syncSamePort(values) {
+
+        const {server_port, authentication_port, master_server_port} = values
+        console.log(values)
+        master.setFieldsValue({server_port, authentication_port, master_server_port})
+
+        slave1.setFieldsValue({
+            server_port: server_port + 1,
+            authentication_port: authentication_port + 1,
+            master_server_port: master_server_port + 1
+        })
+        slave2.setFieldsValue({
+            server_port: server_port + 2,
+            authentication_port: authentication_port + 2,
+            master_server_port: master_server_port + 2
+        })
+        slave3.setFieldsValue({
+            server_port: server_port + 3,
+            authentication_port: authentication_port + 3,
+            master_server_port: master_server_port + 3
+        })
+        slave4.setFieldsValue({
+            server_port: server_port + 4,
+            authentication_port: authentication_port + 4,
+            master_server_port: master_server_port + 4
+        })
+        slave5.setFieldsValue({
+            server_port: server_port + 5,
+            authentication_port: authentication_port + 5,
+            master_server_port: master_server_port + 5
+        })
+        slave6.setFieldsValue({
+            server_port: server_port + 6,
+            authentication_port: authentication_port + 6,
+            master_server_port: master_server_port + 6
+        })
+        slave7.setFieldsValue({
+            server_port: server_port + 7,
+            authentication_port: authentication_port + 7,
+            master_server_port: master_server_port + 7
+        })
+    }
+
+    function syncSameId(id) {
+
+        master.setFieldsValue({id: id})
+
+        slave1.setFieldsValue({
+            id: id + 1,
+        })
+        slave2.setFieldsValue({
+            id: id + 2,
+        })
+        slave3.setFieldsValue({
+            id: id + 3,
+        })
+        slave4.setFieldsValue({
+            id: id + 4,
+        })
+        slave5.setFieldsValue({
+            id: id + 5,
+        })
+        slave6.setFieldsValue({
+            id: id + 6,
+        })
+        slave7.setFieldsValue({
+            id: id + 7,
+        })
+    }
+
     return (<>
         <Container maxWidth="xl">
             <Card>
@@ -189,25 +313,25 @@ export default () => {
 
                     <br/>
                     <div>
-                        {current > 0 && (
-                            <Button
-                                style={{
-                                    margin: '0 8px',
-                                }}
-                                onClick={() => prev()}
-                            >
-                                上一步
-                            </Button>
-                        )}
-                        {/*
-                        {current === steps.length - 1 && (
-                            <Button type="primary" onClick={() => {
-                                saveLevelConfig()
-                            }}>
-                                保存设置
-                            </Button>
-                        )}
-                        */}
+                        <Space size={8} wrap>
+                            {current > 0 && (
+                                <Button
+                                    onClick={() => prev()}
+                                >
+                                    上一步
+                                </Button>
+                            )}
+                            {current < steps.length - 1 && (
+                                <Button type="primary" onClick={() => next()}>
+                                    下一步
+                                </Button>
+                            )}
+                            {/* eslint-disable-next-line react/jsx-no-bind */}
+                            <SamePortSettings syncSamePort={syncSamePort} syncSameId={syncSameId} />
+                            {/* eslint-disable-next-line react/jsx-no-bind */}
+                            <ShareConfig syncLeveldataConfig={syncLeveldataConfig} syncModConfig={syncModConfig} syncAllSlaveLevelModConfig={syncAllSlaveLevelModConfig} />
+                        </Space>
+
                         <Button
                             type="primary"
                             style={{
@@ -217,11 +341,6 @@ export default () => {
                             onClick={() => {saveLevelConfig()}}>
                             保存设置
                         </Button>
-                        {current < steps.length - 1 && (
-                            <Button type="primary" onClick={() => next()}>
-                                下一步
-                            </Button>
-                        )}
                     </div>
                 </Box>
             </Card>

@@ -1,99 +1,33 @@
-import {useEffect, useState} from "react";
+import {useRef, useState} from "react";
 
-import {format, parse} from "lua-json";
-import {Button, Form, Space} from "antd";
-import Forest from "../../../ClusterView/forest";
-import Cave from "../../../ClusterView/cave";
-import {translateJsonObject} from "../../../../utils/dstUtils";
+import {Switch} from "antd";
 
+import ConfigEditor from "./ConfigEditor";
+import ConfigViewEditor from "./ConfigViewEditor";
 
 
-export default ({dstWorldSetting, leveldataoverride, setLeveldataoverride}) => {
+export default ({leveldataoverride, dstWorldSetting, changeValue}) => {
 
-    const [value, setValue] = useState(leveldataoverride)
-    // const value = getValue(levelForm)
-    // function setValue(value) {
-    //     levelForm.setFieldsValue({
-    //         leveldataoverride: value,
-    //     });
-    // }
-
-    // function getValue(levelForm) {
-    //     const value = levelForm.getFieldValue().leveldataoverride
-    //     if (value === undefined || value === null || value === '') {
-    //         return 'return {}'
-    //     }
-    //     return value
-    // }
-
-    function getLevelObject(value) {
-        try {
-            return parse(value)
-        } catch (error) {
-            console.log(error)
-            return {}
-        }
+    const ref = useRef(leveldataoverride)
+    const [view, setView] = useState(true)
+    function updateValue(newValue) {
+        changeValue(newValue)
+        ref.current = newValue
+        // console.log(newValue)
     }
-
-    const levelObject = getLevelObject(leveldataoverride)
-
-    const levelType = levelObject.location
-    const [leveldataoverrideObject, setLeveldataoverrideObject] = useState(levelObject.overrides)
-
-    const [formLevel] = Form.useForm()
-
-    function forestDefaultValues() {
-        return { ...translateJsonObject(dstWorldSetting.zh.forest.WORLDGEN_GROUP), ...translateJsonObject(dstWorldSetting.zh.forest.WORLDSETTINGS_GROUP) }
-    }
-
-    function caveDefaultValues() {
-        return { ...translateJsonObject(dstWorldSetting.zh.cave.WORLDGEN_GROUP), ...translateJsonObject(dstWorldSetting.zh.cave.WORLDSETTINGS_GROUP) }
-    }
-
-    function resetting() {
-        formLevel.resetFields()
-        if (levelType === 'forest') {
-            console.log("111",forestDefaultValues())
-            setLeveldataoverrideObject({ ...forestDefaultValues() })
-        }
-        if (levelType === 'cave') {
-            console.log(caveDefaultValues())
-            setLeveldataoverrideObject({ ...caveDefaultValues() })
-        }
-    }
-
-    function saveSetting() {
-        const overrides = formLevel.getFieldValue()
-        levelObject.overrides = overrides
-        const leveldataoverride =  format(levelObject)
-        setLeveldataoverride(leveldataoverride)
-        setValue(leveldataoverride)
-    }
-
-    useEffect(()=>{
-        console.log("重新刷新  updateValue")
-        setLeveldataoverrideObject({...getLevelObject(leveldataoverride).overrides})
-        console.log(getLevelObject(leveldataoverride).overrides)
-        // formLevel.resetFields()
-    }, [leveldataoverride])
     return (
         <>
-            {levelType === 'forest' && (<>
-                <Forest form={formLevel} object={leveldataoverrideObject}
-                        forest={dstWorldSetting.zh.forest}/>
-            </>)}
-            {levelType === 'cave' && (<>
-                <Cave form={formLevel} object={leveldataoverrideObject}
-                      cave={dstWorldSetting.zh.cave}/>
-            </>)}
-            {(levelType !== 'forest' && levelType !== 'cave') && (<>
-                <span>暂不支持此类型世界配置文件可视化 {levelType}</span>
-            </>)}
-            <br/>
-            <Space size={8}>
-                <Button type={'default'} onClick={() => {resetting()}}>重置</Button>
-                <Button type={'primary'} onClick={() => {saveSetting()}}>保存</Button>
-            </Space>
+            <Switch
+                checkedChildren={"编辑"} unCheckedChildren={"可视化"}
+                onClick={(checked, event) => setView(checked)}
+                checked={view}
+                defaultChecked={view}/>
+            <br/><br/>
+            {/* eslint-disable-next-line react/jsx-no-bind */}
+            {view && <ConfigEditor valueRef={ref} changeValue={updateValue} />}
+            {/* eslint-disable-next-line react/jsx-no-bind */}
+            {!view && <ConfigViewEditor changeValue={updateValue} valueRef={ref}  dstWorldSetting={dstWorldSetting} />}
         </>
     )
+
 }
