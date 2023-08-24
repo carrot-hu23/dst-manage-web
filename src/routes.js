@@ -31,6 +31,7 @@ import EightLevels from "./pages/EightLevels";
 import Cluster from "./pages/Cluster";
 import OnlinePlayers from "./pages/Player/OnlinePlayers";
 import Forest from "./pages/EightLevels/LevelSetting/LeveldataoverrideView";
+import Game from "./pages/Game";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -63,6 +64,7 @@ export default function Router() {
         { path: 'modinfo/:modId', element: <Modinfo /> },
 
         { path: 'view', element: <Forest /> },
+        { path: 'game', element: <Game /> },
       ],
     },
     {
