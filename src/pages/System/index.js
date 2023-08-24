@@ -9,7 +9,7 @@ import TimedTask from "./TimedTask";
 import Automatic from "./Automatic";
 import InstallSteamCmd from "./InstallSteamCmd";
 import WebLinkSetting from "./WebLinkSetting";
-import AutoCheck from "./Automatic/AutoCheck";
+import AutoCheck from "./AutoMod/AutoCheck";
 import AutoMod from "./AutoMod";
 
 const System = () => {

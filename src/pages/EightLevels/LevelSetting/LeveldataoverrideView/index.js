@@ -18,7 +18,7 @@ export default ({leveldataoverride, dstWorldSetting, changeValue}) => {
     return (
         <>
             <Switch
-                checkedChildren={"编辑"} unCheckedChildren={"可视化"}
+                checkedChildren={"可视化"} unCheckedChildren={"编辑"}
                 onClick={(checked, event) => setView(checked)}
                 checked={view}
                 defaultChecked={view}/>

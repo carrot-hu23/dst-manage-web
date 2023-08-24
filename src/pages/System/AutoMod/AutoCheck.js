@@ -16,7 +16,13 @@ export default ({name, title})=>{
             .then(resp=>{
                 if (resp.code === 200) {
                     if (resp.data.interval === 0) {
-                        resp.data.interval = 5
+                        resp.data.interval = 20
+                    }
+                    if (resp.data.sleep === 0) {
+                        resp.data.sleep = 5
+                    }
+                    if (resp.data.times === 0) {
+                        resp.data.times = 1
                     }
                     form.setFieldsValue(resp.data)
                 }

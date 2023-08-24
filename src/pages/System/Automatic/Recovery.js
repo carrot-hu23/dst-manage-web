@@ -16,7 +16,7 @@ export default ({name, title})=>{
             .then(resp=>{
                 if (resp.code === 200) {
                     if (resp.data.interval === 0) {
-                        resp.data.interval = 1
+                        resp.data.interval = 10
                     }
                     form.setFieldsValue(resp.data)
                 }
