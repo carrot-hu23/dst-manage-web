@@ -9,6 +9,7 @@ import RollbackGroup from "../RollbackGroup";
 import GameArchive from "../GameArchive";
 import GameStart from "./GameStart";
 import RemoteControl from "./RemoteControl";
+import OnlinePlayers from "../../Player/OnlinePlayers";
 
 const { Paragraph, Link } = Typography;
 
@@ -45,6 +46,11 @@ export default ({gameData, logPath}) => {
                         </Box>
                     </Card>
                     */}
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <OnlinePlayers />
+                        </Box>
+                    </Card>
                 </Grid>
 
                 {/*

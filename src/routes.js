@@ -32,6 +32,8 @@ import Cluster from "./pages/Cluster";
 import OnlinePlayers from "./pages/Player/OnlinePlayers";
 import Forest from "./pages/EightLevels/LevelSetting/LeveldataoverrideView";
 import Game from "./pages/Game";
+import TemplateConfig from "./pages/TemplateConfig";
+import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -65,6 +67,8 @@ export default function Router() {
 
         { path: 'view', element: <Forest /> },
         { path: 'game', element: <Game /> },
+        { path: 'template/config', element: <TemplateConfig /> },
+        { path: 'addTemplate/:id', element: <AddTemplateFile /> },
       ],
     },
     {

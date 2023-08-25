@@ -31,6 +31,11 @@ const navConfig = [
     path: '/dashboard/8level',
     icon: icon('layers')
   },
+  {
+    title: '模板管理',
+    path: '/dashboard/template/config',
+    icon: icon('bookmark')
+  },
   // {
   //   title: '世界设置',
   //   path: '/dashboard/cluster/view',
@@ -41,11 +46,11 @@ const navConfig = [
   //   path: '/dashboard/mod',
   //   icon: icon('package'),
   // },
-  {
-    title: '玩家管理',
-    path: '/dashboard/player',
-    icon: icon('users')
-  },
+  // {
+  //   title: '玩家管理',
+  //   path: '/dashboard/player',
+  //   icon: icon('users')
+  // },
   {
     title: '游戏备份',
     path: '/dashboard/backup',

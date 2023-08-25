@@ -1,21 +1,31 @@
 import {useEffect, useState} from "react";
 
 import {useTranslation} from "react-i18next";
-import {Space, Switch, Badge, Skeleton, message, Spin} from "antd";
-import {Box, Card, Grid} from "@mui/material";
+import {Space, Switch, Badge, Skeleton, message, Spin, Progress} from "antd";
+import {Box, Card} from "@mui/material";
 
 import './index.css';
 
 import {getLevelStatusApi, startLevelApi} from "../../../../api/8level";
+
+const MB = 1024 * 1024
+const GB = 1024 * MB
+
+function formatData(data, num) {
+    return data.toFixed(num)
+}
 
 
 export default () => {
 
     const LevelStatus = ({levelName, title, levelStatus}) => {
         const {t} = useTranslation()
-        const [serverStatus, setServerStatus] = useState(levelStatus)
+        const [serverStatus, setServerStatus] = useState(levelStatus.status)
         const [startLoading, setStartLoading] = useState(false)
         const [startText, setStartText] = useState("")
+
+        const rss =formatData(levelStatus.ps.RSS / 1024 / 1024, 2)
+        const vsz =formatData(levelStatus.ps.VSZ / 1024/ 1024, 2)
 
         const statusOnClick = (checked, event) => {
             setServerStatus(checked)
@@ -46,13 +56,43 @@ export default () => {
                     <Card>
                         <Box sx={{p: 2}} dir="ltr">
                             <div>
+                                <Space size={64}>
+                                <div>
+                                    <div>CPU</div>
+                                    <Progress type="dashboard" percent={levelStatus.ps.cpuUage}   size={40} />
+                                </div>
+
+                                <div>
+                                    <div>MEM</div>
+                                    <Progress type="circle"
+                                              percent={levelStatus.ps.memUage}
+                                              size={40}
+                                              strokeColor={levelStatus.ps.memUage > 70 ? 'red' : '#5BD171'} status='normal'
+                                              strokeLinecap="butt"
+                                    />
+                                </div>
+                                </Space>
+
+                                <div>
+                                    <Space size={16}>
+                                        <span>RSS: {rss}G</span>
+                                        <span>VSZ: {vsz}G</span>
+                                    </Space>
+                                </div>
+                            </div>
+
+                            <div>
+                                <Space size={46}>
                                 <Badge status={serverStatus ? "success" : "default"} style={{
                                     width: '48px'
                                 }} className={'dot'}/>
-                                {title}
+                                <div>
+                                    {title}
+                                </div>
+                                </Space>
                             </div>
-                            <br/>
-                            <Space size={16}>
+
+                            <Space size={64}>
                                 <span>操作</span>
                                 <Switch
                                     checkedChildren={t('start')} unCheckedChildren={t('stop')}
@@ -78,14 +118,38 @@ export default () => {
             .then(reps => {
                 if (reps.code === 200) {
                     const data = {
-                        masterStatus: reps.data.masterStatus,
-                        slave1Status: reps.data.slave1Status,
-                        slave2Status: reps.data.slave2Status,
-                        slave3Status: reps.data.slave3Status,
-                        slave4Status: reps.data.slave4Status,
-                        slave5Status: reps.data.slave5Status,
-                        slave6Status: reps.data.slave6Status,
-                        slave7Status: reps.data.slave7Status,
+                        master: {
+                            status: reps.data.masterStatus,
+                            ps: reps.data.masterPs
+                        },
+                        slave1: {
+                            status: reps.data.slave1Status,
+                            ps: reps.data.slave1ps
+                        },
+                        slave2: {
+                            status: reps.data.slave2Status,
+                            ps: reps.data.slave2ps
+                        },
+                        slave3: {
+                            status: reps.data.slave3Status,
+                            ps: reps.data.slave3ps
+                        },
+                        slave4: {
+                            status: reps.data.slave4Status,
+                            ps: reps.data.slave4ps
+                        },
+                        slave5: {
+                            status: reps.data.slave5Status,
+                            ps: reps.data.slave5ps
+                        },
+                        slave6: {
+                            status: reps.data.slave6Status,
+                            ps: reps.data.slave6ps
+                        },
+                        slave7: {
+                            status: reps.data.slave7Status,
+                            ps: reps.data.slave7ps
+                        },
                     }
                     setLevelStatus(data)
                 }
@@ -105,14 +169,14 @@ export default () => {
         <>
             <Skeleton loading={loading} active>
                 <Space size={16} wrap>
-                    <LevelStatus title={"主 世 界"} levelName={"Master"} levelStatus={levelStatusList.masterStatus}/>
-                    <LevelStatus title={"从世界1"} levelName={"Slave1"} levelStatus={levelStatusList.slave1Status}/>
-                    <LevelStatus title={"从世界2"} levelName={"Slave2"} levelStatus={levelStatusList.slave2Status}/>
-                    <LevelStatus title={"从世界3"} levelName={"Slave3"} levelStatus={levelStatusList.slave3Status}/>
-                    <LevelStatus title={"从世界4"} levelName={"Slave4"} levelStatus={levelStatusList.slave4Status}/>
-                    <LevelStatus title={"从世界5"} levelName={"Slave5"} levelStatus={levelStatusList.slave5Status}/>
-                    <LevelStatus title={"从世界6"} levelName={"Slave6"} levelStatus={levelStatusList.slave6Status}/>
-                    <LevelStatus title={"从世界7"} levelName={"Slave7"} levelStatus={levelStatusList.slave7Status}/>
+                    <LevelStatus title={"主 世 界"} levelName={"Master"} levelStatus={levelStatusList.master}/>
+                    <LevelStatus title={"从世界1"} levelName={"Slave1"} levelStatus={levelStatusList.slave1}/>
+                    <LevelStatus title={"从世界2"} levelName={"Slave2"} levelStatus={levelStatusList.slave2}/>
+                    <LevelStatus title={"从世界3"} levelName={"Slave3"} levelStatus={levelStatusList.slave3}/>
+                    <LevelStatus title={"从世界4"} levelName={"Slave4"} levelStatus={levelStatusList.slave4}/>
+                    <LevelStatus title={"从世界5"} levelName={"Slave5"} levelStatus={levelStatusList.slave5}/>
+                    <LevelStatus title={"从世界6"} levelName={"Slave6"} levelStatus={levelStatusList.slave6}/>
+                    <LevelStatus title={"从世界7"} levelName={"Slave7"} levelStatus={levelStatusList.slave7}/>
                 </Space>
             </Skeleton>
         </>
