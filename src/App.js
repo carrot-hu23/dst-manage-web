@@ -9,18 +9,21 @@ import ThemeProvider from './theme';
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
 import './locales/i18n'
+import {ThemeProvider2} from "./hooks/useTheme";
 // ----------------------------------------------------------------------
 
 export default function App() {
-  return (
-    <HelmetProvider>
-      <HashRouter>
-        <ThemeProvider>
-          <ScrollToTop />
-          <StyledChart />
-          <Router />
-        </ThemeProvider>
-      </HashRouter>
-    </HelmetProvider>
-  );
+    return (
+        <HelmetProvider>
+            <HashRouter>
+                <ThemeProvider2>
+                    <ThemeProvider>
+                        <ScrollToTop/>
+                        <StyledChart/>
+                        <Router/>
+                    </ThemeProvider>
+                </ThemeProvider2>
+            </HashRouter>
+        </HelmetProvider>
+    );
 }
