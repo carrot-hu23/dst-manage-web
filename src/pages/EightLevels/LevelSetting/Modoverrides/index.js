@@ -1,6 +1,8 @@
 import Editor from "../../../Home/Editor";
+import {useTheme} from "../../../../hooks/useTheme";
 
 export default ({levelForm})=>{
+    const {theme, toggleTheme} = useTheme();
     const value = getValue(levelForm)
     function setValue(value) {
         levelForm.setFieldsValue({
@@ -23,6 +25,7 @@ export default ({levelForm})=>{
                 styleData={{
                     height: '370px',
                     language: 'lua',
+                    theme: theme === 'dark'?'vs-dark':''
                 }}
             />
         </>

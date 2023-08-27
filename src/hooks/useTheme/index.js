@@ -25,7 +25,7 @@ export function ThemeProvider2({ children }) {
 
     const [theme, setTheme] = useState(() => {
         const storedTheme = localStorage.getItem('theme');
-        return storedTheme || 'light';
+        return storedTheme || 'dark';
     });
 
     useEffect(() => {
