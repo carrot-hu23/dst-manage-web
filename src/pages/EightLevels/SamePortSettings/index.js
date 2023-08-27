@@ -119,7 +119,7 @@ export default ({syncSamePort,syncSameId}) => {
                     onFinish={onFinish2}
                 >
                     <Form.Item
-                        label="起止端口"
+                        label="世界起止id"
                         name="id"
                         rules={[
                             {
