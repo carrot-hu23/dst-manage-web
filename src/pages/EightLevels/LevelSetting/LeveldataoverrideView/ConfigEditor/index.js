@@ -1,7 +1,8 @@
 import Editor from "../../../../Home/Editor";
+import {useTheme} from "../../../../../hooks/useTheme";
 
 export default ({valueRef, changeValue}) => {
-
+    const {theme, toggleTheme} = useTheme();
     function onchange(value) {
         // valueRef.current = value
         changeValue(value)
@@ -17,6 +18,7 @@ export default ({valueRef, changeValue}) => {
                 styleData={{
                     height: '370px',
                     language: 'lua',
+                    theme: theme === 'dark'?'vs-dark':''
                 }}
             />
         </>

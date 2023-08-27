@@ -1,8 +1,9 @@
 import {Card, Box, Container} from '@mui/material';
 import {useEffect, useState} from "react";
-import {Image, Space, Tag} from "antd";
+import {Image, Space} from "antd";
 import aliPayImage from './alipay.jpg';
 import wechatpayImage from './wechatpay.png';
+import qqgroup from './qqgroup.png'
 
 export default () => {
 
@@ -25,10 +26,9 @@ export default () => {
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
                     <h1>帮助文档</h1>
-                    版本:
-                    <Tag color="#2784FF" >
-                        {config.version}
-                    </Tag>
+                    <strong>禁止商用，商用请联系本人授权！！！</strong>
+                    <br/>
+                    {config.version}
                     <br/>
                     <div>
                         开源协议:
@@ -37,7 +37,7 @@ export default () => {
                             href={'https://github.com/hujinbo23/dst-admin-go/blob/main/LICENSE'}
                             rel="noreferrer"
                         >
-                            GPL-3.0 license(未经授权禁止商用，否则追究法律责任)
+                            GPL-3.0 license
                         </a>
                     </div>
                     <div>
@@ -50,13 +50,19 @@ export default () => {
                             {config.github}
                         </a>
                     </div>
+                    <br/>
 
                     <div>
                         <h3>请作者喝一杯咖啡：</h3>
                         <Space size={32} wrap>
-                            <Image style={{borderRadius: '4px'}} preview={false} width={160} src={aliPayImage}/>
-                            <Image style={{borderRadius: '4px'}} preview={false} width={160} src={wechatpayImage}/>
+                            <Image style={{borderRadius: '4px'}} width={160} src={aliPayImage}/>
+                            <Image style={{borderRadius: '4px'}} width={160} src={wechatpayImage}/>
                         </Space>
+                    </div>
+
+                    <div>
+                        <h3>QQ群反馈</h3>
+                        <Image style={{borderRadius: '4px'}} width={160} src={qqgroup}/>
                     </div>
                 </Box>
             </Card>
