@@ -34,6 +34,7 @@ import Forest from "./pages/EightLevels/LevelSetting/LeveldataoverrideView";
 import Game from "./pages/Game";
 import TemplateConfig from "./pages/TemplateConfig";
 import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
+import HomeInfo from "./pages/HomeInfo";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -69,6 +70,7 @@ export default function Router() {
         { path: 'game', element: <Game /> },
         { path: 'template/config', element: <TemplateConfig /> },
         { path: 'addTemplate/:id', element: <AddTemplateFile /> },
+        { path: 'home/info', element: <HomeInfo /> },
       ],
     },
     {
