@@ -13,4 +13,9 @@ module.exports = function (app) {
         target: ipUrl,
         changeOrigin: true,
     }))
+    app.use(createProxyMiddleware('/hello', {
+        target: ipUrl,
+        changeOrigin: true,
+    }))
+
 }

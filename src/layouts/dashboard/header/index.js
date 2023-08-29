@@ -24,6 +24,7 @@ import SwitchLanguage from "../../../locales/SwitchLanguage";
 import {StyledNavItemIcon} from "../../../components/nav-section/styles";
 import {useTheme} from "../../../hooks/useTheme";
 import useResponsive from "../../../hooks/useResponsive";
+import Latency from "./Latency";
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +95,7 @@ export default function Header({ onOpenNav }) {
           TODO 暂时去掉搜索
           <Searchbar />
           */}
-                <Tag color="#2784FF">8层版本</Tag>
+                {isDesktop && <Tag color="#2784FF">8层版本</Tag>}
                 {isDesktop && <Tag color="#f50">禁止商用</Tag>}
 
                 {/* eslint-disable */}
@@ -112,6 +113,7 @@ export default function Header({ onOpenNav }) {
                     {/* <LanguagePopover />
           <NotificationsPopover />
             <SwitchLanguage/> */}
+                    <Latency />
                     <IconButton
                         onClick={()=>{
                             window.open('https://github.com/hujinbo23/dst-admin-go', '_blank');
