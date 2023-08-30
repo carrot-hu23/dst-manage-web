@@ -261,7 +261,7 @@ const GameStatus = (props) => {
                     </Form.Item>
                     <Form.Item label={t('其他操作')}>
                         <Space size={8} wrap>
-                        <CleanArchive/>
+
                         <Popconfirm
                             title="是否更新房间模组"
                             description={(

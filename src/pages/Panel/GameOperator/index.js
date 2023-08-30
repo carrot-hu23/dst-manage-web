@@ -10,6 +10,7 @@ import GameArchive from "../GameArchive";
 import GameStart from "./GameStart";
 import RemoteControl from "./RemoteControl";
 import OnlinePlayers from "../../Player/OnlinePlayers";
+import CleanLevel from "./CleanLevel";
 
 const { Paragraph, Link } = Typography;
 
@@ -48,9 +49,10 @@ export default ({gameData, logPath}) => {
                     */}
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <OnlinePlayers />
+                            <CleanLevel />
                         </Box>
                     </Card>
+
                 </Grid>
 
                 {/*
@@ -83,6 +85,12 @@ export default ({gameData, logPath}) => {
                                     更多指令参考
                                 </Link>
                             </Space>
+                        </Box>
+                    </Card>
+                    <br/>
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <OnlinePlayers />
                         </Box>
                     </Card>
                 </Grid>

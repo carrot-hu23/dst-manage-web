@@ -1,6 +1,6 @@
 import {Button, Drawer, Space, message, Divider} from "antd";
 import {useState} from "react";
-import SelectLevel, {levelMap} from "../SelectLevel";
+import SelectLevel from "../SelectLevel";
 
 export default ({syncModConfig, syncLeveldataConfig,syncAllSlaveLevelModConfig})=>{
 
@@ -47,7 +47,7 @@ const SyncModConfig = ({title, syncConfig})=>{
 
     const handleChange1 = (value) => {
         console.log(value)
-        setLevel(level)
+        setLevel(value)
     }
 
     const handleChange2 = (value) => {
@@ -67,7 +67,7 @@ const SyncModConfig = ({title, syncConfig})=>{
                 <Space size={4} wrap>
                     <SelectLevel handleChange={handleChange1} />
                     <span>{`  同步到`}</span>
-                    <SelectLevel defaultValue={"Slave1"} mode={"multiple"} handleChange={handleChange2} />
+                    <SelectLevel disableLevels={[level]} defaultValue={"Slave1"} mode={"multiple"} handleChange={handleChange2} />
                     <span>{title}</span>
                     <Button onClick={()=>syncConfig2()}>应用</Button>
                 </Space>
