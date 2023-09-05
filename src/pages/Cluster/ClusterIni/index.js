@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react";
 
-import {Button, Divider, Form, Input, InputNumber, message, Radio, Switch, Tooltip, Skeleton} from "antd";
+import {Button, Divider, Form, Input, InputNumber, message, Radio, Switch, Tooltip, Skeleton, Modal} from "antd";
 import {dstGameMod} from "../../../utils/dst";
 import {getClusterIniApi, saveClusterIniApi} from "../../../api/8level";
+
+import style from '../../DstServerList/index.module.css'
+import DstEmoji from "../../DstServerList/DstEmoji";
 
 const {TextArea} = Input;
 
@@ -51,12 +54,18 @@ export default () => {
             })
     }, [])
 
+    const [open,setOpen] = useState(false)
+
     return (
         <>
-            <div style={{
+            <div className={style.antInput} style={{
                 overflowY: 'auto',
                 overflowX: 'auto'
             }}>
+                <Modal  title="饥荒Emoj" open={open}  onCancel={()=>setOpen(false)} footer={null} >
+                    <DstEmoji />
+                </Modal>
+
 
                 <Skeleton loading={loading} active>
                     <Form
@@ -79,7 +88,7 @@ export default () => {
                             bind_ip: '127.0.0.1'
                         }}
                     >
-                        <Divider><span style={{fontSize: "14px", fontWeight: "600"}}>基本配置项</span></Divider>
+                        <Divider><span className={style.icon} style={{fontSize: "14px", fontWeight: "600"}}>基本配置项󰀃</span></Divider>
 
                         <Form.Item
                             label="房间名称"
@@ -90,9 +99,14 @@ export default () => {
                                     message: '请输入房间名',
                                 },
                             ]}>
-                            <Input placeholder="请输入房间名称" allowClear
+                            <Input rootClassName={style.icon} placeholder="请输入房间名称" allowClear
                             />
                         </Form.Item>
+
+                        <Form.Item label="-">
+                            <Button type={'link'} onClick={()=>setOpen(true)} >查看emoji</Button>
+                        </Form.Item>
+
                         <Form.Item label="房间描述" name='cluster_description'>
                             <TextArea rows={4} placeholder="请输入房间描述" maxLength={200}/>
                         </Form.Item>

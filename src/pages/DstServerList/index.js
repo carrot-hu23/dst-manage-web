@@ -9,6 +9,8 @@ import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
 
 import HomeDetail from './home';
 
+import style from "./index.module.css"
+
 
 const DstServerList = () => {
 
@@ -69,7 +71,10 @@ const DstServerList = () => {
             key: 'name',
             copyable: true,
             // ellipsis: true,
-            width: 300
+            width: 300,
+            render: (text, record) => {
+                return(<div className={style.icon}>{record.name}</div>)
+            }
         },
         {
             title: '当前人数',
