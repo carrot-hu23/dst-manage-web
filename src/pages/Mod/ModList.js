@@ -206,7 +206,9 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
     }
 
     useEffect(() => {
-        setMod(modList[0] || {})
+        if(!mod || !_.find(modList, {modid: mod.modid})) {
+            setMod(modList[0] || {})
+        }
     }, [modList])
 
     return (
