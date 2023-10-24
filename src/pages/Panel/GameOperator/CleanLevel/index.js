@@ -1,15 +1,13 @@
-import {Box, Card} from "@mui/material";
-import {Button, Spin, Space, Select, message} from "antd";
-import React, {useEffect, useRef, useState} from "react";
+import {Button, Spin, Space, message, Popconfirm} from "antd";
+import React, {useEffect, useState} from "react";
 
-import {useParams} from "react-router-dom";
-import SelectLevel from "../../../EightLevels/SelectLevel";
+import SelectLevel from "../../../Levels8/SelectLevel";
 import {cleanLevelApi} from "../../../../api/8level";
 
 
 export default () => {
 
-    const {cluster} = useParams()
+    const [open, setOpen] = useState(false);
     const [spinLoading, setSpinLoading] = useState(false)
     const [levelList, setLevelList] = useState(["Master"])
 
@@ -39,9 +37,19 @@ export default () => {
             <Space size={8}>
                 <span>世界</span>
                 <SelectLevel defaultValue={"Master"} mode={"multiple"} handleChange={(value)=>{setLevelList(value)}} />
-                <Button type={'primary'} onClick={() => {
-                    cleanLevels()
-                }}>清理世界</Button>
+                <Popconfirm
+                    title="是否清除世界存档"
+                    description={(
+                        <span>
+                        点击确认将删除 save，session 等文件
+                        </span>
+                    )}
+                    open={open}
+                    onConfirm={()=>cleanLevels()}
+                    onCancel={()=>setOpen(false)}
+                >
+                <Button type={'primary'} onClick={() => setOpen(true)}>清理世界</Button>
+                </Popconfirm>
             </Space>
         </Spin>
     </>

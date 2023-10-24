@@ -51,7 +51,7 @@ const System = () => {
         },
     ];
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl">
             <Tabs defaultActiveKey="1" items={items}/>
         </Container>
     )

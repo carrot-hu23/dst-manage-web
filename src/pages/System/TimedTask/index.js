@@ -237,15 +237,9 @@ export default () => {
                         <Select>
                             <Option value="backup">备份存档</Option>
                             <Option value="restart">重启世界</Option>
-                            <Option value="restartMaster">重启森林</Option>
-                            <Option value="restartCaves">重启洞穴</Option>
                             <Option value="update">更新游戏</Option>
                             <Option value="start">启动游戏</Option>
                             <Option value="stop">停止游戏</Option>
-                            <Option value="startMaster">启动森林</Option>
-                            <Option value="stopMaster">停止森林</Option>
-                            <Option value="startCaves">启动洞穴</Option>
-                            <Option value="stopCaves">停止洞穴</Option>
                         </Select>
                     </Form.Item>
 

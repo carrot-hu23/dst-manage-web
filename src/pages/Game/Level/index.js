@@ -335,7 +335,9 @@ export default () => {
     ]
 
     return (
-        <>
+        <div style={{
+            height: '64vh',
+        }}>
             <Space size={16} wrap>
                 <Button type={'primary'} onClick={() => {
                     addLevel()
@@ -378,7 +380,7 @@ export default () => {
                     <Content
                         style={{
                             padding: '0 24px',
-                            minHeight: 280,
+                            minHeight: 400,
                         }}
                     >
                         {index !== null && (
@@ -431,7 +433,7 @@ export default () => {
                     <span>暂无世界</span>
                 </>
             )}
-        </>
+        </div>
     )
 }
 

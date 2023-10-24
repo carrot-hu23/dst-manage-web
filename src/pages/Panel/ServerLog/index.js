@@ -4,9 +4,8 @@ import React, {useEffect, useRef, useState} from "react";
 
 import {useParams} from "react-router-dom";
 
-import Editor from "../../Home/Editor";
 import {readLevelServerLogApi} from "../../../api/level";
-
+import Editor from "../../../components2/Editor";
 
 export default () => {
 
@@ -30,7 +29,7 @@ export default () => {
                     })
                     setLogs(logs)
                 } else {
-                    setLogs(["读取日志失败！！！"])
+                    setLogs("读取日志失败！！！")
                 }
                 setLoading(false)
             })

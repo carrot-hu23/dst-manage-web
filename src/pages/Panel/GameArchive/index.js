@@ -6,6 +6,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
 import './index.css';
+import style from "../../DstServerList/index.module.css";
 
 
 const {Paragraph} = Typography;
@@ -48,40 +49,39 @@ export default () => {
             }).catch(error => console.log(error))
 
     }, [])
-    const Span = ({text}) => {
-        return <span style={{paddingRight: '8px'}}>{text}</span>
-    }
+
     return (
         <>
-            <table>
-                <tr>
-                    <td>{`${t('ClusterName')} :`}</td>
-                    <td> {archive.clusterName}</td>
-                </tr>
-                <tr>
-                    <td>{`${t('GameMod')} : `}</td>
-                    <td> {archive.gameMod}</td>
-                </tr>
-                <tr>
-                    <td>{`${t('Season')} : `}</td>
-                    <td> {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason + archive.remainingdaysinseason})</td>
-                </tr>
-                <tr>
-                    <td>{`${t('Mods')} : `}</td>
-                    <td> {archive.mods}</td>
-                </tr>
-                <tr>
-                    <td>{`${t('IpConnect')} : `}</td>
-                    <td> <Paragraph copyable>{archive.ipConnect}</Paragraph></td>
-                </tr>
-                <tr>
-                    <td>{`人数 : `}</td>
-                    <td>
-                        <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
-                        <Button type={"link"} onClick={()=>{navigate(`/dashboard/player`)}}>详情</Button>
-                    </td>
-                </tr>
-            </table>
+            <Form>
+                <Form.Item label={t('ClusterName')}>
+                    <span className={style.icon}>
+                        {archive.clusterName}
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('GameMod')}>
+                    <span>
+                        {archive.gameMod}
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('Season')}>
+                    <span>
+                        {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason + archive.remainingdaysinseason})
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('Mods')}>
+                    <span>
+                        {archive.mods}
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('IpConnect')}>
+                    <Paragraph copyable>{archive.ipConnect}</Paragraph>
+                </Form.Item>
+
+                <Form.Item label={t('人数')}>
+                    <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
+                    <Button type={"link"} onClick={()=>{navigate(`/dashboard/player`)}}>详情</Button>
+                </Form.Item>
+            </Form>
         </>
     )
 }

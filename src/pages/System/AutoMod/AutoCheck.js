@@ -47,9 +47,7 @@ export default ({name, title})=>{
     }
 
     return(<>
-        <Card style={{
-            width: "540px"
-        }}>
+        <Card>
             <Box sx={{p: 3}} dir="ltr">
                 <Skeleton loading={loading}>
                     <Spin spinning={spin}>

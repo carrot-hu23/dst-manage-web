@@ -12,15 +12,6 @@ export default () => {
     const [levelTemplateList, setLevelTemplateList] = useState([])
 
     useEffect(() => {
-        // setLoading(true)
-        // getLevelTemplateListApi("")
-        //     .then(resp => {
-        //         if (resp.code === 200) {
-        //             setLevelTemplateList(resp.data)
-        //             setLoading(false)
-        //         }
-        //     })
-
         setLevelTemplateList([{
             ID: 1,
             name: "森林"

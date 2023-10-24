@@ -139,7 +139,7 @@ export default function PlayerLog() {
 
     return (
         <>
-            <Container maxWidth="xl">
+            <Container maxWidth="xxl">
                 <Box sx={{p: 0, pb: 0}} dir="ltr">
                     <ProTable
                         scroll={{

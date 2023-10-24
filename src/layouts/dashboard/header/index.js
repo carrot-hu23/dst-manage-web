@@ -28,7 +28,7 @@ import Latency from "./Latency";
 
 // ----------------------------------------------------------------------
 
-const NAV_WIDTH = 280;
+const NAV_WIDTH = 240;
 
 const HEADER_MOBILE = 64;
 
@@ -113,7 +113,7 @@ export default function Header({ onOpenNav }) {
                     {/* <LanguagePopover />
           <NotificationsPopover />
             <SwitchLanguage/> */}
-                    <Latency />
+                    {/*<Latency />*/}
                     <IconButton
                         onClick={()=>{
                             window.open('https://github.com/hujinbo23/dst-admin-go', '_blank');

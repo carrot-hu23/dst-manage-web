@@ -4,8 +4,8 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import {Box, Card, Container} from "@mui/material";
 import {Button, Skeleton, Space, Spin} from "antd";
 
-import Editor from "../../Home/Editor";
 import {getModInfoFileApi} from "../../../api/modApi";
+import Editor from "../../../components2/Editor";
 
 export default ()=>{
     const {cluster, modId} = useParams()

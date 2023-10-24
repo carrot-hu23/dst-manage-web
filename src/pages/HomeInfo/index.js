@@ -2,9 +2,9 @@ import React, {useState} from "react";
 
 import {Box, Card, Container} from "@mui/material";
 import {Button, Skeleton, Steps, Segmented} from "antd";
-import ClusterIni from "../Cluster/ClusterIni";
+import ClusterIni from "../Home2/ClusterIni";
 import {getAdminlistApi, saveAdminlistApi} from "../../api/8level";
-import NameList from "../Cluster/NameList";
+import NameList from "../Home2/NameList";
 
 export default () => {
 

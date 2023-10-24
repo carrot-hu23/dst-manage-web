@@ -119,7 +119,7 @@ export default function DashboardAppPage() {
 
     return (
         <>
-            <Container maxWidth="xl">
+            <Container maxWidth="xxl">
 
                 <Grid container spacing={3}>
 

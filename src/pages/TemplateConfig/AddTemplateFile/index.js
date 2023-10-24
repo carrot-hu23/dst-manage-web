@@ -4,11 +4,7 @@ import {Button, Spin, Space, Skeleton, Steps, Form, Input, Radio, message} from 
 import {Box, Card, Container} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import Editor from "../../Home/Editor";
-
-
-// import {createNewLevelTemplateApi, getLevelTemplateApi} from "../../../api/levelTemplateApi";
-
+import Editor from "../../../components2/Editor";
 
 export default () => {
 

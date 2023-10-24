@@ -1,10 +1,10 @@
-import React from "react";
-
-import {Box, Card, Container} from "@mui/material";
 import {Tabs} from "antd";
-import ClusterIni from "../Home2/ClusterIni";
-import Level from "./Level";
-import NameList from "../Home2/NameList";
+import {Box, Card, Container} from "@mui/material";
+
+import Token from "./Token";
+import ClusterIni from "./ClusterIni";
+import useResponsive from "../../hooks/useResponsive";
+import NameList from "./NameList";
 import {
     getAdminlistApi,
     getBlacklistApi,
@@ -16,17 +16,19 @@ import {
 
 export default () => {
 
+    const isDesktop = useResponsive('up', 'lg')
+    const mod = isDesktop ? "top" : "top"
     const tabs = [
         {
             key: '1',
             label: `房间信息`,
             children: <ClusterIni/>
         },
-        {
-            key: '2',
-            label: `世界设置`,
-            children: <Level/>
-        },
+        // {
+        //     key: '2',
+        //     label: `令 __ 牌`,
+        //     children: <Token/>
+        // },
         {
             key: '3',
             label: `管 理 员`,
@@ -61,31 +63,16 @@ export default () => {
 支持KleilD ( KU_xxxxxxxx )和SteamlD
 (7656xXXxxXXXxxxxx)。`}/>
         },
-        {
-            key: '6',
-            label: `服务日志`,
-            children: <span>111</span>
-        },
-        {
-            key: '7',
-            label: `玩家日志`,
-            children: <span>111</span>
-        },
-        {
-            key: '8',
-            label: `系统设置`,
-            children: <span>111</span>
-        },
     ]
 
     return (
         <>
             <Container maxWidth="xxl">
-                <Card>
+                <Card >
                     <Box sx={{p: 3}} dir="ltr">
                         <Tabs
-                            defaultActiveKey="2"
-                            // tabPosition={mod}
+                            defaultActiveKey="1"
+                            tabPosition={mod}
                             items={tabs}
                         />
                     </Box>
@@ -93,5 +80,4 @@ export default () => {
             </Container>
         </>
     )
-
 }

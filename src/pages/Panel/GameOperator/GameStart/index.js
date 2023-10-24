@@ -53,17 +53,27 @@ export default () => {
         return (
             <>
                 <Spin spinning={startLoading} tip={startText}>
-                    <Card>
-                        <Box sx={{p: 2}} dir="ltr">
-                            <div>
-                                <Space size={64}>
-                                <div>
-                                    <div>CPU</div>
-                                    <Progress type="dashboard" percent={levelStatus.ps.cpuUage}   size={40} />
-                                </div>
+
+                            <div style={{
+                                paddingBottom: '8px'
+                            }}>
+                                <Space size={16}>
+
 
                                 <div>
-                                    <div>MEM</div>
+                                    <Badge status={serverStatus ? "success" : "default"} style={{
+                                        width: '48px'
+                                    }} className={'dot'}/>
+                                    <span>{title}</span>
+                                </div>
+
+                                    <div>CPU</div>
+                                <div>
+
+                                    <Progress type="dashboard" percent={levelStatus.ps.cpuUage}   size={40} />
+                                </div>
+                                    <div>内存</div>
+                                <div>
                                     <Progress type="circle"
                                               percent={levelStatus.ps.memUage}
                                               size={40}
@@ -71,40 +81,22 @@ export default () => {
                                               strokeLinecap="butt"
                                     />
                                 </div>
-                                </Space>
+                                <div style={{
+                                    float: 'right'
+                                }}>
+                                    <Switch
+                                        checkedChildren={t('start')} unCheckedChildren={t('stop')}
+                                        onClick={(checked, event) => {
+                                            statusOnClick(checked, event)
+                                        }}
+                                        checked={serverStatus}
+                                        defaultChecked={serverStatus}
+                                    />
 
-                                <div>
-                                    <Space size={16}>
-                                        <span>RSS: {rss}G</span>
-                                        <span>VSZ: {vsz}G</span>
-                                    </Space>
-                                </div>
-                            </div>
-
-                            <div>
-                                <Space size={46}>
-                                <Badge status={serverStatus ? "success" : "default"} style={{
-                                    width: '48px'
-                                }} className={'dot'}/>
-                                <div>
-                                    {title}
                                 </div>
                                 </Space>
                             </div>
 
-                            <Space size={64}>
-                                <span>操作</span>
-                                <Switch
-                                    checkedChildren={t('start')} unCheckedChildren={t('stop')}
-                                    onClick={(checked, event) => {
-                                        statusOnClick(checked, event)
-                                    }}
-                                    checked={serverStatus}
-                                    defaultChecked={serverStatus}
-                                />
-                            </Space>
-                        </Box>
-                    </Card>
                 </Spin>
             </>
         )
@@ -167,18 +159,27 @@ export default () => {
 
     return (
         <>
-            <Skeleton loading={loading} active>
-                <Space size={16} wrap>
+
+                <Card>
+                    <Box sx={{p: 3}} dir="ltr">
+                        <Skeleton loading={loading} active>
                     <LevelStatus title={"主 世 界"} levelName={"Master"} levelStatus={levelStatusList.master}/>
-                    <LevelStatus title={"从世界1"} levelName={"Slave1"} levelStatus={levelStatusList.slave1}/>
-                    <LevelStatus title={"从世界2"} levelName={"Slave2"} levelStatus={levelStatusList.slave2}/>
-                    <LevelStatus title={"从世界3"} levelName={"Slave3"} levelStatus={levelStatusList.slave3}/>
-                    <LevelStatus title={"从世界4"} levelName={"Slave4"} levelStatus={levelStatusList.slave4}/>
-                    <LevelStatus title={"从世界5"} levelName={"Slave5"} levelStatus={levelStatusList.slave5}/>
-                    <LevelStatus title={"从世界6"} levelName={"Slave6"} levelStatus={levelStatusList.slave6}/>
-                    <LevelStatus title={"从世界7"} levelName={"Slave7"} levelStatus={levelStatusList.slave7}/>
-                </Space>
-            </Skeleton>
+                <LevelStatus title={"从世界1"} levelName={"Slave1"} levelStatus={levelStatusList.slave1}/>
+                <LevelStatus title={"从世界2"} levelName={"Slave2"} levelStatus={levelStatusList.slave2}/>
+
+                <LevelStatus title={"从世界3"} levelName={"Slave3"} levelStatus={levelStatusList.slave3}/>
+
+                <LevelStatus title={"从世界4"} levelName={"Slave4"} levelStatus={levelStatusList.slave4}/>
+
+                <LevelStatus title={"从世界5"} levelName={"Slave5"} levelStatus={levelStatusList.slave5}/>
+
+                <LevelStatus title={"从世界6"} levelName={"Slave6"} levelStatus={levelStatusList.slave6}/>
+
+                <LevelStatus title={"从世界7"} levelName={"Slave7"} levelStatus={levelStatusList.slave7}/>
+                        </Skeleton>
+                    </Box>
+                </Card>
+
         </>
     )
 }
