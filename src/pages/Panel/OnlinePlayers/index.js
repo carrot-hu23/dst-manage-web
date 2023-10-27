@@ -4,7 +4,6 @@ import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
 import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select} from 'antd';
-import {Card, Container, Box} from '@mui/material';
 
 import {dstRoles} from '../../../utils/dst';
 import {getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";

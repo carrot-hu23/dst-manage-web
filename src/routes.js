@@ -21,12 +21,12 @@ import Modinfo from "./pages/Mod/Modinfo";
 import Help from "./pages/Help";
 import Levels8 from "./pages/Levels8";
 import Home2 from "./pages/Home2";
-import OnlinePlayers from "./pages/Player/OnlinePlayers";
 import Forest from "./pages/Levels8/LevelSetting/LeveldataoverrideView";
 import Game from "./pages/Game";
 import TemplateConfig from "./pages/TemplateConfig";
 import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
-import HomeInfo from "./pages/HomeInfo";
+
+import Levels from "./pages/Levels";
 
 export default function Router() {
   const routes = useRoutes([
@@ -42,7 +42,7 @@ export default function Router() {
         { path: 'panel', element: <Panel /> },
         { path: 'cluster', element: <Home2 /> },
         { path: '8level', element: <Levels8 /> },
-        { path: 'player', element: <OnlinePlayers /> },
+        { path: 'levels', element: <Levels /> },
         { path: 'backup', element: <Backup /> },
         { path: 'setting', element: <Setting /> },
         { path: 'github', element: <Github /> },
@@ -56,7 +56,6 @@ export default function Router() {
         { path: 'game', element: <Game /> },
         { path: 'template/config', element: <TemplateConfig /> },
         { path: 'addTemplate/:id', element: <AddTemplateFile /> },
-        { path: 'home/info', element: <HomeInfo /> },
       ],
     },
     {

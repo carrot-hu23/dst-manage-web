@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {useEffect, useState} from "react";
-import {Select, Space} from "antd";
+import {Select, Space, Tabs} from "antd";
 import {parse,format} from "lua-json";
 
 import './index.css'
@@ -26,78 +26,109 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
     const cavesWorldGenGroup = dstWorldSetting.zh.cave.WORLDGEN_GROUP
     const cavesWorldSettingsGroup = dstWorldSetting.zh.cave.WORLDSETTINGS_GROUP
 
+    const forestItems = [
+        {
+            label: '世界配置',
+            children: <div>
+                <h2>世界设置</h2>
+                <Group
+                    valueRef={valueRef}
+                    data={forestWorldSettingsGroup}
+                    url={"./misc/worldsettings_customization.webp"}
+                    leveldataoverrideObject={leveldataoverrideObject}
+                    onStateChange={(name, newValue) => {
+                        setLeveldataoverrideObject(current=> {
+                            current[name]=newValue
+                            return {...current}
+                        })
+                    }}
+                    changeValue={changeValue}
+                />
+            </div>,
+            key: '1'
+        },
+        {
+            label: '世界生成',
+            children: <div>
+                <h2>世界生成</h2>
+                <Group
+                    valueRef={valueRef}
+                    data={forestWorldGenGroup}
+                    url={"./misc/worldgen_customization.webp"}
+                    leveldataoverrideObject={leveldataoverrideObject}
+                    onStateChange={(name, newValue) => {
+                        setLeveldataoverrideObject(current=> {
+                            current[name]=newValue
+                            return {...current}
+                        })
+                    }}
+                    changeValue={changeValue}
+                />
+            </div>,
+            key: '2'
+        }
+    ]
+
+    const caveItems = [
+        {
+            label: '世界配置',
+            children: <div>
+                <h2>世界设置</h2>
+                <Group
+                    valueRef={valueRef}
+                    data={cavesWorldSettingsGroup}
+                    url={"./misc/worldsettings_customization.webp"}
+                    leveldataoverrideObject={leveldataoverrideObject}
+                    onStateChange={(name, newValue) => {
+                        setLeveldataoverrideObject(current=> {
+                            current[name]=newValue
+                            return {...current}
+                        })
+                    }}
+                    changeValue={changeValue}
+                />
+            </div>,
+            key: 3,
+        },
+        {
+            label: '世界生成',
+            children: <div>
+                <h2>世界生成</h2>
+                <Group
+                    valueRef={valueRef}
+                    data={cavesWorldGenGroup}
+                    url={"./misc/worldgen_customization.webp"}
+                    leveldataoverrideObject={leveldataoverrideObject}
+                    onStateChange={(name, newValue) => {
+                        setLeveldataoverrideObject(current=> {
+                            current[name]=newValue
+                            return {...current}
+                        })
+                    }}
+                    changeValue={changeValue}
+                />
+            </div>,
+            key: 4,
+        },
+    ]
 
     return (
         <>
             <div style={{
-                height: '400px',
+                height: '414px',
                 overflowY: 'auto',
             }}>
                 {levelType === 'forest' && (<>
-                        <h2>世界设置</h2>
-                    <Group
-                        valueRef={valueRef}
-                        data={forestWorldSettingsGroup}
-                        url={"./misc/worldsettings_customization.webp"}
-                        leveldataoverrideObject={leveldataoverrideObject}
-                        onStateChange={(name, newValue) => {
-                            setLeveldataoverrideObject(current=> {
-                                current[name]=newValue
-                                return {...current}
-                            })
-                        }}
-                        changeValue={changeValue}
-                    />
-                        <h2>世界生成</h2>
-                    <Group
-                        valueRef={valueRef}
-                        data={forestWorldGenGroup}
-                        url={"./misc/worldgen_customization.webp"}
-                        leveldataoverrideObject={leveldataoverrideObject}
-                        onStateChange={(name, newValue) => {
-                            setLeveldataoverrideObject(current=> {
-                                current[name]=newValue
-                                return {...current}
-                            })
-                        }}
-                        changeValue={changeValue}
-                    />
+                        <Tabs items={forestItems} />
                     </>
                 )}
                 {levelType === 'cave' && (<>
-                        <h2>世界设置</h2>
-                        <Group
-                            valueRef={valueRef}
-                            data={cavesWorldSettingsGroup}
-                            url={"./misc/worldsettings_customization.webp"}
-                            leveldataoverrideObject={leveldataoverrideObject}
-                            onStateChange={(name, newValue) => {
-                                setLeveldataoverrideObject(current=> {
-                                    current[name]=newValue
-                                    return {...current}
-                                })
-                            }}
-                            changeValue={changeValue}
-                        />
-                        <h2>世界生成</h2>
-                        <Group
-                            valueRef={valueRef}
-                            data={cavesWorldGenGroup}
-                            url={"./misc/worldgen_customization.webp"}
-                            leveldataoverrideObject={leveldataoverrideObject}
-                            onStateChange={(name, newValue) => {
-                                setLeveldataoverrideObject(current=> {
-                                    current[name]=newValue
-                                    return {...current}
-                                })
-                            }}
-                            changeValue={changeValue}
-                        />
+                        <Tabs items={caveItems} />
                     </>
                 )}
 
                 {(levelType !== 'forest' && levelType !== 'cave') && (<>
-                    <span>暂不支持此类型世界配置文件可视化 {levelType}</span>
+                    <h4>暂不支持此类型世界配置文件可视化 {levelType}</h4>
                 </>)}
 
             </div>

@@ -33,7 +33,7 @@ const Panel = () => {
     return (
         <>
             <Container maxWidth="xxl">
-                <Box sx={{p: 0, pb: 1}} dir="ltr">
+                <Box sx={{p: 0}} dir="ltr">
                     <Tabs defaultActiveKey="1" items={items}/>
                 </Box>
             </Container>

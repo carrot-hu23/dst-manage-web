@@ -1,16 +1,13 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 import {Box, Card, Grid} from "@mui/material";
-import {Space, Tag, Typography} from "antd";
 
 import GameArchive from "../GameArchive";
-import GameStart from "./GameStart";
-import RemoteControl from "./RemoteControl";
-import OnlinePlayers from "../../Player/OnlinePlayers";
 
 import Op from "../Op";
+import OnlinePlayers from "../OnlinePlayers";
+import GameLevels from "../GameLevels";
 
-const { Paragraph, Link } = Typography;
 
 export default () => {
 
@@ -26,14 +23,20 @@ export default () => {
 
                 <Grid item xs={12} md={12} lg={12}>
                     <Card>
-                        <Box sx={{p: 3, pb: 1}} dir="ltr">
+                        <Box dir="ltr">
                             <GameArchive />
                         </Box>
                     </Card>
                 </Grid>
 
                 <Grid item xs={12} md={12} lg={12}>
-                    <GameStart />
+
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <GameLevels />
+                        </Box>
+                    </Card>
+
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">

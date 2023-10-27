@@ -28,6 +28,11 @@ const navConfig = [
     path: '/dashboard/8level',
     icon: icon('layers')
   },
+  {
+    title: '世界列表',
+    path: '/dashboard/levels',
+    icon: icon('layers')
+  },
   // {
   //   title: '模板管理',
   //   path: '/dashboard/template/config',
