@@ -8,13 +8,15 @@ import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select
 import {dstRoles} from '../../../utils/dst';
 import {getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
 
-const Online = () => {
+const Online = ({levels}) => {
 
     const {cluster} = useParams()
     const [loading, setLoading] = useState(true)
     const [spin, setSpin] = useState(false)
     const [playerList, setPlayerList] = useState([])
-    const [levelName, setLevelName] = useState("Master")
+
+    const notHasLevels = levels === undefined || levels === null || levels.length === 0
+    const [levelName, setLevelName] = useState(notHasLevels?"":levels[0].key)
 
     useEffect(() => {
         setLoading(true)
@@ -122,75 +124,45 @@ const Online = () => {
 
     return (
         <>
-            {/*
-        <Container maxWidth="xl">
-            <Card>
-                <Box sx={{p: 3}} dir="ltr">
+            {notHasLevels && (
+                <span>当前暂无世界</span>
+            ) }
 
-                </Box>
-            </Card>
-        </Container>
-        */}
-            <Spin spinning={spin}>
-                <Skeleton loading={loading} active>
-                    <Space size={8}>
-                        <span>世界</span>
-                        <Select
-                            defaultValue="Master"
-                            style={{
-                                width: 120,
-                            }}
-                            onChange={handleChange}
-                            options={[
-                                {
-                                    value: 'Master',
-                                    label: '主 世 界',
-                                },
-                                {
-                                    value: 'Slave1',
-                                    label: '从世界1',
-                                },
-                                {
-                                    value: 'Slave2',
-                                    label: '从世界2',
-                                },
-                                {
-                                    value: 'Slave3',
-                                    label: '从世界3',
-                                },
-                                {
-                                    value: 'Slave4',
-                                    label: '从世界4',
-                                },
-                                {
-                                    value: 'Slave5',
-                                    label: '从世界5',
-                                },
-                                {
-                                    value: 'Slave6',
-                                    label: '从世界6',
-                                },
-                                {
-                                    value: 'Slave7',
-                                    label: '从世界7',
-                                },
-                            ]}
-                        />
-                        <Button type={'primary'} onClick={() => {
-                            queryPlayers()
-                        }}>查询</Button>
-                    </Space>
-                    <br/><br/>
-                    <div>
-                        <Row align="middle" gutter={[16, 24]} style={{ rowGap: '14px' }}>
-                            {list}
-                            <br/>
-                            <br/>
-                            {playerList.length === 0 && <span>当前暂无玩家</span>}
-                        </Row>
-                    </div>
-                </Skeleton>
-            </Spin>
+            {!notHasLevels && (
+                <Spin spinning={spin}>
+                    <Skeleton loading={loading} active>
+                        <Space size={8}>
+                            <span>世界</span>
+                            <Select
+                                style={{
+                                    width: 120,
+                                }}
+                                onChange={handleChange}
+                                defaultValue={notHasLevels?"":levels[0].levelName}
+                                options={levels.map(level=>{
+                                    return {
+                                        value: level.key,
+                                        label: level.levelName,
+                                    }
+                                })}
+                            />
+                            <Button type={'primary'} onClick={() => {
+                                queryPlayers()
+                            }}>查询</Button>
+                        </Space>
+                        <br/><br/>
+                        <div>
+                            <Row align="middle" gutter={[16, 24]} style={{ rowGap: '14px' }}>
+                                {list}
+                                <br/>
+                                <br/>
+                                {playerList.length === 0 && <span>当前暂无玩家</span>}
+                            </Row>
+                        </div>
+                    </Skeleton>
+                </Spin>
+            )}
+
         </>
 
     )

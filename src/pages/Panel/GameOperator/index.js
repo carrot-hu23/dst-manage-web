@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import {Box, Card, Grid} from "@mui/material";
 
@@ -9,41 +9,40 @@ import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
 
 
-export default () => {
+export default ({levels}) => {
 
     return (
         <>
-            <Card>
-                <Box sx={{p: 3}} dir="ltr">
-                    <Op />
-                </Box>
-            </Card>
-            <br/>
             <Grid container spacing={3}>
 
-                <Grid item xs={12} md={12} lg={12}>
+                <Grid item xs={12} md={6} lg={6}>
                     <Card>
-                        <Box dir="ltr">
+                        <Box sx={{p: 3}} dir="ltr">
                             <GameArchive />
                         </Box>
                     </Card>
-                </Grid>
-
-                <Grid item xs={12} md={12} lg={12}>
-
+                    <br/>
                     <Card>
-                        <Box sx={{p: 3}} dir="ltr">
-                            <GameLevels />
+                        <Box  sx={{p: 1}} dir="ltr">
+                           <GameLevels levels={levels} />
                         </Box>
                     </Card>
+                </Grid>
 
+                <Grid item xs={12} md={6} lg={6}>
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <Op />
+                        </Box>
+                    </Card>
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <OnlinePlayers />
+                            <OnlinePlayers levels={levels} />
                         </Box>
                     </Card>
                 </Grid>
+
             </Grid>
         </>
     )

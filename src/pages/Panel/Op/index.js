@@ -99,7 +99,6 @@ export default ()=>{
             >
                 <Button type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
             </Popconfirm>
-            <CleanLevel />
         </Space>
     </>
 }

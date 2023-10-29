@@ -5,15 +5,17 @@ import {sendCommandApi} from "../../../../api/8level";
 
 const {TextArea} = Input;
 
-export default () => {
+export default ({levels}) => {
 
-    const [levelName, setLevelName] = useState("Master")
     const [command, setCommand] = useState('');
     const [spin, setSpin] = useState(false)
 
     const onchange = (e) => {
         setCommand(e.target.value);
     };
+
+    const notHasLevels = levels === undefined || levels === null || levels.length === 0
+    const [levelName, setLevelName] = useState(notHasLevels?"":levels[0].key)
 
     function sendInstruct() {
         if (command === "") {
@@ -42,45 +44,17 @@ export default () => {
             <Spin spinning={spin} tip={"正在发送指令"}>
                 <Space size={8}>
                     <Select
-                        defaultValue="Master"
+                        defaultValue={notHasLevels?"":levels[0].levelName}
                         style={{
                             width: 120,
                         }}
                         onChange={handleChange}
-                        options={[
-                            {
-                                value: 'Master',
-                                label: '主 世 界',
-                            },
-                            {
-                                value: 'Slave1',
-                                label: '从世界1',
-                            },
-                            {
-                                value: 'Slave2',
-                                label: '从世界2',
-                            },
-                            {
-                                value: 'Slave3',
-                                label: '从世界3',
-                            },
-                            {
-                                value: 'Slave4',
-                                label: '从世界4',
-                            },
-                            {
-                                value: 'Slave5',
-                                label: '从世界5',
-                            },
-                            {
-                                value: 'Slave6',
-                                label: '从世界6',
-                            },
-                            {
-                                value: 'Slave7',
-                                label: '从世界7',
-                            },
-                        ]}
+                        options={levels.map(level=>{
+                            return {
+                                value: level.key,
+                                label: level.levelName,
+                            }
+                        })}
                     />
                     <span>控制台</span>
                 </Space>

@@ -5,12 +5,12 @@ import RemoteControl from "../GameOperator/RemoteControl";
 
 const { Paragraph, Link } = Typography;
 
-const ControlPanel = () => {
+const ControlPanel = ({levels}) => {
 
     return (
         <Card>
             <Box sx={{p: 3}} dir="ltr">
-                <RemoteControl />
+                <RemoteControl levels={levels} />
                 <br/>
                 <div>
                     <Space size={[4, 16]} wrap >

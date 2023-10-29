@@ -7,14 +7,15 @@ import {useParams} from "react-router-dom";
 import {readLevelServerLogApi} from "../../../api/level";
 import Editor from "../../../components2/Editor";
 
-export default () => {
+export default ({levels}) => {
 
     const {cluster} = useParams()
     const [loading, setLoading] = useState(false)
     const [spinLoading, setSpinLoading] = useState(false)
     const [logs, setLogs] = useState(``)
 
-    const [levelName, setLevelName] = useState("Master")
+    const notHasLevels = levels === undefined || levels === null || levels.length === 0
+    const [levelName, setLevelName] = useState(notHasLevels?"":levels[0].key)
 
     useEffect(() => {
         setLoading(true)
@@ -68,45 +69,17 @@ export default () => {
 
                     <Space.Compact style={{width: '100%'}}>
                         <Select
-                            defaultValue="Master"
                             style={{
                                 width: 120,
                             }}
                             onChange={handleChange}
-                            options={[
-                                {
-                                    value: 'Master',
-                                    label: '主 世 界',
-                                },
-                                {
-                                    value: 'Slave1',
-                                    label: '从世界1',
-                                },
-                                {
-                                    value: 'Slave2',
-                                    label: '从世界2',
-                                },
-                                {
-                                    value: 'Slave3',
-                                    label: '从世界3',
-                                },
-                                {
-                                    value: 'Slave4',
-                                    label: '从世界4',
-                                },
-                                {
-                                    value: 'Slave5',
-                                    label: '从世界5',
-                                },
-                                {
-                                    value: 'Slave6',
-                                    label: '从世界6',
-                                },
-                                {
-                                    value: 'Slave7',
-                                    label: '从世界7',
-                                },
-                            ]}
+                            defaultValue={notHasLevels?"":levels[0].levelName}
+                            options={levels.map(level=>{
+                                return {
+                                    value: level.key,
+                                    label: level.levelName,
+                                }
+                            })}
                         />
                         <Input defaultValue="100" ref={inputRef}/>
                         <Button type="primary" onClick={() => pullLog()}>拉取</Button>
@@ -116,7 +89,7 @@ export default () => {
                         <Editor value={logs}
                                 setValue={v => v}
                                 readOnly
-                                styleData={{language: "javascript", theme: "vs-dark"}}
+                                styleData={{language: "javascript", theme: "vs"}}
                         />
                     </Skeleton>
                 </Box>
