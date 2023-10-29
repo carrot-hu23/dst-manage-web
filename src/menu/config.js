@@ -23,13 +23,13 @@ const navConfig = [
     path: '/dashboard/cluster',
     icon: icon('home')
   },
+  // {
+  //   title: '世界设置',
+  //   path: '/dashboard/8level',
+  //   icon: icon('layers')
+  // },
   {
     title: '世界设置',
-    path: '/dashboard/8level',
-    icon: icon('layers')
-  },
-  {
-    title: '世界列表',
     path: '/dashboard/levels',
     icon: icon('layers')
   },

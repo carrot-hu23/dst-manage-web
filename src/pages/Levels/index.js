@@ -542,7 +542,9 @@ const App = () => {
                             const levels = resp.data
                             // TODO 当为空的时候
                             levelListRef.current = levels
-                            const items2 = levels.map(level => ({
+                            const items2 = levels.map(level => {
+                                const closable = level.uuid === "Master"?false:true
+                              return   {
                                 label: level.levelName,
                                 children: <LevelItem
                                     dstWorldSetting={data}
@@ -555,7 +557,8 @@ const App = () => {
                                     changeValue={changeValue}
                                 />,
                                 key: level.uuid,
-                            }))
+                                  closable: closable,
+                            }})
                             setItems(items2)
                             if (levels.length === 0) {
                                 setActiveKey("")

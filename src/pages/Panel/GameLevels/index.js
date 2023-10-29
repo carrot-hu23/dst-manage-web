@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Skeleton, Space, Switch, Table} from 'antd';
-import {parse} from "lua-json";
-import {getLevelListApi} from "../../../api/clusterLevelApi";
+import React from 'react';
+import {Button, Space, Switch, Table} from 'antd';
+import { ClearOutlined } from '@ant-design/icons';
 
 const columns = [
     {
@@ -28,36 +27,11 @@ const columns = [
         hideInSearch: true,
         render: (_, record) => (
             <Space size="middle">
-                <Button danger size={'small'} >清理世界</Button>
+
+                <Button icon={<ClearOutlined />} danger type={'primary'} size={'small'} >清理</Button>
                 <Switch checkedChildren="启动" unCheckedChildren="关闭"/>
             </Space>
         ),
-    },
-];
-const data = [
-    {
-        key: '1',
-        levelName: '森林13131313131313131313131dfsjfksdjnfklsdmf,nsdk,f',
-        location: 'forest',
-        days: '200 days',
-        tags: ['nice', 'developer'],
-        players: 8
-    },
-    {
-        key: '2',
-        levelName: '洞穴1',
-        location: 'caves',
-        days: '10 days',
-        tags: ['nice', 'developer'],
-        players: 8
-    },
-    {
-        key: '3',
-        levelName: '海钓',
-        location: 'fish',
-        days: '10 days',
-        tags: ['nice', 'developer'],
-        players: 4
     },
 ];
 
@@ -79,7 +53,7 @@ export default ({levels})=>{
                     size={'middle'}
                 >
                     一键关闭
-                </Button>,
+                </Button>
             </Space>
 
                 <Table

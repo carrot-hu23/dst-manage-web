@@ -1,7 +1,7 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Skeleton, Space, Input, Select} from "antd";
+import {Button, Spin, Skeleton, Space, Input, Select, Switch} from "antd";
+import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
-
 import {useParams} from "react-router-dom";
 
 import {readLevelServerLogApi} from "../../../api/level";
@@ -92,6 +92,15 @@ export default ({levels}) => {
                                 styleData={{language: "javascript", theme: "vs"}}
                         />
                     </Skeleton>
+                    <br/>
+                    <Space align={"baseline"} size={16} wrap>
+                        <div>
+                            自动轮询 <Switch checkedChildren="是" unCheckedChildren="否"/>
+                        </div>
+                        <Button icon={<DownloadOutlined />} type={'link'}>
+                            下载日志
+                        </Button>
+                    </Space>
                 </Box>
             </Card>
         </Spin>

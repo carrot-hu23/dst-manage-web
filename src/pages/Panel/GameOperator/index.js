@@ -7,6 +7,7 @@ import GameArchive from "../GameArchive";
 import Op from "../Op";
 import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
+import ServerLog from "../ServerLog";
 
 
 export default ({levels}) => {
@@ -18,13 +19,13 @@ export default ({levels}) => {
                 <Grid item xs={12} md={6} lg={6}>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <GameArchive />
+                            <GameArchive/>
                         </Box>
                     </Card>
                     <br/>
                     <Card>
-                        <Box  sx={{p: 1}} dir="ltr">
-                           <GameLevels levels={levels} />
+                        <Box sx={{p: 1}} dir="ltr">
+                            <GameLevels levels={levels}/>
                         </Box>
                     </Card>
                 </Grid>
@@ -32,13 +33,15 @@ export default ({levels}) => {
                 <Grid item xs={12} md={6} lg={6}>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <Op />
+                            <Op/>
                         </Box>
                     </Card>
                     <br/>
+                    <ServerLog levels={levels}/>
+                    <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <OnlinePlayers levels={levels} />
+                            <OnlinePlayers levels={levels}/>
                         </Box>
                     </Card>
                 </Grid>

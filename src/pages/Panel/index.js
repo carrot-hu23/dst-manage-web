@@ -57,11 +57,11 @@ const Panel = () => {
             label: t('Remote'),
             children: <ControlPanel levels={levels}/>,
         },
-        {
-            key: '4',
-            label: t('游戏日志'),
-            children: <ServerLog levels={levels}/>,
-        },
+        // {
+        //     key: '4',
+        //     label: t('游戏日志'),
+        //     children: <ServerLog levels={levels}/>,
+        // },
     ];
 
     return (
