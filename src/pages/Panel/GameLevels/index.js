@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, message, Popconfirm, Space, Spin, Switch, Table} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
-import {startLevelApi} from "../../../api/8level";
+import {cleanLevelApi, startLevelApi} from "../../../api/8level";
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -74,9 +74,23 @@ export default ({levels}) => {
                         title={`清理 ${record.levelName} 世界`}
                         description="将会删除 save session 文件等内容，请自行做好备份"
                         onConfirm={() => {
-
+                            const levels = []
+                            levels.push(record.uuid)
+                            cleanLevelApi("", levels)
+                                .then(resp=>{
+                                    if (resp.code === 200) {
+                                        message.success("清理成功")
+                                    } else {
+                                        message.error("清理失败")
+                                    }
+                                })
+                                .catch(error=>{
+                                    console.log(error)
+                                    message.error("清理失败")
+                                })
                         }}
                         onCancel={() => {
+
                         }}
                         okText="Yes"
                         cancelText="No"

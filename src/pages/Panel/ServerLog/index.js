@@ -82,8 +82,10 @@ export default ({levels}) => {
                     lines.forEach(line => {
                         logs += `${line}\n`
                     })
-                    editorRef.current.current.setValue(logs)
-                    editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount());
+                    if (logs !== editorRef.current.current.getValue()) {
+                        editorRef.current.current.setValue(logs)
+                        editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount())
+                    }
                 }else {
                     editorRef.current.current.setValue("\"读取日志失败！！！\"")
                 }
@@ -99,7 +101,7 @@ export default ({levels}) => {
         // 使用定时器每隔1秒钟请求一次日志数据，并更新到logLines状态
         const timerId = setInterval(() => {
             pullLog(); // 每次请求最新的100行日志
-        }, 2000);
+        }, 1000);
 
         // 将定时器ID保存到状态中，以便后续取消轮询时清除定时器
         setTimerId(timerId);

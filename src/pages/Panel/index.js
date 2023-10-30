@@ -47,7 +47,7 @@ const Panel = () => {
     }, [])
 
     useEffect(()=>{
-        setInterval(()=>{
+        const timerId = setInterval(()=>{
             getLevelStatusApi()
                 .then(resp => {
                     if (resp.code === 200) {
@@ -75,6 +75,10 @@ const Panel = () => {
                     }
                 })
         }, 2000)
+
+        return () => {
+            clearInterval(timerId); // 组件卸载时清除定时器
+        };
     }, [])
 
     const items = [
