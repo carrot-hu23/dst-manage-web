@@ -2,9 +2,9 @@
 import {useEffect, useState} from 'react';
 import {Row, Col, Card, Input, Pagination, Button, message} from 'antd';
 import {useParams} from "react-router-dom";
-import {getModInfo, searchMod} from '../../api/modApi';
-import {timestampToString} from "../../utils/dateUitls";
-import {fShortenNumber} from "../../utils/formatNumber";
+import {getModInfo, searchMod} from '../../../api/modApi';
+import {timestampToString} from "../../../utils/dateUitls";
+import {fShortenNumber} from "../../../utils/formatNumber";
 
 const {Search} = Input;
 const {Meta} = Card;
@@ -48,7 +48,7 @@ const ModCard2 = ({modinfo, addModList, subscribe}) => {
     </>)
 }
 
-const ModSearch = ({addModList}) => {
+export default ({addModList}) => {
     const [modList, setModList] = useState([])
 
     const [pageSize, setPageSize] = useState(20)
@@ -74,7 +74,16 @@ const ModSearch = ({addModList}) => {
         getModInfo(cluster, modId).then(data => {
             console.log(data.data);
             data.data.installed = true
-            addModList(current => [...current, data.data])
+            addModList(current => {
+                const newData = []
+                current.forEach(item=>{
+                    if (item.modid !== data.data.modid) {
+                        newData.push(item)
+                    }
+                })
+                newData.push(data.data)
+                return [... newData]
+            })
 
             // Dismiss manually and asynchronously
             setTimeout(messageApi.destroy, 1);
@@ -152,5 +161,3 @@ const ModSearch = ({addModList}) => {
         </>
     );
 };
-
-export default ModSearch;

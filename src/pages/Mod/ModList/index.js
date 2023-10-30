@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react';
 import _ from "lodash";
 import {Row, Col, Card, Button, Space, Tooltip, message} from 'antd';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
-import { parse,format } from "lua-json";
+import {parse, format} from "lua-json";
 
-import ModItem from './component/modItem';
-import ModDetail from './component/modConfig';
-import {getHomeConfigApi, saveHomeConfigApi} from '../../api/gameApi';
-import {deleteStepupWorkshopApi} from '../../api/modApi';
-import {beautifyLua, jsObjectToLuaTable} from "../../utils/dstUtils";
+import ModItem from '../component/modItem';
+import ModDetail from '../component/modConfig';
+import {getHomeConfigApi, saveHomeConfigApi} from '../../../api/gameApi';
+import {deleteStepupWorkshopApi} from '../../../api/modApi';
+import {beautifyLua, jsObjectToLuaTable} from "../../../utils/dstUtils";
 
 function containsChinese(str) {
     // eslint-disable-next-line no-plusplus
@@ -23,9 +23,9 @@ function containsChinese(str) {
 }
 
 // eslint-disable-next-line react/prop-types
-const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefaultValuesMap}) => {
+export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaultValuesMap}) => {
 
-    console.log("modList: ", modList)
+    const navigate = useNavigate();
 
     const [mod, setMod] = useState({})
     const changeMod = (mod) => {
@@ -59,7 +59,7 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
             const workshopObject = _.merge({}, object, object1)
             const workshopIdKeys = Object.keys(workshopObject)
             const workShops = {}
-            workshopIdKeys.forEach(workshopId=>{
+            workshopIdKeys.forEach(workshopId => {
                 if (workshopObject[workshopId] === undefined) {
                     workshopObject[workshopId] = {}
                 }
@@ -69,11 +69,13 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                     enabled: true
                 }
             })
+            console.log(workShops)
             return format(workShops, {
                 singleQuote: false
             })
         } catch (error) {
             console.log(error)
+            message.error("mod配置解析错误", error.message)
             return "return {}"
         }
     }
@@ -83,14 +85,15 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
             .then(data => {
                 const homeConfig = data.data
                 homeConfig.modData = formatModOverride()
-                console.log(homeConfig)
-                saveHomeConfigApi(cluster, homeConfig).then(() => {
-                    message.info("保存mod成功")
-                }).catch(error => {
-                    console.log(error);
-                    message.error("保存mod失败")
-                })
-
+                if (homeConfig.modData !== "return {}") {
+                    console.log(homeConfig)
+                    saveHomeConfigApi(cluster, homeConfig).then(() => {
+                        message.info("保存mod成功")
+                    }).catch(error => {
+                        console.log(error);
+                        message.error("保存mod失败")
+                    })
+                }
             })
     }
 
@@ -117,7 +120,7 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                     const o = {}
                     Object.entries(object2[key])
                         // eslint-disable-next-line consistent-return
-                        .forEach(([key, value])=>{
+                        .forEach(([key, value]) => {
                             if (key !== '') {
                                 let k = ""
                                 if (key.includes(' ') || containsChinese(key)) {
@@ -126,17 +129,17 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                                     k = key
                                 }
                                 if (typeof value === "string") {
-                                    const s= value.split("\n")
+                                    const s = value.split("\n")
                                     if (s.length > 1) {
                                         o[k] = s
                                     } else {
-                                        if(value === "") {
+                                        if (value === "") {
                                             value = {}
                                         }
                                         o[k] = value
                                     }
                                 } else {
-                                    if(value === "") {
+                                    if (value === "") {
                                         value = {}
                                     }
                                     o[k] = value
@@ -194,7 +197,7 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
             })
     }
 
-    const removeMod = (modId) => {
+    const removeMod = (modId, ID) => {
         const newModList = []
         // eslint-disable-next-line no-restricted-syntax
         for (const mod of modList) {
@@ -211,24 +214,27 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
 
     return (
         <>
-            <Space>
+            <Space size={16} wrap>
                 <Button type="primary" onClick={() => saveModConfig2()}>保存配置</Button>
                 <Tooltip title="点击会删除房间的mods, 重新启动会自动重新下载mod">
-                    <   Button type="primary" onClick={() => deleteStepupWorkshop()}>更新模组</Button>
+                    <Button type="primary" onClick={() => deleteStepupWorkshop()}>更新模组</Button>
+                </Tooltip>
+                <Tooltip
+                    title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
+                    <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>上传模组</Button>
                 </Tooltip>
             </Space>
             <br/><br/>
-
-            <Card className='modlist'>
-                <Row gutter={24}>
-                    <Col span={10} xs={24} md={10} lg={10}>
-                        <div style={{
-                            height: '370px',
-                            overflowY: 'auto',
-                            overflowX: 'auto'
-                        }}>
-                            {modList.length > 0 && <div>
-                                {modList.map(item => <ModItem
+            <Row gutter={24}>
+                <Col span={10} xs={24} md={10} lg={10}>
+                    <div style={{
+                        height: '52vh',
+                        overflowY: 'auto',
+                        overflowX: 'auto'
+                    }}>
+                        {modList.length > 0 && <div>
+                            {modList.map(item => <>
+                                <ModItem
                                     key={item.modid}
                                     mod={item}
                                     changeMod={changeMod}
@@ -236,27 +242,25 @@ const ModList = ({modList, setModList, root, setRoot, defaultValuesMap, setDefau
                                     removeMod={removeMod}
                                     modList={modList}
                                     setModList={setModList}
-                                />)}
-                            </div>}
-                        </div>
-                        <br/>
-                    </Col>
-                    <Col span={14} xs={24} md={14} lg={14}>
-                        {mod.modid !== undefined && <ModDetail
-                            mod={mod}
-                            setMod={setMod}
-                            setModList={setModList}
-                            root={root}
-                            setRoot={setRoot}
-                            defaultValues={defaultValuesMap[`${mod.modid}`]}
-                            defaultValuesMap={defaultValuesMap}
-                            setDefaultValuesMap={setDefaultValuesMap}
-                        />}
-                    </Col>
+                                />
+                            </>)}
+                        </div>}
+                    </div>
+                    <br/>
+                </Col>
+                <Col span={14} xs={24} md={14} lg={14}>
+                    {mod.modid !== undefined && <ModDetail
+                        mod={mod}
+                        setMod={setMod}
+                        setModList={setModList}
+                        root={root}
+                        setRoot={setRoot}
+                        defaultValues={defaultValuesMap[`${mod.modid}`]}
+                        defaultValuesMap={defaultValuesMap}
+                        setDefaultValuesMap={setDefaultValuesMap}
+                    />}
+                </Col>
+            </Row>
 
-                </Row>
-            </Card>
         </>)
 }
-
-export default ModList

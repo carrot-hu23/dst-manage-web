@@ -23,7 +23,7 @@ export default ()=>{
     }, [])
 
     return<>
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl">
             <Spin spinning={spinLoading} description={"正在保存 cluster.ini "}>
                 <Card>
                     <Box sx={{p: 2}} dir="ltr">

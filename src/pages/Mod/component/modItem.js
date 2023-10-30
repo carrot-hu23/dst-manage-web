@@ -43,7 +43,7 @@ const ModItem = (props) => {
     const [startLoading, setStartLoading] = useState(false)
 
     return <Spin spinning={startLoading} tip={"正在订阅模组"}>
-        <Card className='mod' style={{margin: ' 0 0 16px',background: '#ffffff'}}>
+        <Card className='mod' style={{margin: ' 0 0 16px',}}>
             <Row onClick={() => {
                 props.changeMod(props.mod)
             }}>

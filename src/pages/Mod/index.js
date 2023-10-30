@@ -5,9 +5,11 @@ import luaparse from 'luaparse';
 import { parse } from "lua-json";
 
 import {Skeleton, Tabs} from 'antd';
-import ModList from './ModList';
-import ModSearch from './ModSearch';
+import ModList from "./ModList";
+import ModSearch from "./ModSearch";
+
 import {getMyModInfoList} from '../../api/modApi';
+
 
 function unstring(str) {
     if (typeof str === 'string') {
@@ -122,21 +124,21 @@ function getWorkShopConfigMap(modConfig) {
 function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setModList, setRoot) {
     const object = {}
     const workshopMap = getWorkShopConfigMap2(modoverrides)
-    console.log("subscribeModList: ", subscribeModList)
     let subscribeModMap = new Map()
     if (subscribeModList === undefined || subscribeModList === null) {
         subscribeModList = []
     }
-
     subscribeModList.forEach(mod => {
         const {modid} = mod
         const options = mod.mod_config.configuration_options
         if (options !== undefined && options !== null) {
+            const temp = {}
             options.forEach(item => {
                 if (item.default !== '') {
-                    _.set(object, `${modid}.${item.name}`, item.default)
+                    temp[item.name] = item.default
                 }
             })
+            object[modid] = temp
         }
         if (workshopMap.has(modid)) {
             mod.enable = true
@@ -153,9 +155,6 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
         return acc;
     }, new Map());
 
-
-    console.log("subscribeModMap: ", subscribeModMap)
-
     // 如果没有订阅mod
     workshopMap.forEach((value, key) => {
         if (subscribeModMap.get(key) === undefined) {
@@ -169,6 +168,8 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
 
     setDefaultValuesMap(workshopMap)
     setModList(subscribeModList || [])
+    console.log("======设置 root 默认值 ==============")
+    console.log(object)
     setRoot(object)
 
 }
@@ -186,8 +187,10 @@ const Mod = ({modoverrides}) => {
         getMyModInfoList(cluster)
             .then(resp => {
                 initModList(resp.data, modoverrides, setDefaultValuesMap, setModList, setRoot)
-                setLoading(false)
             }).catch(error => console.log(error))
+            .finally(()=>{
+                setLoading(false)
+            })
     }, [])
 
     useEffect(() => {

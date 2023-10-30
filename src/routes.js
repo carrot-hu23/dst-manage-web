@@ -27,6 +27,7 @@ import TemplateConfig from "./pages/TemplateConfig";
 import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
+import ModSetting from "./pages/ModSetting";
 
 export default function Router() {
   const routes = useRoutes([
@@ -38,7 +39,7 @@ export default function Router() {
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
-
+        { path: 'mod', element: <ModSetting /> },
         { path: 'panel', element: <Panel /> },
         { path: 'cluster', element: <Home2 /> },
         { path: '8level', element: <Levels8 /> },

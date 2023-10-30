@@ -33,6 +33,11 @@ const navConfig = [
     path: '/dashboard/levels',
     icon: icon('layers')
   },
+  {
+    title: '模组配置',
+    path: '/dashboard/mod',
+    icon: icon('package'),
+  },
   // {
   //   title: '模板管理',
   //   path: '/dashboard/template/config',
