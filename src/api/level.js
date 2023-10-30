@@ -11,6 +11,19 @@ async function readLevelServerLogApi(cluster, levelName, lines) {
     return response.data
 }
 
+async function readPanelLogApi(lines) {
+
+    const url = `/api/game/dst-admin-go/log?lines=${lines}`
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': "",
+        }
+    })
+    return response.data
+}
+
+
 export {
-    readLevelServerLogApi
+    readLevelServerLogApi,
+    readPanelLogApi,
 }

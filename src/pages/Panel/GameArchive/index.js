@@ -29,15 +29,8 @@ export default () => {
                     clusterName: data.data.clusterName,
                     gameMod: data.data.gameMod,
                     mods: data.data.mods,
-                    maxPlayers: data.data.maxPlayers,
                     ipConnect: data.data.ipConnect,
                     meta: data.data.meta
-                }
-                const {players} = data.data
-                if (players === null) {
-                    ar.players = []
-                } else {
-                    ar.players = players
                 }
                 const metaInfo = data.data.meta
                 ar.days = metaInfo.Clock.Cycles || '未知'
@@ -75,11 +68,6 @@ export default () => {
                 </Form.Item>
                 <Form.Item label={t('IpConnect')}>
                     <Paragraph copyable>{archive.ipConnect}</Paragraph>
-                </Form.Item>
-
-                <Form.Item label={t('人数')}>
-                    <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
-                    <Button type={"link"} onClick={()=>{navigate(`/dashboard/player`)}}>详情</Button>
                 </Form.Item>
             </Form>
         </>

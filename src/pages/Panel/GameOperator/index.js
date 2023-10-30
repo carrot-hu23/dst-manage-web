@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 import {Box, Card, Grid} from "@mui/material";
 
@@ -14,9 +14,15 @@ export default ({levels}) => {
 
     return (
         <>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
 
-                <Grid item xs={12} md={6} lg={6}>
+                <Grid item xs={12} md={5} lg={5}>
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <Op/>
+                        </Box>
+                    </Card>
+                    <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
                             <GameArchive/>
@@ -30,13 +36,8 @@ export default ({levels}) => {
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={6}>
-                    <Card>
-                        <Box sx={{p: 3}} dir="ltr">
-                            <Op/>
-                        </Box>
-                    </Card>
-                    <br/>
+                <Grid item xs={12} md={7} lg={7}>
+
                     <ServerLog levels={levels}/>
                     <br/>
                     <Card>

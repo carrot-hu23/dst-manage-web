@@ -6,10 +6,8 @@ import {parse} from "lua-json";
 
 import GameOperator from "./GameOperator";
 
-import ServerLog from "./ServerLog";
 import ControlPanel from "./ControlPanel";
-import {getLevelListApi} from "../../api/clusterLevelApi";
-
+import {getLevelStatusApi} from "../../api/8level";
 
 
 const Panel = () => {
@@ -19,17 +17,20 @@ const Panel = () => {
     const [loading, setLoading] = useState(true)
     useEffect(()=>{
         setLoading(true)
-        getLevelListApi()
+        getLevelStatusApi()
             .then(resp => {
-                console.log(resp)
                 if (resp.code === 200) {
                     const levels = resp.data
                     const items = []
                     levels.forEach(level=>{
                         const item = {
                             key: level.uuid,
+                            uuid: level.uuid,
                             levelName: level.levelName,
                             location: '未知',
+                            ps: level.ps,
+                            Ps: level.Ps,
+                            status: level.status
                         }
                         try {
                             const data = parse(level.leveldataoverride)
@@ -40,10 +41,40 @@ const Panel = () => {
                         items.push(item)
                     })
                     setLevels(items)
-                    console.log("items", items)
                 }
                 setLoading(false)
             })
+    }, [])
+
+    useEffect(()=>{
+        setInterval(()=>{
+            getLevelStatusApi()
+                .then(resp => {
+                    if (resp.code === 200) {
+                        const levels = resp.data
+                        const items = []
+                        levels.forEach(level=>{
+                            const item = {
+                                key: level.uuid,
+                                uuid: level.uuid,
+                                levelName: level.levelName,
+                                location: '未知',
+                                ps: level.ps,
+                                Ps: level.Ps,
+                                status: level.status
+                            }
+                            try {
+                                const data = parse(level.leveldataoverride)
+                                item.location = data.location
+                            } catch (error) {
+                                console.log(error)
+                            }
+                            items.push(item)
+                        })
+                        setLevels(items)
+                    }
+                })
+        }, 2000)
     }, [])
 
     const items = [
@@ -57,11 +88,6 @@ const Panel = () => {
             label: t('Remote'),
             children: <ControlPanel levels={levels}/>,
         },
-        // {
-        //     key: '4',
-        //     label: t('游戏日志'),
-        //     children: <ServerLog levels={levels}/>,
-        // },
     ];
 
     return (
@@ -69,7 +95,7 @@ const Panel = () => {
             <Container maxWidth="xxl">
                 <Box sx={{p: 0}} dir="ltr">
                     <Skeleton loading={loading} >
-                        <Tabs defaultActiveKey="1" items={items}/>
+                        <GameOperator levels={levels}/>
                     </Skeleton>
                 </Box>
             </Container>

@@ -22,6 +22,7 @@ import {MinusCircleOutlined, PlusOutlined, SnippetsOutlined} from "@ant-design/i
 import {format, parse} from "lua-json";
 import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
+import {useTheme} from "../../hooks/useTheme";
 
 
 const Leveldataoverride = ({dstWorldSetting, levelName, level, changeValue}) => {
@@ -52,6 +53,8 @@ const Leveldataoverride = ({dstWorldSetting, levelName, level, changeValue}) => 
 
 const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue}) => {
 
+    const {theme} = useTheme();
+
     useEffect(() => {
         editorRef.current.current.setValue(modoverridesRef.current)
         editorRef.current.current.onDidChangeModelContent((e) => {
@@ -73,7 +76,9 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
                     "height": "370px",
                     "width": "100%"
                 }}
-                options={{}}
+                options={{
+                    theme: theme === 'dark'?'vs-dark':''
+                }}
             />
         </>
 

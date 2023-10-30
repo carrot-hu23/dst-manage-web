@@ -1,24 +1,57 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Skeleton, Space, Input, Select, Switch} from "antd";
+import {Button, Spin, Space, Input, Select, Switch, message, Tabs} from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 
 import {readLevelServerLogApi} from "../../../api/level";
-import Editor from "../../../components2/Editor";
+import {MonacoEditor} from "../../NewEditor";
+import {sendCommandApi} from "../../../api/8level";
+import PanelLog from "./PanelLog";
+import {useTheme} from "../../../hooks/useTheme";
+
+const {TextArea} = Input;
+const { TabPane } = Tabs;
+
 
 export default ({levels}) => {
-
+    const {theme} = useTheme();
     const {cluster} = useParams()
-    const [loading, setLoading] = useState(false)
     const [spinLoading, setSpinLoading] = useState(false)
-    const [logs, setLogs] = useState(``)
 
     const notHasLevels = levels === undefined || levels === null || levels.length === 0
     const [levelName, setLevelName] = useState(notHasLevels?"":levels[0].key)
 
+    const editorRef = useRef()
+    const inputRef = useRef(null);
+
+    const [command, setCommand] = useState('');
+    const [timerId, setTimerId] = useState("")
+
+    const onchange = (e) => {
+        setCommand(e.target.value);
+    };
+
+    function sendInstruct() {
+        if (command === "") {
+            message.warning("请填写指令在发送")
+            return
+        }
+        console.log(levelName, command)
+        setSpinLoading(true)
+        sendCommandApi("", levelName, command)
+            .then(resp => {
+                if (resp.code === 200) {
+                    message.success("发送指令成功")
+                } else {
+                    message.error("发送指令失败")
+                }
+                setSpinLoading(false)
+            })
+    }
+
     useEffect(() => {
-        setLoading(true)
+
         readLevelServerLogApi(cluster, levelName, 100)
             .then(resp => {
                 if (resp.code === 200) {
@@ -28,19 +61,18 @@ export default ({levels}) => {
                     lines.forEach(line => {
                         logs += `${line}\n`
                     })
-                    setLogs(logs)
+                    editorRef.current.current.setValue(logs)
+                    editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount());
                 } else {
-                    setLogs("读取日志失败！！！")
+                    editorRef.current.current.setValue("\"读取日志失败！！！\"")
                 }
-                setLoading(false)
             })
     }, [])
 
-    const inputRef = useRef(null);
 
     function pullLog() {
         const lines = inputRef.current.input.value
-        setSpinLoading(true)
+        // setSpinLoading(true)
         readLevelServerLogApi(cluster, levelName, lines)
             .then(resp => {
                 if (resp.code === 200) {
@@ -50,11 +82,12 @@ export default ({levels}) => {
                     lines.forEach(line => {
                         logs += `${line}\n`
                     })
-                    setLogs(logs)
+                    editorRef.current.current.setValue(logs)
+                    editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount());
                 }else {
-                    setLogs("读取日志失败！！！")
+                    editorRef.current.current.setValue("\"读取日志失败！！！\"")
                 }
-                setSpinLoading(false)
+                // setSpinLoading(false)
             })
     }
 
@@ -62,45 +95,93 @@ export default ({levels}) => {
         setLevelName(value)
     }
 
+    const startPolling = () => {
+        // 使用定时器每隔1秒钟请求一次日志数据，并更新到logLines状态
+        const timerId = setInterval(() => {
+            pullLog(); // 每次请求最新的100行日志
+        }, 2000);
+
+        // 将定时器ID保存到状态中，以便后续取消轮询时清除定时器
+        setTimerId(timerId);
+    };
+
+    const stopPolling = () => {
+        // 取消轮询，清除定时器
+        clearInterval(timerId);
+    };
+
     return <>
         <Spin spinning={spinLoading} description={"正在获取日志"}>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
+                    <Tabs defaultActiveKey="1">
+                        <TabPane tab="游戏日志" key="1">
+                            <Space.Compact style={{width: '100%'}}>
+                                <Select
+                                    style={{
+                                        width: 120,
+                                    }}
+                                    onChange={handleChange}
+                                    defaultValue={notHasLevels?"":levels[0].levelName}
+                                    options={levels.map(level=>{
+                                        return {
+                                            value: level.key,
+                                            label: level.levelName,
+                                        }
+                                    })}
+                                />
+                                <Input defaultValue="100" ref={inputRef}/>
+                                <Button type="primary" onClick={() => pullLog()}>拉取</Button>
+                            </Space.Compact>
+                            <br/><br/>
+                            <MonacoEditor
+                                ref={editorRef}
+                                style={{
+                                    "height": "370px",
+                                    "width": "100%",
+                                }}
+                                options={{
+                                    readOnly: true,
+                                    language: 'java',
+                                    theme: theme === 'dark'?'vs-dark':''
+                                }}
+                            />
+                            <br/>
+                            <Space align={"baseline"} size={16} wrap>
+                                <div>
+                                    自动轮询
+                                    <Switch
+                                        onChange={(checked, event)=>{
+                                            if (checked) {
+                                                startPolling()
+                                            } else {
+                                                stopPolling()
+                                            }
+                                        }}
+                                        checkedChildren="是" unCheckedChildren="否"/>
+                                </div>
+                                <Button onClick={()=>{
+                                    window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelName}`
+                                }}
+                                        icon={<DownloadOutlined />} type={'link'}>
+                                    下载日志
+                                </Button>
+                            </Space>
 
-                    <Space.Compact style={{width: '100%'}}>
-                        <Select
-                            style={{
-                                width: 120,
-                            }}
-                            onChange={handleChange}
-                            defaultValue={notHasLevels?"":levels[0].levelName}
-                            options={levels.map(level=>{
-                                return {
-                                    value: level.key,
-                                    label: level.levelName,
-                                }
-                            })}
-                        />
-                        <Input defaultValue="100" ref={inputRef}/>
-                        <Button type="primary" onClick={() => pullLog()}>拉取</Button>
-                    </Space.Compact>
-                    <br/><br/>
-                    <Skeleton loading={loading} active>
-                        <Editor value={logs}
-                                setValue={v => v}
-                                readOnly
-                                styleData={{language: "javascript", theme: "vs"}}
-                        />
-                    </Skeleton>
-                    <br/>
-                    <Space align={"baseline"} size={16} wrap>
-                        <div>
-                            自动轮询 <Switch checkedChildren="是" unCheckedChildren="否"/>
-                        </div>
-                        <Button icon={<DownloadOutlined />} type={'link'}>
-                            下载日志
-                        </Button>
-                    </Space>
+                            <br/><br/>
+                            <TextArea onChange={onchange} rows={3}/>
+                            <Button style={{
+                                marginTop: '8px'
+                            }} type="primary" onClick={() => sendInstruct()}>
+                                发送指令
+                            </Button>
+                        </TabPane>
+
+                        <TabPane tab="面板日志" key="2">
+                            <PanelLog />
+                        </TabPane>
+                    </Tabs>
+
                 </Box>
             </Card>
         </Spin>
