@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { ProTable } from '@ant-design/pro-components';
-import { Container, Box } from '@mui/material';
+import {ProTable} from '@ant-design/pro-components';
+import {Container, Box} from '@mui/material';
 import {Button, Modal, Image, Skeleton, Card, message} from 'antd';
-import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
+import {dstHomeListApi, dstHomeDetailApi, dstHomeListApi2, dstHomeDetailApi2} from '../../api/dstApi';
 
 import HomeDetail from './home';
 
@@ -14,16 +14,6 @@ import style from "./index.module.css"
 
 const DstServerList = () => {
 
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const onSelectChange = (newSelectedRowKeys) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,24 +32,15 @@ const DstServerList = () => {
     };
 
     const viewHomeDetail = (record) => {
-        console.log(record.__rowId)
-        console.log(record.region)
+        console.log(record.RowId)
+        console.log(record.Region)
 
         setIsModalOpen(true);
 
-        dstHomeDetailApi({
-            rowId: record.__rowId,
-            region: record.region
-        }).then(response => {
+        dstHomeDetailApi2(record.RowId).then(response => {
             setLoading(false)
-            const responseData = JSON.parse(response)
-            const { success } = responseData
-            if (success) {
-                setHomeInfo(responseData)
-            } else {
-                message.warning("请求Klei服务器超时")
-                setIsModalOpen(false)
-            }
+            console.log("response", response)
+            setHomeInfo(response)
 
         })
     }
@@ -67,21 +48,19 @@ const DstServerList = () => {
     const columns = [
         {
             title: '房间名',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'Name',
+            key: 'Name',
             copyable: true,
-            // ellipsis: true,
             width: 300,
             render: (text, record) => {
-                return(<div className={style.icon}>{record.name}</div>)
+                return (<div className={style.icon}>{record.Name}</div>)
             }
         },
         {
             title: '当前人数',
-            key: 'maxconnections',
-            // eslint-disable-next-line no-unused-vars
+            key: 'Maxconnections',
             render: (text, record, _, action) => (
-                <div>{record.connected}/{record.maxconnections}
+                <div>{record.Connected}/{record.MaxConnections}
                     <Image
                         preview={false}
                         width={20}
@@ -95,17 +74,17 @@ const DstServerList = () => {
         },
         {
             title: '游戏模式',
-            key: 'mode',
+            key: 'Mode',
             // eslint-disable-next-line no-unused-vars
-            render: (text, record, _, action) => (<div>{record.mode}</div>),
+            render: (text, record, _, action) => (<div>{record.Mode}</div>),
         },
         {
             title: '季节',
-            key: 'season',
-            dataIndex: 'season',
+            key: 'Season',
+            dataIndex: 'Season',
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
-                {record.season === 'spring' && (
+                {record.Season === '春' && (
                     // <div>春季</div>
                     <Image
                         preview={false}
@@ -113,7 +92,7 @@ const DstServerList = () => {
                         src="https://dst.liuyh.com/static/img/dstui/icon/spring.png"
                     />
                 )}
-                {record.season === 'summer' && (
+                {record.Season === '夏' && (
                     // <div>夏季</div>
                     <Image
                         preview={false}
@@ -121,7 +100,7 @@ const DstServerList = () => {
                         src="https://dst.liuyh.com/static/img/dstui/icon/summer.png"
                     />
                 )}
-                {record.season === 'autumn' && (
+                {record.Season === '秋' && (
                     // <div>秋季</div>
                     <Image
                         preview={false}
@@ -129,7 +108,7 @@ const DstServerList = () => {
                         src="https://dst.liuyh.com/static/img/dstui/icon/autumn.png"
                     />
                 )}
-                {record.season === 'winter' && (
+                {record.Season === '冬' && (
                     // <div>冬季</div>
                     <Image
                         preview={false}
@@ -143,8 +122,8 @@ const DstServerList = () => {
         {
             disable: true,
             title: '密码',
-            key: 'password',
-            dataIndex: 'password',
+            key: 'Password',
+            dataIndex: 'Password',
             filters: true,
             onFilter: true,
             ellipsis: true,
@@ -153,17 +132,17 @@ const DstServerList = () => {
                 open: {
                     key: '1111',
                     text: '有密码',
-                    status: '1',
+                    status: true,
                 },
                 closed: {
                     key: '1112',
                     text: '无密码',
-                    status: '0',
+                    status: false,
                 },
             },
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
-                {record.password === 1 && (
+                {record.Password === true && (
                     <Image
                         preview={false}
                         width={28}
@@ -177,33 +156,28 @@ const DstServerList = () => {
         {
             disable: true,
             title: '模组',
-            key: 'mods',
-            dataIndex: 'mods',
+            key: 'Mods',
+            dataIndex: 'Mods',
             filters: true,
             onFilter: true,
             ellipsis: true,
             valueType: 'select',
             valueEnum: {
-                "": {
-                    key: '1115',
-                    text: '任意',
-                    status: '',
-                },
-                "0": {
+                false: {
                     key: '1113',
                     text: '无模组',
-                    status: '0',
+                    status: false,
                 },
-                "1": {
+                true: {
                     key: '1114',
                     text: '有模组',
-                    status: '1',
+                    status: true,
                 },
 
             },
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
-                {record.mods === 1 && (
+                {record.Mods === true && (
                     <Image
                         preview={false}
                         width={28}
@@ -223,7 +197,7 @@ const DstServerList = () => {
                 (<div>
                     <Button type="link" onClick={() => {
                         viewHomeDetail(record)
-                    }} key={record.__rowId}>查看详情</Button>
+                    }} key={record.RowId}>查看详情</Button>
 
                 </div>)
             ],
@@ -242,70 +216,39 @@ const DstServerList = () => {
 
             >
                 <Skeleton title loading={loading} active>
-                    <div
-                        style={{
-                            height: 500
-                        }
-
-                        }>
-                        <HomeDetail home={homeInfo} />
+                    <div style={{
+                        height: 500
+                    }}>
+                        <HomeDetail home={homeInfo}/>
                     </div>
                 </Skeleton>
             </Modal>
 
             <Container maxWidth="xxl">
-                <Box sx={{ p: 0, pb: 0 }} dir="ltr">
+                <Box sx={{p: 0, pb: 0}} dir="ltr">
                     <ProTable
                         columns={columns}
                         cardBordered
                         request={async (params = {}, sort, filter) => {
                             console.log(sort, filter);
                             console.log('params', params)
-                            const msg = await dstHomeListApi(params)
+                            const msg = await dstHomeListApi2(params)
                             return {
-                                data: msg.data,
+                                data: msg.List,
                                 success: true,
-                                total: msg.total
+                                total: msg.AllCount
                             };
                         }}
                         scroll={{
                             x: 600,
                         }}
-                        // editable={{
-                        //     type: 'multiple',
-                        // }}
-                        // columnsState={{
-                        //     persistenceKey: 'pro-table-singe-demos',
-                        //     persistenceType: 'localStorage',
-                        //     onChange(value) {
-                        //         console.log('value: ', value);
-                        //     },
-                        // }}
-                        rowKey="__rowId"
-                        // search={{
-                        //     labelWidth: 'auto',
-                        // }}
-                        // options={{
-                        //     setting: {
-                        //         listsHeight: 400,
-                        //     },
-                        // }}
+                        rowKey="RowId"
                         pagination={{
                             pageSize: 10,
                             onChange: (page) => console.log(page),
                         }}
-                        // dateFormatter="string"
                         headerTitle="饥荒服务器列表"
-                        toolBarRender={() => [
-                            <Button key="button" type="primary" disabled={!hasSelected > 0}>
-                                导出配置
-                            </Button>,
-                        ]}
-                        rowSelection={{
-                            type: 'radio',
-                            ...rowSelection
-                        }}
-                        tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
+                        tableAlertRender={({selectedRowKeys, selectedRows, onCleanSelected}) => false}
                     />
                 </Box>
             </Container>

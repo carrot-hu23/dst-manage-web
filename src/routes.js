@@ -13,7 +13,6 @@ import Backup from './pages/Backup/index';
 import Setting from './pages/System/index';
 import Github from './pages/Github/index';
 import Panel from './pages/Panel/index';
-import DstServerList from './pages/DstServerList/index';
 import Begin from './pages/begin/index';
 import UserProfile from "./pages/User/UserProfile";
 import Link from "./pages/WebLink";
@@ -28,6 +27,7 @@ import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
+import DstServerList2 from "./pages/DstServerList2";
 import AddMod from "./pages/Mod/AddMod";
 
 export default function Router() {
@@ -48,7 +48,7 @@ export default function Router() {
         { path: 'setting', element: <Setting /> },
         { path: 'github', element: <Github /> },
         { path: 'help', element: <Help /> },
-        { path: 'dst/server', element: <DstServerList /> },
+        { path: 'dst/server', element: <DstServerList2 /> },
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
         { path: 'modinfo/:modId', element: <Modinfo /> },

@@ -428,7 +428,7 @@ const Backup = () => {
         <>
             <Container maxWidth="xxl">
                 <Card>
-                    <Box sx={{p: 3, pb: 1}} dir="ltr">
+                    <Box sx={{p: 3}} dir="ltr">
                         <BackupStatistic size={backupData.length} data={backupDataSize}/>
                         <br/>
                         <HeaderTitle />
