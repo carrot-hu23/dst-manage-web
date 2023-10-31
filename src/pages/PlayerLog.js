@@ -1,10 +1,10 @@
 import {useParams} from "react-router-dom";
-import {useRef} from 'react';
+import {useRef, useState} from 'react';
 import {ProTable} from '@ant-design/pro-components';
 import {Button, Image, message, Popconfirm, Tag, Typography} from 'antd';
-import {Container, Box} from '@mui/material';
+import {Container, Box, Card} from '@mui/material';
 
-import {getPlayerLog} from '../api/playerLogApi';
+import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
 
@@ -20,8 +20,21 @@ const playerActionEnum = {
 }
 
 export default function PlayerLog() {
-    const actionRef = useRef();
     const {cluster} = useParams()
+
+    const actionRef = useRef();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [data, setData] = useState([]);
+
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+            setSelectedRowKeys(selectedRowKeys)
+        },
+    }
 
     const columns = [
         {
@@ -140,18 +153,21 @@ export default function PlayerLog() {
     return (
         <>
             <Container maxWidth="xxl">
-                <Box sx={{p: 0, pb: 0}} dir="ltr">
+                <Card>
+                <Box sx={{p: 1}} dir="ltr">
+
                     <ProTable
                         scroll={{
                             x: 500,
                         }}
                         columns={columns}
                         actionRef={actionRef}
-                        cardBordered
+                        rowSelection={rowSelection}
                         request={async (params = {}, sort, filter) => {
                             // console.log(sort, filter);
                             console.log('params', params)
                             const resp = await getPlayerLog(cluster, params)
+                            setData(resp.data)
                             return {
                                 data: resp.data.data,
                                 success: true,
@@ -160,13 +176,31 @@ export default function PlayerLog() {
                         }}
                         rowKey="ID"
                         pagination={{
-                            pageSize: 10,
-                            showSizeChanger: false,
-                            onChange: (page) => console.log(page),
+                            current: currentPage,
+                            pageSize,
+                            total: data.length,
+                            onChange: setCurrentPage,
+                            showSizeChanger: true,
+                            onShowSizeChange: (current, size) => setPageSize(size),
                         }}
                         headerTitle="玩家日志"
+                        toolBarRender={() => [
+                            <Button type="primary" danger onClick={()=>{
+                                deleteLogs("", {
+                                    ids: selectedRowKeys
+                                }).then(resp=>{
+                                    if (resp.code === 200) {
+                                        message.success("删除成功")
+                                        actionRef.current?.reload();
+                                    }
+                                })
+                            }}>
+                                删除
+                            </Button>
+                        ]}
                     />
                 </Box>
+                </Card>
             </Container>
         </>
     );
