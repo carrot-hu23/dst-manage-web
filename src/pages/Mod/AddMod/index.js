@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 
 import {Button, Spin, Space, Input, message, Typography, Divider} from "antd";
 import {Box, Card, Container, Grid} from "@mui/material";
@@ -7,8 +7,9 @@ import {useNavigate} from "react-router-dom";
 import {ArrowLeftOutlined} from '@ant-design/icons';
 
 import {useTheme} from "../../../hooks/useTheme";
+
 import {addModInfoFileApi} from "../../../api/modApi";
-import Editor from "../../../components2/Editor";
+import {MonacoEditor} from "../../NewEditor";
 
 const {Title} = Typography;
 
@@ -17,21 +18,18 @@ export default () => {
     const navigate = useNavigate();
     const [spinLoading, setSpinLoading] = useState(false)
 
-    const [modinfo, setModinfo] = useState("")
     const [workshopId, setWorkshopId] = useState("")
+
+    const editorRef = useRef()
 
     function wrokShopOnChange(e) {
         setWorkshopId(e.target.value)
     }
 
-    function modinfoOnChange(value) {
-        setModinfo(value)
-    }
-
     function saveModinfo() {
         const data = {
             workshopId,
-            modinfo
+            modinfo: editorRef.current.current.getValue()
         }
         setSpinLoading(true)
         addModInfoFileApi("", data)
@@ -98,14 +96,18 @@ export default () => {
                                     fontSize: '14px',
                                 }}>modinfo.lua 文件内容:
                                 </div>
-                                <Editor value={""}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                        setValue={modinfoOnChange}
-                                        styleData={{
-                                            language: "lua",
-                                            theme: "vs-dark",
-                                            // height: '360px'
-                                        }}/>
+
+                                <MonacoEditor
+                                    ref={editorRef}
+                                    style={{
+                                        "height": "370px",
+                                        "width": "100%",
+                                    }}
+                                    options={{
+                                        language: 'lua',
+                                        theme: theme === 'dark'?'vs-dark':''
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs={12} md={4} lg={4}>
                                 <Title level={4}>怎么找到本地电脑的模组?</Title>

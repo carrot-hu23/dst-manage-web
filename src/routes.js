@@ -28,6 +28,7 @@ import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
+import AddMod from "./pages/Mod/AddMod";
 
 export default function Router() {
   const routes = useRoutes([
@@ -42,7 +43,6 @@ export default function Router() {
         { path: 'mod', element: <ModSetting /> },
         { path: 'panel', element: <Panel /> },
         { path: 'cluster', element: <Home2 /> },
-        { path: '8level', element: <Levels8 /> },
         { path: 'levels', element: <Levels /> },
         { path: 'backup', element: <Backup /> },
         { path: 'setting', element: <Setting /> },
@@ -52,6 +52,7 @@ export default function Router() {
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
         { path: 'modinfo/:modId', element: <Modinfo /> },
+        { path: 'mod/add/:modId', element: <AddMod /> },
 
         { path: 'view', element: <Forest /> },
         { path: 'game', element: <Game /> },
