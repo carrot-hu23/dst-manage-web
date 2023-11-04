@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {ProTable} from '@ant-design/pro-components';
 import {Button, Image, message, Popconfirm, Tag, Typography} from 'antd';
 import {Container, Box, Card} from '@mui/material';
@@ -7,6 +7,7 @@ import {Container, Box, Card} from '@mui/material';
 import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
+import style from "./DstServerList2/index.module.css";
 
 
 const { Text } = Typography;
@@ -42,7 +43,9 @@ export default function PlayerLog() {
             dataIndex: 'name',
             key: 'name',
             copyable: true,
-            // ellipsis: true,
+            render: (text, record) => {
+                return (<div className={style.icon}>{record.name}</div>)
+            }
         },
         {
             title: 'Role',
@@ -120,7 +123,11 @@ export default function PlayerLog() {
             search: false,
             dataIndex: 'actionDesc',
             key: 'actionDesc',
-            ellipsis: true,
+            render: (text, record) => (
+                <div className={style.icon} style={{wordWrap: 'break-word', wordBreak: 'break-word'}}>
+                    {text}
+                </div>
+            ),
         },
         {
             title: '操作',
@@ -178,7 +185,7 @@ export default function PlayerLog() {
                         pagination={{
                             current: currentPage,
                             pageSize,
-                            total: data.length,
+                            total: data.total,
                             onChange: setCurrentPage,
                             showSizeChanger: true,
                             onShowSizeChange: (current, size) => setPageSize(size),

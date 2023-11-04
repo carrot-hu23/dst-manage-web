@@ -1,8 +1,9 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Space, Input, Select, Switch, message, Tabs} from "antd";
+import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm} from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 import {readLevelServerLogApi} from "../../../api/level";
 import {MonacoEditor} from "../../NewEditor";
@@ -10,11 +11,13 @@ import {sendCommandApi} from "../../../api/8level";
 import PanelLog from "./PanelLog";
 import {useTheme} from "../../../hooks/useTheme";
 
+
 const {TextArea} = Input;
 const { TabPane } = Tabs;
 
 
 export default ({levels}) => {
+    const { t } = useTranslation()
     const {theme} = useTheme();
     const {cluster} = useParams()
     const [spinLoading, setSpinLoading] = useState(false)
@@ -32,7 +35,7 @@ export default ({levels}) => {
         setCommand(e.target.value);
     };
 
-    function sendInstruct() {
+    function sendInstruct(command) {
         if (command === "") {
             message.warning("请填写指令在发送")
             return
@@ -174,9 +177,30 @@ export default ({levels}) => {
                             <TextArea onChange={onchange} rows={3}/>
                             <Button style={{
                                 marginTop: '8px'
-                            }} type="primary" onClick={() => sendInstruct()}>
+                            }} type="primary" onClick={() => sendInstruct(command)}>
                                 发送指令
                             </Button>
+
+                            <br/><br/>
+                            <Space size={8} wrap>
+                                <Button type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
+                                <Popconfirm
+                                    title={t('regenerate')}
+                                    description="请保存好数据"
+                                    onConfirm={()=>{sendInstruct("c_regenerateworld()")}}
+                                    onCancel={()=>{}}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                <Button type={"primary"} danger>{t('regenerate')}</Button>
+                                </Popconfirm>
+                                <Button onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
+                                <Button onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
+                                <Button onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
+                                <Button onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
+                                <Button onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
+                                <Button onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
+                            </Space>
                         </TabPane>
 
                         <TabPane tab="面板日志" key="2">

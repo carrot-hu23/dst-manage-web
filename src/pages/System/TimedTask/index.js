@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState} from "react";
 
 import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Table, Tag,InputNumber,TimePicker} from "antd";
@@ -5,7 +6,9 @@ import {Box, Card} from "@mui/material";
 
 import { converter } from 'react-js-cron'
 
+import {useParams} from "react-router-dom";
 import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../../api/jobTaskApi";
+import {getLevelListApi} from "../../../api/clusterLevelApi";
 
 const {Option} = Select;
 const { TextArea } = Input;
@@ -22,9 +25,13 @@ const jobTaskEnum = {
     "restart": "重启游戏",
     "restartMaster": "重启森林",
     "restartCaves": "重启洞穴",
+    "regenerate": "重置世界"
 }
 
 export default () => {
+
+    const {cluster} = useParams()
+
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [data, setData] = useState([]);
@@ -61,6 +68,11 @@ export default () => {
     }
 
     const columns = [
+        {
+            title: '世界',
+            dataIndex: 'levelName',
+            key: 'levelName',
+        },
         {
             title: 'jobId',
             dataIndex: 'jobId',
@@ -158,6 +170,17 @@ export default () => {
 
     const AddJobTaskModal = ({isModalOpen, setIsModalOpen}) => {
 
+        const [levels, setLevels] = useState([])
+        useEffect(()=>{
+            getLevelListApi()
+                .then(resp => {
+                    if (resp.code === 200) {
+                        const levels = resp.data
+                        setLevels(levels)
+                    }
+                })
+        },[])
+
         const onChange = (time, timeString) => {
             console.log(time, timeString);
             const converted = converter.getCronStringFromValues(
@@ -196,6 +219,14 @@ export default () => {
             data.cron = converted
             console.log('cron string:', converted)
             console.log(data)
+
+            // eslint-disable-next-line no-restricted-syntax
+            for (const level of levels) {
+                if (level.uuid === data.levelName) {
+                    data.uuid = level.uuid
+                    data.levelName = level.levelName
+                }
+            }
             addJobTaskApi("", data).then((response => {
                 if (response.code !== 200) {
                     message.error("创建定时任务失败")
@@ -218,8 +249,6 @@ export default () => {
                         sleep: 5
                     }}
                 >
-
-
                     <Form.Item
                         label={"时间"}
                         name='date'
@@ -227,8 +256,6 @@ export default () => {
                     >
                         <TimePicker onChange={onChange} format={'HH:mm'} />
                     </Form.Item>
-
-
                     <Form.Item
                         label={"类型"}
                         name='category'
@@ -240,9 +267,21 @@ export default () => {
                             <Option value="update">更新游戏</Option>
                             <Option value="start">启动游戏</Option>
                             <Option value="stop">停止游戏</Option>
+                            <Option value="stop">停止游戏</Option>
+                            <Option value="regenerate">重置世界</Option>
                         </Select>
                     </Form.Item>
-
+                    <Form.Item
+                        label={"世界"}
+                        name='levelName'
+                        rules={[{required: true, message: '请选择世界',},]}
+                    >
+                        <Select>
+                            {levels.map((item,index)=>
+                                <Option key={index} value={item.uuid}>{item.levelName}</Option>
+                            )}
+                        </Select>
+                    </Form.Item>
                     <Form.Item
                         label={"备注"}
                         name='comment'

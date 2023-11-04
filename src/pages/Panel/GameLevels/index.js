@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Button, message, Popconfirm, Space, Spin, Switch, Table} from 'antd';
+import {Button, message, Popconfirm, Space, Spin, Switch, Table, Tag} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
-import {cleanLevelApi, startLevelApi} from "../../../api/8level";
+import {cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -43,7 +43,8 @@ export default ({levels}) => {
             hideInSearch: true,
             render: (text, record) => (
                 <div style={{wordWrap: 'break-word', wordBreak: 'break-word'}}>
-                    {text}
+                    {record.status && <Tag color={'green'} >{text}</Tag>}
+                    {!record.status && <Tag color={'default'} >{text}</Tag>}
                 </div>
             ),
         },
@@ -98,7 +99,7 @@ export default ({levels}) => {
                         <Button icon={<ClearOutlined/>} danger type={'primary'} size={'small'}>清理</Button>
                     </Popconfirm>
 
-                    <Switch defaultChecked={record.status}
+                    <Switch checked={record.status}
                             checkedChildren="启动"
                             unCheckedChildren="关闭"
                             onClick={(checked, event) => {
@@ -116,19 +117,60 @@ export default ({levels}) => {
                 paddingTop: '16px',
                 padding: '8px'
             }} size={16}>
-                <Button
-                    size={'middle'}
-                    type="primary"
+                <Popconfirm
+                    title={`一键启动世界`}
+                    onConfirm={() => {
+                        setSpin(true)
+                        setStartText("正在一键启动")
+                        startAllLevelApi("", true)
+                            .then(resp=>{
+                                if (resp.code === 200) {
+                                    message.success("启动成功")
+                                } else {
+                                    message.error("启动成功")
+                                }
+                                setSpin(false)
+                            })
+                    }}
+                    onCancel={() => {}}
+                    okText="Yes"
+                    cancelText="No"
+                    >
+                    <Button
+                        size={'middle'}
+                        type="primary"
+                    >
+                        一键启动
+                    </Button>
+                </Popconfirm>
+
+                <Popconfirm
+                    title={`一键关闭世界`}
+                    onConfirm={() => {
+                        setSpin(true)
+                        setStartText("正在一键关闭")
+                        startAllLevelApi("", false)
+                            .then(resp=>{
+                                if (resp.code === 200) {
+                                    message.success("关闭成功")
+                                } else {
+                                    message.error("关闭失败")
+                                }
+                                setSpin(false)
+                            })
+                    }}
+                    onCancel={() => {}}
+                    okText="Yes"
+                    cancelText="No"
                 >
-                    一键启动
-                </Button>
-                <Button
-                    size={'middle'}
-                >
-                    一键关闭
-                </Button>
+                    <Button
+                        size={'middle'}
+                    >
+                        一键关闭
+                    </Button>
+                </Popconfirm>
             </Space>
-            <Spin spinning={spin} description={startText}>
+            <Spin spinning={spin} tip={startText}>
                 <Table
                     columns={columns}
                     dataSource={levels}

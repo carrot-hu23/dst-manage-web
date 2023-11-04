@@ -24,21 +24,21 @@ const System = () => {
             label: "定时任务",
             children: <TimedTask/>,
         },
-        {
-            key: '3',
-            label: "宕机恢复",
-            children: <Automatic/>,
-        },
+        // {
+        //     key: '3',
+        //     label: "宕机恢复",
+        //     children: <Automatic/>,
+        // },
         {
             key: '4',
             label: "更新游戏",
             children: <AutoCheck name={"updateGameVersion"} title={"自动更新游戏"} />,
         },
-        {
-            key: '5',
-            label: "更新模组",
-            children: <AutoMod />,
-        },
+        // {
+        //     key: '5',
+        //     label: "更新模组",
+        //     children: <AutoMod />,
+        // },
         {
             key: '6',
             label: "环境依赖",

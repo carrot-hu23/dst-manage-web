@@ -7,6 +7,9 @@ const {Paragraph} = Typography;
 // eslint-disable-next-line react/prop-types
 const HomeOverView = ({home}) => {
     console.log("==========",home.home)
+    if (home.DaysInfo === undefined || home.DaysInfo === null) {
+        home.DaysInfo = {}
+    }
     return (
         <>
             <div style={{

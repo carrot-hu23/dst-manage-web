@@ -22,7 +22,29 @@ const dstRolesMap = {
     "": '未知角色',
 
 }
-
+const dstRolesMap2 = {
+    '温蒂': 'wendy',
+    '威尔逊': 'wilson',
+    '薇洛': 'willow',
+    '沃尔夫冈': 'wolfgang',
+    'WX-78': 'WX-78',
+    '薇克巴顿': 'wickerbottom',
+    '伍迪': 'woodie',
+    '韦斯': 'wes',
+    '麦斯威尔': 'waxwell',
+    '薇格弗德': 'wathgrithr',
+    '韦伯': 'webber',
+    '薇诺娜': 'winona',
+    '沃利': 'warly',
+    '沃尔特': 'walter',
+    '沃拓克斯': 'wortox',
+    '沃姆伍德': 'wormwood',
+    '沃特': 'wurt',
+    '旺达': 'wanda',
+    '芜猴': 'wonkey',
+    '模组角色': 'mod',
+    "未知角色": '',
+}
 const dstRoles = {
     wendy: 'https://dst.liuyh.com/static/img/dstui/icon/wendy_inv.png',
     wilson: 'https://dst.liuyh.com/static/img/dstui/icon/wilson_inv.png',
@@ -113,5 +135,5 @@ const dstGameMod = [
 ]
 
 export {
-    dstRoles, dstGameMod,customization, dstRolesMap
+    dstRoles, dstGameMod,customization, dstRolesMap, dstRolesMap2
 }

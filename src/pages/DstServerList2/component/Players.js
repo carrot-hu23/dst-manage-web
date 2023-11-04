@@ -1,6 +1,6 @@
 import { Image, List } from 'antd';
 
-import { dstRoles } from '../../../utils/dst';
+import {dstRoles, dstRolesMap2} from '../../../utils/dst';
 
 const data = [
     {
@@ -35,7 +35,7 @@ const Players = ({ players }) => (
                             </a>]}>
 
                         <List.Item.Meta
-                            avatar={<Image preview={false} width={36.8} src={dstRoles[item.Prefab] || dstRoles.mod} />}
+                            avatar={<Image preview={false} width={36.8} src={dstRoles[dstRolesMap2[item.Prefab]] || dstRoles.mod} />}
                             description={<div style={{
                                 color: `#${item.Color}`,
                                 marginTop: '4px',

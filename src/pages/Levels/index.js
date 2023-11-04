@@ -25,7 +25,9 @@ import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "
 import {useTheme} from "../../hooks/useTheme";
 
 
-const Leveldataoverride = ({dstWorldSetting, levelName, level, changeValue}) => {
+const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
+
+    const {theme} = useTheme();
 
     const ref = useRef(level.leveldataoverride)
     const [view, setView] = useState("editor")
@@ -33,19 +35,44 @@ const Leveldataoverride = ({dstWorldSetting, levelName, level, changeValue}) => 
     function updateValue(newValue) {
         changeValue(levelName, {leveldataoverride: newValue})
         ref.current = newValue
-    }
 
+        editorRef.current.current.setValue(newValue)
+    }
+    useEffect(() => {
+        editorRef.current.current.setValue(level.leveldataoverride)
+        editorRef.current.current.onDidChangeModelContent((e) => {
+            const newValue = editorRef.current.current.getValue();
+            changeValue(levelName, {leveldataoverride: newValue});
+
+            ref.current = newValue
+        });
+
+    }, [])
+    const items = [
+        {
+            label: '手动编辑',
+            children: <MonacoEditor
+                ref={editorRef}
+                style={{
+                    "height": "370px",
+                    "width": "100%"
+                }}
+                options={{
+                    theme: theme === 'dark'?'vs-dark':''
+                }}
+            />,
+            key: '1',
+            forceRender: true,
+        },
+        {
+            label: '可视化',
+            children: <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>,
+            key: '2',
+        },
+    ]
     return (
         <>
-            <div>
-                <Segmented onChange={v => setView(v)} options={['editor', 'view']}/>
-            </div>
-            {view === 'editor' && <>
-                <br/>
-                <ConfigEditor valueRef={ref} changeValue={updateValue}/>
-            </>}
-            {view === 'view' &&
-                <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>}
+            <Tabs type="card" destroyInactiveTabPane={true} items={items}/>
         </>
     )
 }
@@ -68,12 +95,10 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
 
     return (
         <>
-            <Segmented options={['editor']}/>
-            <br/><br/>
             <MonacoEditor
                 ref={editorRef}
                 style={{
-                    "height": "370px",
+                    "height": "432px",
                     "width": "100%"
                 }}
                 options={{
@@ -384,6 +409,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
 
     const modoverridesRef = useRef(level.modoverrides)
     const editorRef = useRef()
+    const editorRef2 = useRef()
 
     const [form] = Form.useForm()
     form.setFieldsValue({
@@ -467,7 +493,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
     const items = [
         {
             label: '世界配置',
-            children: <Leveldataoverride dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
+            children: <Leveldataoverride editorRef={editorRef2} dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
                                          changeValue={changeValue}/>,
             key: '1',
             forceRender: true,

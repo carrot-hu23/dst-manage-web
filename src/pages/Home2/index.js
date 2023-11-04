@@ -1,7 +1,6 @@
 import {Tabs} from "antd";
 import {Box, Card, Container} from "@mui/material";
 
-import Token from "./Token";
 import ClusterIni from "./ClusterIni";
 import useResponsive from "../../hooks/useResponsive";
 import NameList from "./NameList";

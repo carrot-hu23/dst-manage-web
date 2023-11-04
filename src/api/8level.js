@@ -170,6 +170,25 @@ async function cleanLevelApi(cluster,levels) {
     return response.data
 }
 
+async function startAllLevelApi(cluster,checked) {
+
+    let url = ""
+    // 启动
+    if(checked) {
+        url = `api/game/8level/start/all`
+    } else {
+        url = `api/game/8level/stop/all`
+    }
+
+    // const url = '/api/dashboard'
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     getLevelConfigApi,
     saveLevelConfigApi,
@@ -193,4 +212,6 @@ export {
     getOnlinePlayersApi,
 
     cleanLevelApi,
+
+    startAllLevelApi
 }

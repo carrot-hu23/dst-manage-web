@@ -8,14 +8,14 @@ import Secondaries from "./Secondaries";
 
 const HomeDetail = (props) => {
 
-    const players = props.home.successinfo.players || []
-    const home = props.home.successinfo || {
+    const players = props.home?.successinfo?.players || []
+    const home = props.home?.successinfo || {
         data: {
             day: '未知'
         }
     }
-    const mods = props.home.successinfo.mods_info || []
-    const secondaries = props.home.successinfo.secondaries || []
+    const mods = props.home?.successinfo?.mods_info || []
+    const secondaries = props.home?.successinfo?.secondaries || []
 
     const items = [
         {

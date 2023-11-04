@@ -51,9 +51,6 @@ export default ({name, title})=>{
             <Box sx={{p: 3}} dir="ltr">
                 <Skeleton loading={loading}>
                     <Spin spinning={spin}>
-                        <div>
-                            {title}
-                        </div>
                         <Form
                             form={form}
                             labelCol={{
@@ -62,6 +59,7 @@ export default ({name, title})=>{
                             wrapperCol={{
                                 span: 16,
                             }}
+                            // labelAlign={'left'}
                             initialValues={{
                                 interval: 20,
                                 announcement: "131313\n3131\n"

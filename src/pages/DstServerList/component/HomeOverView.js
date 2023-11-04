@@ -29,11 +29,11 @@ const HomeOverView = ({home}) => (
                         </Form.Item>
 
                         <Form.Item label="天数">
-                            <span>{home.data.day}</span>
+                            <span>{home?.data?.day}</span>
                         </Form.Item>
 
                         <Form.Item label="季节">
-                            <span>{home.season}{`(${home.data.dayselapsedinseason + 1}/${home.data.dayselapsedinseason + home.data.daysleftinseason})`}</span>
+                            <span>{home.season}{`(${home?.data?.dayselapsedinseason + 1}/${home?.data?.dayselapsedinseason + home?.data?.daysleftinseason})`}</span>
                         </Form.Item>
                     </div>
                     <div>

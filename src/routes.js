@@ -18,7 +18,6 @@ import UserProfile from "./pages/User/UserProfile";
 import Link from "./pages/WebLink";
 import Modinfo from "./pages/Mod/Modinfo";
 import Help from "./pages/Help";
-import Levels8 from "./pages/Levels8";
 import Home2 from "./pages/Home2";
 import Forest from "./pages/Levels8/LevelSetting/LeveldataoverrideView";
 import Game from "./pages/Game";
@@ -27,8 +26,8 @@ import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
-import DstServerList2 from "./pages/DstServerList2";
 import AddMod from "./pages/Mod/AddMod";
+import DstServerList from "./pages/DstServerList";
 
 export default function Router() {
   const routes = useRoutes([
@@ -48,7 +47,7 @@ export default function Router() {
         { path: 'setting', element: <Setting /> },
         { path: 'github', element: <Github /> },
         { path: 'help', element: <Help /> },
-        { path: 'dst/server', element: <DstServerList2 /> },
+        { path: 'dst/server', element: <DstServerList /> },
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
         { path: 'modinfo/:modId', element: <Modinfo /> },
