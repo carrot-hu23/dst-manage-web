@@ -12,6 +12,8 @@ import './locales/i18n'
 import {ThemeProvider2} from "./hooks/useTheme";
 // ----------------------------------------------------------------------
 
+import './index.css';
+
 export default function App() {
     return (
         <HelmetProvider>

@@ -1,13 +1,14 @@
 import {useParams} from "react-router-dom";
 import React, {useRef, useState} from 'react';
 import {ProTable} from '@ant-design/pro-components';
-import {Button, Image, message, Popconfirm, Tag, Typography} from 'antd';
+import {Button, Image, message, Popconfirm, Space, Tag, Typography} from 'antd';
 import {Container, Box, Card} from '@mui/material';
 
 import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
 import style from "./DstServerList2/index.module.css";
+import HiddenText from "../components2/HiddenText/HiddenText";
 
 
 const { Text } = Typography;
@@ -63,11 +64,8 @@ export default function PlayerLog() {
             dataIndex: 'kuId',
             key: 'kuId',
             ellipsis: true,
-            // eslint-disable-next-line no-unused-vars
-            //  <Text copyable>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
-            render: (text, record, _, action) => (
-                <Text>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
-            )
+            // <Text>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
+            render: (text, record, _, action) => <HiddenText text={record.kuId} />
         },
         {
             title: 'SteamId',
@@ -75,18 +73,21 @@ export default function PlayerLog() {
             key: 'steamId',
             // ellipsis: true,
             align: 'left',
+            // <span>{`${record.steamId.slice(0, 5)}***${record.steamId.slice(record.steamId.length - 2)}  `}</span>
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
-                <span>{`${record.steamId.slice(0, 5)}***${record.steamId.slice(record.steamId.length - 2)}  `}</span>
-                <a
-                    target={'_blank'}
-                    href={`https://steamcommunity.com/profiles/${record.steamId}`}
-                    style={{
-                        background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
-                    }} rel="noreferrer">
-                    <Image preview={false} width={22}
-                           src={'https://dst.liuyh.com/static/img/dstui/icon/steam_btn.png'}/>
-                </a>
+                <Space size={4}>
+                    <HiddenText text={record.steamId} />
+                    <a
+                        target={'_blank'}
+                        href={`https://steamcommunity.com/profiles/${record.steamId}`}
+                        style={{
+                            background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
+                        }} rel="noreferrer">
+                        <Image preview={false} width={22}
+                               src={'https://dst.liuyh.com/static/img/dstui/icon/steam_btn.png'}/>
+                    </a>
+                </Space>
             </div>)
 
         },
@@ -102,7 +103,8 @@ export default function PlayerLog() {
             dataIndex: 'ip',
             key: 'ip',
             valueType: 'string',
-            search: false
+            search: false,
+            render: (text, record, _, action) => <HiddenText text={record.ip} />
         },
         {
             title: 'Action',

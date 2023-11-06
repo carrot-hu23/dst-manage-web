@@ -144,7 +144,7 @@ export default () => {
                             <InputNumber/>
                         </Form.Item>
                         <Form.Item label="房间密码" name='cluster_password'>
-                            <Input placeholder="最大长度20" maxLength={20}/>
+                            <Input.Password placeholder="最大长度20" />
                         </Form.Item>
                         <Form.Item
                             label="令牌"
@@ -155,7 +155,7 @@ export default () => {
                                     message: '请输入令牌',
                                 },
                             ]}>
-                            <Input placeholder="科雷token令牌" maxLength={200}/>
+                            <Input.Password placeholder="科雷token令牌" />
                         </Form.Item>
                         <Form.Item label="pvp" valuePropName="checked" tooltip="是否开启玩家对战" name='pvp'>
                             <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
@@ -213,7 +213,7 @@ export default () => {
                             name='bind_ip'
                             tooltip="bind_ip"
                         >
-                            <Input placeholder="bind_ip" maxLength={200}/>
+                            <Input.Password placeholder="bind_ip" maxLength={200}/>
                         </Form.Item>
 
                         <Form.Item
@@ -221,7 +221,7 @@ export default () => {
                             name='master_ip'
                             tooltip="master_ip"
                         >
-                            <Input placeholder="master_ip" maxLength={200}/>
+                            <Input.Password placeholder="master_ip" maxLength={200}/>
                         </Form.Item>
 
                         <Form.Item

@@ -67,7 +67,7 @@ export default ({levels}) => {
                     editorRef.current.current.setValue(logs)
                     editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount());
                 } else {
-                    editorRef.current.current.setValue("\"读取日志失败！！！\"")
+                    editorRef.current.current.setValue("")
                 }
             })
     }, [])

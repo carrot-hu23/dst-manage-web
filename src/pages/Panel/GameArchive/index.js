@@ -1,15 +1,14 @@
-import {Typography, Space, Form, Button} from 'antd';
+import {Alert, Form, Space, Tooltip} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import {useEffect, useState} from 'react';
 
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
-import './index.css';
 import style from "../../DstServerList/index.module.css";
+import HiddenText from "../../../components2/HiddenText/HiddenText";
 
-
-const {Paragraph} = Typography;
 
 export default () => {
     const navigate = useNavigate();
@@ -38,6 +37,10 @@ export default () => {
                 ar.phase = metaInfo.Clock.Phase || '未知'
                 ar.elapseddaysinseason = metaInfo.Seasons.ElapsedDaysInSeason || '未知'
                 ar.remainingdaysinseason = metaInfo.Seasons.RemainingDaysInSeason || '未知'
+                ar.version = data.data.version
+                ar.lastVersion = data.data.lastVersion
+                ar.password = data.data.clusterPassword
+                ar.port = data.data.port
                 setArchive(ar)
             }).catch(error => console.log(error))
 
@@ -45,7 +48,7 @@ export default () => {
 
     return (
         <>
-            <Form>
+            <Form className={'dst'}>
                 <Form.Item label={t('ClusterName')}>
                     <span className={style.icon}>
                         {archive.clusterName}
@@ -67,8 +70,35 @@ export default () => {
                     </span>
                 </Form.Item>
                 <Form.Item label={t('IpConnect')}>
-                    <Paragraph copyable>{archive.ipConnect}</Paragraph>
+                    <Space size={8}>
+                        <HiddenText text={archive.ipConnect} />
+                        <Tooltip placement="topLeft" title={`请开放对应的 ${archive.port} udp 端口`}>
+                            <QuestionCircleOutlined />
+                        </Tooltip>
+                    </Space>
                 </Form.Item>
+                <Form.Item label={t('Password')}>
+                    <HiddenText text={archive.password} />
+                </Form.Item>
+                <Form.Item label={t('Version')}>
+                    <span>
+                        {archive.version} / {archive.lastVersion}
+                    </span>
+                </Form.Item>
+                <Alert message={`请开放对应的 ${archive.port} udp 端口`} type="info" showIcon closable />
+                {archive.version !== archive.lastVersion &&
+                    <Alert
+                        action={[
+                            <>
+                                <a target={'_blank'}
+                                   href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
+                                   rel="noreferrer">
+                                    查看
+                                </a>
+                            </>
+                        ]}
+                        message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
+
             </Form>
         </>
     )
