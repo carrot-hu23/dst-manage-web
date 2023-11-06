@@ -1,10 +1,23 @@
-
 import React, {useEffect, useState} from "react";
 
-import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Table, Tag,InputNumber,TimePicker} from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    InputNumber,
+    message,
+    Modal,
+    Popconfirm,
+    Segmented,
+    Select,
+    Space,
+    Table,
+    Tag,
+    TimePicker
+} from "antd";
 import {Box, Card} from "@mui/material";
 
-import { converter } from 'react-js-cron'
+import {converter} from 'react-js-cron'
 
 import {useParams} from "react-router-dom";
 import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../../api/jobTaskApi";
@@ -206,18 +219,18 @@ export default () => {
                 message.error(err.errorFields[0].errors[0])
             });
             const data = form.getFieldsValue()
-            console.log(data)
-            const converted = converter.getCronStringFromValues(
-                'day', // period: 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'reboot'
-                [], // months: number[] | undefined
-                [],  // monthDays: number[] | undefined
-                [], // weekDays: number[] | undefined
-                [data.date.$H], // hours: number[] | undefined
-                [data.date.$m], // minutes: number[] | undefined
-                false // humanizeValue?: boolean
-            )
-            data.cron = converted
-            console.log('cron string:', converted)
+
+            if (activeTab === '默认') {
+                data.cron = converter.getCronStringFromValues(
+                    'day', // period: 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'reboot'
+                    [], // months: number[] | undefined
+                    [],  // monthDays: number[] | undefined
+                    [], // weekDays: number[] | undefined
+                    [data.date.$H], // hours: number[] | undefined
+                    [data.date.$m], // minutes: number[] | undefined
+                    false // humanizeValue?: boolean
+                )
+            }
             console.log(data)
 
             // eslint-disable-next-line no-restricted-syntax
@@ -235,7 +248,11 @@ export default () => {
                 message.success("创建定时任务成功")
             })).catch(err => console.log(err))
         };
+        const [activeTab, setActiveTab] = useState('默认');
 
+        const handleTabChange = (value) => {
+            setActiveTab(value);
+        };
         return (
             <Modal title={"创建任务"} open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(false)}>
                 <Form
@@ -249,13 +266,32 @@ export default () => {
                         sleep: 5
                     }}
                 >
-                    <Form.Item
-                        label={"时间"}
-                        name='date'
-                        rules={[{required: true, message: '请选择时间',},]}
-                    >
-                        <TimePicker onChange={onChange} format={'HH:mm'} />
-                    </Form.Item>
+                    <Segmented
+                        block
+                        value={activeTab}
+                        onChange={handleTabChange}
+                        options={['默认', '自定义']}
+                    />
+                    <br/>
+                    {activeTab === '默认' && <div>
+                        <Form.Item
+                            label={"时间"}
+                            name='date'
+                            rules={[{required: true, message: '请选择时间',},]}
+                        >
+                            <TimePicker onChange={onChange} format={'HH:mm'} />
+                        </Form.Item>
+                    </div>}
+                    {activeTab === '自定义' && <div>
+                        <Form.Item
+                            label={"corn表达式"}
+                            name='cron'
+                            rules={[{required: true, message: '请输入corn表达式',},]}
+                        >
+                            <Input placeholder="请输入corn表达式（五位）"
+                            />
+                        </Form.Item>
+                    </div>}
                     <Form.Item
                         label={"类型"}
                         name='category'
