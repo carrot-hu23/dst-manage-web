@@ -45,6 +45,10 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
         setModList([...modList])
     }
 
+    function isWorkshopId(str) {
+        return /^[0-9]+$/.test(str);
+    }
+
     function formatModOverride() {
         try {
             const chooses = modList.filter(mod => mod.enable)
@@ -63,7 +67,12 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                 if (workshopObject[workshopId] === undefined) {
                     workshopObject[workshopId] = {}
                 }
-                const workshop = `workshop-${workshopId}`
+                let workshop
+                if (isWorkshopId(workshopId)) {
+                    workshop = `workshop-${workshopId}`
+                } else {
+                    workshop = workshopId
+                }
                 workShops[workshop] = {
                     configuration_options: workshopObject[workshopId],
                     enabled: true
