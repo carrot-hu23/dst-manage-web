@@ -29,8 +29,8 @@ const navConfig = [
     icon: icon('package'),
   },
   {
-    title: '预览模板',
-    path: '/dashboard/preinstall',
+    title: '辅助功能',
+    path: '/dashboard/tool',
     icon: icon('star')
   },
 

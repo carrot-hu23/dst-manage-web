@@ -510,12 +510,12 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
             key: '3',
             forceRender: true,
         },
-        {
-            label: '多层选择器',
-            children: <SelectorMod formValueChange={formValueChange} form={form} editorRef={editorRef}
-                                   modoverridesRef={modoverridesRef} level={level}/>,
-            key: '4',
-        },
+        // {
+        //     label: '多层选择器',
+        //     children: <SelectorMod formValueChange={formValueChange} form={form} editorRef={editorRef}
+        //                            modoverridesRef={modoverridesRef} level={level}/>,
+        //     key: '4',
+        // },
     ]
     useEffect(() => {
 

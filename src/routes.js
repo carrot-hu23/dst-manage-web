@@ -29,6 +29,8 @@ import ModSetting from "./pages/ModSetting";
 import AddMod from "./pages/Mod/AddMod";
 import DstServerList from "./pages/DstServerList";
 import Preinstall from "./pages/Preinstall";
+import Assembly from "./pages/Assembly";
+import Tool from "./pages/Tool";
 
 export default function Router() {
   const routes = useRoutes([
@@ -44,6 +46,9 @@ export default function Router() {
         { path: 'panel', element: <Panel /> },
 
         { path: 'preinstall', element: <Preinstall /> },
+        { path: 'assembly', element: <Assembly /> },
+        { path: 'tool', element: <Tool /> },
+
 
         { path: 'cluster', element: <Home2 /> },
         { path: 'levels', element: <Levels /> },
