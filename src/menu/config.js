@@ -13,21 +13,11 @@ const navConfig = [
     path: '/dashboard/panel',
     icon: icon('monitor'),
   },
-  // {
-  //   title: '房间设置',
-  //   path: '/dashboard/home',
-  //   icon: icon('home')
-  // },
   {
     title: '房间设置',
     path: '/dashboard/cluster',
     icon: icon('home')
   },
-  // {
-  //   title: '世界设置',
-  //   path: '/dashboard/8level',
-  //   icon: icon('layers')
-  // },
   {
     title: '世界设置',
     path: '/dashboard/levels',
@@ -38,26 +28,12 @@ const navConfig = [
     path: '/dashboard/mod',
     icon: icon('package'),
   },
-  // {
-  //   title: '模板管理',
-  //   path: '/dashboard/template/config',
-  //   icon: icon('bookmark')
-  // },
-  // {
-  //   title: '世界设置',
-  //   path: '/dashboard/cluster/view',
-  //   icon: icon('layers'),
-  // },
-  // {
-  //   title: '模组配置',
-  //   path: '/dashboard/mod',
-  //   icon: icon('package'),
-  // },
-  // {
-  //   title: '玩家管理',
-  //   path: '/dashboard/player',
-  //   icon: icon('users')
-  // },
+  {
+    title: '预览模板',
+    path: '/dashboard/preinstall',
+    icon: icon('star')
+  },
+
   {
     title: '游戏备份',
     path: '/dashboard/backup',

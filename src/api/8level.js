@@ -170,6 +170,18 @@ async function cleanLevelApi(cluster,levels) {
     return response.data
 }
 
+async function cleanAllLevelApi(cluster,levels) {
+
+    const url = `/api/game/clean/level/all`
+    console.log(levels)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 async function startAllLevelApi(cluster,checked) {
 
     let url = ""
@@ -212,6 +224,8 @@ export {
     getOnlinePlayersApi,
 
     cleanLevelApi,
+    cleanAllLevelApi,
 
-    startAllLevelApi
+    startAllLevelApi,
+
 }

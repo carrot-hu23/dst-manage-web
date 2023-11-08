@@ -95,7 +95,7 @@ export default function Header({ onOpenNav }) {
           TODO 暂时去掉搜索
           <Searchbar />
           */}
-                {isDesktop && <Tag color="#2784FF">多层版本</Tag>}
+                {isDesktop && <Tag color="#2784FF">1.2.6.beta</Tag>}
                 {isDesktop && <Tag color="#f50">禁止商用</Tag>}
 
                 {/* eslint-disable */}

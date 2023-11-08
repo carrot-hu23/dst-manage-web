@@ -7,7 +7,6 @@ import {
     InputNumber,
     message,
     Modal,
-    Segmented,
     Space,
     Switch,
     Tabs,
@@ -16,9 +15,8 @@ import {
     Skeleton, Empty
 } from 'antd';
 import {Box, Card, Container} from "@mui/material";
-import ConfigEditor from "../Levels8/LevelSetting/LeveldataoverrideView/ConfigEditor";
 import ConfigViewEditor from "../Levels8/LevelSetting/LeveldataoverrideView/ConfigViewEditor";
-import {MinusCircleOutlined, PlusOutlined, SnippetsOutlined} from "@ant-design/icons";
+import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {format, parse} from "lua-json";
 import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
@@ -811,7 +809,7 @@ const App = () => {
                         setOpenDelete(false)
                     }}
                 >
-                    <span>删世界会先停止世界运行，删除之前请保存好数据</span>
+                    <Alert message="删世界会先停止世界运行，删除之前请保存好数据" type="warning" showIcon />
                 </Modal>
             </Card>
         </Container>

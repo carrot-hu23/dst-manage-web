@@ -112,7 +112,7 @@ export default () => {
                         </Form.Item>
 
                         <Form.Item label="房间描述" name='cluster_description'>
-                            <TextArea rows={4} placeholder="请输入房间描述" maxLength={200}/>
+                            <TextArea className={style.icon} rows={4} placeholder="请输入房间描述" maxLength={200}/>
                         </Form.Item>
                         <Form.Item
                             label="游戏模式"

@@ -85,7 +85,9 @@ export default () => {
                         {archive.version} / {archive.lastVersion}
                     </span>
                 </Form.Item>
-                <Alert message={`请开放对应的 ${archive.port} udp 端口`} type="info" showIcon closable />
+                <Alert style={{
+                    marginBottom: '4px'
+                }} message={`请开放对应的 ${archive.port} udp 端口`} type="info" showIcon closable />
                 {archive.version !== archive.lastVersion &&
                     <Alert
                         action={[

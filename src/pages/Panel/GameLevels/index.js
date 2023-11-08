@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, message, Popconfirm, Space, Spin, Switch, Table, Tag} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
-import {cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -167,6 +167,34 @@ export default ({levels}) => {
                         size={'middle'}
                     >
                         一键关闭
+                    </Button>
+                </Popconfirm>
+
+                <Popconfirm
+                    title={`一键清理世界`}
+                    onConfirm={() => {
+                        setSpin(true)
+                        setStartText("正在一键清理")
+                        cleanAllLevelApi("", false)
+                            .then(resp=>{
+                                if (resp.code === 200) {
+                                    message.success("清理成功")
+                                } else {
+                                    message.error("清理失败")
+                                }
+                                setSpin(false)
+                            })
+                    }}
+                    onCancel={() => {}}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <Button
+                        danger
+                        type={"primary"}
+                        size={'middle'}
+                    >
+                        一键清理
                     </Button>
                 </Popconfirm>
             </Space>

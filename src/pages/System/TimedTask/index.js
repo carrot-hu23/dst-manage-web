@@ -303,7 +303,6 @@ export default () => {
                             <Option value="update">更新游戏</Option>
                             <Option value="start">启动游戏</Option>
                             <Option value="stop">停止游戏</Option>
-                            <Option value="stop">停止游戏</Option>
                             <Option value="regenerate">重置世界</Option>
                         </Select>
                     </Form.Item>

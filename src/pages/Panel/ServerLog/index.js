@@ -10,6 +10,7 @@ import {MonacoEditor} from "../../NewEditor";
 import {sendCommandApi} from "../../../api/8level";
 import PanelLog from "./PanelLog";
 import {useTheme} from "../../../hooks/useTheme";
+import style from "../../DstServerList/index.module.css";
 
 
 const {TextArea} = Input;
@@ -90,7 +91,7 @@ export default ({levels}) => {
                         editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount())
                     }
                 }else {
-                    editorRef.current.current.setValue("\"读取日志失败！！！\"")
+                    editorRef.current.current.setValue("")
                 }
                 // setSpinLoading(false)
             })
@@ -140,6 +141,7 @@ export default ({levels}) => {
                             </Space.Compact>
                             <br/><br/>
                             <MonacoEditor
+                                className={style.icon}
                                 ref={editorRef}
                                 style={{
                                     "height": "370px",
