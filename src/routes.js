@@ -28,8 +28,6 @@ import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
 import AddMod from "./pages/Mod/AddMod";
 import DstServerList from "./pages/DstServerList";
-import Preinstall from "./pages/Preinstall";
-import Assembly from "./pages/Assembly";
 import Tool from "./pages/Tool";
 
 export default function Router() {
@@ -45,8 +43,6 @@ export default function Router() {
         { path: 'mod', element: <ModSetting /> },
         { path: 'panel', element: <Panel /> },
 
-        { path: 'preinstall', element: <Preinstall /> },
-        { path: 'assembly', element: <Assembly /> },
         { path: 'tool', element: <Tool /> },
 
 

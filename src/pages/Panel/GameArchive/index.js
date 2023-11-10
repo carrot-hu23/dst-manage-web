@@ -41,6 +41,13 @@ export default () => {
                 ar.lastVersion = data.data.lastVersion
                 ar.password = data.data.clusterPassword
                 ar.port = data.data.port
+                const {players} = data.data
+                if (players === null) {
+                    ar.players = []
+                } else {
+                    ar.players = players
+                }
+                ar.maxPlayers = data.data.maxPlayers
                 setArchive(ar)
             }).catch(error => console.log(error))
 
@@ -68,6 +75,9 @@ export default () => {
                     <span>
                         {archive.mods}
                     </span>
+                </Form.Item>
+                <Form.Item label={t('人数')}>
+                    <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
                 </Form.Item>
                 <Form.Item label={t('IpConnect')}>
                     <Space size={8}>

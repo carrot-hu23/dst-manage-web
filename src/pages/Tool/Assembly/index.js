@@ -9,14 +9,14 @@ import {
     Tabs,
     Alert,
     Divider,
-    Skeleton, message,
+    Skeleton, message, Select,
 } from 'antd';
 import {Box, Card, Container} from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import {format, parse} from "lua-json";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 
-import {getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
+import {getLevelListApi, updateLevelsApi} from "../../../api/clusterLevelApi";
 
 
 function parseWorldConfig(modoverrides, workshopId) {
@@ -177,7 +177,9 @@ export default () => {
         },
         {
             label: '世界配置同步',
-            children: <>111</>,
+            children: <>
+                <SyncConfig levels={levels} />
+            </>,
             key: '2',
             forceRender: true,
         },
@@ -350,6 +352,45 @@ const SelectorMod = ({form, formValueChange, updateWorkshopId, workshopId, saveW
             <Button type={'primary'}
                     onClick={()=>saveWorkshop()}
             >保存配置</Button>
+        </>
+    )
+}
+
+
+const SyncConfig = ({levels, saveSyncConfig})=>{
+
+    return(
+        <>
+            <Space size={16} wrap>
+                <Select
+                    defaultValue={levels[0]?.uuid}
+                    style={{
+                        width: 120,
+                    }}
+                    // onChange={handleChange}
+                    options={levels.map((level, index)=>{
+                        return{
+                            value: level.uuid,
+                            label: level.levelName,
+                        }
+                    })}
+                />
+                <span>同步</span>
+                <Select
+                    mode="multiple"
+                    defaultValue={levels[0]?.uuid}
+                    style={{
+                        width: 120,
+                    }}
+                    // onChange={handleChange}
+                    options={levels.map((level, index)=>{
+                        return{
+                            value: level.uuid,
+                            label: level.levelName,
+                        }
+                    })}
+                />
+            </Space>
         </>
     )
 }

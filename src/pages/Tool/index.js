@@ -1,10 +1,11 @@
 import React from "react";
 
-import {Box, Card, Container} from "@mui/material";
-import {Skeleton, Tabs} from "antd";
+import {Container} from "@mui/material";
+import {Tabs} from "antd";
 
-import Assembly from "../Assembly";
-import Preinstall from "../Preinstall";
+import Assembly from "./Assembly";
+import Preinstall from "./Preinstall";
+import ShareConfig from "./ShareConfig";
 
 export default ()=>{
 
@@ -21,6 +22,11 @@ export default ()=>{
             children: <Preinstall />,
             key: '2',
             forceRender: true,
+        },
+        {
+            label: '配置分享',
+            children: <ShareConfig />,
+            key: '3',
         },
     ]
 
