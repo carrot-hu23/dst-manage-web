@@ -78,26 +78,29 @@ const ModItem = (props) => {
                                             props.changeEnable(props.mod.modid)
                                         }}
                                 />
-                                <Popconfirm
-                                    title="是否取消该mod订阅"
-                                    okText="Yes"
-                                    cancelText="No"
-                                    onConfirm={() => {
-                                        deleteModInfo(cluster, mod.modid)
-                                            .then(resp => {
-                                                if (resp.code === 200) {
-                                                    message.success("删除模组成功")
-                                                    removeMod(mod.modid)
-                                                }
-                                            })
-                                    }}
-                                >
-                                    <Button type="text" danger onClick={() => {
-                                        setMod(props.mod)
-                                    }}>
-                                        删除
-                                    </Button>
-                                </Popconfirm>
+                                {props.mod.modid !== "client_mods_disabled" &&<>
+                                    <Popconfirm
+                                        title="是否取消该mod订阅"
+                                        okText="Yes"
+                                        cancelText="No"
+                                        onConfirm={() => {
+                                            deleteModInfo(cluster, mod.modid)
+                                                .then(resp => {
+                                                    if (resp.code === 200) {
+                                                        message.success("删除模组成功")
+                                                        removeMod(mod.modid)
+                                                    }
+                                                })
+                                        }}
+                                    >
+                                        <Button type="text" danger onClick={() => {
+                                            setMod(props.mod)
+                                        }}>
+                                            删除
+                                        </Button>
+                                    </Popconfirm>
+                                </> }
+
                                 {/*
                                 <Button type="link" onClick={
                                     () => navigate(`/dashboard/modinfo/${props.mod.modid}`)
