@@ -5,7 +5,6 @@ import {useTranslation} from "react-i18next";
 import {updateGameApi} from "../../../api/gameApi";
 import {createBackupApi} from "../../../api/backupApi";
 import {deleteStepupWorkshopApi} from "../../../api/modApi";
-import CleanLevel from "../GameOperator/CleanLevel";
 
 export default ()=>{
     

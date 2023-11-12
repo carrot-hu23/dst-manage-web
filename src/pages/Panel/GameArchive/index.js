@@ -82,7 +82,7 @@ export default () => {
                 <Form.Item label={t('IpConnect')}>
                     <Space size={8}>
                         <HiddenText text={archive.ipConnect} />
-                        <Tooltip placement="topLeft" title={`请开放对应的 ${archive.port} udp 端口`}>
+                        <Tooltip placement="topLeft" title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
                             <QuestionCircleOutlined />
                         </Tooltip>
                     </Space>
@@ -97,7 +97,7 @@ export default () => {
                 </Form.Item>
                 <Alert style={{
                     marginBottom: '4px'
-                }} message={`请开放对应的 ${archive.port} udp 端口`} type="info" showIcon closable />
+                }} message={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`} type="info" showIcon closable />
                 {archive.version !== archive.lastVersion &&
                     <Alert
                         action={[

@@ -3,7 +3,7 @@
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
-import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select} from 'antd';
+import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select, List, Avatar, Tag} from 'antd';
 
 import {dstRoles} from '../../../utils/dst';
 import {getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
@@ -153,16 +153,57 @@ const Online = ({levels}) => {
                             <Button type={'primary'} onClick={() => {
                                 queryPlayers()
                             }}>查询</Button>
+
+                            <div>
+                                人数: <Tag color={'green'}>{playerList.length}</Tag>
+                            </div>
                         </Space>
-                        <br/><br/>
-                        <div>
-                            <Row align="middle" gutter={[16, 24]} style={{ rowGap: '14px' }}>
-                                {list}
-                                <br/>
-                                <br/>
-                                {playerList.length === 0 && <span>当前暂无玩家</span>}
-                            </Row>
-                        </div>
+
+                        <List
+                            pagination={{
+                                position: "bottom",
+                                align: "end",
+                                showSizeChanger: true,
+                                total: playerList.length,
+                                pageSizeOptions: [5, 10, 20, 50, 100]
+                            }}
+                            dataSource={playerList}
+                            renderItem={(item) => (
+                                <List.Item>
+                                    <Col xs={18} sm={10} md={10} lg={10} xl={10}>
+                                        <Space align="center" size={'middle'}>
+                                            <div>
+                                                <Image preview={false} width={48} src={dstRoles[item.role] || dstRoles.mod} />
+                                            </div>
+                                            <div className={style.icon}>
+                                                {item.name}
+                                            </div>
+                                            <div>
+                        <span style={{ color: '#1677ff' }}>
+                            <HiddenText text={item.kuId} />
+                        </span>
+                                            </div>
+                                        </Space>
+                                    </Col>
+                                    <Col xs={4} sm={1} md={4} lg={4} xl={4}>
+                                        <Space size={'middle'}>
+                                            <span>{item.day}天</span>
+                                        </Space>
+
+                                    </Col>
+                                    <Col xs={24} sm={10} md={10} lg={10} xl={10}>
+                                        <Spin spinning={loading}>
+                                            <Space wrap>
+                                                <Button size={'small'} type="primary" onClick={() => { killPlayer(item) }} >K I L L</Button>
+                                                <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >复活</Button>
+                                                <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >踢出</Button>
+                                            </Space>
+                                        </Spin>
+                                    </Col>
+
+                                </List.Item>
+                            )}
+                        />
                     </Skeleton>
                 </Spin>
             )}

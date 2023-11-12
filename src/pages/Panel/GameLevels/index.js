@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, message, Popconfirm, Space, Spin, Switch, Table, Tag} from 'antd';
+import {Button, message, Popconfirm, Progress, Space, Spin, Switch, Table, Tag, Tooltip} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
 import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
 
@@ -43,8 +43,22 @@ export default ({levels}) => {
             hideInSearch: true,
             render: (text, record) => (
                 <div style={{wordWrap: 'break-word', wordBreak: 'break-word'}}>
-                    {record.status && <Tag color={'green'} >{text}</Tag>}
-                    {!record.status && <Tag color={'default'} >{text}</Tag>}
+                    <Tooltip placement="rightTop"
+                             title={(<div>
+                                 <div>
+                                     <Space size={8}>
+                                         <span>{`内存: ${formatData((record.Ps !== undefined ? record.Ps.RSS : 0) / 1024, 2)}MB`}</span>
+                                         <span>{`虚拟内存: ${formatData((record.Ps !== undefined ? record.Ps.VSZ : 0) / 1024, 2)}MB`}</span>
+                                     </Space>
+                                     <Progress  percent={record.Ps.memUage} size={'small'} />
+                                 </div>
+                                 <div>
+                                     cpu: <Progress type="circle" percent={record.Ps.cpuUage} size={40} />
+                                 </div>
+                             </div>)}>
+                        {record.status && <Tag color={'green'} >{text}</Tag>}
+                        {!record.status && <Tag color={'default'} >{text}</Tag>}
+                    </Tooltip>
                 </div>
             ),
         },
@@ -59,10 +73,11 @@ export default ({levels}) => {
             dataIndex: 'mem',
             key: 'mem',
             render: (_, record) => (
-                <Space wrap>
+                <>
                     <span>{`${formatData((record.Ps !== undefined ? record.Ps.RSS : 0) / 1024, 2)}MB`}</span>
-                    <span>{`${formatData((record.Ps !== undefined ? record.Ps.VSZ : 0) / 1024, 2)}MB`}</span>
-                </Space>
+                    <Progress  percent={record.Ps.memUage} size={'small'} />
+
+                </>
             ),
         },
         {
@@ -96,7 +111,7 @@ export default ({levels}) => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button icon={<ClearOutlined/>} danger type={'primary'} size={'small'}>清理</Button>
+                        <Button icon={<ClearOutlined/>} danger size={'small'}>清理</Button>
                     </Popconfirm>
 
                     <Switch checked={record.status}
