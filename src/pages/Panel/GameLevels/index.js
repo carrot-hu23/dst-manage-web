@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
+import {useParams} from "react-router-dom";
 import {Button, message, Popconfirm, Progress, Space, Spin, Switch, Table, Tag, Tooltip} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
 import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -12,6 +14,7 @@ export default ({levels}) => {
 
     const [spin, setSpin] = useState(false)
     const [startText, setStartText] = useState("")
+    const {cluster} = useParams()
 
     const statusOnClick = (checked, event, levelName, uuid) => {
         let prefix
@@ -23,7 +26,7 @@ export default ({levels}) => {
             setStartText(`正在关闭${levelName}`)
         }
         setSpin(true)
-        startLevelApi("", uuid, checked).then(resp => {
+        startLevelApi(cluster, uuid, checked).then(resp => {
             if (resp.code !== 200) {
                 message.error(`${prefix}${levelName}失败${resp.msg}`)
                 message.warning("请检查饥荒服务器路径是否设置正确")
@@ -111,7 +114,8 @@ export default ({levels}) => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button icon={<ClearOutlined/>} danger size={'small'}>清理</Button>
+                        <ClearOutlined/>
+                        
                     </Popconfirm>
 
                     <Switch checked={record.status}
@@ -137,7 +141,7 @@ export default ({levels}) => {
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键启动")
-                        startAllLevelApi("", true)
+                        startAllLevelApi(cluster, true)
                             .then(resp=>{
                                 if (resp.code === 200) {
                                     message.success("启动成功")
@@ -164,7 +168,7 @@ export default ({levels}) => {
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键关闭")
-                        startAllLevelApi("", false)
+                        startAllLevelApi(cluster, false)
                             .then(resp=>{
                                 if (resp.code === 200) {
                                     message.success("关闭成功")
@@ -190,7 +194,7 @@ export default ({levels}) => {
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键清理")
-                        cleanAllLevelApi("", false)
+                        cleanAllLevelApi(cluster, false)
                             .then(resp=>{
                                 if (resp.code === 200) {
                                     message.success("清理成功")

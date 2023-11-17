@@ -15,12 +15,13 @@ import {
     Skeleton, Empty
 } from 'antd';
 import {Box, Card, Container} from "@mui/material";
-import ConfigViewEditor from "../Levels8/LevelSetting/LeveldataoverrideView/ConfigViewEditor";
+import ConfigViewEditor from "./ConfigViewEditor";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {format, parse} from "lua-json";
 import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
 import {useTheme} from "../../hooks/useTheme";
+import {useParams} from "react-router-dom";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
@@ -546,6 +547,8 @@ const defaultDstWorldSetting = {
 
 const App = () => {
 
+    const {cluster} = useParams()
+
     const levelListRef = useRef([]);
     const [openAdd, setOpenAdd] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
@@ -564,7 +567,7 @@ const App = () => {
             .then(response => response.json())
             .then(data => {
                 setDstWorldSetting(data)
-                getLevelListApi()
+                getLevelListApi(cluster)
                     .then(resp => {
                         console.log(resp)
                         if (resp.code === 200) {
@@ -732,7 +735,7 @@ const App = () => {
                             <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
-                                updateLevelsApi({levels: levelListRef.current})
+                                updateLevelsApi(cluster, {levels: levelListRef.current})
                                     .then(resp => {
                                         if (resp.code === 200) {
                                             message.success("保存成功")
@@ -760,7 +763,7 @@ const App = () => {
                             message.warning("世界名称重复了，请不要重复")
                         } else {
                             setConfirmLoading(true)
-                            createLevelApi({
+                            createLevelApi(cluster, {
                                 levelName,
                                 leveldataoverride: "return {}",
                                 modoverrides: "return {}",
@@ -792,7 +795,7 @@ const App = () => {
                     open={openDelete}
                     onOk={() => {
                         setConfirmLoading(true)
-                        deleteLevelApi(deleteLevelName)
+                        deleteLevelApi(cluster,deleteLevelName)
                             .then(resp => {
                                 if (resp.code === 200) {
                                     message.success(`删除世界成功`)

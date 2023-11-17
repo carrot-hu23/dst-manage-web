@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 import {Skeleton, Tabs} from 'antd';
 import {Container, Box} from '@mui/material';
 import {parse} from "lua-json";
+import {useParams} from "react-router-dom";
 
 import GameOperator from "./GameOperator";
 
@@ -10,14 +11,17 @@ import ControlPanel from "./ControlPanel";
 import {getLevelStatusApi} from "../../api/8level";
 
 
+
 const Panel = () => {
+
+    const {cluster} = useParams()
 
     const { t } = useTranslation()
     const [levels, setLevels] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(()=>{
         setLoading(true)
-        getLevelStatusApi()
+        getLevelStatusApi(cluster)
             .then(resp => {
                 if (resp.code === 200) {
                     const levels = resp.data
@@ -48,7 +52,7 @@ const Panel = () => {
 
     useEffect(()=>{
         const timerId = setInterval(()=>{
-            getLevelStatusApi()
+            getLevelStatusApi(cluster)
                 .then(resp => {
                     if (resp.code === 200) {
                         const levels = resp.data

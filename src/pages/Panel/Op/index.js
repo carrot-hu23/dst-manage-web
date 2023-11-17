@@ -62,15 +62,18 @@ export default ()=>{
     
     return<>
         <Space size={24} wrap>
-            <Button type="primary"
-                    onClick={() => {
-                        updateGameOnclick()
-                    }}
-                    loading={updateGameStatus}
+            <Popconfirm
+                title="是否更新游戏"
+                description={(
+                    <span>更新游戏，将停止世界，请自行启动</span>
+                )}
+                placement="topLeft"
+                onConfirm={()=>updateGameOnclick()}
             >
+            <Button loading={updateGameStatus} type="primary">
                 {t('updateGame')}
             </Button>
-
+            </Popconfirm>
             <Button style={{
                 background: '#13CE66',
                 color: '#fff'

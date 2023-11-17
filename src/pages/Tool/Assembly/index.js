@@ -11,12 +11,14 @@ import {
     Divider,
     Skeleton, message, Select,
 } from 'antd';
+import {useParams} from "react-router-dom";
 import {Box, Card, Container} from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import {format, parse} from "lua-json";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 
 import {getLevelListApi, updateLevelsApi} from "../../../api/clusterLevelApi";
+
 
 
 function parseWorldConfig(modoverrides, workshopId) {
@@ -57,6 +59,7 @@ function parseWorldConfig(modoverrides, workshopId) {
 
 
 export default () => {
+    const {cluster} = useParams()
 
     const [levels, setLevels] = useState([])
     const [loading, setLoading] = useState(false)
@@ -135,7 +138,7 @@ export default () => {
 
         console.log(levels2)
 
-        updateLevelsApi({levels: levels2})
+        updateLevelsApi(cluster,{levels: levels2})
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("保存成功")
@@ -148,7 +151,7 @@ export default () => {
 
     useEffect(() => {
         setLoading(true)
-        getLevelListApi()
+        getLevelListApi(cluster)
             .then(resp => {
                 console.log(resp)
                 if (resp.code === 200) {

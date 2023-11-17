@@ -19,8 +19,6 @@ import Link from "./pages/WebLink";
 import Modinfo from "./pages/Mod/Modinfo";
 import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
-import Forest from "./pages/Levels8/LevelSetting/LeveldataoverrideView";
-import Game from "./pages/Game";
 import TemplateConfig from "./pages/TemplateConfig";
 import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
@@ -29,14 +27,16 @@ import ModSetting from "./pages/ModSetting";
 import AddMod from "./pages/Mod/AddMod";
 import DstServerList from "./pages/DstServerList";
 import Tool from "./pages/Tool";
+import Server from "./pages/ClusterList/Server";
+import OS from "./pages/ClusterList/OS";
 
 export default function Router() {
   const routes = useRoutes([
     {
-      path: '/dashboard',
+      path: '/:cluster/:name/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/:cluster/:name/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
@@ -44,7 +44,7 @@ export default function Router() {
         { path: 'panel', element: <Panel /> },
 
         { path: 'tool', element: <Tool /> },
-
+        { path: 'server', element: <Server /> },
 
         { path: 'cluster', element: <Home2 /> },
         { path: 'levels', element: <Levels /> },
@@ -57,9 +57,7 @@ export default function Router() {
         { path: 'link', element: <Link /> },
         { path: 'modinfo/:modId', element: <Modinfo /> },
         { path: 'mod/add/:modId', element: <AddMod /> },
-
-        { path: 'view', element: <Forest /> },
-        { path: 'game', element: <Game /> },
+          
         { path: 'template/config', element: <TemplateConfig /> },
         { path: 'addTemplate/:id', element: <AddTemplateFile /> },
       ],
@@ -75,15 +73,24 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/cluster" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
+        {
+          path: '/cluster',
+          element: <Server />,
+        },
+        {
+          path: '/os/info',
+          element: <OS />,
+        },
       ],
     },
     {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
+
   ]);
 
   return routes;

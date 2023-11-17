@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {Grid, Typography} from "@mui/material";
 import {Button, Input, Form, Skeleton, message} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {useParams} from "react-router-dom";
 
 import './index.css';
 
@@ -39,6 +40,8 @@ const formItemLayoutWithOutLabel = {
 
 export default ({title, tips, getApi, saveApi}) => {
 
+    const {cluster} = useParams()
+
     const [loading, setLoading] = useState(false);
     const [spin, setSpin] = useState(false);
     const [form] = Form.useForm()
@@ -49,7 +52,7 @@ export default ({title, tips, getApi, saveApi}) => {
     const fetchData = async () => {
         setLoading(true)
         try {
-            const response = await getApi();
+            const response = await getApi(cluster);
             const data = await response.data;
             form.setFieldsValue({
                 list: data
@@ -64,7 +67,7 @@ export default ({title, tips, getApi, saveApi}) => {
     const saveData = async (payload)=>{
         setSpin(true)
         try {
-            const response = await saveApi("",payload);
+            const response = await saveApi(cluster,payload);
             const code = await response.code;
             if (code === 200) {
                 message.success("保存成功")
@@ -86,7 +89,7 @@ export default ({title, tips, getApi, saveApi}) => {
 
     return (
         <>
-            <div style={{
+            <div className="scrollbar" style={{
                 height: '64vh',
                 overflowY: 'auto',
                 overflowX: 'auto'

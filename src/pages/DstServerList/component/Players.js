@@ -1,6 +1,7 @@
 import { Image, List } from 'antd';
 
 import { dstRoles } from '../../../utils/dst';
+import style from "../index.module.css";
 
 const data = [
     {
@@ -38,7 +39,9 @@ const Players = ({ players }) =>  {
 
                             <List.Item.Meta
                                 avatar={<Image preview={false} width={36.8} src={dstRoles[item.prefab] || dstRoles.mod} />}
-                                description={<div style={{
+                                description={<div
+                                    className={style.icon}
+                                    style={{
                                     color: `#${item.colour}`,
                                     marginTop: '4px',
                                     fontSize: 16

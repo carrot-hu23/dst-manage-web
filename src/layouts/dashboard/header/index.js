@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // @antd
 import {Tag,Dropdown,message} from "antd";
 import {GithubFilled,} from '@ant-design/icons';
-
+import {useParams} from "react-router-dom";
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
@@ -25,6 +25,8 @@ import {StyledNavItemIcon} from "../../../components/nav-section/styles";
 import {useTheme} from "../../../hooks/useTheme";
 import useResponsive from "../../../hooks/useResponsive";
 import Latency from "./Latency";
+import {headerFlag1, headerFlag2} from "../../../config";
+
 
 // ----------------------------------------------------------------------
 
@@ -77,6 +79,7 @@ Header.propTypes = {
 
 export default function Header({ onOpenNav }) {
     const isDesktop = useResponsive('up', 'lg');
+    const {cluster, name} = useParams()
     return (
         <StyledRoot>
             <StyledToolbar>
@@ -91,13 +94,8 @@ export default function Header({ onOpenNav }) {
                     <Iconify icon="eva:menu-2-fill" />
                 </IconButton>
 
-                {/*
-          TODO 暂时去掉搜索
-          <Searchbar />
-          */}
-                {isDesktop && <Tag color="#2784FF">1.2.6.beta</Tag>}
-                {isDesktop && <Tag color="#f50">禁止商用</Tag>}
-
+                {isDesktop && <Tag color="#2784FF">{headerFlag1}</Tag>}
+                {isDesktop && <Tag color="#f50">{headerFlag2}</Tag>}
                 {/* eslint-disable */}
 
                 <Box sx={{ flexGrow: 1 }} />
@@ -114,6 +112,9 @@ export default function Header({ onOpenNav }) {
           <NotificationsPopover />
             <SwitchLanguage/> */}
                     {/*<Latency />*/}
+
+                    {name !== undefined && <Tag  color="#108ee9">{name}</Tag>}
+
                     <IconButton
                         onClick={()=>{
                             window.open('https://github.com/hujinbo23/dst-admin-go', '_blank');

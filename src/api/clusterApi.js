@@ -1,13 +1,8 @@
 import {http} from "../utils/http";
 
 
-async function queryClusterList(params) {
-    let url
-    if (params.clusterName === undefined || params.clusterName === null || params.clusterName === '') {
-        url = `/api/cluster?page=${params.current}&size=${10}`
-    } else {
-        url = `/api/cluster?page=${params.current}&size=${10}&clusterName=${params.clusterName}`
-    }
+async function getClusterList() {
+    const url = "/api/cluster"
 
     const response = await http.get(url)
     return response.data
@@ -29,14 +24,14 @@ async function updateCluster(data) {
     return response.data
 }
 
-async function deleteCluster(ID) {
-    const url  = `/api/cluster?id=${ID}`
+async function deleteCluster(clusterName) {
+    const url  = `/api/cluster?clusterName=${clusterName}`
     const response = await http.delete(url)
     return response.data
 }
 
 export  {
-    queryClusterList,
+    getClusterList,
     createCluster,
     deleteCluster,
     updateCluster

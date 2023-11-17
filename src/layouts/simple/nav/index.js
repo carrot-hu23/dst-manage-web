@@ -1,23 +1,13 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
-// @mui
 import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
-import {Space} from "antd";
-import {LeftOutlined} from '@ant-design/icons';
-// mock
-// import account from '../../../_mock/account';
-// hooks
+import { Box, Link, Drawer, Typography, Avatar, Stack } from '@mui/material';
+
 import useResponsive from '../../../hooks/useResponsive';
-// components
-import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
-//
-import navConfig from '../../../menu/config';
-
-// ----------------------------------------------------------------------
+import navConfig2 from '../../../menu/config2';
 
 const NAV_WIDTH = 240;
 
@@ -73,13 +63,8 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{px: 2.5, py: 3, display: 'inline-flex'}}>
-
-          <Button icon={<LeftOutlined />} variant="outlined" onClick={() => {navigate("/cluster")}}>
-            返回
-          </Button>
-      </Box>
-
+      <br/>
+      <br/>
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
@@ -98,33 +83,9 @@ export default function Nav({ openNav, onCloseNav }) {
         </Link>
       </Box>
 
-      <NavSection data={navConfig} />
+      <NavSection data={navConfig2} />
 
       <Box sx={{ flexGrow: 1 }} />
-
-      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
-            component="img"
-            src="/assets/illustrations/illustration_avatar.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
-
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Get more?
-            </Typography>
-
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography>
-          </Box>
-
-          <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
-            Upgrade to Pro
-          </Button>
-        </Stack>
-      </Box> */}
     </Scrollbar>
   );
 

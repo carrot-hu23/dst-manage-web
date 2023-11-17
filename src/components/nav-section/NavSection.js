@@ -12,7 +12,7 @@ NavSection.propTypes = {
 };
 
 export default function NavSection({ data = [], ...other }) {
-    const {cluster} = useParams()
+    const {cluster,name} = useParams()
     return (
     <Box {...other}>
       {/* <span style={{
@@ -20,11 +20,11 @@ export default function NavSection({ data = [], ...other }) {
         font: '12px',
         padding: '24px 16px 8px'
       }}>Dashboard</span> */}
-      <List disablePadding sx={{ p: 1 }}>
-        {data.map((item) => (
-          <NavItem key={item.title} item={item} cluster={cluster}/>
-        ))}
-      </List>
+        <List disablePadding sx={{ p: 1 }}>
+            {data.map((item) => (
+                <NavItem key={item.title} item={item} cluster={cluster} name={name}/>
+            ))}
+        </List>
     </Box>
   );
 }
@@ -35,13 +35,18 @@ NavItem.propTypes = {
   item: PropTypes.object,
 };
 
-function NavItem({ item, cluster }) {
+function NavItem({ item, cluster, name }) {
   const { title, path, icon, info } = item;
-
+  let to = ""
+  if (cluster === undefined || cluster === "") {
+      to = path
+  } else {
+      to = `/${cluster}/${name}${path}`
+  }
   return (
     <StyledNavItem
       component={RouterLink}
-      to={path}
+      to={to}
       sx={{
         '&.active': {
           color: 'text.primary',

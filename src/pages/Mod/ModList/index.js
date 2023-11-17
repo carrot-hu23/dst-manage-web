@@ -1,26 +1,14 @@
 import {useEffect, useState} from 'react';
 import _ from "lodash";
-import {Row, Col, Card, Button, Space, Tooltip, message} from 'antd';
+import {Row, Col, Button, Space, Tooltip, message} from 'antd';
 import {useNavigate, useParams} from "react-router-dom";
 
-import {parse, format} from "lua-json";
+import {format} from "lua-json";
 
 import ModItem from '../component/modItem';
 import ModDetail from '../component/modConfig';
 import {getHomeConfigApi, saveHomeConfigApi} from '../../../api/gameApi';
 import {deleteStepupWorkshopApi} from '../../../api/modApi';
-import {beautifyLua, jsObjectToLuaTable} from "../../../utils/dstUtils";
-
-function containsChinese(str) {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < str.length; i++) {
-        const charCode = str.charCodeAt(i);
-        if (charCode >= 0x4e00 && charCode <= 0x9fff) {
-            return true;
-        }
-    }
-    return false;
-}
 
 // eslint-disable-next-line react/prop-types
 export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaultValuesMap}) => {
@@ -106,95 +94,6 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
             })
     }
 
-    function saveModConfig() {
-        try {
-            const chooses = modList.filter(mod => mod.enable)
-            const modids = chooses.map(mod => mod.modid)
-            const object = _.pick(root, modids)
-            const object1 = {}
-            // eslint-disable-next-line no-restricted-syntax
-            for (const id of modids) {
-                defaultValuesMap.get(id)
-                object1[id] = defaultValuesMap.get(id)
-            }
-            const object2 = _.merge({}, object, object1)
-
-            const keys = Object.keys(object2)
-            let config = "return {\n"
-            keys.forEach(key => {
-                if (object2[key] === undefined || object2[key] === null) {
-                    const workshop = `["workshop-${key}"]={ configuration_options={},enabled=true }`
-                    config += `  ${workshop},\n`
-                } else {
-                    const o = {}
-                    Object.entries(object2[key])
-                        // eslint-disable-next-line consistent-return
-                        .forEach(([key, value]) => {
-                            if (key !== '') {
-                                let k = ""
-                                if (key.includes(' ') || containsChinese(key)) {
-                                    k = `["${key}"]`
-                                } else {
-                                    k = key
-                                }
-                                if (typeof value === "string") {
-                                    const s = value.split("\n")
-                                    if (s.length > 1) {
-                                        o[k] = s
-                                    } else {
-                                        if (value === "") {
-                                            value = {}
-                                        }
-                                        o[k] = value
-                                    }
-                                } else {
-                                    if (value === "") {
-                                        value = {}
-                                    }
-                                    o[k] = value
-                                }
-                            }
-                        })
-                    console.log("oo", o)
-                    const luaTable = jsObjectToLuaTable(o)
-
-                    const str = Object.entries(object2[key])
-                        .filter(([key, value]) => key !== '' && !containsChinese(key))
-                        .map(([key, value]) => {
-                            if (typeof value === "string") {
-                                return `["${key}"]="${value.toString()}",`
-                            }
-                            return `["${key}"]=${value},`
-                        })
-                        .join("\n");
-                    // const workshop = `["workshop-${key}"]={ configuration_options={${str}},enabled=true }`
-                    const workshop = `["workshop-${key}"]={ configuration_options=${luaTable},enabled=true }`
-                    config += `  ${workshop},\n`
-                }
-            })
-            config += "}"
-
-            // console.log(config)
-            config = beautifyLua(config)
-            getHomeConfigApi(cluster)
-                .then(data => {
-                    const homeConfig = data.data
-                    homeConfig.modData = config
-                    console.log(homeConfig)
-                    saveHomeConfigApi(cluster, homeConfig).then(() => {
-                        message.info("保存mod成功")
-                    }).catch(error => {
-                        console.log(error);
-                        message.error("保存mod失败")
-                    })
-
-                })
-        } catch (error) {
-            console.log(error)
-            message.error("保存失败", error)
-        }
-    }
-
     function deleteStepupWorkshop() {
         deleteStepupWorkshopApi()
             .then(data => {
@@ -236,7 +135,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
             <br/><br/>
             <Row gutter={24}>
                 <Col span={10} xs={24} md={10} lg={10}>
-                    <div style={{
+                    <div className="scrollbar" style={{
                         height: '52vh',
                         overflowY: 'auto',
                         overflowX: 'auto'

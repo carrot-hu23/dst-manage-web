@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 import {Button, Divider, Form, Input, InputNumber, message, Radio, Switch, Tooltip, Skeleton, Modal} from "antd";
 
@@ -12,7 +13,7 @@ import DstEmoji from "../../DstServerList/DstEmoji";
 const {TextArea} = Input;
 
 export default () => {
-
+    const {cluster} = useParams()
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
     const [choose, setChoose] = useState("survival");
@@ -27,7 +28,7 @@ export default () => {
                 token: form.getFieldValue().cluster_token
             }
             console.log('body:', body);
-            saveClusterIniApi("", body)
+            saveClusterIniApi(cluster, body)
                 .then(resp=>{
                     if (resp.code === 200) {
                         message.success("保存配置成功")
@@ -44,7 +45,7 @@ export default () => {
 
     useEffect(() => {
         setLoading(true)
-        getClusterIniApi("")
+        getClusterIniApi(cluster)
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("获取配置成功")
@@ -60,7 +61,7 @@ export default () => {
 
     return (
         <>
-            <div className={style.antInput}
+            <div className={`${style.antInput} scrollbar`}
                  style={{
                      height: '64vh',
                      overflowY: 'auto',

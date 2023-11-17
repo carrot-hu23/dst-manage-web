@@ -98,6 +98,7 @@ async function getClusterIniApi(cluster) {
 
 async function saveClusterIniApi(cluster, data) {
     const url = '/api/game/8level/clusterIni'
+    console.log("cluster", cluster)
     const response = await http.post(url, data, {
         headers: {
             'Cluster': cluster,
