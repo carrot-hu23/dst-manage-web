@@ -178,6 +178,18 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
     });
 
     setDefaultValuesMap(workshopMap)
+
+    subscribeModList.sort((a, b) => {
+        if (a.enable === b.enable) {
+            return 0;
+        }
+
+        if (a.enable) {
+            return -1; // a在前
+        }
+        return 1; // b在前
+    });
+
     setModList(subscribeModList || [])
     console.log("======设置 root 默认值 ==============")
     console.log(object)
