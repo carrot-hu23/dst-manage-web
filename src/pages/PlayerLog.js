@@ -169,6 +169,7 @@ export default function PlayerLog() {
                         scroll={{
                             x: 500,
                         }}
+                        // cardBordered
                         columns={columns}
                         actionRef={actionRef}
                         rowSelection={rowSelection}
@@ -212,5 +213,5 @@ export default function PlayerLog() {
                 </Card>
             </Container>
         </>
-    );
+    )
 }

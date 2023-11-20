@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
+import {useParams} from "react-router-dom";
+
 import {Button, message, Popconfirm, Progress, Space, Spin, Switch, Table, Tag, Tooltip} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
 import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -9,7 +12,7 @@ function formatData(data, num) {
 
 
 export default ({levels}) => {
-
+    const {cluster} = useParams()
     const [spin, setSpin] = useState(false)
     const [startText, setStartText] = useState("")
 
@@ -92,7 +95,7 @@ export default ({levels}) => {
                         onConfirm={() => {
                             const levels = []
                             levels.push(record.uuid)
-                            cleanLevelApi("", levels)
+                            cleanLevelApi(cluster, levels)
                                 .then(resp=>{
                                     if (resp.code === 200) {
                                         message.success("清理成功")
@@ -215,6 +218,9 @@ export default ({levels}) => {
             </Space>
             <Spin spinning={spin} tip={startText}>
                 <Table
+                    scroll={{
+                        x: 300,
+                    }}
                     columns={columns}
                     dataSource={levels}
                     headerTitle="世界列表"
