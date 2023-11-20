@@ -4,11 +4,11 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 
 const navConfig = [
 
-  // {
-  //   title: 'dashboard',
-  //   path: '/dashboard/app',
-  //   icon: icon('trending-up'),
-  // },
+  {
+    title: 'dashboard',
+    path: '/dashboard/app',
+    icon: icon('trending-up'),
+  },
   {
     title: '操作面板',
     path: '/dashboard/panel',
@@ -40,11 +40,11 @@ const navConfig = [
     path: '/dashboard/backup',
     icon: icon('folder')
   },
-  // {
-  //   title: '游戏日志',
-  //   path: '/dashboard/log',
-  //   icon: icon('database'),
-  // },
+  {
+    title: '游戏日志',
+    path: '/dashboard/log',
+    icon: icon('database'),
+  },
 
   // {
   //   title: '系统设置',

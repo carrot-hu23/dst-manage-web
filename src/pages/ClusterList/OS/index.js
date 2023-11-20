@@ -6,6 +6,7 @@ import {Container} from '@mui/material';
 import {Progress, Skeleton, Tooltip} from 'antd';
 import {useTranslation} from "react-i18next";
 import {getSystemInfoApi} from "../../../api/systemApi";
+import {useTheme} from "../../../hooks/useTheme";
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -15,6 +16,7 @@ const {Statistic, Divider} = StatisticCard;
 
 export default () => {
 
+    const {theme} = useTheme();
     const {t} = useTranslation()
     const [responsive, setResponsive] = useState(false);
     const [systeminfo, setSysteminfo] = useState({})
@@ -71,8 +73,7 @@ export default () => {
                     <RcResizeObserver key="resize-observer" onResize={(offset) => {
                         setResponsive(offset.width < 596);
                     }}>
-                        <StatisticCard.Group direction={responsive ? 'column' : 'row'}>
-
+                        <StatisticCard.Group className={theme === 'dark' ? 'dark' : ''} direction={responsive ? 'column' : 'row'}>
 
                             <StatisticCard
                                 statistic={{

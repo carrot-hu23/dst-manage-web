@@ -162,13 +162,11 @@ export default function PlayerLog() {
     return (
         <>
             <Container maxWidth="xxl">
-                <Card>
-                <Box sx={{p: 1}} dir="ltr">
-
                     <ProTable
                         scroll={{
                             x: 500,
                         }}
+                        cardBordered
                         columns={columns}
                         actionRef={actionRef}
                         rowSelection={rowSelection}
@@ -208,8 +206,6 @@ export default function PlayerLog() {
                             </Button>
                         ]}
                     />
-                </Box>
-                </Card>
             </Container>
         </>
     );
