@@ -46,6 +46,15 @@ export default function DashboardLayout() {
         palette: {
             mode: 'dark',
         },
+        components: {
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: '8px',
+                    },
+                },
+            },
+        },
     });
 
     const t = useTheme()
@@ -58,7 +67,13 @@ export default function DashboardLayout() {
                         <ThemeProvider theme={darkTheme}>
                             <ConfigProvider
                                 theme={{
-                                    algorithm: theme.darkAlgorithm
+                                    algorithm: theme.darkAlgorithm,
+                                    token: {
+                                        // Seed Token，影响范围大
+                                        colorPrimary: '#00b96b',
+                                        borderRadius: 4,
+
+                                    },
                                 }}
                             >
                                 <Header onOpenNav={() => setOpen(true)} />
