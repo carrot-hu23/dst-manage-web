@@ -75,7 +75,7 @@ export default ({levels}) => {
 
 
     function pullLog() {
-        const lines = inputRef.current.input.value
+        const lines = inputRef?.current?.input?.value
         // setSpinLoading(true)
         readLevelServerLogApi(cluster, levelName, lines)
             .then(resp => {
@@ -86,9 +86,9 @@ export default ({levels}) => {
                     lines.forEach(line => {
                         logs += `${line}\n`
                     })
-                    if (logs !== editorRef.current.current.getValue()) {
-                        editorRef.current.current.setValue(logs)
-                        editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount())
+                    if (logs !== editorRef?.current?.current?.getValue()) {
+                        editorRef?.current?.current?.setValue(logs)
+                        editorRef?.current?.current?.revealLine(editorRef.current.current.getModel().getLineCount())
                     }
                 }else {
                     editorRef.current.current.setValue("")

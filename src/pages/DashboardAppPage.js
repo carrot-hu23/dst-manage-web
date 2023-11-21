@@ -135,12 +135,7 @@ export default function DashboardAppPage() {
                         <AppCurrentVisits
                             title={t('roleRatioOfThisTheWeek')}
                             chartData={roleRate.chartData}
-                            chartColors={[
-                                theme.palette.primary.main,
-                                theme.palette.info.main,
-                                theme.palette.warning.main,
-                                theme.palette.error.main,
-                            ]}
+
                         />
 
                     </Grid>

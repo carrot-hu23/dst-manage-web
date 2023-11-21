@@ -17,6 +17,7 @@ import {deleteBackupApi, getBackupApi, renameBackupApi, restoreBackupApi} from '
 const MyUploadFile = () => {
     const [fileList, setFileList] = useState([]);
     const [uploading, setUploading] = useState(false);
+    const {cluster} = useParams()
 
     const handleUpload = () => {
         const formData = new FormData();
@@ -27,7 +28,11 @@ const MyUploadFile = () => {
         setUploading(true);
         // 发送上传请求
         // 这里使用了axios库，你可以使用你喜欢的库
-        axios.post('/api/game/backup/upload', formData)
+        axios.post('/api/game/backup/upload', formData,{
+            headers: {
+                'Cluster': cluster,
+            }
+        })
             .then(response => {
                 console.log(response.data);
                 setFileList([]);
@@ -353,7 +358,7 @@ const Backup = () => {
                         setDeleteBackup(record)
                     }}>修改</Button>
                     <Button type="link" onClick={() => {
-                        window.location.href = `/api/game/backup/download?fileName=${record.fileName}`;
+                        window.location.href = `/api/game/backup/download?fileName=${record.fileName}&cluster=${cluster}`;
                     }}>下载</Button>
                     <Button type="text" danger onClick={() => {
                         setIsDeleteModalOpen(true);
