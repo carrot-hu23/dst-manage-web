@@ -10,23 +10,28 @@ function subscribeMod(modid, modList, setModList, setStartLoading) {
     setStartLoading(true)
     getModInfo("", modid).then(data => {
         console.log(data.data);
-        setStartLoading(false)
-        setModList(current => {
-            // return [...current, data.data]
-            const newModList = []
-            // eslint-disable-next-line no-restricted-syntax
-            for (const mod of current) {
-                if (mod.modid !== modid) {
-                    newModList.push(mod)
+        if (data.code !== 200) {
+            message.error("订阅失败，此模组可能下架了", data.msg)
+        } else {
+            setStartLoading(false)
+            setModList(current => {
+                // return [...current, data.data]
+                const newModList = []
+                // eslint-disable-next-line no-restricted-syntax
+                for (const mod of current) {
+                    if (mod.modid !== modid) {
+                        newModList.push(mod)
+                    }
                 }
-            }
-            data.data.installed = true
-            data.data.enable = true
-            newModList.push(data.data)
-            console.log("newModList: ", newModList)
-            return newModList
-        })
-        message.success(`订阅 ${modid} 成功`)
+                data.data.installed = true
+                data.data.enable = true
+                newModList.push(data.data)
+                console.log("newModList: ", newModList)
+                return newModList
+            })
+            message.success(`订阅 ${modid} 成功`)
+        }
+
     }).catch(error => {
         message.success(`获取 ${modid} 失败`)
     })
@@ -45,9 +50,9 @@ const ModItem = (props) => {
     return <Spin spinning={startLoading} tip={"正在订阅模组"}>
         <Card className='mod' style={{margin: ' 0 0 16px',}}>
             <Row onClick={() => {
-                props.changeMod(props.mod)
+                props.changeMod(props?.mod)
             }}>
-                {props.mod.installed && <>
+                {props?.mod?.installed && <>
                     <div style={{display:"flex", justifyContent:"stretch", flex:"1", overflow:"hidden"}}>
                         <div style={{flexBasis:"20%", marginRight: "20px"}}>
                             <img
@@ -69,16 +74,16 @@ const ModItem = (props) => {
                             }}
                             >
 
-                                <span style={{}}>{props.mod.name}</span>
+                                <span style={{}}>{props?.mod?.name}</span>
                             </div>
                             <div>
                                 <Switch checkedChildren="开启" unCheckedChildren="关闭"
-                                        defaultChecked={props.mod.enable}
+                                        defaultChecked={props?.mod?.enable}
                                         onChange={() => {
-                                            props.changeEnable(props.mod.modid)
+                                            props.changeEnable(props?.mod?.modid)
                                         }}
                                 />
-                                {props.mod.modid !== "client_mods_disabled" &&<>
+                                {props?.mod?.modid !== "client_mods_disabled" &&<>
                                     <Popconfirm
                                         title="是否取消该mod订阅"
                                         okText="Yes"
@@ -114,18 +119,18 @@ const ModItem = (props) => {
                 </>}
             </Row>
             <Row>
-                {props.mod.installed === false && <>
+                {props?.mod?.installed === false && <>
                     <Col flex="64px">
                         <img
                             alt="example"
-                            src={props.mod.img}
+                            src={props?.mod?.img}
                         />
                     </Col>
                     <Col flex="auto" style={{paddingLeft: '16px'}}>
                         <Row>
                             <Col span={24}><span style={{
                                 fontSize: '16px'
-                            }}>{props.mod.modid}</span></Col>
+                            }}>{props?.mod?.modid}</span></Col>
                         </Row>
                         <Row style={{
                             marginTop: '12px'
@@ -138,7 +143,7 @@ const ModItem = (props) => {
                                     okText="Yes"
                                     cancelText="No"
                                     onConfirm={() => {
-                                        subscribeMod(props.mod.modid, modList, setModList, setStartLoading)
+                                        subscribeMod(props?.mod?.modid, modList, setModList, setStartLoading)
                                     }}
                                 >
                                     <Button type="primary" onClick={() => {

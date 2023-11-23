@@ -78,11 +78,11 @@ export default () => {
                             statistic={{
                                 title: "面板占用",
                                 value: `${formatData(systeminfo.panelMemUsage / 1024, 2)} M`,
-                                // description: (
-                                //     <>
-                                //         <Statistic title={'CPU'} value={`${systeminfo.panelCpuUsage} %`}/>
-                                //     </>
-                                // ),
+                                description: (
+                                    <>
+                                        {systeminfo?.host?.os} /{systeminfo?.host?.kernelArch}-{systeminfo?.host?.platform}
+                                    </>
+                                ),
                             }}
                         />
 

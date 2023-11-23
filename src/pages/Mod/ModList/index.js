@@ -236,7 +236,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
             <br/><br/>
             <Row gutter={24}>
                 <Col span={10} xs={24} md={10} lg={10}>
-                    <div style={{
+                    <div className={'scrollbar'} style={{
                         height: '52vh',
                         overflowY: 'auto',
                         overflowX: 'auto'

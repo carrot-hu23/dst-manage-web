@@ -60,7 +60,7 @@ export default () => {
 
     return (
         <>
-            <div className={style.antInput}
+            <div className={`${style.antInput} scrollbar`}
                  style={{
                      height: '64vh',
                      overflowY: 'auto',

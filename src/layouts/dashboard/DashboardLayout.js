@@ -70,9 +70,8 @@ export default function DashboardLayout() {
                                     algorithm: theme.darkAlgorithm,
                                     token: {
                                         // Seed Token，影响范围大
-                                        colorPrimary: '#00b96b',
+                                        // colorPrimary: '#00b96b',
                                         borderRadius: 4,
-
                                     },
                                 }}
                             >

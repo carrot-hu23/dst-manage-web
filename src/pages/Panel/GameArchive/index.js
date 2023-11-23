@@ -24,31 +24,7 @@ export default () => {
         archiveApi(cluster)
             .then(data => {
                 console.log(data.data);
-                const ar = {
-                    clusterName: data.data.clusterName,
-                    gameMod: data.data.gameMod,
-                    mods: data.data.mods,
-                    ipConnect: data.data.ipConnect,
-                    meta: data.data.meta
-                }
-                const metaInfo = data.data.meta
-                ar.days = metaInfo.Clock.Cycles || '未知'
-                ar.season = metaInfo.Seasons.Season || '未知'
-                ar.phase = metaInfo.Clock.Phase || '未知'
-                ar.elapseddaysinseason = metaInfo.Seasons.ElapsedDaysInSeason || '未知'
-                ar.remainingdaysinseason = metaInfo.Seasons.RemainingDaysInSeason || '未知'
-                ar.version = data.data.version
-                ar.lastVersion = data.data.lastVersion
-                ar.password = data.data.clusterPassword
-                ar.port = data.data.port
-                const {players} = data.data
-                if (players === null) {
-                    ar.players = []
-                } else {
-                    ar.players = players
-                }
-                ar.maxPlayers = data.data.maxPlayers
-                setArchive(ar)
+                setArchive(data.data)
             }).catch(error => console.log(error))
 
     }, [])
@@ -68,7 +44,7 @@ export default () => {
                 </Form.Item>
                 <Form.Item label={t('Season')}>
                     <span>
-                        {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason + archive.remainingdaysinseason})
+                        {archive?.meta?.Clock?.Cycles+1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
                     </span>
                 </Form.Item>
                 <Form.Item label={t('Mods')}>
@@ -77,7 +53,7 @@ export default () => {
                     </span>
                 </Form.Item>
                 <Form.Item label={t('人数')}>
-                    <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
+                    <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
                 </Form.Item>
                 <Form.Item label={t('IpConnect')}>
                     <Space size={8}>

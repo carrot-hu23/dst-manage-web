@@ -8,10 +8,10 @@ import axios from 'axios';
 
 import {Box, Card, Container} from '@mui/material';
 
-// import Highlighter from 'react-highlight-words';
 import BackupStatistic from './Statistic';
 
 import {deleteBackupApi, getBackupApi, renameBackupApi, restoreBackupApi} from '../../api/backupApi';
+import style from "../DstServerList/index.module.css";
 
 
 const MyUploadFile = () => {
@@ -313,7 +313,7 @@ const Backup = () => {
             title: '存档名称',
             dataIndex: 'fileName',
             key: 'fileName',
-            render: (text) => <Button type="link">{text}</Button>,
+            render: (text) => <Button className={style.icon} type="link">{text}</Button>,
             editable: true,
             ...getColumnSearchProps('fileName'),
         },
