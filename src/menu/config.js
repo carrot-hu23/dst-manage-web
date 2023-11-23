@@ -46,11 +46,11 @@ const navConfig = [
     icon: icon('database'),
   },
 
-  // {
-  //   title: '系统设置',
-  //   path: '/dashboard/setting',
-  //   icon: icon('settings')
-  // },
+  {
+    title: '自动维护',
+    path: '/dashboard/setting',
+    icon: icon('settings')
+  },
   {
     title: '服务器列表',
     path: '/dashboard/dst/server',

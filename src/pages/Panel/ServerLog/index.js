@@ -73,6 +73,17 @@ export default ({levels}) => {
             })
     }, [])
 
+    useEffect(()=>{
+        startPolling()
+    }, [])
+
+    useEffect(()=>{
+        return () => {
+            if (timerId) {
+                clearInterval(timerId);
+            }
+        };
+    }, [timerId])
 
     function pullLog() {
         const lines = inputRef?.current?.input?.value
@@ -158,6 +169,7 @@ export default ({levels}) => {
                                 <div>
                                     自动轮询
                                     <Switch
+                                        defaultChecked
                                         onChange={(checked, event)=>{
                                             if (checked) {
                                                 startPolling()

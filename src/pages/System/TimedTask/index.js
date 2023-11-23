@@ -55,7 +55,7 @@ export default () => {
     const [isOpenAddJobTask, setIsOpenAddJobTask] = useState(false)
 
     function getJobTaskList() {
-        getJobTaskListApi("")
+        getJobTaskListApi(cluster)
             .then(resp => {
                 const {data} = resp
                 setData(data || [])
@@ -150,7 +150,7 @@ export default () => {
                         title="删除定时任务"
                         description="Are you sure to delete this job task?"
                         onConfirm={() => {
-                            deleteJobTaskApi("", record.jobId)
+                            deleteJobTaskApi(cluster, record.jobId)
                                 .then(resp=>{
                                     if (resp.code !== 200) {
                                         message.error("删除定时任务失败")
@@ -240,7 +240,7 @@ export default () => {
                     data.levelName = level.levelName
                 }
             }
-            addJobTaskApi("", data).then((response => {
+            addJobTaskApi(cluster, data).then((response => {
                 if (response.code !== 200) {
                     message.error("创建定时任务失败")
                 }

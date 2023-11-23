@@ -2,49 +2,49 @@
   {
     "name": "标准世界",
     "description": "森林和洞穴",
-    "value": "default",
+    "value": "森林和洞穴",
     "src": "https://gw.alipayobjects.com/zos/bmw-prod/2dd637c7-5f50-4d89-a819-33b3d6da73b6.svg"
   },
   {
     "name": "挂机服",
     "description": "Super AFK 模组(1981709850)",
-    "value": "afk",
+    "value": "挂机",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/777372679602930721/459044D5E7B793F62C653A1FF862A76B12EEA05A/?imw=268&imh=268&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   },
   {
     "name": "暴食",
     "description": "暴食",
-    "value": "quagmire",
+    "value": "暴食",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/779615289617320231/825644F280C93E74751E7D91F9E91B370319800C/?imw=268&imh=268&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   },
   {
     "name": "熔炉",
     "description": "熔炉",
-    "value": "lavaarena",
+    "value": "熔炉",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/790876534004578608/58E9B87D2075CDADFE400801169AE16F7639171E/?imw=268&imh=268&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   },
   {
     "name": "万圣节熔炉",
     "description": "万圣节熔炉",
-    "value": "hallowedlavaarena",
+    "value": "万圣节熔炉",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/1782855511351837453/F5C16F4A0321818D29835655602F098FFA8B10C8/?imw=268&imh=268&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   },
   {
     "name": "海钓",
     "description": "海钓",
-    "value": "oceanfishing",
+    "value": "海钓",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/1836905684467673290/D2C18D30813AF706A696DB7865F10430ADCE4581/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   },
   {
     "name": "杂草战争",
     "description": "杂草战争",
-    "value": "weedwar",
+    "value": "杂草战争",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/1818891285969469034/E157447A748F6672A585C62069E208A55694B962/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   },
   {
     "name": "岛屿",
     "description": "岛屿",
-    "value": "islandadventures",
+    "value": "岛屿",
     "src": "https://steamuserimages-a.akamaihd.net/ugc/779603800059009360/6BF49D226B6F161E7422B1AEC301E85D843A8137/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
   }
 ]
