@@ -84,7 +84,7 @@ export default () => {
                         layout="horizontal"
                         initialValues={{
                             pvp: false,
-                            vote: true,
+                            vote_enabled: true,
                             players: 8,
                             steam_group_only: false,
                             tick_rate: 15,
@@ -162,7 +162,7 @@ export default () => {
                         </Form.Item>
                         <Form.Item label="投票" valuePropName="checked"
                                    tooltip="是否开启世界投票功能，关闭后世界不能投票"
-                                   name='vote'>
+                                   name='vote_enabled'>
                             <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
                         </Form.Item>
                         <Form.Item label="自动暂停" valuePropName="checked" tooltip="世界没人时将自动暂停"
