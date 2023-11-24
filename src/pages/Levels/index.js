@@ -12,7 +12,7 @@ import {
     Tabs,
     Alert,
     Divider,
-    Skeleton, Empty
+    Skeleton, Empty, Radio
 } from 'antd';
 import {Box, Card, Container} from "@mui/material";
 import ConfigViewEditor from "./ConfigViewEditor";
@@ -714,6 +714,62 @@ const App = () => {
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [deleteLevelName, setDeleteLevelName] = useState("")
 
+    const [levelForm] = Form.useForm()
+
+    function onCreateLevel() {
+        setConfirmLoading(true)
+        const body = levelForm.getFieldsValue()
+        body.leveldataoverride = "return {}"
+        body.modoverrides = "return {}"
+        body.server_ini = {}
+
+        createLevelApi(cluster, body).then(resp => {
+            if (resp.code === 200) {
+                message.success(`创建${body.levelName}世界成功`)
+                const data = resp.data
+                console.log("data", data)
+                add(body.levelName, data.uuid)
+                setConfirmLoading(false)
+                setOpenAdd(false)
+            } else {
+                message.error(`创建${body.levelName}世界失败`)
+            }
+        })
+    }
+
+    const validateName1 = (_, value) => {
+        const stringList = levelListRef.current.map(level=>level.levelName)
+        // 判断是否重复字符串
+        if (value && stringList.includes(value)) {
+            return Promise.reject(new Error('世界名称重复'));
+        }
+        return Promise.resolve();
+    };
+
+    const validateName2 = (_, value) => {
+
+        const stringList = levelListRef.current.map(level=>level.uuid)
+        // 判断是否重复字符串
+        if (value && stringList.includes(value)) {
+            return Promise.reject(new Error('文件名称重复'));
+        }
+        // 判断是否为子串
+        for (let i = 0; i < stringList.length; i++) {
+            if (value && stringList[i].includes(value)) {
+                return Promise.reject(new Error('文件名称为其他字符串的子串'));
+            }
+        }
+
+        // 判断是否以英文开头且不含有特殊字符
+        const regex = /^[a-zA-Z][a-zA-Z0-9]*$/;
+        if (value && !regex.test(value)) {
+            return Promise.reject(new Error('名称以英文开头且不含有特殊字符'));
+        }
+
+        return Promise.resolve();
+    };
+
+
     return (
         <Container maxWidth="xxl">
             <Card>
@@ -750,44 +806,48 @@ const App = () => {
                 <Modal
                     title="添加世界"
                     open={openAdd}
-                    onOk={() => {
-                        const levels = levelListRef.current
-                        let repeat = false
-                        const levelName = levelNameRef.current.input.value
-                        levels.forEach(level => {
-                            if (level.levelName === levelName) {
-                                repeat = true
-                            }
-                        })
-                        if (repeat) {
-                            message.warning("世界名称重复了，请不要重复")
-                        } else {
-                            setConfirmLoading(true)
-                            createLevelApi(cluster, {
-                                levelName,
-                                leveldataoverride: "return {}",
-                                modoverrides: "return {}",
-                                server_ini: {}
-                            }).then(resp => {
-                                if (resp.code === 200) {
-                                    message.success(`创建${levelName}世界成功`)
-                                    const data = resp.data
-                                    console.log("data", data)
-                                    add(levelNameRef.current.input.value, data.uuid)
-                                    setConfirmLoading(false)
-                                    setOpenAdd(false)
-                                } else {
-                                    message.error(`创建${levelName}世界失败`)
-                                }
-                            })
-                        }
-                    }}
+                    onOk={() => onCreateLevel()}
                     confirmLoading={confirmLoading}
                     onCancel={() => {
                         setOpenAdd(false)
                     }}>
-                    <span>世界名</span>
-                    <Input ref={levelNameRef} placeholder="请输入世界名"/>
+
+                    <Alert message="不要使用特殊字符" type="warning" showIcon
+                           closable/>
+                    <br/>
+                    <Form
+                        form={levelForm}
+                        layout="vertical"
+                        labelAlign={'left'}
+                    >
+                        <Form.Item label="世界名"
+                                   name="levelName"
+                                   rules={[
+                                       {
+                                           required: true,
+                                           validator: validateName1
+                                       },
+                                   ]}
+
+                        >
+                            <Input placeholder="请输入世界名" />
+                        </Form.Item>
+                        <Alert
+                            message="如果文件不存在，将会新建一个。名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
+                            type="warning" showIcon closable/>
+                        <Form.Item label="文件名"
+                                   name="uuid"
+                                   rules={[
+                                       {
+                                           required: false,
+                                           validator: validateName2
+                                       },
+                                   ]}
+                        >
+                            <Input placeholder="请输入文件名" />
+                        </Form.Item>
+                    </Form>
+
                 </Modal>
 
                 <Modal
