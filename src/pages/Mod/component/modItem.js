@@ -6,9 +6,9 @@ import './mod.css';
 import {useNavigate, useParams} from "react-router-dom";
 import {deleteModInfo, getModInfo} from '../../../api/modApi';
 
-function subscribeMod(modid, modList, setModList, setStartLoading) {
+function subscribeMod(cluster,modid, modList, setModList, setStartLoading) {
     setStartLoading(true)
-    getModInfo("", modid).then(data => {
+    getModInfo(cluster, modid).then(data => {
         console.log(data.data);
         if (data.code !== 200) {
             message.error("订阅失败，此模组可能下架了", data.msg)
@@ -143,7 +143,7 @@ const ModItem = (props) => {
                                     okText="Yes"
                                     cancelText="No"
                                     onConfirm={() => {
-                                        subscribeMod(props?.mod?.modid, modList, setModList, setStartLoading)
+                                        subscribeMod(cluster, props?.mod?.modid, modList, setModList, setStartLoading)
                                     }}
                                 >
                                     <Button type="primary" onClick={() => {
