@@ -46,13 +46,13 @@ const Online = ({levels}) => {
 
     const kickPlayer = (player) => {
         setSpin(true)
-        const command = `TheNet:Kick(\\"${player.kuId}"\\)`
+        const command = `TheNet:Kick(\\"${player.kuId}\\")`
         sendCommandApi(cluster, levelName, command)
             .then(resp=>{
                 if (resp.code === 200) {
-                    message.success(`提出 ${player.name} success`)
+                    message.success(`踢出 ${player.name} success`)
                 } else {
-                    message.error(`提出 ${player.name} error`)
+                    message.error(`踢出 ${player.name} error`)
                 }
                 setSpin(false)
             })
