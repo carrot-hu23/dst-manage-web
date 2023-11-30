@@ -50,6 +50,11 @@ async function deleteStepupWorkshopApi(cluster) {
     })
     return response.data
 }
+async function updateModinfosApi() {
+    const url = '/api/mod/modinfo'
+    const response = await http.put(url)
+    return response.data
+}
 
 
 async function getModInfoFileApi(cluster,modId) {
@@ -88,5 +93,5 @@ export {
     updateModApi,
 
     addModInfoFileApi,
-
+    updateModinfosApi,
 }

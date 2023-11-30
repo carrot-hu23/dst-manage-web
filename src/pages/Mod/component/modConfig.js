@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin, Tooltip} from 'antd';
+import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin, Badge} from 'antd';
 import Select2 from './Select2';
 import {timestampToString} from "../../../utils/dateUitls";
 import {updateModApi} from "../../../api/modApi";
@@ -235,6 +235,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     onCancel={() => setOpen(false)}
                     width={640}
                     destroyOnClose
+                    footer={null}
                 >
                     <div className={'scrollbar'} style={{
                         height: '386px',
@@ -283,9 +284,16 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     cancelText="No"
                     onConfirm={()=>updateMod()}
                 >
-                    <Button type="primary" >
+                    {mod.update && <Badge dot>
+                        <Button style={{
+                            backgroundColor: "#149b6e"
+                        }} type="primary" >
+                            更新
+                        </Button>
+                    </Badge>}
+                    {!mod.update && <Button type="primary" >
                         更新
-                    </Button>
+                    </Button>}
                 </Popconfirm>
                 <Button>
                     <a
@@ -296,6 +304,9 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         创意工坊
                     </a>
                 </Button>
+                <span>
+                    {mod.update && <span>请更新此模组</span>}
+                </span>
             </Space>
         </>
     );

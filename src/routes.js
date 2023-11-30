@@ -16,7 +16,7 @@ import Panel from './pages/Panel/index';
 import Begin from './pages/begin/index';
 import UserProfile from "./pages/User/UserProfile";
 import Link from "./pages/WebLink";
-import Modinfo from "./pages/Mod/Modinfo";
+
 import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
 import Forest from "./pages/Levels8/LevelSetting/LeveldataoverrideView";
@@ -55,7 +55,7 @@ export default function Router() {
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
-        { path: 'modinfo/:modId', element: <Modinfo /> },
+
         { path: 'mod/add/:modId', element: <AddMod /> },
 
         { path: 'view', element: <Forest /> },
