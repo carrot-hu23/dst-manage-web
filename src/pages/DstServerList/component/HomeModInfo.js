@@ -17,7 +17,7 @@ const HomeModInfo = ({mods, subscribedModList, setSubscribedModList}) => {
 
     return (
         <>
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: 450,
                 overflowY: 'auto',
             }}>

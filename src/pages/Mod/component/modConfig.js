@@ -236,7 +236,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     width={640}
                     destroyOnClose
                 >
-                    <div style={{
+                    <div className={'scrollbar'} style={{
                         height: '386px',
                         overflowY: 'auto',
                         overflowX: 'auto'

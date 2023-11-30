@@ -28,6 +28,20 @@ export default function DashboardAppPage() {
         xData: [],
         seriesData: []
     })
+
+    const [topNActive, setTopNActive] = useState({
+        title: t('top10PlayerRankingsOfThisWeek'),
+        chartData: [],
+    })
+
+    const [roleRate, setRoleRate] = useState({
+        title: t('roleRatioOfThisTheWeek'),
+        chartData: [],
+    })
+
+    const [timelineList, setTimelineList] = useState([])
+
+
     useEffect(() => {
         countActivePlayers(cluster, "DAY", getBeginWeek(), getEndWeek())
             .then(response => {
@@ -54,13 +68,8 @@ export default function DashboardAppPage() {
             .catch(ereor => {
                 console.error(ereor);
             })
-    }, [])
 
-    const [topNActive, setTopNActive] = useState({
-        title: t('top10PlayerRankingsOfThisWeek'),
-        chartData: [],
-    })
-    useEffect(() => {
+
         countTopNActive(cluster, 10, getBeginWeek(), getEndWeek())
             .then(response => {
                 const {data} = response
@@ -72,13 +81,7 @@ export default function DashboardAppPage() {
             .catch(ereor => {
                 console.error(ereor);
             })
-    }, [])
 
-    const [roleRate, setRoleRate] = useState({
-        title: t('roleRatioOfThisTheWeek'),
-        chartData: [],
-    })
-    useEffect(() => {
         countRoleRate(cluster, getBeginWeek(), getEndWeek())
             .then(response => {
                 const {data} = response
@@ -98,10 +101,7 @@ export default function DashboardAppPage() {
             .catch(ereor => {
                 console.error(ereor);
             })
-    }, [])
 
-    const [timelineList, setTimelineList] = useState([])
-    useEffect(()=>{
         lastThNRegenerateApi(cluster, 10)
             .then(response => {
                 const {data} = response
@@ -115,7 +115,8 @@ export default function DashboardAppPage() {
                 console.error(ereor);
             })
 
-    },[])
+    }, [])
+
 
     return (
         <>

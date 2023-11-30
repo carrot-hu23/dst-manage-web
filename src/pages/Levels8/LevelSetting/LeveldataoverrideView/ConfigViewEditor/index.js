@@ -114,7 +114,7 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
 
     return (
         <>
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: '414px',
                 overflowY: 'auto',
             }}>

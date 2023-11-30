@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 
 import { ProTable } from '@ant-design/pro-components';
-import { Container, Box } from '@mui/material';
-import {Button, Modal, Image, Skeleton, Card, message} from 'antd';
+import { Container, Box, Card } from '@mui/material';
+import {Button, Modal, Image, Skeleton, message} from 'antd';
 import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
 
 import HomeDetail from './home';
@@ -254,10 +254,11 @@ const DstServerList = () => {
             </Modal>
 
             <Container maxWidth="xxl">
-                <Box sx={{ p: 0, pb: 0 }} dir="ltr">
+                <Card>
+                    <Box sx={{p: 1}} dir="ltr">
                     <ProTable
                         columns={columns}
-                        cardBordered
+                        // cardBordered
                         request={async (params = {}, sort, filter) => {
                             console.log(sort, filter);
                             console.log('params', params)
@@ -308,6 +309,7 @@ const DstServerList = () => {
                         tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
                     />
                 </Box>
+                </Card>
             </Container>
         </>
     );

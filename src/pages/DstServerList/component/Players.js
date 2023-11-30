@@ -1,6 +1,7 @@
 import { Image, List } from 'antd';
 
 import { dstRoles } from '../../../utils/dst';
+import style from "../index.module.css";
 
 const data = [
     {
@@ -17,7 +18,7 @@ const Players = ({ players }) =>  {
     
     return (
         <>
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: 400,
                 overflowY: 'auto',
             }}>
@@ -42,7 +43,7 @@ const Players = ({ players }) =>  {
                                     color: `#${item.colour}`,
                                     marginTop: '4px',
                                     fontSize: 16
-                                }}>{item.name}</div>}
+                                }}><span className={style.icon}>{item.name}</span></div>}
                             />
                         </List.Item>
                     )}
