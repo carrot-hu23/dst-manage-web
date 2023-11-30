@@ -188,6 +188,43 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                         >
                             <Input/>
                         </Form.Item>
+                        <Form.Item
+                            tooltip={"暂时未实现"}
+                            label="persistent_storage_root(暂时未实现)"
+                            name="persistent_storage_root"
+                            rules={[
+                                {
+                                    required: false,
+                                    message: 'Please input your persistent_storage_root path!',
+                                },
+                            ]}
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item
+                            tooltip={"暂时未实现"}
+                            label="conf_dir(暂时未实现)"
+                            name="conf_dir"
+                            rules={[
+                                {
+                                    required: false,
+                                    message: 'Please input your conf_dir path!',
+                                },
+                            ]}
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item label="ugc_directory"
+                                   name="ugc_directory"
+                                   rules={[
+                                       {
+                                           required: false,
+                                           message: 'Please input your ugc_directory path!',
+                                       },
+                                   ]}
+                        >
+                            <Input/>
+                        </Form.Item>
                         <Form.Item label="备份路径"
                                    name="backup"
                                    rules={[
@@ -497,6 +534,43 @@ export default () => {
                                        {
                                            required: true,
                                            message: 'Please input your force_install_dir path!',
+                                       },
+                                   ]}
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item
+                                   tooltip={"暂时未实现"}
+                                   label="persistent_storage_root(暂时未实现)"
+                                   name="persistent_storage_root"
+                                   rules={[
+                                       {
+                                           required: false,
+                                           message: 'Please input your persistent_storage_root path!',
+                                       },
+                                   ]}
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item
+                            tooltip={"暂时未实现"}
+                            label="conf_dir(暂时未实现)"
+                            name="conf_dir"
+                            rules={[
+                                {
+                                    required: false,
+                                    message: 'Please input your conf_dir path!',
+                                },
+                            ]}
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item label="ugc_directory"
+                                   name="ugc_directory"
+                                   rules={[
+                                       {
+                                           required: false,
+                                           message: 'Please input your ugc_directory path!',
                                        },
                                    ]}
                         >
