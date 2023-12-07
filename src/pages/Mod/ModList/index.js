@@ -262,7 +262,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                     cancelText="No"
                     onConfirm={()=>updateModinfos()}
                 >
-                    <Button type="primary" >更新模组配置</Button>
+                    <Button type="primary" >更新所有模组配置</Button>
                 </Popconfirm>
 
                 <Tooltip
