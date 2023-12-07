@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react';
-import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin} from 'antd';
+import {Card, Switch, Popconfirm, Row, Col, Button, message, Spin, Badge} from 'antd';
 
 import './mod.css';
 import {useNavigate, useParams} from "react-router-dom";
@@ -48,7 +48,7 @@ const ModItem = (props) => {
     const [startLoading, setStartLoading] = useState(false)
 
     return <Spin spinning={startLoading} tip={"正在订阅模组"}>
-        <Card className='mod' style={{margin: ' 0 0 16px',}}>
+        <Card className='mod' style={{margin: ' 0 0 16px', backgroundColor: props?.mod?.update?"#B4DDC7":""}}>
             <Row onClick={() => {
                 props.changeMod(props?.mod)
             }}>
@@ -77,12 +77,21 @@ const ModItem = (props) => {
                                 <span style={{}}>{props?.mod?.name}</span>
                             </div>
                             <div>
+                                {props?.mod?.update && <Badge count={1}>
+                                    <Switch checkedChildren="开启" unCheckedChildren="关闭"
+                                            defaultChecked={props?.mod?.enable}
+                                            onChange={() => {
+                                                props.changeEnable(props?.mod?.modid)
+                                            }}
+                                    />
+                                </Badge>}
+                                {!props?.mod?.update &&
                                 <Switch checkedChildren="开启" unCheckedChildren="关闭"
                                         defaultChecked={props?.mod?.enable}
                                         onChange={() => {
                                             props.changeEnable(props?.mod?.modid)
                                         }}
-                                />
+                                />}
                                 {props?.mod?.modid !== "client_mods_disabled" &&<>
                                     <Popconfirm
                                         title="是否取消该mod订阅"
@@ -113,6 +122,7 @@ const ModItem = (props) => {
                                     编辑
                                 </Button>
                                 */}
+                                {props?.mod?.update && <span>请更新此模组</span>}
                             </div>
                         </div>
                     </div>

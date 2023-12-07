@@ -802,7 +802,7 @@ const App = () => {
                             <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
-                                updateLevelsApi(cluster, {levels: levelListRef.current})
+                                updateLevelsApi({levels: levelListRef.current})
                                     .then(resp => {
                                         if (resp.code === 200) {
                                             message.success("保存成功")

@@ -236,11 +236,18 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
         setMod(modList[0] || {})
     }, [modList])
 
+    const updateModSize = modList.filter(mod=>mod.update)
+
     return (
         <>
             <Spin spinning={confirmLoading} >
             <Alert message={"请先启动世界，会自动下载模组，优先读取 ugc 模组"} type="info" showIcon closable />
             <br/>
+
+            {updateModSize.length > 0 && <>
+                <Alert message={`你有 ${updateModSize.length} 个模组配置有更新`} type="warning" showIcon closable />
+                <br/>
+            </>}
             <Space size={16} wrap>
 
                 <Button type="primary" onClick={() => saveModConfig2()}>保存配置</Button>

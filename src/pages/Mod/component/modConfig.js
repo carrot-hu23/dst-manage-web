@@ -288,11 +288,11 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         <Button style={{
                             backgroundColor: "#149b6e"
                         }} type="primary" >
-                            更新
+                            更新模组配置
                         </Button>
                     </Badge>}
                     {!mod.update && <Button type="primary" >
-                        更新
+                        更新模组配置
                     </Button>}
                 </Popconfirm>
                 <Button>
@@ -304,9 +304,6 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         创意工坊
                     </a>
                 </Button>
-                <span>
-                    {mod.update && <span>请更新此模组</span>}
-                </span>
             </Space>
         </>
     );
