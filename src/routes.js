@@ -84,6 +84,7 @@ export default function Router() {
           path: '/os/info',
           element: <OS />,
         },
+        { path: 'dst/server', element: <DstServerList /> },
       ],
     },
     {

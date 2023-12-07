@@ -82,11 +82,17 @@ async function addModInfoFileApi(cluster,data) {
     return response.data
 }
 
+async function updateModinfosApi() {
+    const url = '/api/mod/modinfo'
+    const response = await http.put(url)
+    return response.data
+}
+
 export {
     searchMod,getModInfo, getMyModInfoList,deleteModInfo,deleteStepupWorkshopApi,
     getModInfoFileApi,
     updateModApi,
 
     addModInfoFileApi,
-
+    updateModinfosApi
 }

@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import _ from "lodash";
-import {Row, Col, Button, Space, Tooltip, message} from 'antd';
+import {Row, Col, Button, Space, Tooltip, message, Popconfirm, Spin, Alert} from 'antd';
 import {useNavigate, useParams} from "react-router-dom";
 
 import {format} from "lua-json";
@@ -8,7 +8,7 @@ import {format} from "lua-json";
 import ModItem from '../component/modItem';
 import ModDetail from '../component/modConfig';
 import {getHomeConfigApi, saveHomeConfigApi} from '../../../api/gameApi';
-import {deleteStepupWorkshopApi} from '../../../api/modApi';
+import {deleteStepupWorkshopApi, updateModinfosApi} from '../../../api/modApi';
 
 // eslint-disable-next-line react/prop-types
 export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaultValuesMap}) => {
@@ -115,6 +115,19 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
         }
         setModList([...newModList])
     }
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    function updateModinfos() {
+        setConfirmLoading(true)
+        updateModinfosApi()
+            .then(data => {
+                if (data.code === 200) {
+                    message.success("更新模组配置成功，请刷新页面")
+                } else {
+                    message.warning("更新模组配置失败")
+                }
+                setConfirmLoading(false)
+            })
+    }
 
     useEffect(() => {
         setMod(modList[0] || {})
@@ -122,11 +135,23 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
 
     return (
         <>
+            <Spin spinning={confirmLoading} >
+                <Alert message="请先启动世界，再点击订阅，默认优先读取ugc模组配置。此界面只是模组配置，和游戏模组没有任何关系，只是读取配置"
+                       type="info"
+                       showIcon
+                       closable
+                />
+                <br/>
             <Space size={16} wrap>
                 <Button type="primary" onClick={() => saveModConfig2()}>保存配置</Button>
-                <Tooltip title="点击会删除房间的mods, 重新启动会自动重新下载mod">
-                    <Button type="primary" onClick={() => deleteStepupWorkshop()}>更新模组</Button>
-                </Tooltip>
+                <Popconfirm
+                    title="是否更新所有模组配置"
+                    okText="Yes"
+                    cancelText="No"
+                    onConfirm={()=>updateModinfos()}
+                >
+                    <Button type="primary" >更新所有模组配置</Button>
+                </Popconfirm>
                 <Tooltip
                     title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
                     <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>上传模组</Button>
@@ -169,6 +194,6 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                     />}
                 </Col>
             </Row>
-
+            </Spin>
         </>)
 }

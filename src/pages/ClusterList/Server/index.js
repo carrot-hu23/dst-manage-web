@@ -188,6 +188,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                         >
                             <Input/>
                         </Form.Item>
+                        {/*
                         <Form.Item
                             tooltip={"暂时未实现"}
                             label="persistent_storage_root(暂时未实现)"
@@ -214,6 +215,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                         >
                             <Input/>
                         </Form.Item>
+                        */}
                         <Form.Item label="ugc_directory"
                                    name="ugc_directory"
                                    rules={[
@@ -539,6 +541,7 @@ export default () => {
                         >
                             <Input/>
                         </Form.Item>
+                        {/*
                         <Form.Item
                                    tooltip={"暂时未实现"}
                                    label="persistent_storage_root(暂时未实现)"
@@ -565,6 +568,7 @@ export default () => {
                         >
                             <Input/>
                         </Form.Item>
+                        */}
                         <Form.Item label="ugc_directory"
                                    name="ugc_directory"
                                    rules={[

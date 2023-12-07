@@ -284,7 +284,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     onConfirm={()=>updateMod()}
                 >
                     <Button type="primary" >
-                        更新
+                        更新模组配置
                     </Button>
                 </Popconfirm>
                 <Button>
