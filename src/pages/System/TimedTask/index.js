@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import {
+    Alert,
     Button,
     Form,
     Input,
@@ -29,15 +30,12 @@ const { TextArea } = Input;
 const jobTaskEnum = {
     "backup": "备份存档",
     "update": "更新游戏",
-    "start": "启动游戏",
-    "stop": "停止游戏",
-    "startMaster": "启动森林",
-    "stopMaster": "停止森林",
-    "startCaves": "启动洞穴",
-    "stopCaves": "停止洞穴",
-    "restart": "重启游戏",
-    "restartMaster": "重启森林",
-    "restartCaves": "重启洞穴",
+    "start": "启动世界",
+    "stop": "停止世界",
+    "startGame": "启动所有世界",
+    "stopGame": "停止所有世界",
+
+    "restart": "重启世界",
     "regenerate": "重置世界"
 }
 
@@ -255,6 +253,8 @@ export default () => {
         };
         return (
             <Modal title={"创建任务"} open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(false)}>
+                <Alert message={"[启动所有世界] [关闭所有世界] [备份存档] [重置世界] 这几个选择世界是没有用的，是针对所有世界的，[启动所有世界]: 先关闭，在启动（可以当作重启）"} type="warning" showIcon closable />
+                <br/>
                 <Form
                     form={form}
                     layout="horizontal"
@@ -298,11 +298,12 @@ export default () => {
                         rules={[{required: true, message: '请选择类型',},]}
                     >
                         <Select>
+                            <Option value="startGame">启动所有世界</Option>
+                            <Option value="stopGame">关闭所有世界</Option>
                             <Option value="backup">备份存档</Option>
-                            <Option value="restart">重启世界</Option>
                             <Option value="update">更新游戏</Option>
-                            <Option value="start">启动游戏</Option>
-                            <Option value="stop">停止游戏</Option>
+                            <Option value="start">启动世界</Option>
+                            <Option value="stop">停止世界</Option>
                             <Option value="regenerate">重置世界</Option>
                         </Select>
                     </Form.Item>

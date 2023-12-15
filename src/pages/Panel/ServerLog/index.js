@@ -35,15 +35,22 @@ export default ({levels}) => {
     const onchange = (e) => {
         setCommand(e.target.value);
     };
-
+    function escapeString(str) {
+        return str.replace(/\\/g, '\\\\')
+            .replace(/"/g, '\\"')
+            .replace(/'/g, "\\'")
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+            .replace(/\t/g, '\\t');
+    }
     function sendInstruct(command) {
         if (command === "") {
             message.warning("请填写指令在发送")
             return
         }
-        console.log(levelName, command)
+        console.log(levelName, escapeString(command))
         setSpinLoading(true)
-        sendCommandApi("", levelName, command)
+        sendCommandApi("", levelName, escapeString(command))
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")

@@ -2,10 +2,9 @@
 import { useState } from 'react';
 import { StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
-import { Progress } from 'antd';
 
 import './index.css';
-import {useTheme} from "../../../hooks/useTheme";
+import {useTheme} from "../../../../hooks/useTheme";
 
 const { Statistic, Divider } = StatisticCard;
 

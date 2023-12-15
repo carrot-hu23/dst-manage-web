@@ -26,6 +26,7 @@ export default () => {
                 cluster: form.getFieldValue(),
                 token: form.getFieldValue().cluster_token
             }
+            body.cluster.cluster_description = body.cluster.cluster_description.replace(/\n/g, "")
             console.log('body:', body);
             saveClusterIniApi("", body)
                 .then(resp=>{
@@ -97,6 +98,7 @@ export default () => {
                         <Form.Item
                             label="房间名称"
                             name='cluster_name'
+                            tooltip={"已经支持了 + | [] \\ 等特殊字符了"}
                             rules={[
                                 {
                                     required: true,
@@ -112,7 +114,7 @@ export default () => {
                         </Form.Item>
 
                         <Form.Item label="房间描述" name='cluster_description'>
-                            <TextArea className={style.icon} rows={4} placeholder="请输入房间描述" maxLength={200}/>
+                            <TextArea className={style.icon} rows={3} placeholder="请输入房间描述"/>
                         </Form.Item>
                         <Form.Item
                             label="游戏模式"
@@ -263,6 +265,8 @@ export default () => {
                     <br/><br/>
                     <br/><br/>
                 </Skeleton>
+
+
             </div>
         </>
     )

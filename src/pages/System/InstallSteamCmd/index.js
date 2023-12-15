@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {Button, Divider, message, Popconfirm} from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Alert, Button, Divider, message, Popconfirm} from 'antd';
 import {Box, Card} from '@mui/material';
 
 
@@ -41,9 +41,14 @@ const Index = () => {
                     cancelText="No"
                 >
                     <div>
-                        tips: 如果安装后启动不了房间，请手动执行 install_centos.sh 或者 install_ubuntu.sh
+                        <Alert message={"如果安装后启动不了房间，请手动执行 install_centos.sh 或者 install_ubuntu.sh"} type="warning" showIcon closable />
                         <br/>
-                        <p>docker版本请勿点击安装，docker版本环境默认已经安装好了</p>
+                        <Alert message={"优先推荐使用群里面提供的一键安装脚本安装"} type="warning" showIcon closable />
+                        <br/>
+                        <Alert message={"docker版本请勿点击安装，docker版本环境默认已经安装好了"} type="info" showIcon closable />
+                        <br/>
+                        <Alert message={"windows版本请勿点击安装，windows版本环境请自行安装steamcmd和饥荒"} type="info" showIcon closable />
+                        <br/>
                     </div>
                     <Button type="primary" loading={loading}>点击安装环境</Button>
                 </Popconfirm>
