@@ -1,25 +1,11 @@
 import {Card, Box, Container} from '@mui/material';
-import {useEffect, useState} from "react";
 import {Image, Space} from "antd";
 import aliPayImage from './alipay.jpg';
 import wechatpayImage from './wechatpay.png';
 import qqgroup from './qqgroup.png'
+import {headerFlag1} from "../../config";
 
 export default () => {
-
-    const [config, setConfig] = useState({
-        version: "0"
-    })
-    useEffect(() => {
-        fetch('misc/config.json')
-            .then(response => response.json())
-            .then(data => {
-                setConfig(data)
-            })
-            .catch(error => {
-                console.error('无法加载config配置文件', error);
-            });
-    }, [])
 
     return (
         <Container maxWidth="xxl">
@@ -28,7 +14,7 @@ export default () => {
                     <h1>帮助文档</h1>
                     <strong>禁止商用，商用请联系本人授权！！！</strong>
                     <br/>
-                    {config.version}
+                    {headerFlag1}
                     <br/>
                     <div>
                         开源协议:
@@ -44,10 +30,10 @@ export default () => {
                         github 地址:
                         <a
                             target={'_blank'}
-                            href={config.github}
+                            href={"https://github.com/hujinbo23/dst-admin-go"}
                             rel="noreferrer"
                         >
-                            {config.github}
+                            {"https://github.com/hujinbo23/dst-admin-go"}
                         </a>
                     </div>
                     <br/>

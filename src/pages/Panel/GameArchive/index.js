@@ -12,7 +12,7 @@ import HiddenText from "../../../components2/HiddenText/HiddenText";
 
 export default () => {
     const navigate = useNavigate();
-
+    
     const [archive, setArchive] = useState({
         players: [],
         maxPlayers: 0
@@ -44,7 +44,7 @@ export default () => {
                 </Form.Item>
                 <Form.Item label={t('Season')}>
                     <span>
-                        {archive?.meta?.Clock?.Cycles+1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                        {archive?.meta?.Clock?.Cycles+1}/{archive.meta?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
                     </span>
                 </Form.Item>
                 <Form.Item label={t('Mods')}>

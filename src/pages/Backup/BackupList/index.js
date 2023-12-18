@@ -422,7 +422,7 @@ const Backup = () => {
 
     return (
         <>
-
+            <DeletetModal />
             <BackupStatistic size={backupData.length} data={backupDataSize}/>
             <br/>
             <HeaderTitle />
