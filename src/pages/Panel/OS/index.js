@@ -76,7 +76,7 @@ export default () => {
 
                         <StatisticCard
                             statistic={{
-                                title: "面板占用",
+                                title: t('Panel'),
                                 value: `${formatData(systeminfo.panelMemUsage / 1024, 2)} M`,
                                 description: (
                                     <>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
-
+import {useTranslation} from "react-i18next";
 import {Button, message, Popconfirm, Progress, Space, Spin, Switch, Table, Tag, Tooltip} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
 import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
@@ -15,6 +15,7 @@ export default ({levels}) => {
     const {cluster} = useParams()
     const [spin, setSpin] = useState(false)
     const [startText, setStartText] = useState("")
+    const { t } = useTranslation()
 
     const statusOnClick = (checked, event, levelName, uuid) => {
         let prefix
@@ -40,7 +41,7 @@ export default ({levels}) => {
 
     const columns = [
         {
-            title: '世界名',
+            title: t('LevelName'),
             dataIndex: 'levelName',
             key: 'levelName',
             hideInSearch: true,
@@ -66,13 +67,13 @@ export default ({levels}) => {
             ),
         },
         {
-            title: '世界类型',
+            title: t('Location'),
             dataIndex: 'location',
             key: 'location',
             hideInSearch: true,
         },
         {
-            title: '内存',
+            title: t('Mem'),
             dataIndex: 'mem',
             key: 'mem',
             render: (_, record) => (
@@ -84,7 +85,7 @@ export default ({levels}) => {
             ),
         },
         {
-            title: '操作',
+            title: t('Action'),
             key: 'action',
             hideInSearch: true,
             render: (_, record) => (
@@ -114,12 +115,12 @@ export default ({levels}) => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button icon={<ClearOutlined/>} danger size={'small'}>清理</Button>
+                        <Button icon={<ClearOutlined/>} danger size={'small'}>{t('clear')}</Button>
                     </Popconfirm>
 
                     <Switch checked={record.status}
-                            checkedChildren="启动"
-                            unCheckedChildren="关闭"
+                            checkedChildren={t('start')}
+                            unCheckedChildren={t('stop')}
                             onClick={(checked, event) => {
                                 statusOnClick(checked, event, record.levelName, record.uuid)
                             }}
@@ -136,7 +137,7 @@ export default ({levels}) => {
                 padding: '8px'
             }} size={16}>
                 <Popconfirm
-                    title={`一键启动世界`}
+                    title={t('Luanch All')}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键启动")
@@ -158,7 +159,7 @@ export default ({levels}) => {
                         size={'middle'}
                         type="primary"
                     >
-                        一键启动
+                        {t('Luanch All')}
                     </Button>
                 </Popconfirm>
 
@@ -184,7 +185,7 @@ export default ({levels}) => {
                     <Button
                         size={'middle'}
                     >
-                        一键关闭
+                        {t('Stop All')}
                     </Button>
                 </Popconfirm>
 
@@ -212,7 +213,7 @@ export default ({levels}) => {
                         type={"primary"}
                         size={'middle'}
                     >
-                        一键清理
+                        {t('Clear All')}
                     </Button>
                 </Popconfirm>
             </Space>
@@ -223,7 +224,7 @@ export default ({levels}) => {
                     }}
                     columns={columns}
                     dataSource={levels}
-                    headerTitle="世界列表"
+                    headerTitle={t('Level List')}
                 />
             </Spin>
         </>

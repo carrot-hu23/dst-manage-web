@@ -155,7 +155,7 @@ export default function DashboardAppPage() {
 
                     <Grid item xs={12} md={6} lg={4}>
                         <Card >
-                            <CardHeader title={"最近重置时间线"} />
+                            <CardHeader title={t("lastRegenerateLine")} />
                             <br/>
                             <Box sx={{ mx: 3 }} dir="ltr">
                                 <Timeline

@@ -139,7 +139,7 @@ export default ({levels}) => {
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
                     <Tabs defaultActiveKey="1">
-                        <TabPane tab="游戏日志" key="1">
+                        <TabPane tab={t('Level Log')} key="1">
                             <Space.Compact style={{width: '100%'}}>
                                 <Select
                                     style={{
@@ -155,7 +155,7 @@ export default ({levels}) => {
                                     })}
                                 />
                                 <Input defaultValue="100" ref={inputRef}/>
-                                <Button type="primary" onClick={() => pullLog()}>拉取</Button>
+                                <Button type="primary" onClick={() => pullLog()}>{t('pull')}</Button>
                             </Space.Compact>
                             <br/><br/>
                             <MonacoEditor
@@ -174,7 +174,7 @@ export default ({levels}) => {
                             <br/>
                             <Space align={"baseline"} size={16} wrap>
                                 <div>
-                                    自动轮询
+                                    {t('auto')}
                                     <Switch
                                         defaultChecked
                                         onChange={(checked, event)=>{
@@ -184,13 +184,13 @@ export default ({levels}) => {
                                                 stopPolling()
                                             }
                                         }}
-                                        checkedChildren="是" unCheckedChildren="否"/>
+                                        checkedChildren={t('Y')} unCheckedChildren={t('N')}/>
                                 </div>
                                 <Button onClick={()=>{
                                     window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelName}`
                                 }}
                                         icon={<DownloadOutlined />} type={'link'}>
-                                    下载日志
+                                    {t('Download Log')}
                                 </Button>
                             </Space>
 
@@ -199,7 +199,7 @@ export default ({levels}) => {
                             <Button style={{
                                 marginTop: '8px'
                             }} type="primary" onClick={() => sendInstruct(command)}>
-                                发送指令
+                                {t('send')}
                             </Button>
 
                             <br/><br/>
@@ -224,7 +224,7 @@ export default ({levels}) => {
                             </Space>
                         </TabPane>
 
-                        <TabPane tab="面板日志" key="2">
+                        <TabPane tab={t('Panel Log')} key="2">
                             <PanelLog />
                         </TabPane>
                     </Tabs>

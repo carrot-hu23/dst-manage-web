@@ -96,7 +96,7 @@ export default ()=>{
                 onConfirm={()=>deleteStepupWorkshop()}
                 onCancel={()=>setOpen(false)}
             >
-                <Button type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
+                <Button type="primary" danger onClick={() => setOpen(true)}>{t('UpdateGameMode')}</Button>
             </Popconfirm>
         </Space>
     </>

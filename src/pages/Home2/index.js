@@ -1,5 +1,6 @@
 import {Tabs} from "antd";
 import {Box, Card, Container} from "@mui/material";
+import {useTranslation} from "react-i18next";
 
 import ClusterIni from "./ClusterIni";
 import useResponsive from "../../hooks/useResponsive";
@@ -14,13 +15,13 @@ import {
 } from "../../api/8level";
 
 export default () => {
-
+    const { t } = useTranslation()
     const isDesktop = useResponsive('up', 'lg')
     const mod = isDesktop ? "top" : "top"
     const tabs = [
         {
             key: '1',
-            label: `房间信息`,
+            label: t('ClusterIni'),
             children: <ClusterIni/>
         },
         // {
@@ -30,9 +31,9 @@ export default () => {
         // },
         {
             key: '3',
-            label: `管 理 员`,
+            label: t('Adminlist'),
             children: <NameList
-                title={"管理员"}
+                title={t('Adminlist')}
                 getApi={getAdminlistApi}
                 saveApi={saveAdminlistApi}
                 tips={`管理员KleilD列表\n
@@ -42,9 +43,9 @@ export default () => {
         },
         {
             key: '4',
-            label: `白 名 单`,
+            label: t('Whitelist'),
             children: <NameList
-                title={"白名单"}
+                title={t('Whitelist')}
                 getApi={getWhitelistApi}
                 saveApi={saveWhitelistApi}
                 tips={`白名单KleilD列表\n
@@ -52,9 +53,9 @@ export default () => {
         },
         {
             key: '5',
-            label: `黑 名 单`,
+            label: t('Blacklist'),
             children: <NameList
-                title={"黑 名 单"}
+                title={t('Blacklist')}
                 getApi={getBlacklistApi}
                 saveApi={saveBlacklistApi}
                 tips={`被封禁玩家列表\n

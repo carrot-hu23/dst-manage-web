@@ -52,7 +52,7 @@ export default () => {
                         {archive.mods}
                     </span>
                 </Form.Item>
-                <Form.Item label={t('人数')}>
+                <Form.Item label={t('Players')}>
                     <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
                 </Form.Item>
                 <Form.Item label={t('IpConnect')}>

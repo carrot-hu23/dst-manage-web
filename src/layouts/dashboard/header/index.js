@@ -188,6 +188,14 @@ const ToggleLanguage = () => {
             label: '中文',
             key: 'zh',
         },
+        // {
+        //     label: '한국인',
+        //     key: 'kr',
+        // },
+        // {
+        //     label: '日本語',
+        //     key: 'jp',
+        // },
     ];
     return (
         <>

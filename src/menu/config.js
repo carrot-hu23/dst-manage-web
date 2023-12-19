@@ -9,53 +9,53 @@ const navConfig = [
     icon: icon('trending-up'),
   },
   {
-    title: '操作面板',
+    title: 'Panel',
     path: '/dashboard/panel',
     icon: icon('monitor'),
   },
   {
-    title: '房间设置',
+    title: 'Home',
     path: '/dashboard/cluster',
     icon: icon('home')
   },
   {
-    title: '世界设置',
+    title: 'Levels',
     path: '/dashboard/levels',
     icon: icon('layers')
   },
   {
-    title: '模组配置',
+    title: 'Mod',
     path: '/dashboard/mod',
     icon: icon('package'),
   },
   {
-    title: '辅助功能',
+    title: 'Tool',
     path: '/dashboard/tool',
     icon: icon('star')
   },
 
   {
-    title: '游戏备份',
+    title: 'Backup',
     path: '/dashboard/backup',
     icon: icon('folder')
   },
   {
-    title: '游戏日志',
+    title: 'Log',
     path: '/dashboard/log',
     icon: icon('database'),
   },
   {
-    title: '系统设置',
+    title: 'Setting',
     path: '/dashboard/setting',
     icon: icon('settings')
   },
   {
-    title: '服务器列表',
+    title: 'Lobby',
     path: '/dashboard/dst/server',
     icon: icon('server'),
   },
   {
-    title: '外部链接',
+    title: 'Link',
     path: '/dashboard/link',
     icon: icon('external-link')
   },

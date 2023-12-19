@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select, List, Avatar, Tag} from 'antd';
 
@@ -10,7 +11,9 @@ import {getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../../components2/HiddenText/HiddenText";
 
+
 const Online = ({levels}) => {
+    const { t } = useTranslation()
 
     const {cluster} = useParams()
     const [loading, setLoading] = useState(true)
@@ -108,7 +111,7 @@ const Online = ({levels}) => {
             </Col>
             <Col xs={4} sm={1} md={4} lg={4} xl={4}>
                 <Space size={'middle'}>
-                    <span>{item.day}天</span>
+                    <span>{item.day}{t('day')}</span>
                 </Space>
 
             </Col>
@@ -116,8 +119,8 @@ const Online = ({levels}) => {
                 <Spin spinning={loading}>
                     <Space wrap>
                         <Button size={'small'} type="primary" onClick={() => { killPlayer(item) }} >K I L L</Button>
-                        <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >复活</Button>
-                        <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >踢出</Button>
+                        <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >{t('respawn')}</Button>
+                        <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >{t('kick')}</Button>
                     </Space>
                 </Spin>
             </Col>
@@ -136,7 +139,7 @@ const Online = ({levels}) => {
                 <Spin spinning={spin}>
                     <Skeleton loading={loading} active>
                         <Space size={8}>
-                            <span>世界</span>
+                            <span>{t('level')}</span>
                             <Select
                                 style={{
                                     width: 120,
@@ -152,10 +155,10 @@ const Online = ({levels}) => {
                             />
                             <Button type={'primary'} onClick={() => {
                                 queryPlayers()
-                            }}>查询</Button>
+                            }}>{t('query')}</Button>
 
                             <div>
-                                人数: <Tag color={'green'}>{playerList.length}</Tag>
+                                {t('Players')}: <Tag color={'green'}>{playerList.length}</Tag>
                             </div>
                         </Space>
 
@@ -187,7 +190,7 @@ const Online = ({levels}) => {
                                     </Col>
                                     <Col xs={4} sm={1} md={4} lg={4} xl={4}>
                                         <Space size={'middle'}>
-                                            <span>{item.day}天</span>
+                                            <span>{item.day}{t('day')}</span>
                                         </Space>
 
                                     </Col>
@@ -195,8 +198,8 @@ const Online = ({levels}) => {
                                         <Spin spinning={loading}>
                                             <Space wrap>
                                                 <Button size={'small'} type="primary" onClick={() => { killPlayer(item) }} >K I L L</Button>
-                                                <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >复活</Button>
-                                                <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >踢出</Button>
+                                                <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >{t('respawn')}</Button>
+                                                <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >{t('kick')}</Button>
                                             </Space>
                                         </Spin>
                                     </Col>

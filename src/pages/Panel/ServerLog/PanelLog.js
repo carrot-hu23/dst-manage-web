@@ -1,16 +1,19 @@
 import {Button, Input, Space} from "antd";
 import {DownloadOutlined} from "@ant-design/icons";
 import React, {useEffect, useRef} from "react";
+import {useTranslation} from "react-i18next";
 
 import {MonacoEditor} from "../../NewEditor";
 import {readPanelLogApi} from "../../../api/level";
 import {useTheme} from "../../../hooks/useTheme";
+
 
 export default ()=>{
 
     const editorRef = useRef()
     const inputRef = useRef(null);
     const {theme} = useTheme();
+    const { t } = useTranslation()
 
     useEffect(() => {
         readPanelLogApi(100)
@@ -73,7 +76,7 @@ export default ()=>{
             <Button onClick={()=>{
                 window.location.href = `/api/game/dst-admin-go/log/download`
             }} icon={<DownloadOutlined />} type={'link'}>
-                下载日志
+                {t('Download Log')}
             </Button>
         </>
     )

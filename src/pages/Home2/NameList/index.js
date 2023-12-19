@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-
+import {useTranslation} from "react-i18next";
 import {Grid, Typography} from "@mui/material";
 import {Button, Input, Form, Skeleton, message} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
@@ -38,7 +38,7 @@ const formItemLayoutWithOutLabel = {
 };
 
 export default ({title, tips, getApi, saveApi}) => {
-
+    const { t } = useTranslation()
     const [loading, setLoading] = useState(false);
     const [spin, setSpin] = useState(false);
     const [form] = Form.useForm()
@@ -162,7 +162,7 @@ export default ({title, tips, getApi, saveApi}) => {
                                                     }}
                                                     icon={<PlusOutlined/>}
                                                 >
-                                                    添加名单
+                                                    {t('add')}
                                                 </Button>
                                                 <Form.ErrorList errors={errors}/>
                                             </Form.Item>

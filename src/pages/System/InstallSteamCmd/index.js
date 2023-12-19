@@ -41,6 +41,8 @@ const Index = () => {
                     cancelText="No"
                 >
                     <div>
+                        <Alert message={"1.2.7 版本以后，这种安装方式已经废弃掉了，请执行 install_steamcmd_centos.sh 或者 install_steamcmd_ubuntu.sh, 不要在点击下面的 安装环境了"} type="success" showIcon />
+                        <br/>
                         <Alert message={"如果安装后启动不了房间，请手动执行 install_centos.sh 或者 install_ubuntu.sh"} type="warning" showIcon closable />
                         <br/>
                         <Alert message={"优先推荐使用群里面提供的一键安装脚本安装"} type="warning" showIcon closable />
