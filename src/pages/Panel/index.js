@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Skeleton, Tabs} from 'antd';
 import {Container, Box} from '@mui/material';
@@ -6,8 +6,8 @@ import {parse} from "lua-json";
 
 import GameOperator from "./GameOperator";
 
-import ControlPanel from "./ControlPanel";
 import {getLevelStatusApi} from "../../api/8level";
+import RemoteControl from "./GameOperator/RemoteControl";
 
 
 const Panel = () => {
@@ -90,7 +90,7 @@ const Panel = () => {
         {
             key: '2',
             label: t('Remote'),
-            children: <ControlPanel levels={levels}/>,
+            children: <RemoteControl levels={levels}/>,
         },
     ];
 
@@ -99,7 +99,7 @@ const Panel = () => {
             <Container maxWidth="xxl">
                 <Box sx={{p: 0}} dir="ltr">
                     <Skeleton loading={loading} >
-                        <GameOperator levels={levels}/>
+                        <Tabs defaultActiveKey="1" items={items}/>
                     </Skeleton>
                 </Box>
             </Container>
