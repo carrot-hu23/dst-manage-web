@@ -140,6 +140,7 @@
   "cluster_password": "密码",
   "cluster_token": "令牌",
   "vote_enabled": "投票",
+  "pause_when_nobody": "自动暂停",
   "whitelist_slots": "预留位",
   "tick_rate": "通信频率",
   "console_enabled": "控制台",
