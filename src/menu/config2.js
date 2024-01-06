@@ -14,7 +14,7 @@ const navConfig = [
     icon: icon('hard-drive'),
   },
   {
-    title: '大厅服务器',
+    title: '大厅列表',
     path: '/dst/server',
     icon: icon('server'),
   },

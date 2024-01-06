@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from "react";
 import {Button, Spin, Space, Input, message, Typography, Divider} from "antd";
 import {Box, Card, Container, Grid} from "@mui/material";
 
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {ArrowLeftOutlined} from '@ant-design/icons';
 
 import {useTheme} from "../../../hooks/useTheme";
@@ -15,6 +15,8 @@ const {Title} = Typography;
 
 export default () => {
     const {theme} = useTheme()
+    const {cluster,name} = useParams()
+
     const navigate = useNavigate();
     const [spinLoading, setSpinLoading] = useState(false)
 
@@ -56,7 +58,7 @@ export default () => {
                     <Box sx={{p: 2}} dir="ltr">
                         <Space size={8} wrap>
                             <Button type={"link"} icon={<ArrowLeftOutlined/>}
-                                    onClick={() => navigate(`/dashboard/mod`)}>
+                                    onClick={() => navigate(`/${cluster}/${name}/dashboard/mod`)}>
                                 返回
                             </Button>
                             <span>添加模组</span>

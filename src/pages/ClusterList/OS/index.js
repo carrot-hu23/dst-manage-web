@@ -2,7 +2,7 @@
 import {StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import {useEffect, useState} from 'react';
-import {Container} from '@mui/material';
+import {Container, Card} from '@mui/material';
 import {Progress, Skeleton, Tooltip} from 'antd';
 import {useTranslation} from "react-i18next";
 import {getSystemInfoApi} from "../../../api/systemApi";
@@ -68,8 +68,10 @@ export default () => {
     }, [])
     return (
         <>
+
             <Container maxWidth="xxl">
                 <Skeleton loading={loading}>
+                <Card>
                     <RcResizeObserver key="resize-observer" onResize={(offset) => {
                         setResponsive(offset.width < 596);
                     }}>
@@ -142,8 +144,10 @@ export default () => {
                             } chartPlacement="left"/>
                         </StatisticCard.Group>
                     </RcResizeObserver>
-                </Skeleton>
+                </Card>
+        </Skeleton>
             </Container>
+
         </>
     )
 }

@@ -20,7 +20,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
         const _mod = _.cloneDeep(mod);
         setMod(_mod)
     }
-    const {cluster} = useParams()
+    const {cluster,name} = useParams()
 
     const changeEnable = (modId) => {
 
@@ -118,7 +118,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
     const [confirmLoading, setConfirmLoading] = useState(false);
     function updateModinfos() {
         setConfirmLoading(true)
-        updateModinfosApi()
+        updateModinfosApi(cluster)
             .then(data => {
                 if (data.code === 200) {
                     message.success("更新模组配置成功，请刷新页面")
@@ -154,7 +154,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                 </Popconfirm>
                 <Tooltip
                     title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
-                    <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>上传模组</Button>
+                    <Button type="primary" onClick={() => navigate(`/${cluster}/${name}/dashboard/mod/add/0`)}>上传模组</Button>
                 </Tooltip>
             </Space>
             <br/><br/>

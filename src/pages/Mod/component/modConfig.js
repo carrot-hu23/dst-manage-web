@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin, Tooltip} from 'antd';
+import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin} from 'antd';
+import {useParams} from "react-router-dom";
 import Select2 from './Select2';
 import {timestampToString} from "../../../utils/dateUitls";
 import {updateModApi} from "../../../api/modApi";
@@ -143,10 +144,11 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
     const [open, setOpen] = useState(false);
     const [ellipsis, setEllipsis] = useState(true);
     const [spinning,setSpinning] = useState(false)
-
+    const {cluster} = useParams()
+    
     function updateMod() {
         setSpinning(true)
-        updateModApi("", mod.modid)
+        updateModApi(cluster, mod.modid)
             .then(resp=>{
                 if (resp.code === 200) {
                     const newMod = resp.data
@@ -167,9 +169,13 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         return [...current]
                     })
                     setMod(newMod)
-                    setSpinning(false)
+                    
                     message.success("更新成功")
                 }
+                else {
+                    message.error(`更新失败${resp.msg}`)
+                }
+                setSpinning(false)
             })
     }
 
