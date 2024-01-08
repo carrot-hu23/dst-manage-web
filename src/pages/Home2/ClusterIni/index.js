@@ -12,7 +12,8 @@ import {
     Tooltip,
     Skeleton,
     Modal,
-    Typography
+    Typography,
+    Segmented
 } from "antd";
 import {Grid} from "@mui/material";
 import {useTranslation} from "react-i18next";
@@ -22,21 +23,23 @@ import {getClusterIniApi, saveClusterIniApi} from "../../../api/8level";
 
 import style from '../../DstServerList/index.module.css'
 import DstEmoji from "../../DstServerList/DstEmoji";
-
-
+import ClusterIniTips from "./ClusterIniTips";
 
 const {TextArea} = Input;
-const { Title, Paragraph, Text, Link } = Typography;
 
 export default () => {
     const { t } = useTranslation()
-
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
     const [choose, setChoose] = useState("survival");
     const onRadioChange = (e) => {
         setChoose(e.target.value);
     }
+    const [activeTab, setActiveTab] = useState('默认');
+    const handleTabChange = (value) => {
+        setActiveTab(value);
+    };
+
     const onFinish = () => {
 
         form.validateFields().then(() => {
@@ -92,6 +95,12 @@ export default () => {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={8}>
                 <Skeleton loading={loading} active>
+                    <Segmented
+                        value={activeTab}
+                        onChange={handleTabChange}
+                        options={['默认', '全部']}
+                    />
+                    <br/>
                     <Form
                         // eslint-disable-next-line react/prop-types
                         form={form}
@@ -200,7 +209,10 @@ export default () => {
                                    name='pause_when_nobody'>
                             <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
                         </Form.Item>
-
+                        <Form.Item label={t('console_enabled')} valuePropName="checked" tooltip="关闭后世界不能使用控制台"
+                                   name='console_enabled'>
+                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
+                        </Form.Item>
                         <Form.Item
                             label={t('whitelist_slots')}
                             name='whitelist_slots'
@@ -209,7 +221,7 @@ export default () => {
                         >
                             <InputNumber placeholder="预留位" maxLength={200}/>
                         </Form.Item>
-
+                        {activeTab === '全部' && <div>
                         <Form.Item
                             label={t('tick_rate')}
                             name='tick_rate'
@@ -218,13 +230,7 @@ export default () => {
                         >
                             <InputNumber placeholder="通信次数" maxLength={200}/>
                         </Form.Item>
-
-                        <Form.Item label={t('console_enabled')} valuePropName="checked" tooltip="关闭后世界不能使用控制台"
-                                   name='console_enabled'>
-                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked/>
-                        </Form.Item>
-
-
+                        </div>}
                         <Form.Item
                             label={t('max_snapshots')}
                             name='max_snapshots'
@@ -234,7 +240,7 @@ export default () => {
                         >
                             <InputNumber placeholder="max_snapshots" maxLength={200}/>
                         </Form.Item>
-
+                        {activeTab === '全部' && <div>
                         <Form.Item
                             label={t('cluster_language')}
                             name='cluster_language'
@@ -322,6 +328,7 @@ export default () => {
                         >
                             <Switch checkedChildren={t('open')} unCheckedChildren={t('close')} />
                         </Form.Item>
+                        </div>}
                         <Form.Item
                             label={t('Action')}>
                             <Button type="primary" onClick={() => onFinish()}>
@@ -334,37 +341,7 @@ export default () => {
                 </Skeleton>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
-                        <Typography>
-
-                            <Title level={4}>获取令牌</Title>
-                            <Paragraph>
-                                <Title level={5}>方式1: </Title>
-                                访问
-                                <Link
-                                    href=" https://accounts.klei.com/account/game/servers?game=DontStarveTogether">klei网站</Link>
-                                登录 。然后选择导航 "游戏", <Text code>点击 《饥荒：联机版》的游戏服务器 </Text>，获取令牌
-                                <Title level={5}>方式2: </Title>
-                                <Paragraph>
-                                    在自己的电脑上启动 饥荒联机版
-                                </Paragraph>
-                                <Paragraph>
-                                    主界面按 ~键，调出控制台，然后输入以下指令，并敲下Enter键，以生成令牌
-                                    <Text code>TheNet:GenerateClusterToken()</Text>
-                                    ~键，波浪号键一般位于键盘左上角，在ESC键的下方，tab键的上方，数字键1的左边
-                                </Paragraph>
-                                <Paragraph>
-                                    令牌保存在“cluster_token.txt”的文本文件中，可以在个人文档下找到，例如：
-                                    %userprofile%\Documents\Klei\DoNotStarveTogether\
-                                    我的路径是下面这个，其中 132274880 可能是用户id什么的，每个人可能不相同：
-                                    C:\Users\xxx\Documents\Klei\DoNotStarveTogether\132274880\cluster_token.txt
-                                </Paragraph>
-                            </Paragraph>
-
-                            <Title level={4}>多台服务器串连</Title>
-                            <Paragraph>
-                                1
-                            </Paragraph>
-                        </Typography>
+                        <ClusterIniTips />
                     </Grid>
                 </Grid>
 

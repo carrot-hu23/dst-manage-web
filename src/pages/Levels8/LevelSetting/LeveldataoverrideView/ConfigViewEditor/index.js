@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {useEffect, useState} from "react";
-import {Select, Space, Tabs} from "antd";
+import {Alert, Select, Space, Tabs} from "antd";
 import {parse,format} from "lua-json";
 
 import './index.css'
@@ -128,7 +128,13 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
                 )}
 
                 {(levelType !== 'forest' && levelType !== 'cave') && (<>
-                    <h4>暂不支持此类型世界配置文件可视化 {levelType}</h4>
+                    <Alert style={{
+                        marginBottom: '4px'
+                    }} message={`暂不支持此类型世界配置文件可视化 ${levelType}`} type="info" showIcon closable />
+                    <br/>
+                    <Alert style={{
+                        marginBottom: '4px'
+                    }} message={`或者世界配置为空，请先填写世界配置`} type="info" showIcon closable />
                 </>)}
 
             </div>

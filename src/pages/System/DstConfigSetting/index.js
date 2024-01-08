@@ -175,7 +175,7 @@ export default () => {
                         </Form.Item>
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"persistent_storage_root"}
+                                label={"persistent_storage_root(未实现)"}
                                 name='persistent_storage_root'
                                 tooltip={"设置游戏配置目录的路径。路径需要是绝对路径。\n" +
                                     "    用户文件的完整路径是\n" +
@@ -191,7 +191,7 @@ export default () => {
                         </div>}
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"conf_dir"}
+                                label={"conf_dir(未实现)"}
                                 name='conf_dir'
                                 tooltip={"更改配置目录的名称，不包含斜杠\n" +
                                     "    用户文件的完整路径是\n" +

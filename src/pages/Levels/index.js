@@ -22,6 +22,7 @@ import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
 import {useTheme} from "../../hooks/useTheme";
 import {useParams} from "react-router-dom";
+import LevelTips from "./LevelTips";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -577,7 +578,7 @@ const App = () => {
                             // TODO 当为空的时候
                             levelListRef.current = levels
                             const items2 = levels.map(level => {
-                                const closable = level.uuid === "Master"?false:true
+                                const closable = level.uuid !== "Master"
                                 return   {
                                     label: level.levelName,
                                     children: <LevelItem
@@ -823,41 +824,7 @@ const App = () => {
                                 maxHeight: '64vh',
                                 overflowY: 'auto',
                             }}>
-                                <Typography>
-                                    <Title level={4}>世界问题</Title>
-                                    <Paragraph>
-                                        <Paragraph>
-                                            从 <Text keyboard>1.2.6</Text> 版本起，世界层数从<Text keyboard>两层</Text>变成<Text keyboard>动态层数</Text>，
-                                            你可以任意的添加世界层数，来开<Text keyboard>多层存档</Text>
-                                        </Paragraph>
-                                        <Paragraph>
-                                            默认只有一个"森林世界"， 请点击 <Text code>添加世界</Text>，来添加世界
-                                        </Paragraph>
-                                        <Paragraph>
-                                            你也可以 游戏备份/上传存档/刷新  点击对应的存档 恢复存档。默认兼容本地游戏的存档格式
-                                        </Paragraph>
-                                    </Paragraph>
-
-                                    <Title level={4}>存档level.json解释</Title>
-                                    <Paragraph>
-                                    <Paragraph>
-                                        每个存档都会生成一个level.json文件，这个文件主要是标记你的存档世界是那个文件
-                                    </Paragraph>
-                                    <Paragraph>
-                                        但是由于此面板的采集特殊性问题，你的主世界的文件必须为 Master (否则面板的日志采集和统计都会失效)
-                                    </Paragraph>
-                                    <ul>
-                                        <li>name: 界面显示的名称</li>
-                                        <li>file: 世界文件名</li>
-                                    </ul>
-                                        <Paragraph>
-                                            例子:
-                                            比如我之前的存档 世界 为 Master Caves Master1 Caves1
-                                        </Paragraph>
-                                        <pre>{'{"levelList":[{"name":"森林","file":"Master"},{"name":"洞穴","file":"Caves"},{"name":"森林1","file":"Master1"},{"name":"洞穴1","file":"Caves1"}]}'}</pre>
-
-                                       </Paragraph>
-                                </Typography>
+                                <LevelTips />
                             </div>
                         </Grid>
                     </Grid>
