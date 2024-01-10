@@ -9,6 +9,7 @@ import ModList from "./ModList";
 import ModSearch from "./ModSearch";
 
 import {getMyModInfoList} from '../../api/modApi';
+import Ugc from "./Ugc";
 
 
 function unstring(str) {
@@ -238,6 +239,11 @@ const Mod = ({modoverrides}) => {
             key: '2',
             label: `订阅模组`,
             children: <ModSearch addModList={setModList}/>,
+        },
+        {
+            key: '3',
+            label: `Ugc模组`,
+            children: <Ugc />,
         },
     ];
 

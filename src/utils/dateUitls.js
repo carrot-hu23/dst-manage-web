@@ -213,9 +213,21 @@ function timestampToString(timestamp) {
     return dateString;
 }
 
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp * 1000); // 将时间戳转换为毫秒数
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 
 export {
     format,
     translateFormat,
-    timestampToString
+    timestampToString,
+    formatTimestamp
 }

@@ -87,6 +87,26 @@ async function addModInfoFileApi(cluster,data) {
     return response.data
 }
 
+async function getUgcModAcfApi(cluster, levelName) {
+    const url = `/api/mod/ugc/acf?levelName=${levelName}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function deleteUgcModAcfFileApi(cluster, levelName, workshopId) {
+    const url = `/api/mod/ugc/acf?levelName=${levelName}&workshopId=${workshopId}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     searchMod,getModInfo, getMyModInfoList,deleteModInfo,deleteStepupWorkshopApi,
     getModInfoFileApi,
@@ -94,4 +114,7 @@ export {
 
     addModInfoFileApi,
     updateModinfosApi,
+
+    getUgcModAcfApi,
+    deleteUgcModAcfFileApi
 }

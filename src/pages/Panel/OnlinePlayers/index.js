@@ -146,12 +146,10 @@ const Online = ({levels}) => {
                                 }}
                                 onChange={handleChange}
                                 defaultValue={notHasLevels?"":levels[0].levelName}
-                                options={levels.map(level=>{
-                                    return {
+                                options={levels.map(level=>({
                                         value: level.key,
                                         label: level.levelName,
-                                    }
-                                })}
+                                    }))}
                             />
                             <Button type={'primary'} onClick={() => {
                                 queryPlayers()
