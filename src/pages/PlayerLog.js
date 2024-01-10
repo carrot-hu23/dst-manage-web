@@ -1,12 +1,14 @@
 import {useParams} from "react-router-dom";
-import {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {ProTable} from '@ant-design/pro-components';
-import {Button, Image, message, Popconfirm, Tag, Typography} from 'antd';
-import {Container, Box} from '@mui/material';
+import {Button, Image, message, Popconfirm, Space, Tag, Typography} from 'antd';
+import {Container, Box, Card} from '@mui/material';
 
-import {getPlayerLog} from '../api/playerLogApi';
+import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
+import style from "./DstServerList2/index.module.css";
+import HiddenText from "../components2/HiddenText/HiddenText";
 
 
 const { Text } = Typography;
@@ -20,8 +22,21 @@ const playerActionEnum = {
 }
 
 export default function PlayerLog() {
-    const actionRef = useRef();
     const {cluster} = useParams()
+
+    const actionRef = useRef();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [data, setData] = useState([]);
+
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+            setSelectedRowKeys(selectedRowKeys)
+        },
+    }
 
     const columns = [
         {
@@ -29,7 +44,9 @@ export default function PlayerLog() {
             dataIndex: 'name',
             key: 'name',
             copyable: true,
-            // ellipsis: true,
+            render: (text, record) => {
+                return (<div className={style.icon}>{record.name}</div>)
+            }
         },
         {
             title: 'Role',
@@ -47,11 +64,8 @@ export default function PlayerLog() {
             dataIndex: 'kuId',
             key: 'kuId',
             ellipsis: true,
-            // eslint-disable-next-line no-unused-vars
-            //  <Text copyable>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
-            render: (text, record, _, action) => (
-                <Text>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
-            )
+            // <Text>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
+            render: (text, record, _, action) => <HiddenText text={record.kuId} />
         },
         {
             title: 'SteamId',
@@ -59,18 +73,21 @@ export default function PlayerLog() {
             key: 'steamId',
             // ellipsis: true,
             align: 'left',
+            // <span>{`${record.steamId.slice(0, 5)}***${record.steamId.slice(record.steamId.length - 2)}  `}</span>
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
-                <span>{`${record.steamId.slice(0, 5)}***${record.steamId.slice(record.steamId.length - 2)}  `}</span>
-                <a
-                    target={'_blank'}
-                    href={`https://steamcommunity.com/profiles/${record.steamId}`}
-                    style={{
-                        background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
-                    }} rel="noreferrer">
-                    <Image preview={false} width={22}
-                           src={'https://dst.liuyh.com/static/img/dstui/icon/steam_btn.png'}/>
-                </a>
+                <Space size={4}>
+                    <HiddenText text={record.steamId} />
+                    <a
+                        target={'_blank'}
+                        href={`https://steamcommunity.com/profiles/${record.steamId}`}
+                        style={{
+                            background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
+                        }} rel="noreferrer">
+                        <Image preview={false} width={22}
+                               src={'https://dst.liuyh.com/static/img/dstui/icon/steam_btn.png'}/>
+                    </a>
+                </Space>
             </div>)
 
         },
@@ -86,7 +103,8 @@ export default function PlayerLog() {
             dataIndex: 'ip',
             key: 'ip',
             valueType: 'string',
-            search: false
+            search: false,
+            render: (text, record, _, action) => <HiddenText text={record.ip} />
         },
         {
             title: 'Action',
@@ -107,7 +125,11 @@ export default function PlayerLog() {
             search: false,
             dataIndex: 'actionDesc',
             key: 'actionDesc',
-            ellipsis: true,
+            render: (text, record) => (
+                <div className={style.icon} style={{wordWrap: 'break-word', wordBreak: 'break-word'}}>
+                    {text}
+                </div>
+            ),
         },
         {
             title: '操作',
@@ -139,19 +161,23 @@ export default function PlayerLog() {
 
     return (
         <>
-            <Container maxWidth="xl">
-                <Box sx={{p: 0, pb: 0}} dir="ltr">
+            <Container maxWidth="xxl">
+                <Card>
+                <Box sx={{p: 1}} dir="ltr">
+
                     <ProTable
                         scroll={{
                             x: 500,
                         }}
+                        // cardBordered
                         columns={columns}
                         actionRef={actionRef}
-                        cardBordered
+                        rowSelection={rowSelection}
                         request={async (params = {}, sort, filter) => {
                             // console.log(sort, filter);
                             console.log('params', params)
                             const resp = await getPlayerLog(cluster, params)
+                            setData(resp.data)
                             return {
                                 data: resp.data.data,
                                 success: true,
@@ -160,14 +186,32 @@ export default function PlayerLog() {
                         }}
                         rowKey="ID"
                         pagination={{
-                            pageSize: 10,
-                            showSizeChanger: false,
-                            onChange: (page) => console.log(page),
+                            current: currentPage,
+                            pageSize,
+                            total: data.total,
+                            onChange: setCurrentPage,
+                            showSizeChanger: true,
+                            onShowSizeChange: (current, size) => setPageSize(size),
                         }}
                         headerTitle="玩家日志"
+                        toolBarRender={() => [
+                            <Button type="primary" danger onClick={()=>{
+                                deleteLogs("", {
+                                    ids: selectedRowKeys
+                                }).then(resp=>{
+                                    if (resp.code === 200) {
+                                        message.success("删除成功")
+                                        actionRef.current?.reload();
+                                    }
+                                })
+                            }}>
+                                删除
+                            </Button>
+                        ]}
                     />
                 </Box>
+                </Card>
             </Container>
         </>
-    );
+    )
 }

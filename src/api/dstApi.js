@@ -1,9 +1,7 @@
-import { map } from "lodash";
 import { http } from "../utils/http";
 
 const dstHomeServerListUrl = "/api/dst/home/server"
 const dstHomeServerDetailUrl = "/api/dst/home/server/detail"
-const dstVersionAUrl = "/api/dst/version"
 
 async function getHomeListApi(params) {
     // const url = '/dst/index/serverlist/getserverlist.html'
@@ -65,39 +63,31 @@ export async function dstHomeDetailApi(params) {
     return response.data
 }
 
-export function getPlayer(response) {
-    const success = response.success
-    if (!success) {
-        return []
-    }
-    return response.successinfo.players
-}
 
-export async function dstHomePlayersApi(params) {
-    // const url = '/dst/index/serverlist/getserverdetail.html'
 
-    const response = await http.post(dstHomeDetailApi, {
-        rowId: params.rowId,
-        region: params.region
-    }, {
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+export async function dstHomeListApi2(params) {
+
+    const params2 = new URLSearchParams();
+
+    // 遍历对象的属性并添加到URLSearchParams对象中
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in params) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (params.hasOwnProperty(key) && params[key] !== undefined) {
+            params2.append(key, params[key]);
         }
-    })
-    return response.data
-}
+    }
 
-async function dstVersionApi() {
-    // const url = '/version/getLocalVersion'
-    const response = await http.get(dstVersionAUrl)
-    return response.data
-}
-export async function lobbyServerDetailApi(region, rowId) {
-    const url = `/lobby/server/query/detail?rowId=${rowId}&region=${region}`
+    
+    const url = `/api/dst/home/server2?${params2.toString()}`
     const response = await http.get(url)
+
     return response.data
 }
 
-export {
-    dstVersionApi
+export async function dstHomeDetailApi2(rowId) {
+    const url = `/api/dst/home/server/detail2?rowId=${rowId}`
+    const response = await http.get(url)
+
+    return response.data
 }

@@ -1,5 +1,7 @@
 import {Form, Space, Typography} from 'antd';
 
+import style from "../index.module.css"
+
 const {Paragraph} = Typography;
 
 // eslint-disable-next-line react/prop-types
@@ -9,7 +11,7 @@ const HomeOverView = ({home}) => (
             height: 450,
             overflowY: 'auto',
         }}>
-            <h3>{home.name}</h3>
+            <h3 className={style.icon}>{home.name}</h3>
             <span>{home.desc}</span>
             <br/>
             <br/>
@@ -27,11 +29,11 @@ const HomeOverView = ({home}) => (
                         </Form.Item>
 
                         <Form.Item label="天数">
-                            <span>{home.data.day}</span>
+                            <span>{home?.data?.day}</span>
                         </Form.Item>
 
                         <Form.Item label="季节">
-                            <span>{home.season}{`(${home.data.dayselapsedinseason + 1}/${home.data.dayselapsedinseason + home.data.daysleftinseason})`}</span>
+                            <span>{home.season}{`(${home?.data?.dayselapsedinseason + 1}/${home?.data?.dayselapsedinseason + home?.data?.daysleftinseason})`}</span>
                         </Form.Item>
                     </div>
                     <div>

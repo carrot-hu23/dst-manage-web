@@ -105,6 +105,31 @@ async function saveAutoCheckApi(cluster, data) {
     return response.data
 }
 
+async function autoCheck2Api(cluster, checkType) {
+    const url = `/api/auto/check2?checkType=${checkType}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function saveAutoCheck2Api(cluster, data) {
+    if (data.enable) {
+        data.enable = 1
+    } else {
+        data.enable = 0
+    }
+    const url = `/api/auto/check2`
+    const response = await http.post(url,data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     autoCheckStatusApi,
     enableAutoCheckMasterRunApi,
@@ -114,5 +139,9 @@ export {
     enableAutoCheckCavesModUpdateApi,
 
     autoCheckApi,
-    saveAutoCheckApi
+    saveAutoCheckApi,
+
+
+    autoCheck2Api,
+    saveAutoCheck2Api,
 }

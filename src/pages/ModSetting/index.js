@@ -40,9 +40,9 @@ export default () => {
     return (
         <>
 
-                <Container maxWidth="xl">
+                <Container maxWidth="xxl">
                     <Card>
-                        <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+                        <Box sx={{ p: 3 }} dir="ltr">
                             <Skeleton loading={loading} active>
                             <Mod modoverrides={clusterData.modData}/>
                             </Skeleton>

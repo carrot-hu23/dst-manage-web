@@ -53,10 +53,50 @@ async function restoreBackupApi(cluster,fileName) {
     return response.data
 }
 
+async function getBackupSnapshotsSettingApi(cluster) {
+    const url = '/api/game/backup/snapshot/setting'
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function saveBackupSnapshotsSettingApi(cluster, data) {
+    if (data.enable) {
+        data.enable = 1
+    } else {
+        data.enable = 0
+    }
+    const url = '/api/game/backup/snapshot/setting'
+    const response = await http.post(url, data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function getBackupSnapshotsList(cluster) {
+    const url = '/api/game/backup/snapshot/list'
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     createBackupApi,
     getBackupApi,
     deleteBackupApi,
     renameBackupApi,
-    restoreBackupApi
+    restoreBackupApi,
+
+    getBackupSnapshotsSettingApi,
+    saveBackupSnapshotsSettingApi,
+    getBackupSnapshotsList,
+
 }

@@ -1,12 +1,36 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin} from 'antd';
+import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin, Badge} from 'antd';
 import Select2 from './Select2';
 import {timestampToString} from "../../../utils/dateUitls";
 import {updateModApi} from "../../../api/modApi";
 
 const {Paragraph} = Typography;
+
+function generateUUID() {
+    const cryptoObj = window.crypto || window.msCrypto;
+    if (!cryptoObj) {
+        console.error('Crypto API not supported.');
+        return;
+    }
+
+    const buffer = new Uint8Array(16);
+    cryptoObj.getRandomValues(buffer);
+
+    // Set version (4) and variant (8, 9, a, or b) bits
+    // eslint-disable-next-line no-bitwise
+    buffer[6] = (buffer[6] & 0x0f) | 0x40;
+    // eslint-disable-next-line no-bitwise
+    buffer[8] = (buffer[8] & 0x3f) | 0x80;
+
+    const hexCodes = Array.from(buffer)
+        .map(byte => byte.toString(16).padStart(2, '0'));
+
+    const uuid = hexCodes.join('');
+    // eslint-disable-next-line consistent-return
+    return `${uuid.substr(0, 8)}-${uuid.substr(8, 4)}-${uuid.substr(12, 4)}-${uuid.substr(16, 4)}-${uuid.substr(20)}`;
+}
 
 const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setDefaultValuesMap}) => {
 
@@ -78,9 +102,16 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
                 {mod.mod_config.configuration_options !== undefined &&
                     mod.mod_config.configuration_options
                         .filter((item) => item.options !== undefined)
-                        .map((item) =>
+                        .map((item,index) =>
                                 // eslint-disable-next-line react/jsx-key
                             {
+                                // 例如2928810007,2334209327都是这样的,options只有一个,而且就只是默认值,并且该项的description没有内容
+                                if (item.options.length === 1 && item.options[0].data === item.default && !item.options[0].description) {
+                                    /*                           在DST中,如果label为空字符串,就直接是显示空白行,这里用||会导致label为空也显示name,为了跟DST保持一样使用了??
+                                                                                                                                     ↓                     */
+                                    return <Divider key={item.label}><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label ?? item.name}</span></Divider>
+                                }
+                                // TODO 还不知道哪些mod是这样的作为标题的,我目前没有发现
                                 if (item.name === 'Title' || item.name === '') {
                                     if (item.label === '') {
                                         return ""
@@ -96,7 +127,8 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
                                     defaultValue = undefined
                                 }
                                 // console.log("1111111: ",defaultValuesMap, mod.modid, defaultValuesMap.get(`${mod.modid}`), item.name)
-                                return <Select2 key={item.name+defaultValue} item={item}
+
+                                return <Select2 key={generateUUID()} item={item}
                                                 defaultValue={defaultValue}/>;
                             }
                         )}
@@ -142,14 +174,15 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
     }
 
     return (
+        <>
         <div
             style={{
-                height: '370px',
+                height: '335px',
                 overflowY: 'auto',
                 overflowX: 'auto',
             }}
         >
-            {mod.installed && <>
+            {mod.installed && mod.mod_config !== undefined && mod.mod_config !== null && <>
                 <Spin spinning={spinning} tip={"正在更新模组"} >
                 <Space size={16} wrap>
                     <img alt="example" src={mod.img}/>
@@ -157,11 +190,11 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                             <span style={{
                                 fontSize: '16px',
                                 fontWeight: 500
-                            }}>{mod.name}</span>
+                            }}>{mod.name.slice(0, 20)}</span>
                         <br/>
                         <span>模组id:{mod.modid}</span>
                         <br/>
-                        <span>作者: {mod.mod_config.author}</span>
+                        <span>作者: { mod.mod_config.author !== undefined ? mod.mod_config.author.slice(0, 20) : ""}</span>
                     </div>
                     <div>
                         <span>版本: {mod.mod_config.version}</span>
@@ -177,7 +210,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         ellipsis={
                             ellipsis
                                 ? {
-                                    rows: 2,
+                                    rows: 4,
                                     expandable: true,
                                     symbol: 'more',
                                 }
@@ -190,30 +223,6 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     <br/>
 
                 </div>
-                <Space>
-                    <Button type="primary" onClick={() => setOpen(true)}>
-                        配置
-                    </Button>
-                    <Button>
-                        <a
-                            target={'_blank'}
-                            href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}
-                            rel="noreferrer"
-                        >
-                            创意工坊
-                        </a>
-                    </Button>
-                    <Popconfirm
-                        title="是否更新mod"
-                        okText="Yes"
-                        cancelText="No"
-                        onConfirm={()=>updateMod()}
-                    >
-                        <Button type="primary" >
-                            更新
-                        </Button>
-                    </Popconfirm>
-                </Space>
 
                 <Modal
                     getContainer={document.body}
@@ -226,8 +235,9 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     onCancel={() => setOpen(false)}
                     width={640}
                     destroyOnClose
+                    footer={null}
                 >
-                    <div style={{
+                    <div className={'scrollbar'} style={{
                         height: '386px',
                         overflowY: 'auto',
                         overflowX: 'auto'
@@ -238,10 +248,21 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                                           setDefaultValuesMap={setDefaultValuesMap}
                             />
                         )}
-                        {mod.mod_config.configuration_options === undefined &&<>
+                        {mod.mod_config.configuration_options === undefined && mod.mod_config.author === undefined &&<>
                             <br/>
                             <br/>
-                            <span>暂无配置。请注意有可能网络问题，导致配置获取不到请求请删除模组重新订阅</span>
+                            <span>网络问题!!! 下模组失败</span>
+                            <br/>
+                            <span>点击 更新 按钮重新下载</span>
+                            <br/>
+                            <span>如果多次更新依旧没有配置，请先加此mod加入到你的模组配置文件里面</span>
+                            <br/>
+                            <span>然后在启动房间，等待房间mod下载完成后，在点击 更新 按钮就会有配置选项</span>
+                        </>}
+                        {mod.mod_config.configuration_options === undefined && mod.mod_config.author !== undefined &&<>
+                            <br/>
+                            <br/>
+                            <span>当前模组暂无配置</span>
                         </>}
                     </div>
 
@@ -253,6 +274,38 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
             </>}
 
         </div>
+            <Space size={16}>
+                <Button type="primary" onClick={() => setOpen(true)}>
+                    配置
+                </Button>
+                <Popconfirm
+                    title="是否更新mod"
+                    okText="Yes"
+                    cancelText="No"
+                    onConfirm={()=>updateMod()}
+                >
+                    {mod.update && <Badge dot>
+                        <Button style={{
+                            backgroundColor: "#149b6e"
+                        }} type="primary" >
+                            更新模组配置
+                        </Button>
+                    </Badge>}
+                    {!mod.update && <Button type="primary" >
+                        更新模组配置
+                    </Button>}
+                </Popconfirm>
+                <Button>
+                    <a
+                        target={'_blank'}
+                        href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}
+                        rel="noreferrer"
+                    >
+                        创意工坊
+                    </a>
+                </Button>
+            </Space>
+        </>
     );
 };
 

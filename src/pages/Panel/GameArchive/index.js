@@ -1,18 +1,18 @@
-import {Typography, Space, Form, Button} from 'antd';
+import {Alert, Form, Space, Tooltip} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import {useEffect, useState} from 'react';
 
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
-import './index.css';
+import style from "../../DstServerList/index.module.css";
+import HiddenText from "../../../components2/HiddenText/HiddenText";
 
-
-const {Paragraph} = Typography;
 
 export default () => {
     const navigate = useNavigate();
-
+    
     const [archive, setArchive] = useState({
         players: [],
         maxPlayers: 0
@@ -24,64 +24,70 @@ export default () => {
         archiveApi(cluster)
             .then(data => {
                 console.log(data.data);
-                const ar = {
-                    clusterName: data.data.clusterName,
-                    gameMod: data.data.gameMod,
-                    mods: data.data.mods,
-                    maxPlayers: data.data.maxPlayers,
-                    ipConnect: data.data.ipConnect,
-                    meta: data.data.meta
-                }
-                const {players} = data.data
-                if (players === null) {
-                    ar.players = []
-                } else {
-                    ar.players = players
-                }
-                const metaInfo = data.data.meta
-                ar.days = metaInfo.Clock.Cycles || '未知'
-                ar.season = metaInfo.Seasons.Season || '未知'
-                ar.phase = metaInfo.Clock.Phase || '未知'
-                ar.elapseddaysinseason = metaInfo.Seasons.ElapsedDaysInSeason || '未知'
-                ar.remainingdaysinseason = metaInfo.Seasons.RemainingDaysInSeason || '未知'
-                setArchive(ar)
+                setArchive(data.data)
             }).catch(error => console.log(error))
 
     }, [])
-    const Span = ({text}) => {
-        return <span style={{paddingRight: '8px'}}>{text}</span>
-    }
+
     return (
         <>
-            <table>
-                <tr>
-                    <td>{`${t('ClusterName')} :`}</td>
-                    <td> {archive.clusterName}</td>
-                </tr>
-                <tr>
-                    <td>{`${t('GameMod')} : `}</td>
-                    <td> {archive.gameMod}</td>
-                </tr>
-                <tr>
-                    <td>{`${t('Season')} : `}</td>
-                    <td> {archive.days}/{archive.phase} {archive.season}({archive.elapseddaysinseason}/{archive.elapseddaysinseason + archive.remainingdaysinseason})</td>
-                </tr>
-                <tr>
-                    <td>{`${t('Mods')} : `}</td>
-                    <td> {archive.mods}</td>
-                </tr>
-                <tr>
-                    <td>{`${t('IpConnect')} : `}</td>
-                    <td> <Paragraph copyable>{archive.ipConnect}</Paragraph></td>
-                </tr>
-                <tr>
-                    <td>{`人数 : `}</td>
-                    <td>
-                        <span>{`${archive.players.length}/${archive.maxPlayers}`}</span>
-                        <Button type={"link"} onClick={()=>{navigate(`/dashboard/player`)}}>详情</Button>
-                    </td>
-                </tr>
-            </table>
+            <Form className={'dst'}>
+                <Form.Item label={t('ClusterName')}>
+                    <span className={style.icon}>
+                        {archive.clusterName}
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('GameMod')}>
+                    <span>
+                        {archive.gameMod}
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('Season')}>
+                    <span>
+                        {archive?.meta?.Clock?.Cycles+1}/{archive.meta?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('Mods')}>
+                    <span>
+                        {archive.mods}
+                    </span>
+                </Form.Item>
+                <Form.Item label={t('Players')}>
+                    <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
+                </Form.Item>
+                <Form.Item label={t('IpConnect')}>
+                    <Space size={8}>
+                        <HiddenText text={archive.ipConnect} />
+                        <Tooltip placement="topLeft" title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
+                            <QuestionCircleOutlined />
+                        </Tooltip>
+                    </Space>
+                </Form.Item>
+                <Form.Item label={t('Password')}>
+                    <HiddenText text={archive.password} />
+                </Form.Item>
+                <Form.Item label={t('Version')}>
+                    <span>
+                        {archive.version} / {archive.lastVersion}
+                    </span>
+                </Form.Item>
+                <Alert style={{
+                    marginBottom: '4px'
+                }} message={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`} type="info" showIcon closable />
+                {archive.version !== archive.lastVersion &&
+                    <Alert
+                        action={[
+                            <>
+                                <a target={'_blank'}
+                                   href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
+                                   rel="noreferrer">
+                                    查看
+                                </a>
+                            </>
+                        ]}
+                        message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
+
+            </Form>
         </>
     )
 }

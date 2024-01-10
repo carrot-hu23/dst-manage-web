@@ -1,154 +1,106 @@
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {useState, useEffect} from 'react';
-import {useParams} from "react-router-dom";
-import {Image, notification, Skeleton, Tabs} from 'antd';
+import {Skeleton, Tabs} from 'antd';
 import {Container, Box} from '@mui/material';
+import {parse} from "lua-json";
 
 import GameOperator from "./GameOperator";
-import ControlPanel from './ControlPanel';
-import GameLog2 from './GameLog';
 
-import {getGameDashboardApi} from '../../api/gameDashboardApi';
-import {dstVersionApi} from '../../api/dstApi';
-import Announce from "./Announce";
-import ServerIni from "../Home/ServerIni";
-import ServerLog from "./ServerLog";
+import {getLevelStatusApi} from "../../api/8level";
+import RemoteControl from "./GameOperator/RemoteControl";
 
-
-const initData = {
-    cpu: {
-        "cores": 0,
-        "cpuPercent": 0
-    },
-    mem: {
-        "total": 0,
-        "free": 0,
-        "usedPercent": 0
-    },
-    disk: {
-        "devices": [
-            {
-                "total": 0,
-                "Usage": 0,
-            }
-        ]
-    },
-    memStates: 1513,
-    masterPs: {
-        cpuUage: "",
-        memUage: "",
-        VSZ: "",
-        RSS: ""
-    },
-    cavesPs: {
-        cpuUage: "",
-        memUage: "",
-        VSZ: "",
-        RSS: ""
-    }
-}
 
 const Panel = () => {
+
     const { t } = useTranslation()
-    const [api, contextHolder] = notification.useNotification();
-
-    const updateNoticficationIcon = 'https://www.klei.com/sites/default/files/games/dont-starve-together/assets/dont-starve-togetherlayer2_0.png'
-
-    const openNotification = (params) => {
-        api.open({
-            message: '饥荒有新的版本更新了',
-            description: (
-                <>
-                    请点击更新游戏按钮。
-                    <a target={'_blank'}
-                       href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
-                       rel="noreferrer">
-                        查看更新内容
-                    </a>
-                    <br />
-                    <div>Vserion: {params}</div>
-                </>
-            ),
-            icon: (<Image preview={false} width={32} src={updateNoticficationIcon} />),
-        });
-    };
-
-    const [gameData, setGameData] = useState(initData)
-
+    const [levels, setLevels] = useState([])
     const [loading, setLoading] = useState(true)
-    const {cluster} = useParams()
-    const [masterLog, setMasterLog] = useState("")
-    const initDashboard = () => {
-        getGameDashboardApi(cluster)
-            .then(response => {
-                setGameData(response.data)
-            })
-    }
-
-    const firstRequest = () => {
-        getGameDashboardApi(cluster)
-            .then(response => {
-
-                setGameData(response.data)
-                setMasterLog(response.data.masterLog)
-                setLoading(false)
-
-                const localVersion = response.data.version.replace("\n", "")
-                dstVersionApi()
-                    .then(response => {
-                        if (response > parseInt(localVersion, 10)) {
-                            openNotification(response)
+    useEffect(()=>{
+        setLoading(true)
+        getLevelStatusApi()
+            .then(resp => {
+                if (resp.code === 200) {
+                    const levels = resp.data
+                    const items = []
+                    levels.forEach(level=>{
+                        const item = {
+                            key: level.uuid,
+                            uuid: level.uuid,
+                            levelName: level.levelName,
+                            location: '未知',
+                            ps: level.ps,
+                            Ps: level.Ps,
+                            status: level.status
                         }
+                        try {
+                            const data = parse(level.leveldataoverride)
+                            item.location = data.location
+                        } catch (error) {
+                            console.log(error)
+                        }
+                        items.push(item)
                     })
+                    setLevels(items)
+                }
+                setLoading(false)
             })
-    }
+    }, [])
 
-    useEffect(() => {
-        firstRequest()
-        const timer = setInterval(() => {
-            initDashboard()
-        }, 10000)
-        return () => clearInterval(timer)
+    useEffect(()=>{
+        const timerId = setInterval(()=>{
+            getLevelStatusApi()
+                .then(resp => {
+                    if (resp.code === 200) {
+                        const levels = resp.data
+                        const items = []
+                        levels.forEach(level=>{
+                            const item = {
+                                key: level.uuid,
+                                uuid: level.uuid,
+                                levelName: level.levelName,
+                                location: '未知',
+                                ps: level.ps,
+                                Ps: level.Ps,
+                                status: level.status
+                            }
+                            try {
+                                const data = parse(level.leveldataoverride)
+                                item.location = data.location
+                            } catch (error) {
+                                console.log(error)
+                            }
+                            items.push(item)
+                        })
+                        setLevels(items)
+                    }
+                })
+        }, 2000)
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        return () => {
+            clearInterval(timerId); // 组件卸载时清除定时器
+        };
     }, [])
 
     const items = [
         {
             key: '1',
             label: t('Panel'),
-            children: <Skeleton loading={loading}>
-                        <GameOperator gameData={gameData} logPath={masterLog}/>
-                    </Skeleton>,
+            children: <GameOperator levels={levels}/>
         },
         {
             key: '2',
             label: t('Remote'),
-            children: <ControlPanel/>,
-        },
-        {
-            key: '3',
-            label: t('Announce'),
-            children: <Announce />,
-        },
-        {
-            key: '4',
-            label: t('MasterLog'),
-            children: <ServerLog levelName={"Master"}/>,
-        },
-        {
-            key: '5',
-            label: t('CavesLog'),
-            children: <ServerLog levelName={"Caves"}/>,
+            children: <RemoteControl levels={levels}/>,
         },
     ];
 
     return (
         <>
-            {contextHolder}
-            <Container maxWidth="xl">
-                <Box sx={{p: 0, pb: 1}} dir="ltr">
-                    <Tabs defaultActiveKey="1" items={items}/>
+            <Container maxWidth="xxl">
+                <Box sx={{p: 0}} dir="ltr">
+                    <Skeleton loading={loading} >
+                        <Tabs defaultActiveKey="1" items={items}/>
+                    </Skeleton>
                 </Box>
             </Container>
         </>

@@ -14,6 +14,7 @@ import Iconify from '../components/iconify';
 // sections
 import {LoginForm} from '../sections/auth/login';
 import {getNews, isFirstApi} from '../api/InitApi';
+import {headerFlag1} from "../config";
 
 
 
@@ -83,7 +84,7 @@ export default function LoginPage() {
                             <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
                                 Hi, Welcome Back
                             </Typography>
-                            <img src="/assets/illustrations/illustration_login.png" alt="login"/>
+                            <img src="/assets/illustrations/illustration_login3.png" alt="login"/>
 
                             <Typography variant="h5" sx={{px: 5, mt: 1, mb: 1}}>
                                 news: <a
@@ -100,7 +101,7 @@ export default function LoginPage() {
                     <Container maxWidth="sm">
                         <StyledContent>
                             <Typography variant="h4" gutterBottom>
-                                {t('loginTitle')}
+                                {t('loginTitle')}-{headerFlag1}
                             </Typography>
                             {/*
             <Typography variant="body2" sx={{ mb: 5 }}>

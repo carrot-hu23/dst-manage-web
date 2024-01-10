@@ -1,0 +1,9 @@
+
+.dst .ant-form-item {
+    margin-bottom: 0;
+}
+
+.dst .ant-typography, .ant-typography p {
+    display: inline;
+    margin-bottom: 1em;
+}

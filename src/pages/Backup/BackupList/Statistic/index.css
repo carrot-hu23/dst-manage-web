@@ -1,0 +1,40 @@
+:where(.css-dev-only-do-not-override-sqgule).ant-pro-card .ant-pro-card-body {
+    display: block;
+    box-sizing: border-box;
+    height: 100%;
+    padding-inline: 24px;
+    padding-block: 4px;
+}
+
+.dark.ant-pro-card * {
+    color: white;
+    background: #1E1E1E;
+}
+
+.dark.ant-pro-card * {
+    color: white;
+    background: #1E1E1E;
+}
+
+.dark.ant-pro-card-statistic .ant-pro-card-statistic-layout-inline .ant-statistic-content {
+    color: white;
+}
+
+/*.ant-pro-card-statistic .ant-statistic-title {*/
+/*    color: rgb(248 248 248 / 88%);*/
+/*}*/
+.dark.div.ant-statistic-title {
+    color: rgb(248 248 248 / 88%);
+}
+.dark.ant-pro-card-statistic .ant-statistic-title {
+    color: rgb(248 248 248 / 88%);
+}
+
+.dark.ant-pro-checkcard * {
+    color: white;
+    background: #1E1E1E;
+}
+
+.dark.ant-pro-checkcard-bordered {
+    border: 1px solid #000000;
+}

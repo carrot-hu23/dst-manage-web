@@ -6,10 +6,12 @@ import {Tabs} from "antd";
 
 import DstConfigSetting from "./DstConfigSetting";
 import TimedTask from "./TimedTask";
-import Automatic from "./Automatic";
 import InstallSteamCmd from "./InstallSteamCmd";
 import WebLinkSetting from "./WebLinkSetting";
-import AutoCheck from "./Automatic/AutoCheck";
+
+import AutoGameUpdate from "./AutoGameUpdate";
+import AutoGameDown from "./AutoGameDown";
+import AutoModUpdate from "./AutoModUpdate";
 
 const System = () => {
     const items = [
@@ -25,37 +27,32 @@ const System = () => {
         },
         {
             key: '3',
-            label: "宕机恢复",
-            children: <Automatic/>,
+            label: "游戏更新",
+            children: <AutoGameUpdate/>,
         },
         {
             key: '4',
-            label: "自动更新游戏",
-            children: <AutoCheck name={"updateGameVersion"} title={"自动更新游戏"} />,
+            label: "宕机恢复",
+            children: <AutoGameDown/>,
         },
         {
             key: '5',
-            label: "自动更新森林模组",
-            children: <AutoCheck name={"updateMasterMod"} title={"自动更新森林模组"} />,
+            label: "更新模组",
+            children: <AutoModUpdate />,
         },
         {
             key: '6',
-            label: "自动更新洞穴模组",
-            children: <AutoCheck name={"updateCavesMod"} title={"自动更新洞穴模组"} />,
-        },
-        {
-            key: '7',
             label: "环境依赖",
             children: <InstallSteamCmd/>,
         },
         {
-            key: '8',
+            key: '7',
             label: "外部链接",
             children: <WebLinkSetting />,
         },
     ];
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl">
             <Tabs defaultActiveKey="1" items={items}/>
         </Container>
     )

@@ -1,11 +1,28 @@
 import React, {useEffect, useState} from "react";
 
-import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Table, Tag,InputNumber,TimePicker} from "antd";
+import {
+    Alert,
+    Button,
+    Form,
+    Input,
+    InputNumber,
+    message,
+    Modal,
+    Popconfirm,
+    Segmented,
+    Select,
+    Space,
+    Table,
+    Tag,
+    TimePicker
+} from "antd";
 import {Box, Card} from "@mui/material";
 
-import { converter } from 'react-js-cron'
+import {converter} from 'react-js-cron'
 
+import {useParams} from "react-router-dom";
 import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../../api/jobTaskApi";
+import {getLevelListApi} from "../../../api/clusterLevelApi";
 
 const {Option} = Select;
 const { TextArea } = Input;
@@ -13,18 +30,19 @@ const { TextArea } = Input;
 const jobTaskEnum = {
     "backup": "备份存档",
     "update": "更新游戏",
-    "start": "启动游戏",
-    "stop": "停止游戏",
-    "startMaster": "启动森林",
-    "stopMaster": "停止森林",
-    "startCaves": "启动洞穴",
-    "stopCaves": "停止洞穴",
-    "restart": "重启游戏",
-    "restartMaster": "重启森林",
-    "restartCaves": "重启洞穴",
+    "start": "启动世界",
+    "stop": "停止世界",
+    "startGame": "启动所有世界",
+    "stopGame": "停止所有世界",
+
+    "restart": "重启世界",
+    "regenerate": "重置世界"
 }
 
 export default () => {
+
+    const {cluster} = useParams()
+
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [data, setData] = useState([]);
@@ -61,6 +79,11 @@ export default () => {
     }
 
     const columns = [
+        {
+            title: '世界',
+            dataIndex: 'levelName',
+            key: 'levelName',
+        },
         {
             title: 'jobId',
             dataIndex: 'jobId',
@@ -158,6 +181,17 @@ export default () => {
 
     const AddJobTaskModal = ({isModalOpen, setIsModalOpen}) => {
 
+        const [levels, setLevels] = useState([])
+        useEffect(()=>{
+            getLevelListApi()
+                .then(resp => {
+                    if (resp.code === 200) {
+                        const levels = resp.data
+                        setLevels(levels)
+                    }
+                })
+        },[])
+
         const onChange = (time, timeString) => {
             console.log(time, timeString);
             const converted = converter.getCronStringFromValues(
@@ -183,19 +217,27 @@ export default () => {
                 message.error(err.errorFields[0].errors[0])
             });
             const data = form.getFieldsValue()
+
+            if (activeTab === '默认') {
+                data.cron = converter.getCronStringFromValues(
+                    'day', // period: 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'reboot'
+                    [], // months: number[] | undefined
+                    [],  // monthDays: number[] | undefined
+                    [], // weekDays: number[] | undefined
+                    [data.date.$H], // hours: number[] | undefined
+                    [data.date.$m], // minutes: number[] | undefined
+                    false // humanizeValue?: boolean
+                )
+            }
             console.log(data)
-            const converted = converter.getCronStringFromValues(
-                'day', // period: 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'reboot'
-                [], // months: number[] | undefined
-                [],  // monthDays: number[] | undefined
-                [], // weekDays: number[] | undefined
-                [data.date.$H], // hours: number[] | undefined
-                [data.date.$m], // minutes: number[] | undefined
-                false // humanizeValue?: boolean
-            )
-            data.cron = converted
-            console.log('cron string:', converted)
-            console.log(data)
+
+            // eslint-disable-next-line no-restricted-syntax
+            for (const level of levels) {
+                if (level.uuid === data.levelName) {
+                    data.uuid = level.uuid
+                    data.levelName = level.levelName
+                }
+            }
             addJobTaskApi("", data).then((response => {
                 if (response.code !== 200) {
                     message.error("创建定时任务失败")
@@ -204,9 +246,15 @@ export default () => {
                 message.success("创建定时任务成功")
             })).catch(err => console.log(err))
         };
+        const [activeTab, setActiveTab] = useState('默认');
 
+        const handleTabChange = (value) => {
+            setActiveTab(value);
+        };
         return (
             <Modal title={"创建任务"} open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(false)}>
+                <Alert message={"[启动所有世界] [关闭所有世界] [备份存档] [重置世界] 这几个选择世界是没有用的，是针对所有世界的，[启动所有世界]: 先关闭，在启动（可以当作重启）"} type="warning" showIcon closable />
+                <br/>
                 <Form
                     form={form}
                     layout="horizontal"
@@ -218,37 +266,58 @@ export default () => {
                         sleep: 5
                     }}
                 >
-
-
-                    <Form.Item
-                        label={"时间"}
-                        name='date'
-                        rules={[{required: true, message: '请选择时间',},]}
-                    >
-                        <TimePicker onChange={onChange} format={'HH:mm'} />
-                    </Form.Item>
-
-
+                    <Segmented
+                        block
+                        value={activeTab}
+                        onChange={handleTabChange}
+                        options={['默认', '自定义']}
+                    />
+                    <br/>
+                    {activeTab === '默认' && <div>
+                        <Form.Item
+                            label={"时间"}
+                            name='date'
+                            rules={[{required: true, message: '请选择时间',},]}
+                        >
+                            <TimePicker onChange={onChange} format={'HH:mm'} />
+                        </Form.Item>
+                    </div>}
+                    {activeTab === '自定义' && <div>
+                        <Form.Item
+                            label={"corn表达式"}
+                            name='cron'
+                            rules={[{required: true, message: '请输入corn表达式',},]}
+                        >
+                            <Input placeholder="请输入corn表达式（五位）"
+                            />
+                        </Form.Item>
+                    </div>}
                     <Form.Item
                         label={"类型"}
                         name='category'
                         rules={[{required: true, message: '请选择类型',},]}
                     >
                         <Select>
+                            <Option value="startGame">启动所有世界</Option>
+                            <Option value="stopGame">关闭所有世界</Option>
                             <Option value="backup">备份存档</Option>
-                            <Option value="restart">重启世界</Option>
-                            <Option value="restartMaster">重启森林</Option>
-                            <Option value="restartCaves">重启洞穴</Option>
                             <Option value="update">更新游戏</Option>
-                            <Option value="start">启动游戏</Option>
-                            <Option value="stop">停止游戏</Option>
-                            <Option value="startMaster">启动森林</Option>
-                            <Option value="stopMaster">停止森林</Option>
-                            <Option value="startCaves">启动洞穴</Option>
-                            <Option value="stopCaves">停止洞穴</Option>
+                            <Option value="start">启动世界</Option>
+                            <Option value="stop">停止世界</Option>
+                            <Option value="regenerate">重置世界</Option>
                         </Select>
                     </Form.Item>
-
+                    <Form.Item
+                        label={"世界"}
+                        name='levelName'
+                        rules={[{required: true, message: '请选择世界',},]}
+                    >
+                        <Select>
+                            {levels.map((item,index)=>
+                                <Option key={index} value={item.uuid}>{item.levelName}</Option>
+                            )}
+                        </Select>
+                    </Form.Item>
                     <Form.Item
                         label={"备注"}
                         name='comment'

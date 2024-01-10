@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 
 import { ProTable } from '@ant-design/pro-components';
-import { Container, Box } from '@mui/material';
-import { Button, Modal, Image, Skeleton, Card } from 'antd';
+import { Container, Box, Card } from '@mui/material';
+import {Button, Modal, Image, Skeleton, message} from 'antd';
 import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
 
 import HomeDetail from './home';
+
+import style from "./index.module.css"
 
 
 const DstServerList = () => {
@@ -54,7 +56,9 @@ const DstServerList = () => {
             const { success } = responseData
             if (success) {
                 setHomeInfo(responseData)
-                console.log(responseData.successinfo.players)
+            } else {
+                message.warning("请求Klei服务器超时")
+                setIsModalOpen(false)
             }
 
         })
@@ -67,7 +71,10 @@ const DstServerList = () => {
             key: 'name',
             copyable: true,
             // ellipsis: true,
-            width: 300
+            width: 300,
+            render: (text, record) => {
+                return(<div className={style.icon}>{record.name}</div>)
+            }
         },
         {
             title: '当前人数',
@@ -246,11 +253,12 @@ const DstServerList = () => {
                 </Skeleton>
             </Modal>
 
-            <Container maxWidth="xl">
-                <Box sx={{ p: 0, pb: 0 }} dir="ltr">
+            <Container maxWidth="xxl">
+                <Card>
+                    <Box sx={{p: 1}} dir="ltr">
                     <ProTable
                         columns={columns}
-                        cardBordered
+                        // cardBordered
                         request={async (params = {}, sort, filter) => {
                             console.log(sort, filter);
                             console.log('params', params)
@@ -301,6 +309,7 @@ const DstServerList = () => {
                         tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
                     />
                 </Box>
+                </Card>
             </Container>
         </>
     );

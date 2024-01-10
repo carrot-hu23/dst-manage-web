@@ -22,7 +22,29 @@ const dstRolesMap = {
     "": '未知角色',
 
 }
-
+const dstRolesMap2 = {
+    '温蒂': 'wendy',
+    '威尔逊': 'wilson',
+    '薇洛': 'willow',
+    '沃尔夫冈': 'wolfgang',
+    'WX-78': 'WX-78',
+    '薇克巴顿': 'wickerbottom',
+    '伍迪': 'woodie',
+    '韦斯': 'wes',
+    '麦斯威尔': 'waxwell',
+    '薇格弗德': 'wathgrithr',
+    '韦伯': 'webber',
+    '薇诺娜': 'winona',
+    '沃利': 'warly',
+    '沃尔特': 'walter',
+    '沃拓克斯': 'wortox',
+    '沃姆伍德': 'wormwood',
+    '沃特': 'wurt',
+    '旺达': 'wanda',
+    '芜猴': 'wonkey',
+    '模组角色': 'mod',
+    "未知角色": '',
+}
 const dstRoles = {
     wendy: 'https://dst.liuyh.com/static/img/dstui/icon/wendy_inv.png',
     wilson: 'https://dst.liuyh.com/static/img/dstui/icon/wilson_inv.png',
@@ -52,13 +74,6 @@ const customization = "customization"
 
 // 选择服务器的游戏风格。
 const dstGameMod = [
-    {
-        cn: '轻松',
-        name: 'relaxed',
-        description: `更轻松的游戏方式,更少受到来自世界的威胁。\n 
-        饥饿、寒冷、过热和黑暗将不会杀死冒险家。\n
-        降低冒险家受到的伤害。永远可以在绚丽之门复活。\n`
-    },
     {
         cn: '无尽',
         name: 'endless',
@@ -120,5 +135,5 @@ const dstGameMod = [
 ]
 
 export {
-    dstRoles, dstGameMod,customization, dstRolesMap
+    dstRoles, dstGameMod,customization, dstRolesMap, dstRolesMap2
 }

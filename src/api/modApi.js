@@ -13,6 +13,7 @@ async function searchMod(cluster,text, page, size) {
 async function getModInfo(cluster,modId) {
     const url = `/api/mod/${modId}`
     const response = await http.get(url,{
+        timeout: 1000*60*10,
         headers: {
             'Cluster': cluster,
         }
@@ -49,6 +50,11 @@ async function deleteStepupWorkshopApi(cluster) {
     })
     return response.data
 }
+async function updateModinfosApi() {
+    const url = '/api/mod/modinfo'
+    const response = await http.put(url)
+    return response.data
+}
 
 
 async function getModInfoFileApi(cluster,modId) {
@@ -71,8 +77,21 @@ async function updateModApi(cluster,modId) {
     return response.data
 }
 
+async function addModInfoFileApi(cluster,data) {
+    const url = `/api/mod/modinfo/file`
+    const response = await http.post(url,data,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     searchMod,getModInfo, getMyModInfoList,deleteModInfo,deleteStepupWorkshopApi,
     getModInfoFileApi,
-    updateModApi
+    updateModApi,
+
+    addModInfoFileApi,
+    updateModinfosApi,
 }

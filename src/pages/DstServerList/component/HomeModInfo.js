@@ -15,76 +15,9 @@ const data = [
 // eslint-disable-next-line react/prop-types
 const HomeModInfo = ({mods, subscribedModList, setSubscribedModList}) => {
 
-    const [messageApi, contextHolder] = message.useMessage();
-
-    // eslint-disable-next-line react/prop-types
-    const SubScribeBTN = ({item, subscribedModList, setSubscribedModList}) => {
-
-        const [loading, setLoading] = useState(false)
-
-        const subscribe = (modId, modName) => {
-            console.log(modId, modName)
-            messageApi.open({
-                type: 'loading',
-                content: `正在订阅 ${modName}`,
-                duration: 0,
-            });
-            setLoading(true)
-            // message.info(`正在订阅 ${modName}`)
-            getModInfo("", modId).then(resp => {
-                if (resp.code === 200) {
-                    resp.data.installed = true
-                    // Dismiss manually and asynchronously
-                    setSubscribedModList(current => [...current, resp.code])
-                    setTimeout(messageApi.destroy, 1);
-                    message.success(`订阅 ${modName} 成功`)
-                    setLoading(false)
-
-                }
-
-            }).catch(error => {
-                setTimeout(messageApi.destroy, 1);
-                message.success(`获取 ${modName} 失败`)
-                setLoading(false)
-                console.log(error)
-            })
-        }
-
-        const isSubscribed = (modid) => {
-            // eslint-disable-next-line no-restricted-syntax
-            for (const mod of subscribedModList) {
-                if (mod.modid === modid) {
-                    return true
-                }
-            }
-            return false
-        }
-
-        return (
-            <>
-                {isSubscribed(item[0].replace("workshop-", "")) && (<div>
-                    <Button size={'small'}>已订阅</Button>
-                </div>)}
-                {!isSubscribed(item[0].replace("workshop-", "")) && (<div>
-                    <Button
-                        loading={loading}
-                        type="primary"
-                        size={'small'}
-                        onClick={() => {
-                            subscribe(item[0].replace("workshop-", ""), item[1])
-                        }}>
-                        订阅
-                    </Button>
-                </div>)}
-
-            </>
-        )
-    }
-
     return (
         <>
-            {contextHolder}
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: 450,
                 overflowY: 'auto',
             }}>
@@ -112,11 +45,6 @@ const HomeModInfo = ({mods, subscribedModList, setSubscribedModList}) => {
                                             <Image preview={false} width={22}
                                                    src={'https://dst.liuyh.com/static/img/dstui/icon/apply_skins.png'}/>
                                         </Tooltip> : ''}</div>,
-
-                                    <SubScribeBTN item={item}
-                                                  subscribedModList={subscribedModList}
-                                                  setSubscribedModList={setSubscribedModList}
-                                    />
                                 ]}>
 
                             <List.Item.Meta

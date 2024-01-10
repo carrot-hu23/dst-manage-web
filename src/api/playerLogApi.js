@@ -42,7 +42,19 @@ async function getPlayerLog(cluster,paramsData) {
     return response.data
 }
 
+async function deleteLogs(cluster, data) {
+    const url  = `/api/player/log/delete`
+    const response = await http.post(url, data,{
+        timeout: 1000 * 60 * 30,
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     logPage,
-    getPlayerLog
+    getPlayerLog,
+    deleteLogs
 }
