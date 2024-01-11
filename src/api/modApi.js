@@ -98,8 +98,8 @@ async function getUgcModAcfApi(cluster, levelName) {
 }
 
 async function deleteUgcModAcfFileApi(cluster, levelName, workshopId) {
-    const url = `/api/mod/ugc/acf?levelName=${levelName}&workshopId=${workshopId}`
-    const response = await http.get(url,{
+    const url = `/api/mod/ugc?levelName=${levelName}&workshopId=${workshopId}`
+    const response = await http.delete(url,{
         headers: {
             'Cluster': cluster,
         }
