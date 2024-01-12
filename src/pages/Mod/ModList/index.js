@@ -73,8 +73,10 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                 } else {
                     workshop = workshopId
                 }
+                const options = workshopObject[workshopId]
+                delete options.null
                 workShops[workshop] = {
-                    configuration_options: workshopObject[workshopId],
+                    configuration_options: options,
                     enabled: true
                 }
             })

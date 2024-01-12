@@ -145,7 +145,7 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
         if (options !== undefined && options !== null) {
             const temp = {}
             options.forEach(item => {
-                if (item.default !== '') {
+                if (item.default !== '' && item.name !== "null") {
                     temp[item.name] = item.default
                 }
             })
