@@ -18,7 +18,7 @@ const Players = ({ players }) =>  {
     
     return (
         <>
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: 400,
                 overflowY: 'auto',
             }}>
@@ -39,13 +39,11 @@ const Players = ({ players }) =>  {
 
                             <List.Item.Meta
                                 avatar={<Image preview={false} width={36.8} src={dstRoles[item.prefab] || dstRoles.mod} />}
-                                description={<div
-                                    className={style.icon}
-                                    style={{
+                                description={<div style={{
                                     color: `#${item.colour}`,
                                     marginTop: '4px',
                                     fontSize: 16
-                                }}>{item.name}</div>}
+                                }}><span className={style.icon}>{item.name}</span></div>}
                             />
                         </List.Item>
                     )}

@@ -12,7 +12,7 @@ const HomeOverView = ({home}) => (
             overflowY: 'auto',
         }}>
             <h3 className={style.icon}>{home.name}</h3>
-            <span className={style.icon} >{home.desc}</span>
+            <span>{home.desc}</span>
             <br/>
             <br/>
             <Form>

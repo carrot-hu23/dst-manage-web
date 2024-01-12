@@ -1,5 +1,5 @@
 {
-  "loginTitle": "饥荒联机管理面板  ",
+  "loginTitle": "饥荒联机管理面板",
 
   "search": "查询",
   "reset": "重置",
@@ -32,9 +32,21 @@
   "joinPlayer": "加入玩家",
   "roleRatioOfThisTheWeek": "本周角色占比",
   "top10PlayerRankingsOfThisWeek": "本周Top10活跃玩家",
+  "lastRegenerateLine": "最近重置时间线",
 
 
   "Panel": "面板操作",
+  "Home": "房间设置",
+  "Levels": "世界设置",
+  "Mod": "模组配置",
+  "Tool": "辅助功能",
+  "Backup": "游戏备份",
+  "Log": "游戏日志",
+  "Setting": "系统设置",
+  "Lobby": "游戏大厅",
+  "Link": "外部链接",
+
+
   "Remote": "远程操作",
   "MasterLog": "森林日志",
   "CavesLog": "洞穴日志",
@@ -46,11 +58,36 @@
   "Mods": "模组",
   "Password": "密码",
   "Version": "版本",
+  "Players": "人数",
 
   "dstStatus": "饥荒状况",
   "quickActions": "快捷操作",
   "cleanGame": "清理游戏",
   "gameBackup": "游戏备份",
+  "UpdateGameMode": "更新模组",
+
+  "Luanch All": "一键启动",
+  "Stop All": "一键关闭",
+  "LevelName": "世界名",
+  "Location": "类型",
+  "Mem": "内存",
+  "Action": "操作",
+
+  "Level Log": "世界日志",
+  "Panel Log": "面板日志",
+  "pull": "拉取",
+  "auto": "自动",
+  "Download Log": "下载日志",
+  "Y": "是",
+  "N": "否",
+  "clear": "清理",
+  "Clear All": "清理所有",
+
+  "query": "查询",
+  "level": "世界",
+  "respawn": "复活",
+  "kick": "踢出",
+  "day": "天",
 
   "masterRunning": "地面运行中",
   "cavesRunning": "洞穴运行中",
@@ -85,5 +122,54 @@
   "CpuUsage": "cpu 负载",
   "CpuCores": "cpu 核心",
   "DiskFree": "磁盘剩余",
-  "TotalDisk": "总的磁盘"
+  "TotalDisk": "总的磁盘",
+
+
+  "ClusterIni": "房间设置",
+  "Adminlist": "管理员",
+  "Whitelist": "白名单",
+  "Blacklist": "黑名单",
+
+  "Base Setting": "基础设置",
+  "Shard Setting": "多世界设置",
+  "Steam Setting": "Steam设置",
+
+  "open": "开启",
+  "close": "关闭",
+  "save": "保存",
+  "cluster_name": "房间名称",
+  "cluster_description": "房间描述",
+  "game_mode": "游戏风格",
+  "max_players": "玩家人数",
+  "cluster_password": "密码",
+  "cluster_token": "令牌",
+  "vote_enabled": "投票",
+  "pause_when_nobody": "自动暂停",
+  "whitelist_slots": "预留位",
+  "tick_rate": "通信频率",
+  "console_enabled": "控制台",
+  "max_snapshots": "快照数量",
+  "cluster_language": "语音",
+  "shard_enabled": "多世界",
+  "bind_ip": "绑定ip",
+  "master_ip": "主世界ip",
+  "master_port": "通信端口",
+  "cluster_key": "通信密码",
+  "steam_group_only": "仅Steam群组进入",
+  "steam_group_id": "Steam群组ID",
+  "steam_group_admins": "群组管理员",
+
+  "endless": "无尽",
+  "survival": "生存",
+  "wilderness": "荒野",
+  "lightsout": "暗无天日",
+  "lavaarena": "熔炉",
+  "quagmire": "暴食",
+  "OceanFishing": "海钓模式",
+  "starvingfloor": "闯关模式",
+  "customization": "自定义模式",
+  "customization_mode": "自定义模式",
+
+  "d": ""
+
 }

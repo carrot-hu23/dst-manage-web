@@ -1,7 +1,6 @@
 import {Button, Image, List, message, Tooltip} from 'antd';
 import {useState} from "react";
 import {getModInfo} from "../../../api/modApi";
-import style from "../index.module.css";
 
 const data = [
     [
@@ -18,7 +17,7 @@ const HomeModInfo = ({mods, subscribedModList, setSubscribedModList}) => {
 
     return (
         <>
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: 450,
                 overflowY: 'auto',
             }}>
@@ -50,9 +49,7 @@ const HomeModInfo = ({mods, subscribedModList, setSubscribedModList}) => {
 
                             <List.Item.Meta
                                 // avatar={<Image preview={false} width={36.8} src={dstRoles[item.prefab] || dstRoles['mod']} />}
-                                description={<div
-                                    className={style.icon}
-                                    style={{
+                                description={<div style={{
                                     color: `#${item.colour}`,
                                     marginTop: '4px',
                                     fontSize: 16

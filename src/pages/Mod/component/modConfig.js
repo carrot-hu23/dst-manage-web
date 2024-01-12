@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin} from 'antd';
+import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin, Alert} from 'antd';
 import {useParams} from "react-router-dom";
 import Select2 from './Select2';
 import {timestampToString} from "../../../utils/dateUitls";
@@ -242,8 +242,8 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                     width={640}
                     destroyOnClose
                 >
-                    <div style={{
-                        height: '386px',
+                    <div className={'scrollbar'} style={{
+                        height: '46vh',
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>
@@ -256,18 +256,38 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         {mod.mod_config.configuration_options === undefined && mod.mod_config.author === undefined &&<>
                             <br/>
                             <br/>
-                            <span>网络问题!!! 下模组失败</span>
+                            <Alert message="网络超时问题!!! 下模组失败"
+                                   type="warning"
+                                   showIcon
+                                   closable
+                            />
                             <br/>
-                            <span>点击 更新 按钮重新下载</span>
+                            <Alert message="点击 更新 按钮重新下载"
+                                   type="info"
+                                   showIcon
+                                   closable
+                            />
                             <br/>
-                            <span>如果多次更新依旧没有配置，请先加此mod加入到你的模组配置文件里面</span>
+                            <Alert message="如果多次更新依旧没有配置，请先加此mod加入到你的模组配置文件里面"
+                                   type="info"
+                                   showIcon
+                                   closable
+                            />
                             <br/>
-                            <span>然后在启动房间，等待房间mod下载完成后，在点击 更新 按钮就会有配置选项</span>
+                            <Alert message="然后在启动房间，等待房间mod下载完成后，在点击 更新 按钮就会有配置选项"
+                                   type="info"
+                                   showIcon
+                                   closable
+                            />
                         </>}
                         {mod.mod_config.configuration_options === undefined && mod.mod_config.author !== undefined &&<>
                             <br/>
                             <br/>
-                            <span>当前模组暂无配置</span>
+                            <Alert message="当前模组暂无配置"
+                                   type="info"
+                                   showIcon
+                                   closable
+                            />
                         </>}
                     </div>
 

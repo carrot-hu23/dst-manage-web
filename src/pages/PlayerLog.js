@@ -110,7 +110,7 @@ export default function PlayerLog() {
             title: 'Action',
             dataIndex: 'action',
             key: 'action',
-           valueEnum: playerActionEnum,
+            valueEnum: playerActionEnum,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
                 {record.action === '[JoinAnnouncement]' && <Tag color="magenta">加入</Tag>}
@@ -162,51 +162,56 @@ export default function PlayerLog() {
     return (
         <>
             <Container maxWidth="xxl">
-                    <ProTable
-                        scroll={{
-                            x: 500,
-                        }}
-                        cardBordered
-                        columns={columns}
-                        actionRef={actionRef}
-                        rowSelection={rowSelection}
-                        request={async (params = {}, sort, filter) => {
-                            // console.log(sort, filter);
-                            console.log('params', params)
-                            const resp = await getPlayerLog(cluster, params)
-                            setData(resp.data)
-                            return {
-                                data: resp.data.data,
-                                success: true,
-                                total: resp.data.total
-                            };
-                        }}
-                        rowKey="ID"
-                        pagination={{
-                            current: currentPage,
-                            pageSize,
-                            total: data.total,
-                            onChange: setCurrentPage,
-                            showSizeChanger: true,
-                            onShowSizeChange: (current, size) => setPageSize(size),
-                        }}
-                        headerTitle="玩家日志"
-                        toolBarRender={() => [
-                            <Button type="primary" danger onClick={()=>{
-                                deleteLogs("", {
-                                    ids: selectedRowKeys
-                                }).then(resp=>{
-                                    if (resp.code === 200) {
-                                        message.success("删除成功")
-                                        actionRef.current?.reload();
-                                    }
-                                })
-                            }}>
-                                删除
-                            </Button>
-                        ]}
-                    />
+                <Card>
+                    <Box sx={{p: 1}} dir="ltr">
+
+                        <ProTable
+                            scroll={{
+                                x: 500,
+                            }}
+                            // cardBordered
+                            columns={columns}
+                            actionRef={actionRef}
+                            rowSelection={rowSelection}
+                            request={async (params = {}, sort, filter) => {
+                                // console.log(sort, filter);
+                                console.log('params', params)
+                                const resp = await getPlayerLog(cluster, params)
+                                setData(resp.data)
+                                return {
+                                    data: resp.data.data,
+                                    success: true,
+                                    total: resp.data.total
+                                };
+                            }}
+                            rowKey="ID"
+                            pagination={{
+                                current: currentPage,
+                                pageSize,
+                                total: data.total,
+                                onChange: setCurrentPage,
+                                showSizeChanger: true,
+                                onShowSizeChange: (current, size) => setPageSize(size),
+                            }}
+                            headerTitle="玩家日志"
+                            toolBarRender={() => [
+                                <Button type="primary" danger onClick={()=>{
+                                    deleteLogs("", {
+                                        ids: selectedRowKeys
+                                    }).then(resp=>{
+                                        if (resp.code === 200) {
+                                            message.success("删除成功")
+                                            actionRef.current?.reload();
+                                        }
+                                    })
+                                }}>
+                                    删除
+                                </Button>
+                            ]}
+                        />
+                    </Box>
+                </Card>
             </Container>
         </>
-    );
+    )
 }

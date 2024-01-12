@@ -3,14 +3,64 @@
 import React, { useState } from 'react';
 
 import { ProTable } from '@ant-design/pro-components';
-import { Container, Box } from '@mui/material';
-import {Button, Modal, Image, Skeleton, Card, message} from 'antd';
+import { Container, Box, Card } from '@mui/material';
+import {Button, Modal, Image, Skeleton, message} from 'antd';
 import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
 
 import HomeDetail from './home';
 
 import style from "./index.module.css"
 
+
+const SortWayEnum ={
+
+    1: "降序",
+    2: "升序",
+}
+
+const SortTypeEnum ={
+    connected: "按照人数",
+    name: "服务器名称",
+    maxconnections: "人数上限",
+    v: "游戏版本",
+}
+
+const PasswordEnum ={
+    '-1': "任意",
+    0: "不需要",
+    1: "需要",
+}
+
+const WordEnum ={
+    '-1': "任意",
+    1: "单层",
+    2: "双层",
+    3: "多层",
+}
+
+const PlayerPercentEnum ={
+    ">0": ">0",
+    "<1": "<1",
+}
+
+const SeasonsEnum ={
+    spring: "春天",
+    summer: "夏天",
+    autumn: "秋天",
+    winter: "冬天",
+}
+
+const GameModEnum = {
+    relaxed: "轻松",
+    endless: "无尽",
+    survival: "标准",
+    wilderness: "荒野",
+    lightsout: "永夜",
+    lavaarena: "熔炉",
+    quagmire: "暴食",
+    OceanFishing: "海钓",
+    starvingfloor: "闯关"
+}
 
 const DstServerList = () => {
 
@@ -79,6 +129,7 @@ const DstServerList = () => {
         {
             title: '当前人数',
             key: 'maxconnections',
+            valueEnum: PlayerPercentEnum,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (
                 <div>{record.connected}/{record.maxconnections}
@@ -94,8 +145,25 @@ const DstServerList = () => {
             align: 'right '
         },
         {
+            title: '排序',
+            key: 'sort_way',
+            dataIndex: 'sort_way',
+            valueEnum: SortWayEnum,
+            hideInTable: true,
+            render: null,
+        },
+        {
+            title: '排序方式',
+            key: 'sort_type',
+            dataIndex: 'sort_type',
+            valueEnum: SortTypeEnum,
+            hideInTable: true,
+            render: null,
+        },
+        {
             title: '游戏模式',
             key: 'mode',
+            valueEnum: GameModEnum,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>{record.mode}</div>),
         },
@@ -103,6 +171,7 @@ const DstServerList = () => {
             title: '季节',
             key: 'season',
             dataIndex: 'season',
+            valueEnum: SeasonsEnum,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
                 {record.season === 'spring' && (
@@ -148,19 +217,7 @@ const DstServerList = () => {
             filters: true,
             onFilter: true,
             ellipsis: true,
-            valueType: 'select',
-            valueEnum: {
-                open: {
-                    key: '1111',
-                    text: '有密码',
-                    status: '1',
-                },
-                closed: {
-                    key: '1112',
-                    text: '无密码',
-                    status: '0',
-                },
-            },
+            valueEnum: PasswordEnum,
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
                 {record.password === 1 && (
@@ -177,7 +234,7 @@ const DstServerList = () => {
         {
             disable: true,
             title: '模组',
-            key: 'mods',
+            key: 'mod',
             dataIndex: 'mods',
             filters: true,
             onFilter: true,
@@ -187,17 +244,17 @@ const DstServerList = () => {
                 "": {
                     key: '1115',
                     text: '任意',
-                    status: '',
+                    status: -1,
                 },
                 "0": {
                     key: '1113',
                     text: '无模组',
-                    status: '0',
+                    status: 0,
                 },
                 "1": {
                     key: '1114',
                     text: '有模组',
-                    status: '1',
+                    status: 1,
                 },
 
             },
@@ -254,10 +311,11 @@ const DstServerList = () => {
             </Modal>
 
             <Container maxWidth="xxl">
-                <Box sx={{ p: 0, pb: 0 }} dir="ltr">
+                <Card>
+                    <Box sx={{p: 1}} dir="ltr">
                     <ProTable
                         columns={columns}
-                        cardBordered
+                        // cardBordered
                         request={async (params = {}, sort, filter) => {
                             console.log(sort, filter);
                             console.log('params', params)
@@ -308,6 +366,7 @@ const DstServerList = () => {
                         tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
                     />
                 </Box>
+                </Card>
             </Container>
         </>
     );

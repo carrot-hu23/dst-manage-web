@@ -52,7 +52,7 @@ const navConfig = [
     icon: icon('settings')
   },
   {
-    title: '服务器列表',
+    title: '大厅列表',
     path: '/dashboard/dst/server',
     icon: icon('server'),
   },

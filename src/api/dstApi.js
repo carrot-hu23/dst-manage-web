@@ -5,15 +5,34 @@ const dstHomeServerDetailUrl = "/api/dst/home/server/detail"
 
 async function getHomeListApi(params) {
     // const url = '/dst/index/serverlist/getserverlist.html'
+    const  payload = {}
+    if (params.mod !== undefined) {
+        params.mod = parseInt(params.mod, 10)
+    }
+    if (params.password !== undefined) {
+        params.password = parseInt(params.password, 10)
+    }
+    if (params.sort_way !== undefined) {
+        params.sort_way = parseInt(params.sort_way, 10)
+    }
+    if (params.world !== undefined) {
+        params.world = parseInt(params.world, 10)
+    }
 
     const response = await http.post(dstHomeServerListUrl, {
-        page: params.current,
-        paginate: 10,
-        sort_type: 'name',
-        sort_way: 1,
-        search_type: 1,
-        search_content: params.name,
-        mod: params.mods
+        ...
+            {
+                sort_type: 'connected',
+                sort_way: 1,
+                search_type: 1,
+                mod: -1,
+                pvp: -1,
+                password: -1,
+                world: -1,
+                search_content: params.name,
+                page: params.current,
+                paginate: 10, ...params
+            }
     }, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest'

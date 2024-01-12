@@ -13,6 +13,7 @@ import {ThemeProvider2} from "./hooks/useTheme";
 // ----------------------------------------------------------------------
 
 import './index.css';
+import './style/scrollbar.css'
 
 export default function App() {
     return (

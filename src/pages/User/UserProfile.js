@@ -40,7 +40,7 @@ export default ()=>{
     return<>
         <Container maxWidth="xl">
             <Typography variant="h4" sx={{mb: 5}}>
-                User Profile
+                用户信息修改
             </Typography>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">

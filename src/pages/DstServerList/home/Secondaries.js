@@ -1,8 +1,6 @@
 import {Card} from "antd";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useTheme} from "../../../hooks/useTheme";
-
-import  '../../../style/scrollbar.css'
 
 export default ({secondaries}) => {
 
@@ -13,7 +11,7 @@ export default ({secondaries}) => {
     return (
         <>
             <div className="text-base font-medium pb-2">层数: {Object.keys(secondaries).length}</div>
-            <div className="scrollbar" style={{
+            <div className={'scrollbar'} style={{
                 height: 400,
                 overflowY: 'auto',
             }}>
@@ -21,9 +19,8 @@ export default ({secondaries}) => {
                     <div key={key}>
                         <Card bordered={false} style={
                             theme !== 'dark'? {
-                            backgroundColor: '#F0F2F5'
-                        }:{}
-                        }>
+                                backgroundColor: '#F0F2F5'
+                            }:{}} >
                             <div>
                                 <span>世界Id: {secondaries[key].id}</span>
                             </div>
