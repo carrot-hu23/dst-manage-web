@@ -70,6 +70,15 @@ export default () => {
                             unCheckedChildren="关闭"/>
                 </Form.Item>
                 <Form.Item
+                    label={"是否c_save存档"}
+                    name='isCSave'
+                    tooltip={"开启后，每次创建备份时，都会先存档，但这可能会导致卡顿等情况"}
+                    valuePropName="checked"
+                >
+                    <Switch checkedChildren="开启"
+                            unCheckedChildren="关闭"/>
+                </Form.Item>
+                <Form.Item
                     label={"备份间隔"}
                     name='interval'
                 >

@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm} from "antd";
+import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm, notification} from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -91,6 +91,55 @@ export default ({levels}) => {
             }
         };
     }, [timerId])
+    const notify = {
+        token: false,
+        leveldataoverride: false,
+        socketport: false,
+        sim: false,
+        shutting: false
+    }
+    function parseLog(lines) {
+        lines.forEach(line => {
+            if (line.includes("Shutting down")) {
+                notify.shutting = true
+            }
+            if (line.includes("E_INVALID_TOKEN")) {
+                if (!notify.token) {
+                    openNotificationWithIcon({type: "error", message: "请检查令牌是否过期"})
+                    notify.token = true
+                }
+            }
+            if (line.includes("Level data override is invalid!")) {
+                if (!notify.leveldataoverride) {
+                    openNotificationWithIcon({type: "error", message: "世界配置无效，请从本地复制"})
+                    notify.leveldataoverride = true
+                }
+
+            }
+            if (line.includes("SOCKET_PORT_ALREADY_IN_USE")) {
+                if (!notify.socketport) {
+                    openNotificationWithIcon({type: "error", message: "端口被暂用，请换一个端口，在世界配置端口配置修改"})
+                    notify.socketport = true
+                }
+            }
+            // if (line.includes("Sim paused")) {
+            //     if (!notify.sim && notify.shutting !== true) {
+            //         openNotificationWithIcon({type: "success", message: "世界启动成功"})
+            //         notify.sim = true
+            //     }
+            // }
+        })
+    }
+
+    const [api, contextHolder] = notification.useNotification();
+    const openNotificationWithIcon = ({type, message}) => {
+        console.log(type, message)
+        api[type]({
+            message: `房间启动${type==='success'?'成功':'失败'}`,
+            description: <span>{message}</span>,
+            duration: 0,
+        });
+    }
 
     function pullLog() {
         const lines = inputRef.current.input.value
@@ -100,6 +149,7 @@ export default ({levels}) => {
                 if (resp.code === 200) {
                     let logs = ""
                     const lines = resp.data || []
+                    parseLog(lines)
                     lines.reverse()
                     lines.forEach(line => {
                         logs += `${line}\n`
@@ -138,6 +188,7 @@ export default ({levels}) => {
         <Spin spinning={spinLoading} description={"正在获取日志"}>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
+                    {contextHolder}
                     <Tabs defaultActiveKey="1">
                         <TabPane tab={t('Level Log')} key="1">
                             <Space.Compact style={{width: '100%'}}>

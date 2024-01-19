@@ -29,12 +29,6 @@ const navConfig = [
     icon: icon('package'),
   },
   {
-    title: 'Tool',
-    path: '/dashboard/tool',
-    icon: icon('star')
-  },
-
-  {
     title: 'Backup',
     path: '/dashboard/backup',
     icon: icon('folder')
@@ -43,6 +37,11 @@ const navConfig = [
     title: 'Log',
     path: '/dashboard/log',
     icon: icon('database'),
+  },
+  {
+    title: 'Tool',
+    path: '/dashboard/tool',
+    icon: icon('star')
   },
   {
     title: 'Setting',

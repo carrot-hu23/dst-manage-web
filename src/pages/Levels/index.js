@@ -12,7 +12,7 @@ import {
     Tabs,
     Alert,
     Divider,
-    Skeleton, Empty, Typography
+    Skeleton, Empty, Typography, Tag
 } from 'antd';
 import {Box, Card, Container, Grid} from "@mui/material";
 import ConfigViewEditor from "../Levels8/LevelSetting/LeveldataoverrideView/ConfigViewEditor";
@@ -23,6 +23,7 @@ import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "
 import {useTheme} from "../../hooks/useTheme";
 import {useParams} from "react-router-dom";
 import LevelTips from "./LevelTips";
+import {getFreeUDPPortApi} from "../../api/8level";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -50,25 +51,50 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
         });
 
     }, [])
+
+    const LeveldataoverrideEditor = ()=>{
+        return(
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={8} lg={9}>
+                    <MonacoEditor
+                        ref={editorRef}
+                        style={{
+                            "height": "370px",
+                            "width": "100%"
+                        }}
+                        options={{
+                            theme: theme === 'dark'?'vs-dark':''
+                        }}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} lg={3}>
+                    <div className={'scrollbar'} style={{
+                        maxHeight: '42vh',
+                        overflowY: 'auto',
+                    }}>
+                        <LevelTips />
+                    </div>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    const LeveldataoverrideViewer = ()=>{
+        return(
+            <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>
+        )
+    }
+
     const items = [
         {
             label: '手动编辑',
-            children: <MonacoEditor
-                ref={editorRef}
-                style={{
-                    "height": "370px",
-                    "width": "100%"
-                }}
-                options={{
-                    theme: theme === 'dark'?'vs-dark':''
-                }}
-            />,
+            children: <LeveldataoverrideEditor />,
             key: '1',
             forceRender: true,
         },
         {
             label: '可视化',
-            children: <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>,
+            children: <LeveldataoverrideViewer />,
             key: '2',
         },
     ]
@@ -100,7 +126,7 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
             <MonacoEditor
                 ref={editorRef}
                 style={{
-                    "height": "432px",
+                    "height": "426px",
                     "width": "100%"
                 }}
                 options={{
@@ -115,10 +141,31 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
 const ServerIni = ({levelName, level, changeValue}) => {
 
     function onValuesChange(changedValues, allValues) {
+        console.log(allValues)
+        if (!freeUdpPorts.includes(allValues.server_port)) {
+            setTips("当前 " + allValues.server_port+" udp 端口可能已经使用了，请换一个端口")
+        } else {
+            setTips("")
+        }
         changeValue(levelName, {server_ini: allValues})
     }
+    const {cluster} = useParams()
+    const [freeUdpPorts, setFreeUdpPorts] = useState([])
+    const [tipsTxt,setTips] = useState("")
+
+    useEffect(()=>{
+        getFreeUDPPortApi(cluster)
+            .then(resp=>{
+                if (resp.code === 200) {
+                    setFreeUdpPorts(resp.data)
+                    console.log(resp.data)
+                }
+            })
+    }, [])
 
     return (
+        <Grid container spacing={3}>
+            <Grid item xs={12} md={8} lg={9}>
         <Form
             labelCol={{
                 span: 3,
@@ -133,6 +180,13 @@ const ServerIni = ({levelName, level, changeValue}) => {
             }}
             onValuesChange={onValuesChange}
         >
+            {tipsTxt !== "" &&<div>
+                <Alert message={tipsTxt}
+                       type="warning"
+                       showIcon
+                />
+                <br/>
+            </div>}
             <Form.Item
                 label="端口"
                 name="server_port"
@@ -216,6 +270,21 @@ const ServerIni = ({levelName, level, changeValue}) => {
                     placeholder="master_server_port"/>
             </Form.Item>
         </Form>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+                <div className={'scrollbar'} style={{
+                    maxHeight: '42vh',
+                    overflowY: 'auto',
+                }}>
+                    <h3>未使用udp推荐端口</h3>
+                    <Space size={[8, 16]} wrap>
+                        {freeUdpPorts.map(port=>(
+                            <Tag color={'green'} >{port}</Tag>
+                        ))}
+                    </Space>
+                </div>
+            </Grid>
+        </Grid>
     )
 }
 
@@ -788,8 +857,6 @@ const App = () => {
         <Container maxWidth="xxl">
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={8} lg={9}>
                     <Skeleton loading={loading}>
                         {levelListRef.current.length === 0 && (<>
                             <Empty description={'当前暂无世界，请点击 添加世界 按钮'} />
@@ -818,16 +885,6 @@ const App = () => {
                             }}>保存世界</Button>
                         </Space>
                     </Skeleton>
-                        </Grid>
-                        <Grid item xs={12} md={4} lg={3}>
-                            <div className={'scrollbar'} style={{
-                                maxHeight: '64vh',
-                                overflowY: 'auto',
-                            }}>
-                                <LevelTips />
-                            </div>
-                        </Grid>
-                    </Grid>
                 </Box>
                 <Modal
                     title="添加世界"

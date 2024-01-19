@@ -149,7 +149,7 @@
   "tick_rate": "通信频率",
   "console_enabled": "控制台",
   "max_snapshots": "快照数量",
-  "cluster_language": "语音",
+  "cluster_language": "语言",
   "shard_enabled": "多世界",
   "bind_ip": "绑定ip",
   "master_ip": "主世界ip",

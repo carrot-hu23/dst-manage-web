@@ -201,6 +201,16 @@ async function startAllLevelApi(cluster,checked) {
     return response.data
 }
 
+async function getFreeUDPPortApi(cluster) {
+    const url = '/api/game/8level/udp/port'
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     getLevelConfigApi,
     saveLevelConfigApi,
@@ -227,5 +237,7 @@ export {
     cleanAllLevelApi,
 
     startAllLevelApi,
+
+    getFreeUDPPortApi
 
 }

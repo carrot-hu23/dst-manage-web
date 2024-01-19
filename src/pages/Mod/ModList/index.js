@@ -87,7 +87,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
         } catch (error) {
             console.log(error)
             message.error("mod配置解析错误", error.message)
-            return "return {}"
+            return "return { error }"
         }
     }
 
@@ -96,7 +96,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
             .then(data => {
                 const homeConfig = data.data
                 homeConfig.modData = formatModOverride()
-                if (homeConfig.modData !== "return {}") {
+                if (homeConfig.modData !== "return { error }") {
                     console.log(homeConfig)
                     saveHomeConfigApi(cluster, homeConfig).then(() => {
                         message.info("保存mod成功")
@@ -104,6 +104,8 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                         console.log(error);
                         message.error("保存mod失败")
                     })
+                } else {
+                    message.warning("模组解析失败")
                 }
 
             })

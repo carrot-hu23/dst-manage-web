@@ -181,7 +181,7 @@ const ToggleLanguage = () => {
     };
     const items = [
         {
-            label: 'Englist',
+            label: 'English',
             key: 'en',
         },
         {

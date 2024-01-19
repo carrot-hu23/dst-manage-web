@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
 import React, {useEffect, useState} from "react";
-import {Alert, Select, Space, Tabs} from "antd";
+import {Alert, message, Select, Space, Tabs} from "antd";
 import {parse,format} from "lua-json";
 
 import './index.css'
 
 function getLevelObject(value) {
+    value = value.replace(/\n/g, "")
     try {
         return parse(value)
     } catch (error) {
+        message.warning("lua配置解析错误")
+        console.log(error)
         return {}
     }
 }
@@ -204,15 +207,19 @@ const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange
     }, [])
 
     function handleChange(value) {
-        setIsDefault(value === defaultValue);
-        console.log("value: ", value, "name: ", name)
+        try {
+            setIsDefault(value === defaultValue);
+            console.log("value: ", value, "name: ", name)
 
-        const data = parse(valueRef.current)
-        data.overrides[name] = value
+            const data = parse(valueRef.current.replace(/\n/g, ""))
+            data.overrides[name] = value
 
-        onStateChange(name, value)
-        // valueRef.current = format(data)
-        changeValue(format(data))
+            onStateChange(name, value)
+            // valueRef.current = format(data)
+            changeValue(format(data))
+        } catch (error) {
+            message.warning("lua配置解析错误")
+        }
     }
 
     const selectClassName = isDefault ? "" : "selected";

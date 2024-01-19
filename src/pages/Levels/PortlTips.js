@@ -67,16 +67,16 @@ export default ()=>{
         },
         {
             key: '3',
-            label: '可视化失败问题',
+            label: '可视化失败',
             children: <Typography>
                 <Paragraph>
                     <Paragraph>
                         如果配置为 return {},请手动粘贴配置
                     </Paragraph>
                     <Paragraph>
-                        如果配置不为 return {},请去掉配置里面的换行符 \n，界面展示会有个 \ 符号，去掉合并成一行
+                        如果配置不为 return {},请去掉配置里面的换行符，\n，界面展示会有个 \ 符号，如掉合并成一行
                     </Paragraph>
-
+                    
                 </Paragraph>
             </Typography>,
             style: panelStyle,
