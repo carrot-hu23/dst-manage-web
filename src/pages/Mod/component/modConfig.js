@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react';
+import {useTranslation} from "react-i18next";
 import _ from 'lodash';
 import {Modal, Button, Space, Form, Typography, Divider, message, Popconfirm, Spin, Badge} from 'antd';
 import Select2 from './Select2';
@@ -139,6 +140,7 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
 
 // eslint-disable-next-line react/prop-types
 const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defaultValuesMap, setDefaultValuesMap}) => {
+    const { t } = useTranslation()
 
     const [open, setOpen] = useState(false);
     const [ellipsis, setEllipsis] = useState(true);
@@ -192,13 +194,13 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                                 fontWeight: 500
                             }}>{mod.name.slice(0, 20)}</span>
                         <br/>
-                        <span>模组id:{mod.modid}</span>
+                        <span>{t('modid')}:{mod.modid}</span>
                         <br/>
-                        <span>作者: { mod.mod_config.author !== undefined ? mod.mod_config.author.slice(0, 20) : ""}</span>
+                        <span>{t('author')}: { mod.mod_config.author !== undefined ? mod.mod_config.author.slice(0, 20) : ""}</span>
                     </div>
                     <div>
-                        <span>版本: {mod.mod_config.version}</span>
-                        <div>最后更新时间: {timestampToString(mod.last_time* 1000)}</div>
+                        <span>{t('version')}: {mod.mod_config.version}</span>
+                        <div>{t('last time')}: {timestampToString(mod.last_time* 1000)}</div>
                         <span>{mod.mod_config.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
                         <span>{mod.mod_config.dont_starve_compatible === false && <span>-</span>}</span>
                     </div>
@@ -262,7 +264,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         {mod.mod_config.configuration_options === undefined && mod.mod_config.author !== undefined &&<>
                             <br/>
                             <br/>
-                            <span>当前模组暂无配置</span>
+                            <span>{t('this mod dont have configuration options')}</span>
                         </>}
                     </div>
 
@@ -270,16 +272,16 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                 </Spin>
             </>}
             {!mod.installed && <>
-                <span>暂无模组，请先订阅</span>
+                <span>{t('none mod')}</span>
             </>}
 
         </div>
             <Space size={16}>
                 <Button type="primary" onClick={() => setOpen(true)}>
-                    配置
+                    {t('options')}
                 </Button>
                 <Popconfirm
-                    title="是否更新mod"
+                    title={t('update mode configuration options')}
                     okText="Yes"
                     cancelText="No"
                     onConfirm={()=>updateMod()}
@@ -288,11 +290,11 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         <Button style={{
                             backgroundColor: "#149b6e"
                         }} type="primary" >
-                            更新模组配置
+                            {t('Update Configuration')}
                         </Button>
                     </Badge>}
                     {!mod.update && <Button type="primary" >
-                        更新模组配置
+                        {t('Update Configuration')}
                     </Button>}
                 </Popconfirm>
                 <Button>
@@ -301,7 +303,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}
                         rel="noreferrer"
                     >
-                        创意工坊
+                        {t('workshop')}
                     </a>
                 </Button>
             </Space>

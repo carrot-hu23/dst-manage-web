@@ -1,6 +1,10 @@
-const Welcome = () => (
+import {useTranslation} from "react-i18next";
+
+const Welcome = () => {
+    const { t } = useTranslation()
+    return(
         <>
-            <h3>欢迎使用 dst-admin-web 管理平台</h3>
+            <h3>{t('Welcome to dst-admin-web management platform')}</h3>
             <div>
                 {/* <Image
                     width={200}
@@ -10,5 +14,6 @@ const Welcome = () => (
             </div>
         </>
     )
+}
 
 export default Welcome

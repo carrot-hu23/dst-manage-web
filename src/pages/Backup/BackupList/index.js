@@ -5,12 +5,15 @@ import {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {UploadOutlined} from '@ant-design/icons';
 import axios from 'axios';
+import {useTranslation} from "react-i18next";
 
 import {deleteBackupApi, getBackupApi, renameBackupApi, restoreBackupApi} from '../../../api/backupApi';
 import BackupStatistic from "./Statistic";
 
 
 const MyUploadFile = () => {
+    const { t } = useTranslation()
+
     const [fileList, setFileList] = useState([]);
     const [uploading, setUploading] = useState(false);
 
@@ -55,7 +58,7 @@ const MyUploadFile = () => {
                     beforeUpload={handleBeforeUpload}
                     onRemove={handleRemove}
                 >
-                    <Button icon={<UploadOutlined/>}>选择文件</Button>
+                    <Button icon={<UploadOutlined/>}>{t('Select File')}</Button>
                 </Upload>
                 <Button
                     type="primary"
@@ -64,7 +67,7 @@ const MyUploadFile = () => {
                     loading={uploading}
                     // style={{ marginTop: 16 }}
                 >
-                    {uploading ? '正在上传' : '开始上传'}
+                    {uploading ? 'Uploading' : t('Start Upload')}
                 </Button>
             </Space>
         </div>
@@ -73,6 +76,8 @@ const MyUploadFile = () => {
 
 
 const Backup = () => {
+
+    const { t } = useTranslation()
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -306,7 +311,7 @@ const Backup = () => {
 
     const columns = [
         {
-            title: '存档名称',
+            title: t('fileName'),
             dataIndex: 'fileName',
             key: 'fileName',
             render: (text) => <Button type="link">{text}</Button>,
@@ -314,21 +319,21 @@ const Backup = () => {
             ...getColumnSearchProps('fileName'),
         },
         {
-            title: '文件大小',
+            title: t('fileSize'),
             dataIndex: 'fileSize',
             key: 'fileSize',
             render: (fileSize) => <span>{`${(fileSize / 1024 / 1024).toFixed(2)} MB`}</span>,
             sorter: (a, b) => b.fileSize - a.fileSize,
         },
         {
-            title: '创建时间',
+            title: t('createTime'),
             dataIndex: 'createTime',
             key: 'createTime',
             render: (createTime) => <span>{new Date(createTime).toLocaleString()}</span>,
             sorter: (a, b) => b.createTime - a.createTime,
         },
         {
-            title: '操作',
+            title: t('action'),
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
@@ -341,20 +346,20 @@ const Backup = () => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button type="link">恢复备份</Button>
+                        <Button type="link">{t('Restore')}</Button>
                     </Popconfirm>
 
                     <Button type="link" onClick={() => {
                         setIsEditModalOpen(true);
                         setDeleteBackup(record)
-                    }}>修改</Button>
+                    }}>{t('Edit')}</Button>
                     <Button type="link" onClick={() => {
                         window.location.href = `/api/game/backup/download?fileName=${record.fileName}`;
-                    }}>下载</Button>
+                    }}>{t('Download')}</Button>
                     <Button type="text" danger onClick={() => {
                         setIsDeleteModalOpen(true);
                         setDeleteBackup(record)
-                    }}>删除</Button>
+                    }}>{t('Delete')}</Button>
                 </Space>
             ),
         },
@@ -364,10 +369,10 @@ const Backup = () => {
         <Space wrap>
             <MyUploadFile/>
             <Button type="primary" danger onClick={deleteSelectBackup}>
-                删除
+                {t('Delete')}
             </Button>
             <Button onClick={updateBackupData}>
-                刷新
+                {t('Refresh')}
             </Button>
         </Space>
 

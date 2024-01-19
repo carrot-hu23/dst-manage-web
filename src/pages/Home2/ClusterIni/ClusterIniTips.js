@@ -3,6 +3,7 @@ import React from "react";
 import {
     Typography, theme as antTheme, Collapse
 } from "antd";
+import {useTranslation} from "react-i18next";
 import {CaretRightOutlined} from "@ant-design/icons";
 import {useTheme} from "../../../hooks/useTheme";
 
@@ -11,6 +12,8 @@ const { Title, Paragraph, Text, Link } = Typography;
 
 export default ()=>{
     const {theme} = useTheme();
+    const { t } = useTranslation()
+
     const { token } = antTheme.useToken();
     const panelStyle = {
         marginBottom: 24,
@@ -23,7 +26,7 @@ export default ()=>{
     const getTips = (panelStyle) => [
         {
             key: '1',
-            label: '获取令牌',
+            label: t('Get cluster_token'),
             children:
                 <Typography>
                     <Paragraph>
@@ -53,7 +56,7 @@ export default ()=>{
         },
         {
             key: '2',
-            label: '服务器串联',
+            label: t('Server tandem'),
             children: <p>暂无</p>,
             style: panelStyle,
         },

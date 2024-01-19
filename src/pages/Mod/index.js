@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import _ from 'lodash'
+import {useTranslation} from "react-i18next";
 import luaparse from 'luaparse';
 import { parse } from "lua-json";
 
@@ -200,6 +200,8 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
 
 const Mod = ({modoverrides}) => {
 
+    const { t } = useTranslation()
+
     const [modList, setModList] = useState([])
     const [root, setRoot] = useState({})
 
@@ -225,7 +227,7 @@ const Mod = ({modoverrides}) => {
     const items = [
         {
             key: '1',
-            label: `配置模组`,
+            label: t('Mod Setting'),
             children: <ModList
                 modList={modList}
                 setModList={setModList}
@@ -237,12 +239,12 @@ const Mod = ({modoverrides}) => {
         },
         {
             key: '2',
-            label: `订阅模组`,
+            label: t('Mod Subscribe'),
             children: <ModSearch addModList={setModList}/>,
         },
         {
             key: '3',
-            label: `Ugc模组`,
+            label: t('Ugc Mod'),
             children: <Ugc />,
         },
     ];

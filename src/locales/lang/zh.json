@@ -4,6 +4,12 @@
   "search": "查询",
   "reset": "重置",
 
+  "Next": "下一步",
+  "Previous": "上一步",
+  "Go": "进入",
+  "Welcome to dst-admin-web management platform": "欢迎使用 dst-admin-web 管理平台",
+  "Init Account": "初始账号",
+
   "clusterTableTitle": "集群列表",
   "clusterName": "集群",
   "createCluster": "创建集群",
@@ -170,6 +176,87 @@
   "customization": "自定义模式",
   "customization_mode": "自定义模式",
 
+  "Leveldataoverride": "世界配置",
+  "Modoverrides": "模组配置",
+  "ServerIni": "端口配置",
+  "add level": "添加世界",
+  "save level": "保存世界",
+  "Edit": "编辑",
+  "View": "可视化",
+
+  "server_port": "端口",
+  "is_master": "主世界",
+  "level_name": "世界名",
+  "level_id": "世界ID",
+  "encode_user_path": "路径兼容",
+  "authentication_port": "认证端口",
+  "master_server_port": "世界端口",
+
+  "this mod dont have configuration options": "此模组暂无配置",
+  "modid": "模组id",
+  "author": "作者",
+  "version": "版本",
+  "last time": "最后更新",
+  "none mod": "暂无模组，请先订阅",
+  "options": "模组配置",
+  "update mode configuration options": "更新模组配置",
+  "Update Configuration": "更新配置",
+  "workshop": "创意工坊",
+
+  "Mod Setting": "模组配置",
+  "Mod Subscribe": "模组订阅",
+  "Ugc Mod": "Ugc 模组",
+
+  "Save": "保存",
+  "Update All Mod Config": "更新所有模组配置",
+  "Upload Modinfo": "上次模组配置",
+  "Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.": "请先启动世界，mod会自动下载，会先读取ugc模块。",
+  "delete this mod": "删除模组",
+
+
+
+  "enable": "开启",
+  "interval": "间隔",
+  "minute": "分钟",
+  "maxSnapshots": "最大快照",
+
+  "Backup List": "备份列表",
+  "Snapshot Backup": "备份快照",
+
+  "backup number": "备份数量",
+  "backup size": "备份大小",
+  "Select File": "选择文件",
+  "Start Upload": "上传文件",
+  "Uploading": "正在上传",
+  "fileName": "文件名称",
+  "fileSize": "文件大小",
+  "createTime": "创建时间",
+  "action": "操作",
+  "Restore": "恢复",
+  "Download": "下载",
+  "Delete": "删除",
+  "Snapshot backup, here is just a special scheduled task, which will save the archive according to the interval you set, but it will only retain the number of snapshots you set.": "快照备份，这里只是一个特殊的定时任务，会根据你设置的间隔保存存档，但是他只会保留你设置快照数量",
+  "Files starting with (snapshot) are snapshot backup files, which are no different from ordinary archives, just to distinguish them.": "文件以 (snapshot) 开头的都是快照备份文件， 和普通存档没有任何区别，只是做区分",
+
+
+  "UDP recommended port not used": "未使用udp推荐端口",
+  "Level quantity problem": "世界层数问题",
+  "There is only one \"Forest World\" by default. Please click Add Button to add a level.": "默认只有一个森林世界， 请点击 添加世界，来添加世界",
+  "You can also Backup the game/upload the archive/refresh and click on the corresponding archive to restore the archive. Save format compatible with local games by default": "你也可以 游戏备份/上传存档/刷新 点击对应的存档 恢复存档。默认兼容本地游戏的存档格式",
+  "Cluster level.json explained": "存档level.json解释",
+  "Each archive cluster will generate a level.json file. This file mainly marks which file your archive level is.": "每个存档都会生成一个level.json文件，这个文件主要是标记你的存档世界是那个文件",
+  "However, due to the special collection of this panel, your main level file must be Master (otherwise the panel's log collection and statistics will be invalid)": "但是由于此面板的采集特殊性问题，你的主世界的文件必须为 Master (否则面板的日志采集和统计都会失效)",
+  "The name displayed on the interface": "界面显示的名称",
+  "level file": "世界文件名",
+  "eg": "例如",
+  "For example, my previous archive world is Master Caves Master1 Caves1": "比如我之前的存档 世界 为 Master Caves Master1 Caves1",
+  "Leveldataovrride view failure problem": "可视化失败问题",
+
+  "If the configuration is return {}, please paste the configuration manually": "如果配置为 return ,请手动粘贴配置",
+  "If the configuration is not return {}, please remove the newline character \\n in the configuration. There will be a \\ symbol in the interface display. Remove it and merge it into one line.": "如果配置不为 return ,请去掉配置里面的换行符 \\n，界面展示会有个 \\ 符号，去掉合并成一行",
+
+  "Get cluster_token": "获取令牌",
+  "Server tandem": "服务器串联",
   "d": ""
 
 }

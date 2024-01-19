@@ -3,6 +3,8 @@ import React from "react";
 import {
     Typography, theme as antTheme, Collapse
 } from "antd";
+import {useTranslation} from "react-i18next";
+
 import {CaretRightOutlined} from "@ant-design/icons";
 import {useTheme} from "../../hooks/useTheme";
 
@@ -10,6 +12,8 @@ const { Title, Paragraph, Text, Link } = Typography;
 
 export default ()=>{
     const {theme} = useTheme();
+    const { t } = useTranslation()
+
     const { token } = antTheme.useToken();
     const panelStyle = {
         marginBottom: 24,
@@ -22,7 +26,7 @@ export default ()=>{
     const getTips = (panelStyle) => [
         {
             key: '1',
-            label: '世界层数问题',
+            label: t('Level quantity problem'),
             children:
                 <Typography>
                     <Paragraph>
@@ -31,10 +35,10 @@ export default ()=>{
                             你可以任意的添加世界层数，来开<Text keyboard>多层存档</Text>
                         </Paragraph>
                         <Paragraph>
-                            默认只有一个"森林世界"， 请点击 <Text code>添加世界</Text>，来添加世界
+                            {t('There is only one "Forest World" by default. Please click Add Button to add a level.')}
                         </Paragraph>
                         <Paragraph>
-                            你也可以 游戏备份/上传存档/刷新  点击对应的存档 恢复存档。默认兼容本地游戏的存档格式
+                            {t('You can also Backup the game/upload the archive/refresh and click on the corresponding archive to restore the archive. Save format compatible with local games by default')}
                         </Paragraph>
                     </Paragraph>
                 </Typography>,
@@ -42,22 +46,22 @@ export default ()=>{
         },
         {
             key: '2',
-            label: '存档level.json解释',
+            label: t('Cluster level.json explained'),
             children: <Typography>
                 <Paragraph>
                     <Paragraph>
-                        每个存档都会生成一个level.json文件，这个文件主要是标记你的存档世界是那个文件
+                        {t('Each archive cluster will generate a level.json file. This file mainly marks which file your archive level is.')}
                     </Paragraph>
                     <Paragraph>
-                        但是由于此面板的采集特殊性问题，你的主世界的文件必须为 Master (否则面板的日志采集和统计都会失效)
+                        {t('However, due to the special collection of this panel, your main level file must be Master (otherwise the panel\'s log collection and statistics will be invalid)')}
                     </Paragraph>
                     <ul>
-                        <li>name: 界面显示的名称</li>
-                        <li>file: 世界文件名</li>
+                        <li>name: {t('The name displayed on the interface')}</li>
+                        <li>file: {t('level file')}</li>
                     </ul>
                     <Paragraph>
-                        例子:
-                        比如我之前的存档 世界 为 Master Caves Master1 Caves1
+                        {t('eg')}:
+                        {t('For example, my previous archive world is Master Caves Master1 Caves1')}
                     </Paragraph>
                     <pre>{'{"levelList":[{"name":"森林","file":"Master"},{"name":"洞穴","file":"Caves"},{"name":"森林1","file":"Master1"},{"name":"洞穴1","file":"Caves1"}]}'}</pre>
 
@@ -67,14 +71,14 @@ export default ()=>{
         },
         {
             key: '3',
-            label: '可视化失败问题',
+            label: t('Leveldataovrride view failure problem'),
             children: <Typography>
                 <Paragraph>
                     <Paragraph>
-                        如果配置为 return {},请手动粘贴配置
+                        {t('If the configuration is return {}, please paste the configuration manually')}
                     </Paragraph>
                     <Paragraph>
-                        如果配置不为 return {},请去掉配置里面的换行符 \n，界面展示会有个 \ 符号，去掉合并成一行
+                        {t('If the configuration is not return {}, please remove the newline character \\n in the configuration. There will be a \\ symbol in the interface display. Remove it and merge it into one line.')}
                     </Paragraph>
 
                 </Paragraph>

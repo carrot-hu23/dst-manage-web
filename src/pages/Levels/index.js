@@ -18,6 +18,8 @@ import {Box, Card, Container, Grid} from "@mui/material";
 import ConfigViewEditor from "../Levels8/LevelSetting/LeveldataoverrideView/ConfigViewEditor";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {format, parse} from "lua-json";
+import {useTranslation} from "react-i18next";
+
 import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
 import {useTheme} from "../../hooks/useTheme";
@@ -29,7 +31,7 @@ const { Title, Paragraph, Text, Link } = Typography;
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
-
+    const { t } = useTranslation()
     const {theme} = useTheme();
 
     const ref = useRef(level.leveldataoverride)
@@ -87,13 +89,13 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
 
     const items = [
         {
-            label: '手动编辑',
+            label: t('Edit'),
             children: <LeveldataoverrideEditor />,
             key: '1',
             forceRender: true,
         },
         {
-            label: '可视化',
+            label: t('View'),
             children: <LeveldataoverrideViewer />,
             key: '2',
         },
@@ -139,6 +141,7 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
 }
 
 const ServerIni = ({levelName, level, changeValue}) => {
+    const { t } = useTranslation()
 
     function onValuesChange(changedValues, allValues) {
         console.log(allValues)
@@ -188,7 +191,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
                 <br/>
             </div>}
             <Form.Item
-                label="端口"
+                label={t('server_port')}
                 name="server_port"
                 tooltip={`
             服务器监听的 UDP 端口，每个服务器需要设置不同的端口\n\n
@@ -202,7 +205,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="主世界"
+                label={t('is_master')}
                 valuePropName="checked"
                 name='is_master'
                 tooltip={`
@@ -213,7 +216,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="世界名"
+                label={t('level_name')}
                 name="name"
                 tooltip={`name`}
             >
@@ -221,7 +224,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="世界 ID"
+                label={t('level_id')}
                 name="id"
                 tooltip={`
             随机数字，用于区分不同的从服务器。
@@ -239,7 +242,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="路径兼容"
+                label={t('encode_user_path')}
                 valuePropName="checked"
                 name='encode_user_path'
                 tooltip={`
@@ -249,7 +252,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="认证端口"
+                label={t('authentication_port')}
                 name='authentication_port'
                 tooltip={`authentication_port`}
             >
@@ -259,7 +262,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="世界端口"
+                label={t('master_server_port')}
                 name='master_server_port'
                 tooltip={`master_server_port`}
             >
@@ -276,7 +279,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
                     maxHeight: '42vh',
                     overflowY: 'auto',
                 }}>
-                    <h3>未使用udp推荐端口</h3>
+                    <h3>{t('UDP recommended port not used')}</h3>
                     <Space size={[8, 16]} wrap>
                         {freeUdpPorts.map(port=>(
                             <Tag color={'green'} >{port}</Tag>
@@ -477,6 +480,7 @@ const SelectorMod = ({form, editorRef, level, formValueChange}) => {
 }
 
 const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
+    const { t } = useTranslation()
 
     const modoverridesRef = useRef(level.modoverrides)
     const editorRef = useRef()
@@ -563,14 +567,14 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
 
     const items = [
         {
-            label: '世界配置',
+            label: t('Leveldataoverride'),
             children: <Leveldataoverride editorRef={editorRef2} dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
                                          changeValue={changeValue}/>,
             key: '1',
             forceRender: true,
         },
         {
-            label: '模组配置',
+            label: t('Modoverrides'),
             children: <Modoverrides editorRef={editorRef} onchange={v => setModoverridesState(v)}
                                     modoverridesRef={modoverridesRef} levelName={levelName} level={level}
                                     changeValue={changeValue}/>,
@@ -578,7 +582,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
             forceRender: true,
         },
         {
-            label: '端口配置',
+            label: t('ServerIni'),
             children: <ServerIni levelName={levelName} level={level} changeValue={changeValue}/>,
             key: '3',
             forceRender: true,
@@ -620,6 +624,7 @@ const defaultDstWorldSetting = {
 const App = () => {
 
     const {cluster} = useParams()
+    const { t } = useTranslation()
 
     const levelListRef = useRef([]);
     const [openAdd, setOpenAdd] = useState(false)
@@ -871,7 +876,7 @@ const App = () => {
                         />
                         <Divider/>
                         <Space size={8} wrap>
-                            <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
+                            <Button type={"primary"} onClick={() => setOpenAdd(true)}>{t('add level')}</Button>
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
                                 updateLevelsApi({levels: levelListRef.current})
@@ -882,12 +887,12 @@ const App = () => {
                                             message.error("保存失败", resp.msg)
                                         }
                                     })
-                            }}>保存世界</Button>
+                            }}>{t('save level')}</Button>
                         </Space>
                     </Skeleton>
                 </Box>
                 <Modal
-                    title="添加世界"
+                    title={t('add level')}
                     open={openAdd}
                     onOk={() => onCreateLevel()}
                     confirmLoading={confirmLoading}
@@ -903,7 +908,7 @@ const App = () => {
                         layout="vertical"
                         labelAlign={'left'}
                     >
-                        <Form.Item label="世界名"
+                        <Form.Item label={t('levelName')}
                                    name="levelName"
                                    rules={[
                                        {
@@ -918,7 +923,7 @@ const App = () => {
                         <Alert
                             message="如果文件不存在，将会新建一个。名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
                             type="warning" showIcon closable/>
-                        <Form.Item label="文件名"
+                        <Form.Item label={t('fileName')}
                                    name="uuid"
                                    rules={[
                                        {

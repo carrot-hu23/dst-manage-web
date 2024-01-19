@@ -63,5 +63,10 @@
   "rollback5": "Rollback(5)",
   "rollback6": "Rollback(6)",
 
-  "send": "send"
+  "send": "send",
+
+  "level_name": "name",
+  "level_id": "id",
+
+  "d": ""
 }

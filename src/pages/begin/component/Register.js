@@ -1,15 +1,16 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input,Tooltip } from 'antd';
+import {useTranslation} from "react-i18next";
 
 const Register = (props) => {
-
+    const { t } = useTranslation()
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
     }
 
     return (
         <>
-            <h3>注册用户</h3>
+            <h3>{t('Init Account')}</h3>
             <br />
             <Form
                 // eslint-disable-next-line react/prop-types

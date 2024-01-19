@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
-
+import {useEffect} from "react";
 // @antd
 import {Tag,Dropdown,message} from "antd";
 import {GithubFilled,} from '@ant-design/icons';
@@ -178,6 +178,7 @@ const ToggleLanguage = () => {
     const {i18n} = useTranslation();
     const onClick = ({ key }) => {
         i18n.changeLanguage(key)
+        localStorage.setItem('language', key);
     };
     const items = [
         {
@@ -197,6 +198,19 @@ const ToggleLanguage = () => {
         //     key: 'jp',
         // },
     ];
+
+    useEffect(() => {
+        // 从localStorage中读取保存的语言设置
+        const savedLanguage = localStorage.getItem('language');
+        if (savedLanguage) {
+            i18n.changeLanguage(savedLanguage);
+        } else {
+            // 从浏览器语言设置获取语言
+            const browserLanguage = navigator.language.split('-')[0];
+            i18n.changeLanguage(browserLanguage);
+        }
+    }, []); // 空数组作为依赖，只在组件挂载时执行一次
+
     return (
         <>
 

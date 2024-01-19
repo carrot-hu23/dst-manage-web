@@ -2,14 +2,17 @@
 import { useState } from 'react';
 import { StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
+import {useTranslation} from "react-i18next";
 
 import './index.css';
 import {useTheme} from "../../../../hooks/useTheme";
+
 
 const { Statistic, Divider } = StatisticCard;
 
 // eslint-disable-next-line react/prop-types
 const BackupStatistic = ({size, data}) => {
+    const { t } = useTranslation()
     const [responsive, setResponsive] = useState(false);
     const {theme, toggleTheme} = useTheme();
 
@@ -23,12 +26,12 @@ const BackupStatistic = ({size, data}) => {
                     direction={responsive ? 'column' : 'row'}>
                     <StatisticCard
                         statistic={{
-                            title: '当前备份个数',
+                            title: t('backup number'),
                             value: size,
                         }} />
                     <Divider type={responsive ? 'horizontal' : 'vertical'} />
                     <StatisticCard statistic={{
-                        title: '备份大小',
+                        title: t('backup size'),
                         // value: `${data} GB`,
                         value: data > 1 ? `${data} GB`:`${data * 1024} MB`,
                         // description: <Statistic title="占比" value="38.5%" />,
