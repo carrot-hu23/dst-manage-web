@@ -116,7 +116,7 @@ export default ({levels}) => {
                 }
 
             }
-            if (line.includes("SOCKET_PORT_ALREADY_IN_USE")) {
+            if (line.includes("SOCKET_PORT_ALREADY_IN_USE") && !line.includes("Unhandled exception during shard mode startup: RakNet UDP startup failed: SOCKET_PORT_ALREADY_IN_USE (5)")) {
                 if (!notify.socketport) {
                     openNotificationWithIcon({type: "error", message: "端口被暂用，请换一个端口，在世界配置端口配置修改"})
                     notify.socketport = true
