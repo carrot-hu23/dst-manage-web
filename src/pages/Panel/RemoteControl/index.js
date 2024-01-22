@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import {Box, Card} from "@mui/material";
 
 import {Button, Input, Select, Space, message, Spin, Divider, Tag} from 'antd';
-import {sendCommandApi} from "../../../../api/8level";
+import {sendCommandApi} from "../../../api/gameApi";
 
 
 const {TextArea} = Input;
 
-export default ({levels}) => {
+export default () => {
 
     useEffect(()=>{
         const historyJson = localStorage.getItem('history');
@@ -46,18 +46,14 @@ export default ({levels}) => {
         setCommand2(e.target.value);
     };
 
-    const notHasLevels = levels?.length === 0
-    const [levelName, setLevelName] = useState(notHasLevels?"":levels[0]?.key)
-
     function sendInstructOrder() {
         if (command === "") {
             message.warning("请填写指令在发送")
             return
         }
-        console.log(levelName, command)
         setSpin(true)
         addHistory(command)
-        sendCommandApi("", levelName, escapeString(command))
+        sendCommandApi(escapeString(command))
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")
@@ -73,11 +69,10 @@ export default ({levels}) => {
             message.warning("请填写指令在发送")
             return
         }
-        console.log(levelName, command2)
         setSpin(true)
-        const cmd = `c_announce"${command2}"`
+        const cmd = `Broadcast ${command2}`
         addHistory(command2)
-        sendCommandApi("", levelName, escapeString(cmd))
+        sendCommandApi(escapeString(cmd))
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")
@@ -89,16 +84,13 @@ export default ({levels}) => {
     }
 
     function escapeString(str) {
-        return str.replace(/\\/g, '\\\\')
-            .replace(/"/g, '\\"')
-            .replace(/'/g, "\\'")
-            .replace(/\n/g, '\\n')
-            .replace(/\r/g, '\\r')
-            .replace(/\t/g, '\\t');
-    }
-
-    const handleChange = (value) => {
-        setLevelName(value)
+        // return str.replace(/\\/g, '\\\\')
+        //     .replace(/"/g, '\\"')
+        //     .replace(/'/g, "\\'")
+        //     .replace(/\n/g, '\\n')
+        //     .replace(/\r/g, '\\r')
+        //     .replace(/\t/g, '\\t');
+        return str
     }
 
     return (
@@ -106,23 +98,6 @@ export default ({levels}) => {
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
                     <Spin spinning={spin} tip={"正在发送指令"}>
-                        <Space size={8}>
-                            <Select
-                                defaultValue={notHasLevels?"":levels[0].levelName}
-                                style={{
-                                    width: 120,
-                                }}
-                                onChange={handleChange}
-                                options={levels.map(level=>{
-                                    return {
-                                        value: level.key,
-                                        label: level.levelName,
-                                    }
-                                })}
-                            />
-                            <span>世界</span>
-                        </Space>
-                        <br/><br/>
                         <TextArea onChange={onchange} rows={3}/>
                         <br/><br/>
                         <Button type="primary" onClick={() => sendInstructOrder()}>
@@ -130,25 +105,6 @@ export default ({levels}) => {
                         </Button>
 
                         <Divider />
-
-
-                        <Space size={8}>
-                            <Select
-                                defaultValue={notHasLevels?"":levels[0].levelName}
-                                style={{
-                                    width: 120,
-                                }}
-                                onChange={handleChange}
-                                options={levels.map(level=>{
-                                    return {
-                                        value: level.key,
-                                        label: level.levelName,
-                                    }
-                                })}
-                            />
-                            <span>世界</span>
-                        </Space>
-                        <br/><br/>
                         <TextArea onChange={onchange2} rows={3}/>
                         <br/><br/>
                         <Button type="primary" onClick={() => SentBroad()}>

@@ -135,14 +135,10 @@ async function startLevelApi(cluster,levelName,checked) {
     return response.data
 }
 
-async function sendCommandApi(cluster,levelName,command) {
+async function sendCommandApi(command) {
 
-    const url = `/api/game/8level/command?levelName=${levelName}&command=${command}`
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
+    const url = `/api/game/command?command=${command}`
+    const response = await http.get(url,)
     return response.data
 }
 

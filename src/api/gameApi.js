@@ -10,154 +10,82 @@ async function updateGameApi(cluster) {
     })
     return response.data
 }
+async function getHomeConfigApi() {
+    const url = '/api/game/config'
+    const response = await http.get(url)
+    return response.data
+}
 
-async function startHomeApi(cluster,checked, type) {
+async function saveHomeConfigApi(data) {
+    const url = "/api/game/config"
+    const response = await http.post(url, data)
+    return response.data
+}
 
-    console.log('checked:', checked, "type:", type);
+async function getDashboardApi() {
+    const url = '/api/game/dashboard'
+    const response = await http.get(url)
+    return response.data
+}
+
+async function sendCommandApi(command) {
+
+    const url = `/api/game/command?command=${command}`
+    const response = await http.get(url,)
+    return response.data
+}
+
+async function startApi(checked) {
     let url = ""
     // 启动
     if(checked) {
-        url = `/api/game/start?type=${type}`
+        url = `api/game/start`
     } else {
-        url = `/api/game/stop?type=${type}`
+        url = `api/game/stop`
     }
 
     // const url = '/api/dashboard'
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
+    const response = await http.get(url)
     return response.data
 }
 
+async function getSteamConfigApi () {
+    const url = '/api/steam/config'
+    const data = await http.get(url)
+    return data.data
+}
 
-async function getHomeConfigApi(cluster) {
+async function saveSteamConfigApi(params) {
+    const url = '/api/steam/config'
+    const data = await http.post(url, params)
+    return data.data
+}
+
+async function getGameConfigApi () {
     const url = '/api/game/config'
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
+    const data = await http.get(url)
+    return data.data
 }
 
-async function saveHomeConfigApi(cluster, data) {
-    const url = "/api/game/config"
-    const response = await http.post(url, data,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function getGameConfigApi(cluster) {
-    const url = '/api/cluster/game/config'
-    const response = await http.get(url, {
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function saveGameConfigApi(cluster,data) {
-    const url = "/api/cluster/game/config"
-    const response = await http.post(url, data,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function regenerateworldApi(cluster) {
-    const url = "/api/game/regenerateworld"
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function cleanWorldApi(cluster) {
-    const url = "/api/game/clean"
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function archiveApi(cluster) {
-    const url = "/api/game/archive"
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function rollbackApi(cluster,day) {
-    const url = `/api/game/rollback?dayNums=${day}`
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function masterConsoleApi(cluster,instruct) {
-    const url = "/api/game/master/console"
-    const response = await http.post(url,{
-        command: instruct
-    },{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function cavesConsoleApi(cluster,instruct) {
-    const url = "/api/game/caves/console"
-    const response = await http.post(url,{
-        command: instruct
-    },{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
-}
-
-async function sentBroadcastApi(cluster,message) {
-    const url = `/api/game/sent/broadcast?message=${message}`
-    const response = await http.get(url,{
-        headers: {
-            'Cluster': cluster,
-        }
-    })
-    return response.data
+async function saveGameConfigApi(params) {
+    const url = '/api/game/config'
+    const data = await http.post(url, params)
+    return data.data
 }
 
 export {
     updateGameApi,
-    startHomeApi,
     getHomeConfigApi,
     saveHomeConfigApi,
+    getDashboardApi,
+
+    sendCommandApi,
+    startApi,
+
+    getSteamConfigApi,
+    saveSteamConfigApi,
+
     getGameConfigApi,
     saveGameConfigApi,
-    regenerateworldApi,
-    cleanWorldApi,
-    archiveApi,
-    rollbackApi,
-    masterConsoleApi,
-    cavesConsoleApi,
-    sentBroadcastApi,
+
 }
