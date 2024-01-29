@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import {updateGameApi, getDashboardApi, startApi, getGameConfigApi, getIpv4Api} from "../../../api/gameApi";
 import OnlinePlayers from "../OnlinePlayers";
 import HiddenText from "../../../components2/HiddenText/HiddenText";
+import Log from "../Log";
 
 export default () => {
 
@@ -22,16 +23,14 @@ export default () => {
         updateGameApi(cluster)
             .then(response => {
                 if (response.code === 200) {
-                    message.success('饥荒更新完成')
+                    message.success('更新完成')
                 } else {
                     message.error(`${response.msg}`)
-                    message.warning("请检查steamcmd路径是否设置正确")
                 }
-
                 setUpdateStatus(false)
             })
             .catch(error => {
-                message.error(`饥荒更新失败${error}`)
+                message.error(`更新失败${error}`)
                 setUpdateStatus(false)
             })
     }
@@ -47,7 +46,6 @@ export default () => {
         startApi(checked).then(resp => {
             if (resp.code !== 200) {
                 message.error(`${prefix}失败${resp.msg}`)
-                message.warning("请检查饥荒服务器路径是否设置正确")
             } else {
                 message.success(`正在${prefix}`)
             }
@@ -161,6 +159,15 @@ export default () => {
                     </span>
                                         </Space>
                                     </Form.Item>
+
+                                    <Form.Item label={t('buildid')}>
+                                        <Tag color={'blue'}>{dashboard?.buildid}</Tag>
+                                        <Tag color={'green'}>{dashboard?.last_buildid}</Tag>
+                                    </Form.Item>
+                                    {dashboard?.buildid !== dashboard?.last_buildid && dashboard?.buildid !== 0 &&
+                                        <Alert
+                                            action={[]}
+                                            message="pal 有新的版本了，请点击更新" type="warning" showIcon closable />}
                                 </Form>
                             </Spin>
                         </Box>
@@ -175,7 +182,6 @@ export default () => {
                 </Grid>
 
                 <Grid item xs={12} md={7} lg={7}>
-
 
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
@@ -216,6 +222,9 @@ export default () => {
                             </Form>
                         </Box>
                     </Card>
+
+                    <br/>
+                    <Log />
                 </Grid>
 
             </Grid>

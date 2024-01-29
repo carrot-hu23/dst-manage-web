@@ -1,13 +1,9 @@
 import {http} from "../utils/http";
 
-async function readLevelServerLogApi(cluster, levelName, lines) {
+async function readLevelServerLogApi(lines) {
 
-    const url = `/api/game/level/server/log?levelName=${levelName}&lines=${lines}`
-    const response = await http.get(url, {
-        headers: {
-            'Cluster': cluster,
-        }
-    })
+    const url = `/api/game/log?lines=${lines}`
+    const response = await http.get(url)
     return response.data
 }
 
