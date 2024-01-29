@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/go-manage-web.iml" filepath="$PROJECT_DIR$/.idea/go-manage-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dst-manage-web.iml" filepath="$PROJECT_DIR$/.idea/dst-manage-web.iml" />
     </modules>
   </component>
 </project>

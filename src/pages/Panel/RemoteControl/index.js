@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Card} from "@mui/material";
+import {Box, Card, Grid} from "@mui/material";
 
 import {Button, Input, Select, Space, message, Spin, Divider, Tag} from 'antd';
 import {sendCommandApi} from "../../../api/gameApi";
@@ -39,6 +39,8 @@ export default () => {
     const [command2, setCommand2] = useState('');
     const [spin, setSpin] = useState(false)
 
+    const [result, setResult] = useState('');
+
     const onchange = (e) => {
         setCommand(e.target.value);
     };
@@ -60,6 +62,7 @@ export default () => {
                 } else {
                     message.error("发送指令失败")
                 }
+                setResult(resp.data)
                 setSpin(false)
             })
     }
@@ -79,6 +82,7 @@ export default () => {
                 } else {
                     message.error("发送指令失败")
                 }
+                setResult(resp.data)
                 setSpin(false)
             })
     }
@@ -95,32 +99,43 @@ export default () => {
 
     return (
         <>
-            <Card>
-                <Box sx={{p: 3}} dir="ltr">
-                    <Spin spinning={spin} tip={"正在发送指令"}>
-                        <TextArea onChange={onchange} rows={3}/>
-                        <br/><br/>
-                        <Button type="primary" onClick={() => sendInstructOrder()}>
-                            发送指令
-                        </Button>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={7} lg={7}>
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <Spin spinning={spin} tip={"正在发送指令"}>
+                                <TextArea onChange={onchange} rows={3}/>
+                                <br/><br/>
+                                <Button type="primary" onClick={() => sendInstructOrder()}>
+                                    发送指令
+                                </Button>
 
-                        <Divider />
-                        <TextArea onChange={onchange2} rows={3}/>
-                        <br/><br/>
-                        <Button type="primary" onClick={() => SentBroad()}>
-                            发送广播
-                        </Button>
-                    </Spin>
-                    <br/>
-                    <div>
-                        历史指令:
-                        {historyCommand.map(c=>(
-                            <Tag key={c} closeIcon onClose={() => removeHistory(c)}>{c}</Tag>
-                        ))}
-                    </div>
-                </Box>
-            </Card>
-
+                                <Divider />
+                                <TextArea onChange={onchange2} rows={3}/>
+                                <br/><br/>
+                                <Button type="primary" onClick={() => SentBroad()}>
+                                    发送广播
+                                </Button>
+                            </Spin>
+                            <br/>
+                            <div>
+                                历史指令:
+                                {historyCommand.map(c=>(
+                                    <Tag key={c} closeIcon onClose={() => removeHistory(c)}>{c}</Tag>
+                                ))}
+                            </div>
+                        </Box>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={5} lg={5}>
+                    <Card>
+                        <Box sx={{p: 3}} dir="ltr">
+                            <h3>Result:</h3>
+                            {result}
+                        </Box>
+                    </Card>
+                </Grid>
+            </Grid>
         </>
     );
 }

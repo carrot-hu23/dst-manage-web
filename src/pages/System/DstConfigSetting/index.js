@@ -108,6 +108,21 @@ export default () => {
                         >
                             <Input/>
                         </Form.Item>
+                        <Alert style={{
+                            marginBottom: '4px'
+                        }} message={`推荐启动参数: -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS `} type="info" showIcon closable />
+                        <Form.Item
+                            label="其他启动参数"
+                            name="args"
+                            rules={[
+                                {
+                                    required: false,
+                                    message: 'Please input args',
+                                },
+                            ]}
+                        >
+                            <Input/>
+                        </Form.Item>
                         <Form.Item
                             wrapperCol={{
                                 span: 24,

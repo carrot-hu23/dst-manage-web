@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 
 import {
-    Alert,
     Button,
     Form,
     Input,
@@ -22,7 +21,6 @@ import {converter} from 'react-js-cron'
 
 import {useParams} from "react-router-dom";
 import {addJobTaskApi, deleteJobTaskApi, getJobTaskListApi} from "../../../api/jobTaskApi";
-import {getLevelListApi} from "../../../api/clusterLevelApi";
 
 const {Option} = Select;
 const { TextArea } = Input;
@@ -30,18 +28,16 @@ const { TextArea } = Input;
 const jobTaskEnum = {
     "backup": "备份存档",
     "update": "更新游戏",
-    "start": "启动世界",
-    "stop": "停止世界",
+    "start": "启动服务",
+    "stop": "停止服务",
     "startGame": "启动所有世界",
     "stopGame": "停止所有世界",
 
-    "restart": "重启世界",
+    "restart": "重启服务",
     "regenerate": "重置世界"
 }
 
 export default () => {
-
-    const {cluster} = useParams()
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -80,11 +76,6 @@ export default () => {
 
     const columns = [
         {
-            title: '世界',
-            dataIndex: 'levelName',
-            key: 'levelName',
-        },
-        {
             title: 'jobId',
             dataIndex: 'jobId',
             key: 'jobId',
@@ -120,11 +111,6 @@ export default () => {
                     {!record.valid && <Tag color="purple">已失效</Tag>}
                 </>
             )
-        },
-        {
-            title: '备注',
-            dataIndex: 'comment',
-            key: 'comment',
         },
         {
             title: '公告',
@@ -181,17 +167,6 @@ export default () => {
 
     const AddJobTaskModal = ({isModalOpen, setIsModalOpen}) => {
 
-        const [levels, setLevels] = useState([])
-        useEffect(()=>{
-            getLevelListApi()
-                .then(resp => {
-                    if (resp.code === 200) {
-                        const levels = resp.data
-                        setLevels(levels)
-                    }
-                })
-        },[])
-
         const onChange = (time, timeString) => {
             console.log(time, timeString);
             const converted = converter.getCronStringFromValues(
@@ -229,15 +204,6 @@ export default () => {
                     false // humanizeValue?: boolean
                 )
             }
-            console.log(data)
-
-            // eslint-disable-next-line no-restricted-syntax
-            for (const level of levels) {
-                if (level.uuid === data.levelName) {
-                    data.uuid = level.uuid
-                    data.levelName = level.levelName
-                }
-            }
             addJobTaskApi("", data).then((response => {
                 if (response.code !== 200) {
                     message.error("创建定时任务失败")
@@ -253,8 +219,6 @@ export default () => {
         };
         return (
             <Modal title={"创建任务"} open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(false)}>
-                <Alert message={"[启动所有世界] [关闭所有世界] [备份存档] [重置世界] 这几个选择世界是没有用的，是针对所有世界的，[启动所有世界]: 先关闭，在启动（可以当作重启）"} type="warning" showIcon closable />
-                <br/>
                 <Form
                     form={form}
                     layout="horizontal"
@@ -298,32 +262,11 @@ export default () => {
                         rules={[{required: true, message: '请选择类型',},]}
                     >
                         <Select>
-                            <Option value="startGame">启动所有世界</Option>
-                            <Option value="stopGame">关闭所有世界</Option>
-                            <Option value="backup">备份存档</Option>
                             <Option value="update">更新游戏</Option>
-                            <Option value="start">启动世界</Option>
-                            <Option value="stop">停止世界</Option>
-                            <Option value="regenerate">重置世界</Option>
+                            <Option value="start">启动服务</Option>
+                            <Option value="stop">停止服务</Option>
+                            <Option value="restart">重启服务</Option>
                         </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label={"世界"}
-                        name='levelName'
-                        rules={[{required: true, message: '请选择世界',},]}
-                    >
-                        <Select>
-                            {levels.map((item,index)=>
-                                <Option key={index} value={item.uuid}>{item.levelName}</Option>
-                            )}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label={"备注"}
-                        name='comment'
-                    >
-                        <Input placeholder="备注"
-                        />
                     </Form.Item>
                     <Form.Item
                         label={"公告"}

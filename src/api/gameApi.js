@@ -73,6 +73,13 @@ async function saveGameConfigApi(params) {
     return data.data
 }
 
+//
+async function getIpv4Api() {
+    const url = '/api/game/system/ipv4'
+    const data = await http.get(url)
+    return data.data
+}
+
 export {
     updateGameApi,
     getHomeConfigApi,
@@ -87,5 +94,8 @@ export {
 
     getGameConfigApi,
     saveGameConfigApi,
+
+
+    getIpv4Api,
 
 }

@@ -20,11 +20,11 @@ const System = () => {
             label: "系统设置",
             children: <DstConfigSetting/>,
         },
-        // {
-        //     key: '2',
-        //     label: "定时任务",
-        //     children: <TimedTask/>,
-        // },
+        {
+            key: '2',
+            label: "定时任务",
+            children: <TimedTask/>,
+        },
         // {
         //     key: '3',
         //     label: "游戏更新",
