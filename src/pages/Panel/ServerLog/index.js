@@ -100,28 +100,29 @@ export default ({levels}) => {
     }
     function parseLog(lines) {
         lines.forEach(line => {
-            if (line.includes("Shutting down")) {
-                notify.shutting = true
-            }
-            if (line.includes("E_INVALID_TOKEN")) {
-                if (!notify.token) {
-                    openNotificationWithIcon({type: "error", message: "请检查令牌是否过期"})
-                    notify.token = true
-                }
-            }
-            if (line.includes("Level data override is invalid!")) {
-                if (!notify.leveldataoverride) {
-                    openNotificationWithIcon({type: "error", message: "世界配置无效，请从本地复制"})
-                    notify.leveldataoverride = true
-                }
+            // if (line.includes("Shutting down")) {
+            //     notify.shutting = true
+            // }
+            // if (line.includes("E_INVALID_TOKEN")) {
+            //     if (!notify.token) {
+            //         openNotificationWithIcon({type: "error", message: "请检查令牌是否过期"})
+            //         notify.token = true
+            //     }
+            // }
+            // if (line.includes("Level data override is invalid!")) {
+            //     if (!notify.leveldataoverride) {
+            //         openNotificationWithIcon({type: "error", message: "世界配置无效，请从本地复制"})
+            //         notify.leveldataoverride = true
+            //     }
+            //
+            // }
+            // if (line.includes("SOCKET_PORT_ALREADY_IN_USE") && !line.includes("Unhandled exception during shard mode startup: RakNet UDP startup failed: SOCKET_PORT_ALREADY_IN_USE (5)")) {
+            //     if (!notify.socketport) {
+            //         openNotificationWithIcon({type: "error", message: "端口被暂用，请换一个端口，在世界配置端口配置修改"})
+            //         notify.socketport = true
+            //     }
+            // }
 
-            }
-            if (line.includes("SOCKET_PORT_ALREADY_IN_USE") && !line.includes("Unhandled exception during shard mode startup: RakNet UDP startup failed: SOCKET_PORT_ALREADY_IN_USE (5)")) {
-                if (!notify.socketport) {
-                    openNotificationWithIcon({type: "error", message: "端口被暂用，请换一个端口，在世界配置端口配置修改"})
-                    notify.socketport = true
-                }
-            }
             // if (line.includes("Sim paused")) {
             //     if (!notify.sim && notify.shutting !== true) {
             //         openNotificationWithIcon({type: "success", message: "世界启动成功"})
@@ -225,7 +226,9 @@ export default ({levels}) => {
                             <br/>
                             <Space align={"baseline"} size={16} wrap>
                                 <div>
-                                    {t('auto')}
+                                    <span style={{
+                                        marginRight:'8px'
+                                    }}>{t('auto')}</span>
                                     <Switch
                                         defaultChecked
                                         onChange={(checked, event)=>{

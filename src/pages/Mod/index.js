@@ -26,7 +26,7 @@ function getWorkShopConfigMap2(modoverride) {
         console.log("keys",keys.length)
         const workshopMap = new Map();
         keys.forEach(workshopId => {
-            workshopMap.set(workshopId.replace('workshop-', '').replace('"', '').replace('"', ''), result[workshopId].configuration_options)
+            workshopMap.set(workshopId.replace('workshop-', '').replace('"', '').replace('"', ''), {...result[workshopId].configuration_options})
         })
         console.log("lua-json =-==-----", workshopMap)
         return workshopMap

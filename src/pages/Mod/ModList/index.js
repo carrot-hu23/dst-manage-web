@@ -62,6 +62,10 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                 object1[id] = defaultValuesMap.get(id)
             }
             const workshopObject = _.merge({}, object, object1)
+            console.log("defaultValuesMap", defaultValuesMap)
+            console.log("原始0", object)
+            console.log("原始1", object1)
+            console.log("原始2", workshopObject)
             const workshopIdKeys = Object.keys(workshopObject)
             const workShops = {}
             workshopIdKeys.forEach(workshopId => {
@@ -81,7 +85,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                     enabled: true
                 }
             })
-            console.log(workShops)
+            console.log("结果",workShops)
             return format(workShops, {
                 singleQuote: false
             })
@@ -286,7 +290,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                         {modList.length > 0 && <div>
                             {modList.map(item => <>
                                 <ModItem
-                                    key={item.modid}
+                                    key={item?.modid}
                                     mod={item}
                                     changeMod={changeMod}
                                     changeEnable={changeEnable}

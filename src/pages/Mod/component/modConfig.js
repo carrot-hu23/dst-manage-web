@@ -184,25 +184,25 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                 overflowX: 'auto',
             }}
         >
-            {mod.installed && mod.mod_config !== undefined && mod.mod_config !== null && <>
+            {mod?.installed && mod?.mod_config !== undefined && mod?.mod_config !== null && <>
                 <Spin spinning={spinning} tip={"正在更新模组"} >
                 <Space size={16} wrap>
-                    <img alt="example" src={mod.img}/>
+                    <img alt="example" src={mod?.img}/>
                     <div>
                             <span style={{
                                 fontSize: '16px',
                                 fontWeight: 500
-                            }}>{mod.name.slice(0, 20)}</span>
+                            }}>{mod?.name.slice(0, 20)}</span>
                         <br/>
-                        <span>{t('modid')}:{mod.modid}</span>
+                        <span>{t('modid')}:{mod?.modid}</span>
                         <br/>
-                        <span>{t('author')}: { mod.mod_config.author !== undefined ? mod.mod_config.author.slice(0, 20) : ""}</span>
+                        <span>{t('author')}: { mod?.mod_config?.author !== undefined ? mod?.mod_config?.author.slice(0, 20) : ""}</span>
                     </div>
                     <div>
-                        <span>{t('version')}: {mod.mod_config.version}</span>
+                        <span>{t('version')}: {mod?.mod_config?.version}</span>
                         <div>{t('last time')}: {timestampToString(mod.last_time* 1000)}</div>
-                        <span>{mod.mod_config.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
-                        <span>{mod.mod_config.dont_starve_compatible === false && <span>-</span>}</span>
+                        <span>{mod?.mod_config?.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
+                        <span>{mod?.mod_config?.dont_starve_compatible === false && <span>-</span>}</span>
                     </div>
                 </Space>
                 <div>
@@ -219,7 +219,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                                 : false
                         }
                     >
-                        {mod.mod_config.description}
+                        {mod?.mod_config?.description}
                     </Paragraph>
 
                     <br/>
@@ -228,7 +228,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
 
                 <Modal
                     getContainer={document.body}
-                    title={`${mod.name} 配置`}
+                    title={`${mod?.name} 配置`}
                     // centered
                     open={open}
                     onOk={() => {
@@ -244,13 +244,13 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>
-                        {mod.mod_config.configuration_options !== undefined && (
+                        {mod?.mod_config?.configuration_options !== undefined && (
                             <OptionSelect mod={mod} root={root} setRoot={setRoot} defaultValues={defaultValues}
                                           defaultValuesMap={defaultValuesMap}
                                           setDefaultValuesMap={setDefaultValuesMap}
                             />
                         )}
-                        {mod.mod_config.configuration_options === undefined && mod.mod_config.author === undefined &&<>
+                        {mod?.mod_config?.configuration_options === undefined && mod?.mod_config?.author === undefined &&<>
                             <br/>
                             <br/>
                             <span>网络问题!!! 下模组失败</span>
@@ -261,7 +261,7 @@ const ModDetail = ({mod, setMod, setModList, root, setRoot, defaultValues, defau
                             <br/>
                             <span>然后在启动房间，等待房间mod下载完成后，在点击 更新 按钮就会有配置选项</span>
                         </>}
-                        {mod.mod_config.configuration_options === undefined && mod.mod_config.author !== undefined &&<>
+                        {mod?.mod_config?.configuration_options === undefined && mod?.mod_config?.author !== undefined &&<>
                             <br/>
                             <br/>
                             <span>{t('this mod dont have configuration options')}</span>
