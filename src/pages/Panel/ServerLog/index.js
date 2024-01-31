@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm, notification} from "antd";
+import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm, notification, AutoComplete} from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -15,6 +15,29 @@ import style from "../../DstServerList/index.module.css";
 
 const {TextArea} = Input;
 const { TabPane } = Tabs;
+
+const CommandAutoComplete = () => {
+    // 模拟已有的指令列表
+    const commandList = ['c_save()', 'c_reset()', 'c_rollback', 'c_announce', 'command5'];
+
+    const [options, setOptions] = useState([]);
+
+    const handleSearch = (value) => {
+        const filteredOptions = commandList.filter((command) => command.includes(value));
+        setOptions(filteredOptions.map((option) => ({ value: option })));
+    };
+
+    return (
+        <AutoComplete
+            style={{ width: 200 }}
+            options={options}
+            onSelect={(value) => console.log('Selected:', value)}
+            onSearch={handleSearch}
+        >
+            <Input.Search placeholder="输入指令" enterButton />
+        </AutoComplete>
+    );
+};
 
 
 export default ({levels}) => {
@@ -249,16 +272,19 @@ export default ({levels}) => {
                             </Space>
 
                             <br/><br/>
-                            <TextArea onChange={onchange} rows={3}/>
-                            <Button style={{
-                                marginTop: '8px'
-                            }} type="primary" onClick={() => sendInstruct(command)}>
-                                {t('send')}
-                            </Button>
 
-                            <br/><br/>
+                            <Space.Compact
+                                style={{
+                                    width: '100%',
+                                }}
+                            >
+                                <Input defaultValue="" onChange={onchange} />
+                                <Button type="primary" onClick={() => sendInstruct(command)}>{t('send')}</Button>
+                            </Space.Compact>
+                            <br/>
+                            <br/>
                             <Space size={8} wrap>
-                                <Button type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
+                                <Button size={'small'} type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
                                 <Popconfirm
                                     title={t('regenerate')}
                                     description="请保存好数据"
@@ -267,14 +293,14 @@ export default ({levels}) => {
                                     okText="Yes"
                                     cancelText="No"
                                 >
-                                <Button type={"primary"} danger>{t('regenerate')}</Button>
+                                <Button size={'small'} type={"primary"} danger>{t('regenerate')}</Button>
                                 </Popconfirm>
-                                <Button onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
                             </Space>
                         </TabPane>
 

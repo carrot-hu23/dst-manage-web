@@ -7,7 +7,7 @@ import {useTranslation} from "react-i18next";
 import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select, List, Avatar, Tag} from 'antd';
 
 import {dstRoles} from '../../../utils/dst';
-import {getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
+import {getAllOnlinePlayersApi, getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../../components2/HiddenText/HiddenText";
 
@@ -25,7 +25,7 @@ const Online = ({levels}) => {
 
     useEffect(() => {
         setLoading(true)
-        getOnlinePlayersApi(cluster, levelName)
+        getAllOnlinePlayersApi(cluster)
             .then(resp => {
                 if (resp.code === 200) {
                     setPlayerList(resp.data)
@@ -45,7 +45,16 @@ const Online = ({levels}) => {
                 setSpin(false)
             })
     }
-
+    function queryAllPlayers() {
+        setSpin(true)
+        getAllOnlinePlayersApi(cluster)
+            .then(resp => {
+                if (resp.code === 200) {
+                    setPlayerList(resp.data)
+                }
+                setSpin(false)
+            })
+    }
 
     const kickPlayer = (player) => {
         setSpin(true)
@@ -151,10 +160,12 @@ const Online = ({levels}) => {
                                         label: level.levelName,
                                     }))}
                             />
-                            <Button type={'primary'} onClick={() => {
+                            <Button type={'primary'} size={'small'} onClick={() => {
                                 queryPlayers()
                             }}>{t('query')}</Button>
-
+                            <Button type={'primary'} size={'small'} onClick={() => {
+                                queryAllPlayers()
+                            }}>{t('query_all')}</Button>
                             <div>
                                 {t('Players')}: <Tag color={'green'}>{playerList.length}</Tag>
                             </div>

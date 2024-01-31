@@ -1,5 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Form, Input, message, Skeleton, Radio, Segmented, Drawer, Space, Typography, Tooltip} from 'antd';
+import {
+    Button,
+    Form,
+    Input,
+    message,
+    Skeleton,
+    Radio,
+    Segmented,
+    Drawer,
+    Space,
+    Typography,
+    Tooltip,
+    Alert
+} from 'antd';
 import {Card, Box} from '@mui/material';
 import {readDstConfigSync, writeDstConfigSync} from "../../../api/dstConfigApi";
 
@@ -256,6 +269,10 @@ export default () => {
                                 span: 24,
                             }}
                         >
+                            <Alert style={{marginTop: '8px'}}
+                                   message="请先停止所有世界，自行做好保存存档，不然之前的世界会一直运行"
+                                   type="warning" showIcon/>
+                            <br/>
                             <Button style={{margin: "0 auto", display: "block"}} type="primary" htmlType="submit">
                                 保存
                             </Button>
