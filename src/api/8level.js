@@ -158,6 +158,17 @@ async function getOnlinePlayersApi(cluster,levelName) {
     return response.data
 }
 
+async function getAllOnlinePlayersApi(cluster) {
+
+    const url = `/api/game/8level/players/all`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 async function cleanLevelApi(cluster,levels) {
 
     const queryString = levels.map(item => `level=${encodeURIComponent(item)}`).join('&');
@@ -223,6 +234,7 @@ export {
 
     sendCommandApi,
     getOnlinePlayersApi,
+    getAllOnlinePlayersApi,
 
     cleanLevelApi,
     cleanAllLevelApi,
