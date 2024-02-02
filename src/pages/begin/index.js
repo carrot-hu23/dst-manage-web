@@ -121,12 +121,12 @@ const Begin = (props) => {
                         }}
                         onClick={() => prev()}
                     >
-                        {t('Next')}
+                        {t('Previous')}
                     </Button>
                 )}
                 {current >= 0 && current < 2 && (
                     <Button type="primary" onClick={() => next()}>
-                        {t('Previous')}
+                        {t('Next')}
                     </Button>
                 )}
 

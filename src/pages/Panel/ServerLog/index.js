@@ -73,7 +73,7 @@ export default ({levels}) => {
         }
         console.log(levelName, escapeString(command))
         setSpinLoading(true)
-        sendCommandApi("", levelName, escapeString(command))
+        sendCommandApi(cluster, levelName, escapeString(command))
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")
