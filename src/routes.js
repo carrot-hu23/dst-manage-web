@@ -30,6 +30,7 @@ import AddMod from "./pages/Mod/AddMod";
 import DstServerList from "./pages/DstServerList";
 import Tool from "./pages/Tool";
 import Cluster from "./pages/Cluster";
+import Mod2 from "./pages/Mod2";
 
 export default function Router() {
   const routes = useRoutes([
@@ -42,6 +43,8 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
         { path: 'mod', element: <ModSetting /> },
+        { path: 'mod2', element: <Mod2 /> },
+
         { path: 'panel', element: <Panel /> },
 
         { path: 'tool', element: <Tool /> },

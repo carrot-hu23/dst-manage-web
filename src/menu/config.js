@@ -25,7 +25,7 @@ const navConfig = [
   },
   {
     title: 'Mod',
-    path: '/dashboard/mod',
+    path: '/dashboard/mod2',
     icon: icon('package'),
   },
   {

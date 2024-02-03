@@ -110,14 +110,14 @@ const OptionSelect = ({mod, root, setRoot, defaultValues, defaultValuesMap, setD
                                 if (item.options.length === 1 && item.options[0].data === item.default && !item.options[0].description) {
                                     /*                           在DST中,如果label为空字符串,就直接是显示空白行,这里用||会导致label为空也显示name,为了跟DST保持一样使用了??
                                                                                                                                      ↓                     */
-                                    return <Divider key={item.label}><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label ?? item.name}</span></Divider>
+                                    return <Divider key={generateUUID()}><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label ?? item.name}</span></Divider>
                                 }
                                 // TODO 还不知道哪些mod是这样的作为标题的,我目前没有发现
                                 if (item.name === 'Title' || item.name === '') {
                                     if (item.label === '') {
                                         return ""
                                     }
-                                    return <Divider key={item.label} ><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label} 配置</span></Divider>
+                                    return <Divider key={generateUUID()} ><span style={{fontSize: "14px", fontWeight: "600"}}>{item.label} 配置</span></Divider>
                                     // return <h4 key={item.label}>{item.label} 配置</h4>;
                                 }
 
