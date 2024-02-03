@@ -45,19 +45,20 @@ export default () => {
                 message.warning("获取模组配置失败")
                 return
             }
-            const modList = modInfoListResp.data
+            let modList = modInfoListResp.data
+            if (modList === null) {
+                modList = []
+            }
             setmodList(modList)
             // modInfoListResp.data
-            const modConfigList = initModConfigList(modoverrides, modList, setmodList, defaultConfigOptionsRef, modConfigOptionsRef)
-
-            console.log(modConfigList)
+            initModConfigList(modoverrides, modList, setmodList, defaultConfigOptionsRef, modConfigOptionsRef)
             setLoading(false)
         }
         fetchData()
 
     }, [])
 
-    function initModConfigList(modoverrides, subscribeModList, setModList) {
+    function initModConfigList(modoverrides, subscribeModList, setModList, defaultConfigOptionsRef, modConfigOptionsRef) {
         const workshopMap = parseModoverrides(modoverrides);
         subscribeModList.push({
             mod_config: {

@@ -36,7 +36,7 @@ const ModInfo = ({mod}) => {
             </Space>
             <div>
                 <span>
-                    {mod?.mod_config?.description.substring(0, 100)}
+                    {mod?.mod_config?.description?.substring(0, 100)}
                 </span>
             </div>
         </>
