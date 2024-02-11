@@ -71,7 +71,7 @@ const OptionSelect = ({mod, defaultConfigOptionsRef, modConfigOptionsRef}) => {
                     >
                         {({index, style })=>{
                             const item = configurationOptions[index]
-                            if (item.options.length === 1 && item.options[0].data === item.default && !item.options[0].description) {
+                            if (item?.options?.length === 1 && item?.options[0]?.data === item?.default && !item?.options[0]?.description) {
                                 // 在DST中,如果label为空字符串,就直接是显示空白行,这里用||会导致label为空也显示name,为了跟DST保持一样使用了??
                                 return <div style={style}>
                                     <Divider key={generateUUID()}>
