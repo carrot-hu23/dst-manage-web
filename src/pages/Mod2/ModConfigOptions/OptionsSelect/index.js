@@ -46,7 +46,7 @@ const OptionSelect = ({mod, defaultConfigOptionsRef, modConfigOptionsRef}) => {
         console.log("new modConfigOptionsRef", modConfigOptionsRef.current)
     };
 
-    const configurationOptions = mod?.mod_config?.configuration_options !== undefined? mod?.mod_config?.configuration_options.map(item=>item):[]
+    const configurationOptions = mod?.mod_config?.configuration_options !== undefined? mod?.mod_config?.configuration_options.filter((item) => item.options !== undefined).map(item=>item):[]
     console.log("configurationOptions", configurationOptions.length)
 
 

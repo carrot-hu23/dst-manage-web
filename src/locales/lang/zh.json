@@ -211,7 +211,7 @@
 
   "Save": "保存",
   "Update All Mod Config": "更新所有模组配置",
-  "Upload Modinfo": "上次模组配置",
+  "Upload Modinfo": "上传模组配置",
   "Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.": "请先启动世界，mod会自动下载，会先读取ugc模块。如果mod配置不生效 关闭重开就解决了",
   "delete this mod": "删除模组",
 

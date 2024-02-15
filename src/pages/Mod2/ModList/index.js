@@ -132,7 +132,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
     return (
         <>
             <Spin spinning={confirmLoading} >
-                <Alert message={t('Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.')} type="success" showIcon closable />
+                <Alert message={t('Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.')} type="warning" showIcon closable />
                 <br/>
 
                 {updateModSize.length > 0 && <>

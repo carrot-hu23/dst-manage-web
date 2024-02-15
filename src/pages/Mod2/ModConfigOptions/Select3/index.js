@@ -9,7 +9,7 @@ function checkDefault(defaultValue1, defaultValue2) {
     return defaultValue1 === defaultValue2
 }
 
-function Select2({ item,defaultValue }) {
+function Select3({ item,defaultValue }) {
     // console.log("label: ", item.label, "name: ", item.name,"defaultValue: ", defaultValue)
     const [isDefault, setIsDefault] = useState(checkDefault(defaultValue, item.default))
     useEffect(() => {
@@ -28,7 +28,7 @@ function Select2({ item,defaultValue }) {
             onChange={(value) => {
                 setIsDefault(value === item.default)
             }}
-            options={item.options.map(option => ({
+            options={item?.options.map(option => ({
                 value: option.data,
                 label: option.description,
             }))}
@@ -36,4 +36,4 @@ function Select2({ item,defaultValue }) {
     </Form.Item>
 }
 
-export default Select2
+export default Select3
