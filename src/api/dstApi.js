@@ -97,7 +97,7 @@ export async function dstHomeListApi2(params) {
         }
     }
 
-    
+
     const url = `/api/dst/home/server2?${params2.toString()}`
     const response = await http.get(url)
 

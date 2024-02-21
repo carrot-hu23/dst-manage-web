@@ -32,9 +32,9 @@ const Players = ({ players }) =>  {
                                     target={'_blank'}
                                     href={`https://steamcommunity.com/profiles/${item.netid}`} key="list-loadmore-edit"
                                     style={{
-                                        background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
+                                        background: 'url(./assets/dst_button_normal.png)'
                                     }} rel="noreferrer">
-                                    <Image preview={false} width={22} src={'https://dst.liuyh.com/static/img/dstui/icon/steam_btn.png'} />
+                                    <Image preview={false} width={22} src={'./assets/dst/steam_btn.png'} />
                                 </a>]}>
 
                             <List.Item.Meta

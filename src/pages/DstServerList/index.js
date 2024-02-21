@@ -136,7 +136,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={20}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/players.png"
+                        src="./assets/dst/players.png"
                     />
 
                 </div>
@@ -179,7 +179,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={28}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/spring.png"
+                        src="./assets/dst/spring.png"
                     />
                 )}
                 {record.season === 'summer' && (
@@ -187,7 +187,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={28}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/summer.png"
+                        src="./assets/dst/summer.png"
                     />
                 )}
                 {record.season === 'autumn' && (
@@ -195,7 +195,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={28}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/autumn.png"
+                        src="./assets/dst/autumn.png"
                     />
                 )}
                 {record.season === 'winter' && (
@@ -203,7 +203,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={28}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/winter.png"
+                        src="./assets/dst/winter.png"
                     />
                 )}
 
@@ -224,7 +224,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={28}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/password.png"
+                        src="./assets/dst/password.png"
                     />
 
                     // <LockOutlined />
@@ -264,7 +264,7 @@ const DstServerList = () => {
                     <Image
                         preview={false}
                         width={28}
-                        src="https://dst.liuyh.com/static/img/dstui/icon/mods.png"
+                        src="./assets/dst/mods.png"
                     />
 
                     // <LockOutlined />
