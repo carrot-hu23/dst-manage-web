@@ -6,7 +6,7 @@ import {
 import {useTranslation} from "react-i18next";
 
 import {CaretRightOutlined} from "@ant-design/icons";
-import {useTheme} from "../../hooks/useTheme";
+import {useTheme} from "../../../hooks/useTheme";
 
 const { Title, Paragraph, Text, Link } = Typography;
 

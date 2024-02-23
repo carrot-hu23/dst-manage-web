@@ -34,9 +34,10 @@ const ModInfo = ({mod}) => {
                     <span>{mod?.mod_config?.dont_starve_compatible === false && <span>-</span>}</span>
                 </div>
             </Space>
+            <br/><br/>
             <div>
                 <span>
-                    {mod?.mod_config?.description?.substring(0, 100)}
+                    {mod?.mod_config?.description}
                 </span>
             </div>
         </>
@@ -93,7 +94,7 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                     <>
                         <div
                             style={{
-                                height: '335px',
+                                height: '46vh',
                                 overflowY: 'auto',
                                 overflowX: 'auto',
                             }}
@@ -151,7 +152,7 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                     footer={null}
                 >
                     <div className={'scrollbar'} style={{
-                        height: '386px',
+                        height: '60vh',
                         overflowY: 'auto',
                         overflowX: 'auto'
                     }}>

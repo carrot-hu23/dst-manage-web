@@ -1,5 +1,5 @@
 import {Button, Divider, Form, Space} from "antd";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import _ from "lodash";
 import { FixedSizeList as List } from 'react-window';
 
@@ -49,6 +49,22 @@ const OptionSelect = ({mod, defaultConfigOptionsRef, modConfigOptionsRef}) => {
     const configurationOptions = mod?.mod_config?.configuration_options !== undefined? mod?.mod_config?.configuration_options.filter((item) => item.options !== undefined).map(item=>item):[]
     console.log("configurationOptions", configurationOptions.length)
 
+    const [pageHeight, setPageHeight] = useState(0);
+
+    useEffect(() => {
+        const updatePageHeight = () => {
+            setPageHeight(window.innerHeight);
+        };
+
+        window.addEventListener('resize', updatePageHeight);
+        updatePageHeight();
+
+        return () => {
+            window.removeEventListener('resize', updatePageHeight);
+        };
+    }, []);
+
+    const fiftyVhHeight = pageHeight * 0.58;
 
     return (
         <>
@@ -64,7 +80,7 @@ const OptionSelect = ({mod, defaultConfigOptionsRef, modConfigOptionsRef}) => {
             >
                 {mod?.mod_config?.configuration_options !== undefined && configurationOptions.length > 30 && (
                     <List
-                        height={350}
+                        height={fiftyVhHeight}
                         itemCount={configurationOptions.length}
                         itemSize={60}
                         // width={500}

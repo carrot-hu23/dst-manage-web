@@ -8,7 +8,7 @@ import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
 import style from "./DstServerList2/index.module.css";
-import HiddenText from "../components2/HiddenText/HiddenText";
+import HiddenText from "./Home2/HiddenText/HiddenText";
 
 
 const { Text } = Typography;

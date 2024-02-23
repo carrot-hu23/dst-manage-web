@@ -19,10 +19,7 @@ import Link from "./pages/WebLink";
 
 import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
-import Forest from "./pages/Levels8/LevelSetting/LeveldataoverrideView";
 import Game from "./pages/Game";
-import TemplateConfig from "./pages/TemplateConfig";
-import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
@@ -62,10 +59,7 @@ export default function Router() {
 
         { path: 'mod/add/:modId', element: <AddMod /> },
 
-        { path: 'view', element: <Forest /> },
         { path: 'game', element: <Game /> },
-        { path: 'template/config', element: <TemplateConfig /> },
-        { path: 'addTemplate/:id', element: <AddTemplateFile /> },
       ],
     },
     {

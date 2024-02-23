@@ -2,7 +2,7 @@ import {Tabs} from "antd";
 
 import Leveldataoverride from "./Leveldataoverride";
 import Modoverrides from "./Modoverrides";
-import ServerIni from "../../../components2/ServerIni";
+import ServerIni from "../../Levels/ServerIni";
 
 export default ({levelForm, dstWorldSetting})=>{
 

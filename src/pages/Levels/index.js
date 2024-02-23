@@ -12,10 +12,9 @@ import {
     Tabs,
     Alert,
     Divider,
-    Skeleton, Empty, Typography, Tag
+    Skeleton, Empty, Typography, Tag, Radio
 } from 'antd';
 import {Box, Card, Container, Grid} from "@mui/material";
-import ConfigViewEditor from "../Levels8/LevelSetting/LeveldataoverrideView/ConfigViewEditor";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {format, parse} from "lua-json";
 import {useTranslation} from "react-i18next";
@@ -24,10 +23,10 @@ import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
 import {useTheme} from "../../hooks/useTheme";
 import {useParams} from "react-router-dom";
-import LevelTips from "./LevelTips";
+import LevelTips from "./Tips/LevelTips";
 import {getFreeUDPPortApi} from "../../api/8level";
-
-const { Title, Paragraph, Text, Link } = Typography;
+import ConfigViewEditor from "./LevelSetting/LeveldataoverrideView/ConfigViewEditor";
+import {cave, forest} from "../../utils/dst";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
@@ -61,7 +60,7 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
                     <MonacoEditor
                         ref={editorRef}
                         style={{
-                            "height": "370px",
+                            "height": "36vh",
                             "width": "100%"
                         }}
                         options={{
@@ -128,7 +127,7 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
             <MonacoEditor
                 ref={editorRef}
                 style={{
-                    "height": "426px",
+                    "height": "40vh",
                     "width": "100%"
                 }}
                 options={{
@@ -145,7 +144,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
 
     function onValuesChange(changedValues, allValues) {
         console.log(allValues)
-        if (!freeUdpPorts.includes(allValues.server_port)) {
+        if (freeUdpPorts?.length > 0 && !freeUdpPorts.includes(allValues.server_port)) {
             setTips("当前 " + allValues.server_port+" udp 端口可能已经使用了，请换一个端口")
         } else {
             setTips("")
@@ -568,22 +567,38 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
     const items = [
         {
             label: t('Leveldataoverride'),
-            children: <Leveldataoverride editorRef={editorRef2} dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
-                                         changeValue={changeValue}/>,
+            children: <div className={'scrollbar'} style={{
+                height: '50vh',
+                overflowY: 'auto',
+            }}>
+                <Leveldataoverride editorRef={editorRef2} dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
+                                   changeValue={changeValue}/>
+            </div>,
             key: '1',
             forceRender: true,
         },
         {
             label: t('Modoverrides'),
-            children: <Modoverrides editorRef={editorRef} onchange={v => setModoverridesState(v)}
+            children: <div className={'scrollbar'} style={{
+                height: '50vh',
+                overflowY: 'auto',
+            }}>
+                <Modoverrides editorRef={editorRef} onchange={v => setModoverridesState(v)}
                                     modoverridesRef={modoverridesRef} levelName={levelName} level={level}
-                                    changeValue={changeValue}/>,
+                                    changeValue={changeValue}/>
+            </div>,
             key: '2',
             forceRender: true,
         },
         {
             label: t('ServerIni'),
-            children: <ServerIni levelName={levelName} level={level} changeValue={changeValue}/>,
+            children:
+                <div className={'scrollbar'} style={{
+                    height: '50vh',
+                    overflowY: 'auto',
+                }}>
+                    <ServerIni levelName={levelName} level={level} changeValue={changeValue}/>
+                </div>,
             key: '3',
             forceRender: true,
         },
@@ -653,6 +668,11 @@ const App = () => {
                             levelListRef.current = levels
                             const items2 = levels.map(level => {
                                 const closable = level.uuid !== "Master"
+                                if (level.uuid !== "Master") {
+                                    if (level.leveldataoverride === "return {}" || level.leveldataoverride === "") {
+                                        level.leveldataoverride = forest
+                                    }
+                                }
                                 return   {
                                     label: level.levelName,
                                     children: <LevelItem
@@ -703,16 +723,16 @@ const App = () => {
         // TODO 更新
     }
 
-    const add = (levelName, uuid) => {
+    const add = (levelName, uuid, leveldataoverride, modoverrides, server_ini) => {
         const newActiveKey = `newTab${newTabIndex.current++}`;
         const newPanes = [...items];
 
         const newLevel = {
             levelName,
             uuid,
-            leveldataoverride: 'return {}',
-            modoverrides: 'return {}',
-            server_ini: {}
+            leveldataoverride: leveldataoverride,
+            modoverrides: modoverrides,
+            server_ini: server_ini
         }
 
         const newLevels = [...levelListRef.current]
@@ -724,7 +744,7 @@ const App = () => {
             children: <LevelItem dstWorldSetting={dstWorldSetting} level={{
                 leveldataoverride: newLevel.leveldataoverride,
                 modoverrides: newLevel.modoverrides,
-                server_ini: {}
+                server_ini: newLevel.server_ini
             }} levelName={levelName} changeValue={changeValue}/>,
             key: uuid,
         })
@@ -798,20 +818,29 @@ const App = () => {
         levelForm.validateFields().then(() => {
 
             const body = levelForm.getFieldsValue()
-            body.leveldataoverride = "return {}"
-            body.modoverrides = "return {}"
-            body.server_ini = {}
+            console.log("form", body)
+
             if (body.levelName === undefined || body.levelName === '') {
                 message.warning("世界名不能为空")
                 return
             }
+
+            if (body.type === "forest") {
+                body.leveldataoverride = forest
+            } else {
+                body.leveldataoverride = cave
+            }
+            body.modoverrides = getMasterModoverrides()
+            // 初始化
+            body.server_ini = getNextServerIni(body.levelName)
+
             setConfirmLoading(true)
             createLevelApi(body).then(resp => {
                 if (resp.code === 200) {
                     message.success(`创建${body.levelName}世界成功`)
                     const data = resp.data
                     console.log("data", data)
-                    add(body.levelName, data.uuid)
+                    add(body.levelName, data.uuid, data.leveldataoverride, data.modoverrides, data.server_ini)
                     setConfirmLoading(false)
                     setOpenAdd(false)
                 } else {
@@ -857,6 +886,63 @@ const App = () => {
         return Promise.resolve();
     };
 
+    const validateName3 = (_, value) => {
+        console.log("value3", value)
+        if (value  === undefined || value  === null || value === "") {
+            return Promise.reject(new Error('请选择类型'));
+        }
+        return Promise.resolve();
+    };
+
+
+    function getMasterModoverrides (){
+        const levels = levelListRef.current
+        let modoverrides = "return {}"
+        levels.forEach(level =>{
+            if (level.uuid === "Master") {
+                modoverrides = level.modoverrides
+            }
+        })
+        return modoverrides
+    }
+
+    function getNextServerIni (levelName){
+        const levels = levelListRef.current
+        let nextId = 11001
+        let nextPort = 11001
+        let master_server_port = 27019
+        let authentication_port = 8769
+
+        let maxId = 0
+        let maxPort = 0
+        let maxMaster_server_port = 0
+        let maxAuthentication_port = 0
+
+        levels.forEach(level =>{
+            if (level?.server_ini?.id > maxId) {
+                maxId = level?.server_ini?.id
+            }
+            if (level?.server_ini?.server_port > maxPort) {
+                maxPort = level?.server_ini?.server_port
+            }
+            if (level?.server_ini?.authentication_port > maxAuthentication_port) {
+                maxAuthentication_port = level?.server_ini?.authentication_port
+            }
+            if (level?.server_ini?.master_server_port > maxMaster_server_port) {
+                maxMaster_server_port = level?.server_ini?.master_server_port
+            }
+        })
+
+        return {
+            id: maxId + 1,
+            name: levelName,
+            is_master: false,
+            encode_user_path: true,
+            server_port: maxPort + 1,
+            authentication_port: maxAuthentication_port + 1,
+            master_server_port: maxMaster_server_port + 1,
+        }
+    }
 
     return (
         <Container maxWidth="xxl">
@@ -867,6 +953,10 @@ const App = () => {
                             <Empty description={'当前暂无世界，请点击 添加世界 按钮'} />
                         </>)}
                         <Tabs
+                            tabPosition={'top'}
+                            // style={{
+                            //     height: '64vh',
+                            // }}
                             hideAdd
                             type="editable-card"
                             onChange={onChange}
@@ -900,7 +990,7 @@ const App = () => {
                         setOpenAdd(false)
                     }}>
 
-                    <Alert message="不要使用特殊字符" type="warning" showIcon
+                    <Alert message="不要使用特殊字符，世界名称只是显示用的" type="warning" showIcon
                            closable/>
                     <br/>
                     <Form
@@ -933,6 +1023,21 @@ const App = () => {
                                    ]}
                         >
                             <Input placeholder="请输入文件名" />
+                        </Form.Item>
+                        <Form.Item label={t('type')}
+                                   name="type"
+                                   rules={[
+                                       {
+                                           required: true,
+                                           validator: validateName3,
+                                           message: 'Please input your type!',
+                                       },
+                                   ]}
+                        >
+                            <Radio.Group>
+                                <Radio value={'forest'}>{t('forest')}</Radio>
+                                <Radio value={'cave'}>{t('cave')}</Radio>
+                            </Radio.Group>
                         </Form.Item>
                     </Form>
 

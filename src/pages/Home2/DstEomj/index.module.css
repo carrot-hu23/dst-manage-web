@@ -1,6 +1,6 @@
 @font-face {
     font-family: "DstEmoji";
-    src: url("./Dst Emoji.woff2") format("woff2");
+    src: url("Dst Emoji.woff2") format("woff2");
 }
 .icon {
     font-family: "DstEmoji", sans-serif;

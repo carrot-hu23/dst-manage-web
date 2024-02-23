@@ -9,7 +9,7 @@ import {Image, Skeleton, Col, Row, Button, Divider, Space, message, Spin, Select
 import {dstRoles} from '../../../utils/dst';
 import {getAllOnlinePlayersApi, getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
 import style from "../../DstServerList/index.module.css";
-import HiddenText from "../../../components2/HiddenText/HiddenText";
+import HiddenText from "../../Home2/HiddenText/HiddenText";
 
 
 const Online = ({levels}) => {

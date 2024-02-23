@@ -7,7 +7,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
 import style from "../../DstServerList/index.module.css";
-import HiddenText from "../../../components2/HiddenText/HiddenText";
+import HiddenText from "../../Home2/HiddenText/HiddenText";
 
 
 export default () => {

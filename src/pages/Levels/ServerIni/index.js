@@ -20,7 +20,8 @@ const ServerIni = ({ form, isMaster }) => (
             is_master: isMaster,
         }}
         style={{
-            height: '424px'
+            height: '48vh',
+            overflowY: 'auto',
         }}
     >
         <Form.Item
