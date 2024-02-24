@@ -22,10 +22,10 @@ import {Container} from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import {createCluster, deleteCluster, getClusterList, updateCluster} from "../../../api/clusterApi";
 import style from "../../DstServerList/index.module.css";
-import HiddenText from "../../../components2/HiddenText/HiddenText";
 import {useTranslation} from "react-i18next";
 import {dstHomeDetailApi} from "../../../api/dstApi";
 import HomeDetail from "../../DstServerList/home";
+import HiddenText from "../../Home2/HiddenText/HiddenText";
 
 const ServerItem = ({server, serverList, updateServerList, removeServerList}) => {
 
@@ -134,9 +134,12 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                            closable/>
                     <br/>
                     <Form
+                        labelCol={{
+                            span: 6,
+                        }}
                         form={form}
-                        layout="vertical"
-                        labelAlign={'left'}
+                        // layout="vertical"
+                        // labelAlign={'left'}
                     >
                         <Form.Item label="房间名称"
                                    name="name"
@@ -293,17 +296,15 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
 
             <Spin spinning={spining}>
                 <Card
+                    bordered={false}
                     title={(<>
                         <Button type={"link"} onClick={() => to(server.clusterName, server.name)}>{server.name}</Button>
                     </>)}
                     hoverable
                     actions={[
-                        <SettingOutlined
-                            key="setting"
-                            onClick={() => {
-                                viewHomeDetail(server)
-                            }}
-                        />,
+                        <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
+                            viewHomeDetail(server)
+                        }}>信息</Button>,
                         <Popconfirm
                             title="是否删除房间"
                             description="请自行做好备份"
@@ -313,11 +314,11 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                                 deleteServer(server)
                             }}
                         >
-                            <DeleteOutlined key="delete"/>
+                           <Button icon={<DeleteOutlined key="delete"/>} type={'primary'} danger size={'small'}>删除</Button>
                         </Popconfirm>,
-                        <EditOutlined key="edit" onClick={() => {
+                        <Button icon={<EditOutlined key="edit"/>} type={'primary'} size={'small'} onClick={() => {
                             setOpen(true)
-                        }}/>,
+                        }}>配置</Button>,
 
                     ]}
                     extra={[
@@ -374,7 +375,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                 </Card>
             </Spin>
 
-            <Modal title="更新房间配置" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
+            <Modal width={800} title="更新房间配置" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
                    footer={null}>
                 <UpdateServer server={server} serverList={serverList} updateServerList={updateServerList}/>
             </Modal>
@@ -489,8 +490,11 @@ export default () => {
                            closable/>
                     <br/>
                     <Form
-                        layout="vertical"
-                        labelAlign={'left'}
+                        // layout="vertical"
+                        // labelAlign={'left'}
+                        labelCol={{
+                            span: 6,
+                        }}
                         onFinish={onFinish}
                     >
                         <Form.Item label="房间名称"
@@ -649,12 +653,12 @@ export default () => {
                                     justifyContent: 'center',
                                     alignItems: 'center'
                                 }}>
-                                <PlusOutlined/>
+                                <Button icon={<PlusOutlined/>}  type={'primary'}>添加房间</Button>
                             </div>
                         </Col>
                     </Row>
 
-                    <Modal title="添加房间" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
+                    <Modal width={800} title="添加房间" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
                            footer={null}>
                         <AddServer serverList={serverList} reload={reload}/>
                     </Modal>

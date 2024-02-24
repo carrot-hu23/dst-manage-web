@@ -130,7 +130,7 @@ export default ({levels}) => {
     return <>
         <Spin spinning={spinLoading} description={"正在获取日志"}>
             <Card>
-                <Box sx={{p: 3}} dir="ltr">
+                <Box sx={{p: 2}} dir="ltr">
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="游戏日志" key="1">
                             <Space.Compact style={{width: '100%'}}>

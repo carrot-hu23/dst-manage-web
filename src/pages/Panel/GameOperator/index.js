@@ -1,13 +1,14 @@
 import React from "react";
 
-import {Box, Card, Grid} from "@mui/material";
+import {Box, Card, CardHeader, Grid} from "@mui/material";
 
 import GameArchive from "../GameArchive";
 
 import Op from "../Op";
 import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
-import ServerLog from "../ServerLog";
+import QuckButton from "../QuckButton";
+import CardTitle from "../CardTitle";
 
 
 export default ({levels}) => {
@@ -19,18 +20,14 @@ export default ({levels}) => {
                 <Grid item xs={12} md={5} lg={5}>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <Op/>
-                        </Box>
-                    </Card>
-                    <br/>
-                    <Card>
-                        <Box sx={{p: 3}} dir="ltr">
+                            <CardTitle title={'房间信息'} />
                             <GameArchive/>
                         </Box>
                     </Card>
                     <br/>
                     <Card>
-                        <Box sx={{p: 1}} dir="ltr">
+                        <Box sx={{p: 2}} dir="ltr">
+                            <CardTitle title={'世界列表'} />
                             <GameLevels levels={levels}/>
                         </Box>
                     </Card>
@@ -38,10 +35,41 @@ export default ({levels}) => {
 
                 <Grid item xs={12} md={7} lg={7}>
 
+                    {/*
                     <ServerLog levels={levels}/>
+                    <br/>
+                    */}
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={3} lg={3}>
+                            <Card>
+                                <Box  sx={{p: 2 }} dir="ltr">
+                                    <div style={{
+                                        height: '160px'
+                                    }}>
+                                        <CardTitle title={'快捷操作'} />
+                                        <Op/>
+                                    </div>
+                                </Box>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} md={9} lg={9}>
+                            <Card>
+                                <Box sx={{p: 2}} dir="ltr">
+                                    <div style={{
+                                        height: '160px'
+                                    }}>
+                                        <CardTitle title={'回档操作'} />
+                                        <QuckButton />
+                                    </div>
+
+                                </Box>
+                            </Card>
+                        </Grid>
+                    </Grid>
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
+                            <CardTitle title={'在线玩家'} />
                             <OnlinePlayers levels={levels}/>
                         </Box>
                     </Card>

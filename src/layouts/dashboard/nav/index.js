@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
-import {Space} from "antd";
+import { Box, Drawer } from '@mui/material';
+import {Button } from "antd";
 import {LeftOutlined} from '@ant-design/icons';
 // mock
 // import account from '../../../_mock/account';
@@ -74,13 +74,13 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Box sx={{px: 2.5, py: 3, display: 'inline-flex'}}>
-
-          <Button icon={<LeftOutlined />} variant="outlined" onClick={() => {navigate("/cluster")}}>
+          <Button type={'primary'}  icon={<LeftOutlined />} onClick={() => {navigate("/cluster")}}>
             返回
           </Button>
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+      {/*
+            <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar src={account.photoURL} alt="photoURL" />
@@ -97,6 +97,7 @@ export default function Nav({ openNav, onCloseNav }) {
           </StyledAccount>
         </Link>
       </Box>
+      */}
 
       <NavSection data={navConfig} />
 

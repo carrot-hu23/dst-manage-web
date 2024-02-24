@@ -115,7 +115,7 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
     return (
         <>
             <div className={'scrollbar'} style={{
-                height: '414px',
+                height: "40vh",
                 overflowY: 'auto',
             }}>
                 {levelType === 'forest' && (<>

@@ -7,12 +7,11 @@ import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
 import style from "../../DstServerList/index.module.css";
-import HiddenText from "../../../components2/HiddenText/HiddenText";
+import HiddenText from "../../Home2/HiddenText/HiddenText";
 
 
 export default () => {
-    const navigate = useNavigate();
-
+    useNavigate();
     const [archive, setArchive] = useState({
         players: [],
         maxPlayers: 0
@@ -94,9 +93,11 @@ export default () => {
                         {archive.version} / {archive.lastVersion}
                     </span>
                 </Form.Item>
+                {/*
                 <Alert style={{
                     marginBottom: '4px'
                 }} message={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`} type="info" showIcon closable />
+                */}
                 {archive.version !== archive.lastVersion &&
                     <Alert
                         action={[

@@ -2,11 +2,11 @@ import React, {useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 
-import {Button, Modal, Tag, Form, Input, message, Spin, Popconfirm, Skeleton} from "antd";
+import {Button, Modal, Tag, Form, Input, message, Spin, Skeleton} from "antd";
 import {ProTable} from "@ant-design/pro-components";
 import {Container, Box} from '@mui/material';
 
-import {createCluster, deleteCluster, queryClusterList, updateCluster} from "../../api/clusterApi";
+import {createCluster, queryClusterList, updateCluster} from "../../api/clusterApi";
 import AccountPopover from "../../layouts/dashboard/header/AccountPopover";
 import {dstHomeDetailApi} from "../../api/dstApi";
 import HomeDetail from "../DstServerList/home";

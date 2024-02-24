@@ -26,7 +26,7 @@ const navConfig = [
   },
   {
     title: '模组配置',
-    path: '/dashboard/mod',
+    path: '/dashboard/mod2',
     icon: icon('package'),
   },
   {

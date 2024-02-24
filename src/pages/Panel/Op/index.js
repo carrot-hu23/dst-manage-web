@@ -61,7 +61,7 @@ export default ()=>{
     }
     
     return<>
-        <Space size={24} wrap>
+        <div>
             <Popconfirm
                 title="是否更新游戏"
                 description={(
@@ -70,22 +70,25 @@ export default ()=>{
                 placement="topLeft"
                 onConfirm={()=>updateGameOnclick()}
             >
-            <Button loading={updateGameStatus} type="primary">
-                {t('updateGame')}
-            </Button>
+                <Button block loading={updateGameStatus} type="primary">
+                    {t('updateGame')}
+                </Button>
             </Popconfirm>
-            <Button style={{
-                background: '#13CE66',
-                color: '#fff'
-            }}
-                    onClick={() => {
-                        createBackupOnClick()
-                    }}
-                    loading={createBackupStatus}
-            >
-                {t('createBackup')}
-            </Button>
-
+        </div>
+       <div style={{
+           marginTop: '12px',
+           marginBottom: '12px'
+       }}>
+           <Button block
+                   onClick={() => {
+                       createBackupOnClick()
+                   }}
+                   loading={createBackupStatus}
+           >
+               {t('createBackup')}
+           </Button>
+       </div>
+        <div>
             <Popconfirm
                 title="是否更新房间模组"
                 description={(
@@ -99,8 +102,8 @@ export default ()=>{
                 onConfirm={()=>deleteStepupWorkshop()}
                 onCancel={()=>setOpen(false)}
             >
-                <Button type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
+                <Button block type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
             </Popconfirm>
-        </Space>
+        </div>
     </>
 }

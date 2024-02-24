@@ -53,7 +53,7 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
             children: <MonacoEditor
                 ref={editorRef}
                 style={{
-                    "height": "370px",
+                    "height": "40vh",
                     "width": "100%"
                 }}
                 options={{
@@ -97,7 +97,7 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
             <MonacoEditor
                 ref={editorRef}
                 style={{
-                    "height": "432px",
+                    "height": "40vh",
                     "width": "100%"
                 }}
                 options={{
@@ -492,22 +492,35 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
     const items = [
         {
             label: '世界配置',
-            children: <Leveldataoverride editorRef={editorRef2} dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
-                                         changeValue={changeValue}/>,
+            children: <div style={{
+                "height": "50vh",
+                "width": "100%"
+            }}>
+                <Leveldataoverride editorRef={editorRef2} dstWorldSetting={dstWorldSetting} levelName={levelName} level={level}
+                                   changeValue={changeValue}/>
+            </div>,
             key: '1',
             forceRender: true,
         },
         {
             label: '模组配置',
-            children: <Modoverrides editorRef={editorRef} onchange={v => setModoverridesState(v)}
+            children: <div style={{
+                "height": "50vh",
+                "width": "100%"
+            }}><Modoverrides editorRef={editorRef} onchange={v => setModoverridesState(v)}
                                     modoverridesRef={modoverridesRef} levelName={levelName} level={level}
-                                    changeValue={changeValue}/>,
+                                    changeValue={changeValue}/>
+            </div>,
             key: '2',
             forceRender: true,
         },
         {
             label: '端口配置',
-            children: <ServerIni levelName={levelName} level={level} changeValue={changeValue}/>,
+            children: <div style={{
+                "height": "50vh",
+                "width": "100%"
+            }}><ServerIni levelName={levelName} level={level} changeValue={changeValue}/>
+            </div>,
             key: '3',
             forceRender: true,
         },
@@ -787,7 +800,7 @@ const App = () => {
                             items={items}
                         />
                         <Divider/>
-                        <Space size={8} wrap>
+                        <Space size={24} wrap>
                             <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)

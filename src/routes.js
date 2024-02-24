@@ -16,19 +16,15 @@ import Panel from './pages/Panel/index';
 import Begin from './pages/begin/index';
 import UserProfile from "./pages/User/UserProfile";
 import Link from "./pages/WebLink";
-import Modinfo from "./pages/Mod/Modinfo";
 import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
-import TemplateConfig from "./pages/TemplateConfig";
-import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
-import ModSetting from "./pages/ModSetting";
-import AddMod from "./pages/Mod/AddMod";
 import DstServerList from "./pages/DstServerList";
 import Tool from "./pages/Tool";
 import Server from "./pages/ClusterList/Server";
 import OS from "./pages/ClusterList/OS";
+import Mod2 from "./pages/Mod2";
 
 export default function Router() {
   const routes = useRoutes([
@@ -40,7 +36,7 @@ export default function Router() {
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
-        { path: 'mod', element: <ModSetting /> },
+        { path: 'mod2', element: <Mod2 /> },
         { path: 'panel', element: <Panel /> },
 
         { path: 'tool', element: <Tool /> },
@@ -55,11 +51,6 @@ export default function Router() {
         { path: 'dst/server', element: <DstServerList /> },
         { path: 'user/Profile', element: <UserProfile /> },
         { path: 'link', element: <Link /> },
-        { path: 'modinfo/:modId', element: <Modinfo /> },
-        { path: 'mod/add/:modId', element: <AddMod /> },
-          
-        { path: 'template/config', element: <TemplateConfig /> },
-        { path: 'addTemplate/:id', element: <AddTemplateFile /> },
       ],
     },
     {

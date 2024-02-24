@@ -65,12 +65,12 @@ export default ({levels}) => {
                 </div>
             ),
         },
-        {
-            title: '世界类型',
-            dataIndex: 'location',
-            key: 'location',
-            hideInSearch: true,
-        },
+        // {
+        //     title: '世界类型',
+        //     dataIndex: 'location',
+        //     key: 'location',
+        //     hideInSearch: true,
+        // },
         {
             title: '内存',
             dataIndex: 'mem',
@@ -156,7 +156,7 @@ export default ({levels}) => {
                     cancelText="No"
                     >
                     <Button
-                        size={'middle'}
+                        size={'small'}
                         type="primary"
                     >
                         一键启动
@@ -183,7 +183,7 @@ export default ({levels}) => {
                     cancelText="No"
                 >
                     <Button
-                        size={'middle'}
+                        size={'small'}
                     >
                         一键关闭
                     </Button>
@@ -211,7 +211,7 @@ export default ({levels}) => {
                     <Button
                         danger
                         type={"primary"}
-                        size={'middle'}
+                        size={'small'}
                     >
                         一键清理
                     </Button>

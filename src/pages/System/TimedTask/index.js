@@ -182,10 +182,10 @@ export default () => {
     ]
 
     const AddJobTaskModal = ({isModalOpen, setIsModalOpen}) => {
-
+        const {cluster} = useParams()
         const [levels, setLevels] = useState([])
         useEffect(()=>{
-            getLevelListApi()
+            getLevelListApi(cluster)
                 .then(resp => {
                     if (resp.code === 200) {
                         const levels = resp.data
