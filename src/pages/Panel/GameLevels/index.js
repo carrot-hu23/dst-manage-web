@@ -222,6 +222,9 @@ export default ({levels}) => {
                     scroll={{
                         x: 300,
                     }}
+                    pagination={{
+                        position: ['none']
+                    }}
                     columns={columns}
                     dataSource={levels}
                     headerTitle="世界列表"

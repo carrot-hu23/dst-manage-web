@@ -22,6 +22,7 @@ import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
 import {useTheme} from "../../hooks/useTheme";
 import {useParams} from "react-router-dom";
+import {cave, forest} from "../../utils/dst";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
@@ -518,7 +519,8 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
             label: '端口配置',
             children: <div style={{
                 "height": "50vh",
-                "width": "100%"
+                "width": "100%",
+                overflowY: 'auto',
             }}><ServerIni levelName={levelName} level={level} changeValue={changeValue}/>
             </div>,
             key: '3',
@@ -639,16 +641,16 @@ const App = () => {
         // TODO 更新
     }
 
-    const add = (levelName, uuid) => {
+    const add = (levelName, uuid, leveldataoverride, modoverrides, server_ini) => {
         const newActiveKey = `newTab${newTabIndex.current++}`;
         const newPanes = [...items];
 
         const newLevel = {
             levelName,
             uuid,
-            leveldataoverride: 'return {}',
-            modoverrides: 'return {}',
-            server_ini: {}
+            leveldataoverride: leveldataoverride,
+            modoverrides: modoverrides,
+            server_ini: server_ini
         }
 
         const newLevels = [...levelListRef.current]
@@ -660,7 +662,7 @@ const App = () => {
             children: <LevelItem dstWorldSetting={dstWorldSetting} level={{
                 leveldataoverride: newLevel.leveldataoverride,
                 modoverrides: newLevel.modoverrides,
-                server_ini: {}
+                server_ini: newLevel.server_ini
             }} levelName={levelName} changeValue={changeValue}/>,
             key: uuid,
         })
@@ -730,27 +732,52 @@ const App = () => {
     const [levelForm] = Form.useForm()
 
     function onCreateLevel() {
-        setConfirmLoading(true)
-        const body = levelForm.getFieldsValue()
-        body.leveldataoverride = "return {}"
-        body.modoverrides = "return {}"
-        body.server_ini = {}
+        levelForm.validateFields().then(() => {
 
-        createLevelApi(cluster, body).then(resp => {
-            if (resp.code === 200) {
-                message.success(`创建${body.levelName}世界成功`)
-                const data = resp.data
-                console.log("data", data)
-                add(body.levelName, data.uuid)
-                setConfirmLoading(false)
-                setOpenAdd(false)
-            } else {
-                message.error(`创建${body.levelName}世界失败`)
+            const body = levelForm.getFieldsValue()
+            console.log("form", body)
+
+            if (body.levelName === undefined || body.levelName === '') {
+                message.warning("世界名不能为空")
+                return
             }
-        })
+            if (body.uuid === undefined || body.uuid === '') {
+                message.warning("文件名称不能为空")
+                return
+            }
+
+            if (body.type === "forest") {
+                body.leveldataoverride = forest
+            } else {
+                body.leveldataoverride = cave
+            }
+            body.modoverrides = getMasterModoverrides()
+            // 初始化
+            body.server_ini = getNextServerIni(body.levelName)
+
+            setConfirmLoading(true)
+            createLevelApi(cluster,body).then(resp => {
+                if (resp.code === 200) {
+                    message.success(`创建${body.levelName}世界成功`)
+                    const data = resp.data
+                    console.log("data", data)
+                    add(body.levelName, data.uuid, data.leveldataoverride, data.modoverrides, data.server_ini)
+                    setConfirmLoading(false)
+                    setOpenAdd(false)
+                } else {
+                    message.error(`创建${body.levelName}世界失败`)
+                }
+            })
+        }).catch(err => {
+            // 验证不通过时进入
+            message.error(err.errorFields[0].errors[0])
+        });
     }
 
     const validateName1 = (_, value) => {
+        if (value  === undefined || value  === null || value === "") {
+            return Promise.reject(new Error('请输入世界名'));
+        }
         const stringList = levelListRef.current.map(level=>level.levelName)
         // 判断是否重复字符串
         if (value && stringList.includes(value)) {
@@ -760,7 +787,9 @@ const App = () => {
     };
 
     const validateName2 = (_, value) => {
-
+        if (value  === undefined || value  === null || value === "") {
+            return Promise.reject(new Error('请输入文件名'));
+        }
         const stringList = levelListRef.current.map(level=>level.uuid)
         // 判断是否重复字符串
         if (value && stringList.includes(value)) {
@@ -781,6 +810,63 @@ const App = () => {
 
         return Promise.resolve();
     };
+
+    const validateName3 = (_, value) => {
+        console.log("value3", value)
+        if (value  === undefined || value  === null || value === "") {
+            return Promise.reject(new Error('请选择类型'));
+        }
+        return Promise.resolve();
+    };
+
+    function getMasterModoverrides (){
+        const levels = levelListRef.current
+        let modoverrides = "return {}"
+        levels.forEach(level =>{
+            if (level.uuid === "Master") {
+                modoverrides = level.modoverrides
+            }
+        })
+        return modoverrides
+    }
+
+    function getNextServerIni (levelName){
+        const levels = levelListRef.current
+        let nextId = 11001
+        let nextPort = 11001
+        let master_server_port = 27019
+        let authentication_port = 8769
+
+        let maxId = 0
+        let maxPort = 0
+        let maxMaster_server_port = 0
+        let maxAuthentication_port = 0
+
+        levels.forEach(level =>{
+            if (level?.server_ini?.id > maxId) {
+                maxId = level?.server_ini?.id
+            }
+            if (level?.server_ini?.server_port > maxPort) {
+                maxPort = level?.server_ini?.server_port
+            }
+            if (level?.server_ini?.authentication_port > maxAuthentication_port) {
+                maxAuthentication_port = level?.server_ini?.authentication_port
+            }
+            if (level?.server_ini?.master_server_port > maxMaster_server_port) {
+                maxMaster_server_port = level?.server_ini?.master_server_port
+            }
+        })
+
+        return {
+            id: maxId + 1,
+            name: levelName,
+            is_master: false,
+            encode_user_path: true,
+            server_port: maxPort + 1,
+            authentication_port: maxAuthentication_port + 1,
+            master_server_port: maxMaster_server_port + 1,
+        }
+    }
 
 
     return (
@@ -817,6 +903,7 @@ const App = () => {
                     </Skeleton>
                 </Box>
                 <Modal
+                    width={800}
                     title="添加世界"
                     open={openAdd}
                     onOk={() => onCreateLevel()}
@@ -830,8 +917,11 @@ const App = () => {
                     <br/>
                     <Form
                         form={levelForm}
-                        layout="vertical"
-                        labelAlign={'left'}
+                        // layout="vertical"
+                        // labelAlign={'left'}
+                        labelCol={{
+                            span: 4,
+                        }}
                     >
                         <Form.Item label="世界名"
                                    name="levelName"
@@ -852,12 +942,27 @@ const App = () => {
                                    name="uuid"
                                    rules={[
                                        {
-                                           required: false,
+                                           required: true,
                                            validator: validateName2
                                        },
                                    ]}
                         >
                             <Input placeholder="请输入文件名" />
+                        </Form.Item>
+                        <Form.Item label={'类型'}
+                                   name="type"
+                                   rules={[
+                                       {
+                                           required: true,
+                                           validator: validateName3,
+                                           message: 'Please input your type!',
+                                       },
+                                   ]}
+                        >
+                            <Radio.Group>
+                                <Radio value={'forest'}>{'森林'}</Radio>
+                                <Radio value={'cave'}>{'洞穴'}</Radio>
+                            </Radio.Group>
                         </Form.Item>
                     </Form>
 

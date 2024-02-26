@@ -70,7 +70,7 @@ export default ()=>{
                 placement="topLeft"
                 onConfirm={()=>updateGameOnclick()}
             >
-                <Button block loading={updateGameStatus} type="primary">
+                <Button  loading={updateGameStatus} type="primary">
                     {t('updateGame')}
                 </Button>
             </Popconfirm>
@@ -79,7 +79,7 @@ export default ()=>{
            marginTop: '12px',
            marginBottom: '12px'
        }}>
-           <Button block
+           <Button
                    onClick={() => {
                        createBackupOnClick()
                    }}
@@ -102,7 +102,7 @@ export default ()=>{
                 onConfirm={()=>deleteStepupWorkshop()}
                 onCancel={()=>setOpen(false)}
             >
-                <Button block type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
+                <Button  type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
             </Popconfirm>
         </div>
     </>

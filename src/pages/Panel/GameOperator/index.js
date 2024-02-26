@@ -39,33 +39,12 @@ export default ({levels}) => {
                     <ServerLog levels={levels}/>
                     <br/>
                     */}
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={3} lg={3}>
-                            <Card>
-                                <Box  sx={{p: 2 }} dir="ltr">
-                                    <div style={{
-                                        height: '160px'
-                                    }}>
-                                        <CardTitle title={'快捷操作'} />
-                                        <Op/>
-                                    </div>
-                                </Box>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} md={9} lg={9}>
-                            <Card>
-                                <Box sx={{p: 2}} dir="ltr">
-                                    <div style={{
-                                        height: '160px'
-                                    }}>
-                                        <CardTitle title={'回档操作'} />
-                                        <QuckButton />
-                                    </div>
-
-                                </Box>
-                            </Card>
-                        </Grid>
-                    </Grid>
+                    <Card>
+                        <Box  sx={{p: 2 }} dir="ltr">
+                            <CardTitle title={'操作按钮'} />
+                            <QuckButton />
+                        </Box>
+                    </Card>
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">

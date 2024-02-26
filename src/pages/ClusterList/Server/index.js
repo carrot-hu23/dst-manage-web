@@ -15,7 +15,7 @@ import {
     message,
     Spin,
     Space,
-    Tooltip, Skeleton, Popconfirm
+    Tooltip, Skeleton, Popconfirm, Progress, Badge
 } from 'antd';
 import {EditOutlined, PlusOutlined, QuestionCircleOutlined, SettingOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Container} from '@mui/material';
@@ -297,14 +297,14 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
             <Spin spinning={spining}>
                 <Card
                     bordered={false}
-                    title={(<>
-                        <Button type={"link"} onClick={() => to(server.clusterName, server.name)}>{server.name}</Button>
-                    </>)}
+                    title={`${server.name}`}
                     hoverable
                     actions={[
-                        <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
-                            viewHomeDetail(server)
-                        }}>信息</Button>,
+                        <div>
+                            {server.status && <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
+                                viewHomeDetail(server)
+                            }}>信息</Button> }
+                        </div>,
                         <Popconfirm
                             title="是否删除房间"
                             description="请自行做好备份"
@@ -322,10 +322,15 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
 
                     ]}
                     extra={[
-                        <div>
-                            {server.status && <Tag color="green">启动</Tag>}
-                            {!server.status && <Tag>关闭</Tag>}
-                        </div>
+                        <Space size={8} wrap>
+                            <div>
+                                {server.status &&  <Badge status="processing" />}
+                                {!server.status && <Badge status="default" />}
+                            </div>
+                            <div>
+                                <Button type={'primary'} size={'small'} onClick={() => to(server.clusterName, server.name)}>进入</Button>
+                            </div>
+                        </Space>
                     ]}
                 >
                     <Form className={'dst'}>
@@ -460,7 +465,7 @@ export default () => {
             }
 
             // 判断是否以英文开头且不含有特殊字符
-            const regex = /^[a-zA-Z][a-zA-Z0-9]*$/;
+            const regex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
             if (value && !regex.test(value)) {
                 return Promise.reject(new Error('名称以英文开头且不含有特殊字符'));
             }
@@ -508,9 +513,11 @@ export default () => {
                         >
                             <Input/>
                         </Form.Item>
+                        {/*
                         <Alert
                             message="如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
                             type="warning" showIcon closable/>
+                        */}
                         <Form.Item label="存档名称"
                                    tooltip={"如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串"}
                                    name="clusterName"
@@ -525,6 +532,7 @@ export default () => {
                         </Form.Item>
                         <Form.Item label="steamcmd 路径"
                                    name="steamcmd"
+                                   tooltip={"docker 环境 路径填写 /app/steamcmd"}
                                    rules={[
                                        {
                                            required: true,
@@ -535,6 +543,7 @@ export default () => {
                             <Input/>
                         </Form.Item>
                         <Form.Item label="饥荒路径"
+                                   tooltip={"docker 环境 路径请填 /app/dst-dedicated-server"}
                                    name="force_install_dir"
                                    rules={[
                                        {
@@ -631,14 +640,17 @@ export default () => {
         <>
             <Container maxWidth="xxl">
                 <Skeleton loading={loading} active>
+                    <div style={{marginBottom: '16px'}}>
+                        <Button onClick={() => setOpen(true)} icon={<PlusOutlined/>}  type={'primary'}>添加房间</Button>
+                    </div>
                     <Row gutter={[16, 16]}>
                         {serverList.map((server, index) => (
-                            <Col xs={24} sm={8} md={6} lg={6} xl={6}>
+                            <Col xs={24} sm={8} md={8} lg={6} xl={6}>
                                 <ServerItem key={index} server={server} serverList={serverList}
                                             removeServerList={removeServerList} updateServerList={updateServerList}/>
                             </Col>
                         ))}
-
+                        {/*
                         <Col xs={24} sm={8} md={6} lg={6} xl={6}>
                             <div
                                 onClick={() => setOpen(true)}
@@ -656,9 +668,12 @@ export default () => {
                                 <Button icon={<PlusOutlined/>}  type={'primary'}>添加房间</Button>
                             </div>
                         </Col>
+                        */}
                     </Row>
 
-                    <Modal width={800} title="添加房间" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
+                    <Modal style={{
+                        top: '8vh'
+                    }} width={800} title="添加房间" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
                            footer={null}>
                         <AddServer serverList={serverList} reload={reload}/>
                     </Modal>
