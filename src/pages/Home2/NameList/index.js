@@ -5,6 +5,7 @@ import {Button, Input, Form, Skeleton, message} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 
 import './index.css';
+import TengxuCloudAd2 from "../../Ad/TengxunCloudAd2";
 
 const formItemLayout = {
     labelCol: {
@@ -188,6 +189,7 @@ export default ({title, tips, getApi, saveApi}) => {
                         </span>
                     ))}
                 </span>
+                            <TengxuCloudAd2 />
                         </Grid>
                     </Grid>
                 </Skeleton>
