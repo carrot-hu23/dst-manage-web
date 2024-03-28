@@ -60,7 +60,7 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
                     <MonacoEditor
                         ref={editorRef}
                         style={{
-                            "height": "36vh",
+                            "height": "40vh",
                             "width": "100%"
                         }}
                         options={{
@@ -127,7 +127,7 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
             <MonacoEditor
                 ref={editorRef}
                 style={{
-                    "height": "40vh",
+                    "height": "46vh",
                     "width": "100%"
                 }}
                 options={{

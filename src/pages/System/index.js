@@ -41,11 +41,6 @@ const System = () => {
             children: <AutoModUpdate />,
         },
         {
-            key: '6',
-            label: "环境依赖",
-            children: <InstallSteamCmd/>,
-        },
-        {
             key: '7',
             label: "外部链接",
             children: <WebLinkSetting />,
