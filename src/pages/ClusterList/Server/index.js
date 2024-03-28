@@ -324,7 +324,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                     extra={[
                         <Space size={8} wrap>
                             <div>
-                                {server.status &&  <Badge status="processing" />}
+                                {server.status &&  <Badge status="success" />}
                                 {!server.status && <Badge status="default" />}
                             </div>
                             <div>
