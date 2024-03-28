@@ -186,7 +186,7 @@ export default ({levels}) => {
                     </Space>
 
                     <br/><br/>
-                    <TextArea onChange={onchange} rows={3}/>
+                    <TextArea onChange={onchange} rows={1}/>
                     <Button style={{
                         marginTop: '8px'
                     }} type="primary" onClick={() => sendInstruct(command)}>

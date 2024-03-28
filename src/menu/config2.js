@@ -9,14 +9,14 @@ const navConfig = [
     icon: icon('trending-up'),
   },
   {
-    title: '系统信息',
-    path: '/os/info',
-    icon: icon('hard-drive'),
-  },
-  {
     title: '大厅列表',
     path: '/dst/server',
     icon: icon('server'),
+  },
+  {
+    title: '系统信息',
+    path: '/os/info',
+    icon: icon('hard-drive'),
   },
 ];
 

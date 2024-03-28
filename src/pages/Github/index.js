@@ -28,8 +28,6 @@ export default () => {
                     <h1>帮助文档</h1>
                     <strong>禁止商用，商用请联系本人授权！！！</strong>
                     <br/>
-                    {config.version}
-                    <br/>
                     <div>
                         开源协议:
                         <a
