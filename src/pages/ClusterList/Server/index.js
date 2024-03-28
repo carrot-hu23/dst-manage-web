@@ -152,9 +152,11 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                         >
                             <Input/>
                         </Form.Item>
+                        {/*
                         <Alert
                             message="如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
                             type="warning" showIcon closable/>
+                        */}
                         {/*
                         <Form.Item label="存档名称"
                                    tooltip={"如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串"}
@@ -259,9 +261,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item
-                            wrapperCol={{
-                                span: 24,
-                            }}
+                            label={"操作"}
                         >
                             <Button type="primary" onClick={() => onFinish()}>
                                 保存
@@ -300,11 +300,11 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                     title={`${server.name}`}
                     hoverable
                     actions={[
-                        <div>
-                            {server.status && <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
-                                viewHomeDetail(server)
-                            }}>信息</Button> }
-                        </div>,
+                        // <div>
+                        //     {server.status && <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
+                        //         viewHomeDetail(server)
+                        //     }}>信息</Button> }
+                        // </div>,
                         <Popconfirm
                             title="是否删除房间"
                             description="请自行做好备份"
@@ -380,7 +380,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                 </Card>
             </Spin>
 
-            <Modal width={800} title="更新房间配置" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
+            <Modal width={860} title="更新房间配置" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
                    footer={null}>
                 <UpdateServer server={server} serverList={serverList} updateServerList={updateServerList}/>
             </Modal>
@@ -622,9 +622,7 @@ export default () => {
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item
-                            wrapperCol={{
-                                span: 24,
-                            }}
+                            label={"操作"}
                         >
                             <Button type="primary" htmlType="submit">
                                 保存

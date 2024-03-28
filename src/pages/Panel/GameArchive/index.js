@@ -1,13 +1,14 @@
-import {Alert, Form, Space, Tooltip} from 'antd';
+import {Alert, Button, Form, message, Popconfirm, Space, Tooltip} from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React, {useEffect, useState} from 'react';
 
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
-import {archiveApi} from '../../../api/gameApi';
+import {archiveApi, updateGameApi} from '../../../api/gameApi';
 
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
+import {createBackupApi} from "../../../api/backupApi";
 
 
 export default () => {
@@ -50,6 +51,42 @@ export default () => {
             }).catch(error => console.log(error))
 
     }, [])
+
+    const updateGameOnclick = () => {
+        message.success('正在更新游戏')
+        setUpdateStatus(true)
+        updateGameApi(cluster)
+            .then(response => {
+                if (response.code === 200) {
+                    message.success('饥荒更新完成')
+                } else {
+                    message.error(`${response.msg}`)
+                    message.warning("请检查steamcmd路径是否设置正确")
+                }
+
+                setUpdateStatus(false)
+            })
+            .catch(error => {
+                message.error(`饥荒更新失败${error}`)
+                setUpdateStatus(false)
+            })
+    }
+
+    const createBackupOnClick = () => {
+
+        message.success('正在创建游戏备份')
+        createBackupApi(cluster)
+            .then(response => {
+                message.success('创建游戏备份成功')
+                setCreateBackupStatus(false)
+            })
+            .catch(error => {
+                message.error(`创建游戏备份失败${error}`)
+                setCreateBackupStatus(false)
+            })
+    }
+    const [updateGameStatus, setUpdateStatus] = useState(false)
+    const [createBackupStatus, setCreateBackupStatus] = useState(false)
 
     return (
         <>
@@ -112,7 +149,31 @@ export default () => {
                             </>
                         ]}
                         message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
+                <Form.Item label={"操作按钮"}>
+                    <Space size={16}>
+                        <Popconfirm
+                            title="是否更新游戏"
+                            description={(
+                                <span>更新游戏，将停止世界，请自行启动</span>
+                            )}
+                            placement="topLeft"
+                            onConfirm={()=>updateGameOnclick()}
+                        >
+                            <Button  loading={updateGameStatus} type="primary">
+                                {t('updateGame')}
+                            </Button>
+                        </Popconfirm>
 
+                        <Button
+                            onClick={() => {
+                                createBackupOnClick()
+                            }}
+                            loading={createBackupStatus}
+                        >
+                            {t('createBackup')}
+                        </Button>
+                    </Space>
+                </Form.Item>
             </Form>
         </>
     )

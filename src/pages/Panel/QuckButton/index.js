@@ -30,41 +30,6 @@ export default ()=>{
             })
     }
 
-    const updateGameOnclick = () => {
-        message.success('正在更新游戏')
-        setUpdateStatus(true)
-        updateGameApi(cluster)
-            .then(response => {
-                if (response.code === 200) {
-                    message.success('饥荒更新完成')
-                } else {
-                    message.error(`${response.msg}`)
-                    message.warning("请检查steamcmd路径是否设置正确")
-                }
-
-                setUpdateStatus(false)
-            })
-            .catch(error => {
-                message.error(`饥荒更新失败${error}`)
-                setUpdateStatus(false)
-            })
-    }
-
-    const createBackupOnClick = () => {
-
-        message.success('正在创建游戏备份')
-        createBackupApi(cluster)
-            .then(response => {
-                message.success('创建游戏备份成功')
-                setCreateBackupStatus(false)
-            })
-            .catch(error => {
-                message.error(`创建游戏备份失败${error}`)
-                setCreateBackupStatus(false)
-            })
-    }
-    const [updateGameStatus, setUpdateStatus] = useState(false)
-    const [createBackupStatus, setCreateBackupStatus] = useState(false)
 
     return(
         <>

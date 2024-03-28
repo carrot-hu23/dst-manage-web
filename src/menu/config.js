@@ -5,11 +5,6 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 const navConfig = [
 
   {
-    title: 'dashboard',
-    path: '/dashboard/app',
-    icon: icon('trending-up'),
-  },
-  {
     title: '操作面板',
     path: '/dashboard/panel',
     icon: icon('monitor'),
@@ -45,7 +40,11 @@ const navConfig = [
     path: '/dashboard/log',
     icon: icon('database'),
   },
-
+  {
+    title: '统计页面',
+    path: '/dashboard/app',
+    icon: icon('trending-up'),
+  },
   {
     title: '自动维护',
     path: '/dashboard/setting',

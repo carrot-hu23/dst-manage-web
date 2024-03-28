@@ -131,97 +131,88 @@ export default ({levels}) => {
         <Spin spinning={spinLoading} description={"正在获取日志"}>
             <Card>
                 <Box sx={{p: 2}} dir="ltr">
-                    <Tabs defaultActiveKey="1">
-                        <TabPane tab="游戏日志" key="1">
-                            <Space.Compact style={{width: '100%'}}>
-                                <Select
-                                    style={{
-                                        width: 120,
-                                    }}
-                                    onChange={handleChange}
-                                    defaultValue={notHasLevels?"":levels[0].levelName}
-                                    options={levels.map(level=>{
-                                        return {
-                                            value: level.key,
-                                            label: level.levelName,
-                                        }
-                                    })}
-                                />
-                                <Input defaultValue="100" ref={inputRef}/>
-                                <Button type="primary" onClick={() => pullLog()}>拉取</Button>
-                            </Space.Compact>
-                            <br/><br/>
-                            <MonacoEditor
-                                className={style.icon}
-                                ref={editorRef}
-                                style={{
-                                    "height": "370px",
-                                    "width": "100%",
+                    <Space.Compact style={{width: '100%'}}>
+                        <Select
+                            style={{
+                                width: 120,
+                            }}
+                            onChange={handleChange}
+                            defaultValue={notHasLevels?"":levels[0].levelName}
+                            options={levels.map(level=>{
+                                return {
+                                    value: level.key,
+                                    label: level.levelName,
+                                }
+                            })}
+                        />
+                        <Input defaultValue="100" ref={inputRef}/>
+                        <Button type="primary" onClick={() => pullLog()}>拉取</Button>
+                    </Space.Compact>
+                    <br/><br/>
+                    <MonacoEditor
+                        className={style.icon}
+                        ref={editorRef}
+                        style={{
+                            "height": "370px",
+                            "width": "100%",
+                        }}
+                        options={{
+                            readOnly: true,
+                            language: 'java',
+                            theme: theme === 'dark'?'vs-dark':''
+                        }}
+                    />
+                    <br/>
+                    <Space align={"baseline"} size={16} wrap>
+                        <div>
+                            自动轮询
+                            <Switch
+                                defaultChecked
+                                onChange={(checked, event)=>{
+                                    if (checked) {
+                                        startPolling()
+                                    } else {
+                                        stopPolling()
+                                    }
                                 }}
-                                options={{
-                                    readOnly: true,
-                                    language: 'java',
-                                    theme: theme === 'dark'?'vs-dark':''
-                                }}
-                            />
-                            <br/>
-                            <Space align={"baseline"} size={16} wrap>
-                                <div>
-                                    自动轮询
-                                    <Switch
-                                        defaultChecked
-                                        onChange={(checked, event)=>{
-                                            if (checked) {
-                                                startPolling()
-                                            } else {
-                                                stopPolling()
-                                            }
-                                        }}
-                                        checkedChildren="是" unCheckedChildren="否"/>
-                                </div>
-                                <Button onClick={()=>{
-                                    window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelName}`
-                                }}
-                                        icon={<DownloadOutlined />} type={'link'}>
-                                    下载日志
-                                </Button>
-                            </Space>
+                                checkedChildren="是" unCheckedChildren="否"/>
+                        </div>
+                        <Button onClick={()=>{
+                            window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelName}`
+                        }}
+                                icon={<DownloadOutlined />} type={'link'}>
+                            下载日志
+                        </Button>
+                    </Space>
 
-                            <br/><br/>
-                            <TextArea onChange={onchange} rows={3}/>
-                            <Button style={{
-                                marginTop: '8px'
-                            }} type="primary" onClick={() => sendInstruct(command)}>
-                                发送指令
-                            </Button>
+                    <br/><br/>
+                    <TextArea onChange={onchange} rows={3}/>
+                    <Button style={{
+                        marginTop: '8px'
+                    }} type="primary" onClick={() => sendInstruct(command)}>
+                        发送指令
+                    </Button>
 
-                            <br/><br/>
-                            <Space size={8} wrap>
-                                <Button type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
-                                <Popconfirm
-                                    title={t('regenerate')}
-                                    description="请保存好数据"
-                                    onConfirm={()=>{sendInstruct("c_regenerateworld()")}}
-                                    onCancel={()=>{}}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                <Button type={"primary"} danger>{t('regenerate')}</Button>
-                                </Popconfirm>
-                                <Button onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
-                            </Space>
-                        </TabPane>
-
-                        <TabPane tab="面板日志" key="2">
-                            <PanelLog />
-                        </TabPane>
-                    </Tabs>
-
+                    <br/><br/>
+                    <Space size={8} wrap>
+                        <Button type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
+                        <Popconfirm
+                            title={t('regenerate')}
+                            description="请保存好数据"
+                            onConfirm={()=>{sendInstruct("c_regenerateworld()")}}
+                            onCancel={()=>{}}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button type={"primary"} danger>{t('regenerate')}</Button>
+                        </Popconfirm>
+                        <Button onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
+                        <Button onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
+                        <Button onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
+                        <Button onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
+                        <Button onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
+                        <Button onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
+                    </Space>
                 </Box>
             </Card>
         </Spin>

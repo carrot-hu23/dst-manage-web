@@ -79,7 +79,7 @@ const Panel = () => {
                         setLevels(items)
                     }
                 })
-        }, 2000)
+        }, 5000)
 
         return () => {
             clearInterval(timerId); // 组件卸载时清除定时器
@@ -110,13 +110,13 @@ const Panel = () => {
                             style={{
                                 marginBottom: '12px'
                             }}
-                            options={['操作台', '游戏日志',]}
+                            options={['操作台', '远程指令',]}
                             onChange={(value) => {
                                 setSegmented(value)
                             }}
                         />
                         {segmented === "操作台" && <GameOperator levels={levels}/>}
-                        {segmented === "游戏日志" && <ServerLog levels={levels}/> }
+                        {segmented === "远程指令" && <ServerLog levels={levels}/> }
 
                     </Skeleton>
                 </Box>
