@@ -19,7 +19,6 @@ import Link from "./pages/WebLink";
 
 import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
-import Game from "./pages/Game";
 
 import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
@@ -58,8 +57,6 @@ export default function Router() {
         { path: 'link', element: <Link /> },
 
         { path: 'mod/add/:modId', element: <AddMod /> },
-
-        { path: 'game', element: <Game /> },
       ],
     },
     {

@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {Button, message, Popconfirm, Progress, Space, Spin, Switch, Table, Tag, Tooltip} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
-import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+
+import {parse} from "lua-json";
+
+import {cleanAllLevelApi, cleanLevelApi, getLevelStatusApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+
 
 
 function formatData(data, num) {
@@ -11,7 +15,44 @@ function formatData(data, num) {
 }
 
 
-export default ({levels}) => {
+export default () => {
+
+    const [levels, setLevels] = useState([])
+    useEffect(()=>{
+        const timerId = setInterval(()=>{
+            getLevelStatusApi()
+                .then(resp => {
+                    if (resp.code === 200) {
+                        const levels = resp.data
+                        const items = []
+                        levels.forEach(level=>{
+                            const item = {
+                                key: level.uuid,
+                                uuid: level.uuid,
+                                levelName: level.levelName,
+                                location: '未知',
+                                ps: level.ps,
+                                Ps: level.Ps,
+                                status: level.status
+                            }
+                            try {
+                                const data = parse(level.leveldataoverride)
+                                item.location = data.location
+                            } catch (error) {
+                                console.log(error)
+                            }
+                            items.push(item)
+                        })
+                        setLevels(items)
+                    }
+                })
+        }, 3000)
+
+        return () => {
+            clearInterval(timerId); // 组件卸载时清除定时器
+        };
+    }, [])
+
     const {cluster} = useParams()
     const [spin, setSpin] = useState(false)
     const [startText, setStartText] = useState("")

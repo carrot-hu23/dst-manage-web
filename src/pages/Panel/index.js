@@ -30,7 +30,8 @@ const Panel = () => {
                             location: '未知',
                             ps: level.ps,
                             Ps: level.Ps,
-                            status: level.status
+                            status: level.status,
+                            modoverrides: level.modoverrides
                         }
                         try {
                             const data = parse(level.leveldataoverride)
@@ -44,41 +45,6 @@ const Panel = () => {
                 }
                 setLoading(false)
             })
-    }, [])
-
-    useEffect(()=>{
-        const timerId = setInterval(()=>{
-            getLevelStatusApi()
-                .then(resp => {
-                    if (resp.code === 200) {
-                        const levels = resp.data
-                        const items = []
-                        levels.forEach(level=>{
-                            const item = {
-                                key: level.uuid,
-                                uuid: level.uuid,
-                                levelName: level.levelName,
-                                location: '未知',
-                                ps: level.ps,
-                                Ps: level.Ps,
-                                status: level.status
-                            }
-                            try {
-                                const data = parse(level.leveldataoverride)
-                                item.location = data.location
-                            } catch (error) {
-                                console.log(error)
-                            }
-                            items.push(item)
-                        })
-                        setLevels(items)
-                    }
-                })
-        }, 2000)
-
-        return () => {
-            clearInterval(timerId); // 组件卸载时清除定时器
-        };
     }, [])
 
     const items = [

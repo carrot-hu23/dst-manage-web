@@ -9,7 +9,7 @@ import ConfigViewEditor from "./ConfigViewEditor";
 export default ({leveldataoverride, dstWorldSetting, changeValue}) => {
 
     const ref = useRef(leveldataoverride)
-    const [view, setView] = useState("editor")
+    const [view, setView] = useState("view")
     function updateValue(newValue) {
         changeValue(newValue)
         ref.current = newValue
@@ -21,9 +21,9 @@ export default ({leveldataoverride, dstWorldSetting, changeValue}) => {
                 <Segmented onChange={v=>setView(v)} options={['editor', 'view']} />
             </div>
             {/* eslint-disable-next-line react/jsx-no-bind */}
-            {view === 'editor' && <ConfigEditor valueRef={ref} changeValue={updateValue} />}
-            {/* eslint-disable-next-line react/jsx-no-bind */}
             {view === 'view' && <ConfigViewEditor changeValue={updateValue} valueRef={ref}  dstWorldSetting={dstWorldSetting} />}
+            {/* eslint-disable-next-line react/jsx-no-bind */}
+            {view === 'editor' && <ConfigEditor valueRef={ref} changeValue={updateValue} />}
         </>
     )
 

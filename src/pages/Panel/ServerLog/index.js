@@ -166,6 +166,7 @@ export default ({levels}) => {
     }
 
     function pullLog() {
+        if (!inputRef.current) return
         const lines = inputRef.current.input.value
         // setSpinLoading(true)
         readLevelServerLogApi(cluster, levelName, lines)

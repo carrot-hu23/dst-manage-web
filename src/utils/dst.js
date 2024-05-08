@@ -22,6 +22,21 @@ const dstRolesMap = {
     "": '未知角色',
 
 }
+const dstSeason = {
+    spring: "春",
+    summer: "夏",
+    autumn: "秋",
+    winter: "冬",
+    "": "  "
+}
+
+const dstSegs = {
+    'night': '夜晚',
+    'day': '白天',
+    'dusk': '黄昏',
+    '': '  '
+}
+
 const dstRolesMap2 = {
     '温蒂': 'wendy',
     '威尔逊': 'wilson',
@@ -490,5 +505,5 @@ return {
 `
 
 export {
-    dstRoles, dstGameMod,customization, dstRolesMap, dstRolesMap2, forest, cave
+    dstRoles, dstGameMod,customization, dstRolesMap, dstRolesMap2, forest, cave, dstSeason, dstSegs
 }

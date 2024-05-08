@@ -34,7 +34,7 @@ export default ()=>{
     }, [])
 
     function pullLog() {
-        const lines = inputRef.current.input.value
+        const lines = inputRef?.current?.input?.value
         // setSpinLoading(true)
         readPanelLogApi(lines)
             .then(resp => {

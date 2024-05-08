@@ -88,16 +88,16 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
 
     const items = [
         {
-            label: t('Edit'),
-            children: <LeveldataoverrideEditor />,
-            key: '1',
-            forceRender: true,
-        },
-        {
             label: t('View'),
             children: <LeveldataoverrideViewer />,
-            key: '2',
+            key: '1',
         },
+        {
+            label: t('Edit'),
+            children: <LeveldataoverrideEditor />,
+            key: '2',
+            forceRender: true,
+        }
     ]
     return (
         <>

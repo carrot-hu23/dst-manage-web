@@ -63,11 +63,11 @@ const navConfig = [
     path: '/dashboard/github',
     icon: icon('github')
   },
-  // {
-  //   title: '帮助文档',
-  //   path: '/dashboard/help',
-  //   icon: icon('help-circle')
-  // },
+  {
+    title: '帮助文档',
+    path: '/dashboard/help',
+    icon: icon('help-circle')
+  },
 ];
 
 export default navConfig;
