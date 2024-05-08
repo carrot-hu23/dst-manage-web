@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm} from "antd";
+import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm, notification, AutoComplete} from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -15,6 +15,29 @@ import style from "../../DstServerList/index.module.css";
 
 const {TextArea} = Input;
 const { TabPane } = Tabs;
+
+const CommandAutoComplete = () => {
+    // 模拟已有的指令列表
+    const commandList = ['c_save()', 'c_reset()', 'c_rollback', 'c_announce', 'command5'];
+
+    const [options, setOptions] = useState([]);
+
+    const handleSearch = (value) => {
+        const filteredOptions = commandList.filter((command) => command.includes(value));
+        setOptions(filteredOptions.map((option) => ({ value: option })));
+    };
+
+    return (
+        <AutoComplete
+            style={{ width: 200 }}
+            options={options}
+            onSelect={(value) => console.log('Selected:', value)}
+            onSearch={handleSearch}
+        >
+            <Input.Search placeholder="输入指令" enterButton />
+        </AutoComplete>
+    );
+};
 
 
 export default ({levels}) => {
@@ -50,7 +73,7 @@ export default ({levels}) => {
         }
         console.log(levelName, escapeString(command))
         setSpinLoading(true)
-        sendCommandApi("", levelName, escapeString(command))
+        sendCommandApi(cluster, levelName, escapeString(command))
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")
@@ -91,6 +114,56 @@ export default ({levels}) => {
             }
         };
     }, [timerId])
+    const notify = {
+        token: false,
+        leveldataoverride: false,
+        socketport: false,
+        sim: false,
+        shutting: false
+    }
+    function parseLog(lines) {
+        lines.forEach(line => {
+            // if (line.includes("Shutting down")) {
+            //     notify.shutting = true
+            // }
+            // if (line.includes("E_INVALID_TOKEN")) {
+            //     if (!notify.token) {
+            //         openNotificationWithIcon({type: "error", message: "请检查令牌是否过期"})
+            //         notify.token = true
+            //     }
+            // }
+            // if (line.includes("Level data override is invalid!")) {
+            //     if (!notify.leveldataoverride) {
+            //         openNotificationWithIcon({type: "error", message: "世界配置无效，请从本地复制"})
+            //         notify.leveldataoverride = true
+            //     }
+            //
+            // }
+            // if (line.includes("SOCKET_PORT_ALREADY_IN_USE") && !line.includes("Unhandled exception during shard mode startup: RakNet UDP startup failed: SOCKET_PORT_ALREADY_IN_USE (5)")) {
+            //     if (!notify.socketport) {
+            //         openNotificationWithIcon({type: "error", message: "端口被暂用，请换一个端口，在世界配置端口配置修改"})
+            //         notify.socketport = true
+            //     }
+            // }
+
+            // if (line.includes("Sim paused")) {
+            //     if (!notify.sim && notify.shutting !== true) {
+            //         openNotificationWithIcon({type: "success", message: "世界启动成功"})
+            //         notify.sim = true
+            //     }
+            // }
+        })
+    }
+
+    const [api, contextHolder] = notification.useNotification();
+    const openNotificationWithIcon = ({type, message}) => {
+        console.log(type, message)
+        api[type]({
+            message: `房间启动${type==='success'?'成功':'失败'}`,
+            description: <span>{message}</span>,
+            duration: 0,
+        });
+    }
 
     function pullLog() {
         const lines = inputRef.current.input.value
@@ -100,6 +173,7 @@ export default ({levels}) => {
                 if (resp.code === 200) {
                     let logs = ""
                     const lines = resp.data || []
+                    parseLog(lines)
                     lines.reverse()
                     lines.forEach(line => {
                         logs += `${line}\n`
@@ -138,6 +212,7 @@ export default ({levels}) => {
         <Spin spinning={spinLoading} description={"正在获取日志"}>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
+                    {contextHolder}
                     <Tabs defaultActiveKey="1">
                         <TabPane tab={t('Level Log')} key="1">
                             <Space.Compact style={{width: '100%'}}>
@@ -174,7 +249,9 @@ export default ({levels}) => {
                             <br/>
                             <Space align={"baseline"} size={16} wrap>
                                 <div>
-                                    {t('auto')}
+                                    <span style={{
+                                        marginRight:'8px'
+                                    }}>{t('auto')}</span>
                                     <Switch
                                         defaultChecked
                                         onChange={(checked, event)=>{
@@ -195,16 +272,19 @@ export default ({levels}) => {
                             </Space>
 
                             <br/><br/>
-                            <TextArea onChange={onchange} rows={3}/>
-                            <Button style={{
-                                marginTop: '8px'
-                            }} type="primary" onClick={() => sendInstruct(command)}>
-                                {t('send')}
-                            </Button>
 
-                            <br/><br/>
+                            <Space.Compact
+                                style={{
+                                    width: '100%',
+                                }}
+                            >
+                                <Input defaultValue="" onChange={onchange} />
+                                <Button type="primary" onClick={() => sendInstruct(command)}>{t('send')}</Button>
+                            </Space.Compact>
+                            <br/>
+                            <br/>
                             <Space size={8} wrap>
-                                <Button type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
+                                <Button size={'small'} type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
                                 <Popconfirm
                                     title={t('regenerate')}
                                     description="请保存好数据"
@@ -213,14 +293,14 @@ export default ({levels}) => {
                                     okText="Yes"
                                     cancelText="No"
                                 >
-                                <Button type={"primary"} danger>{t('regenerate')}</Button>
+                                <Button size={'small'} type={"primary"} danger>{t('regenerate')}</Button>
                                 </Popconfirm>
-                                <Button onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
-                                <Button onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
+                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
                             </Space>
                         </TabPane>
 

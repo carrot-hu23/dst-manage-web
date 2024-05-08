@@ -36,7 +36,8 @@ const jobTaskEnum = {
     "stopGame": "停止所有世界",
 
     "restart": "重启世界",
-    "regenerate": "重置世界"
+    "regenerate": "重置世界",
+    "script": "shell脚本"
 }
 
 export default () => {
@@ -356,7 +357,7 @@ export default () => {
 
     return (<>
         <Card>
-            <Box sx={{p: 3, pb: 1}} dir="ltr">
+            <Box sx={{p: 3}} dir="ltr">
                 <div>
                     <Space size={16} wrap>
                         <Button type="primary" onClick={() => {setIsOpenAddJobTask(true)}}>

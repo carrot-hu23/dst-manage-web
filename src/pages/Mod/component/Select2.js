@@ -28,7 +28,7 @@ function Select2({ item,defaultValue }) {
             onChange={(value) => {
                 setIsDefault(value === item.default)
             }}
-            options={item.options.map(option => ({
+            options={Array.isArray(item?.options) && item?.options.map(option => ({
                 value: option.data,
                 label: option.description,
             }))}

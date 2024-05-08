@@ -1,5 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Form, Input, message, Skeleton, Radio, Segmented, Drawer, Space, Typography, Tooltip} from 'antd';
+import {
+    Button,
+    Form,
+    Input,
+    message,
+    Skeleton,
+    Radio,
+    Segmented,
+    Drawer,
+    Space,
+    Typography,
+    Tooltip,
+    Alert
+} from 'antd';
 import {Card, Box} from '@mui/material';
 import {readDstConfigSync, writeDstConfigSync} from "../../../api/dstConfigApi";
 
@@ -103,6 +116,7 @@ export default () => {
                                     onClick={()=>{
                                 setOpen(true)
                             }}>docker映射路径参考</Button>
+                            <a target={'_blank'} href={'https://steamcommunity.com/sharedfiles/filedetails/?id=1616647350'} rel="noreferrer" >Dedicated Server配置项和命令行参数详解</a>
                         </Space>
                         <br/>
                         <Form.Item
@@ -146,6 +160,7 @@ export default () => {
                         <Form.Item
                             label="mod下载路径"
                             name="mod_download_path"
+                            tooltip={"这个路径是面板下载的模组路径和游戏的模组路径没有关系"}
                             rules={[
                                 {
                                     required: true,
@@ -157,7 +172,7 @@ export default () => {
                             {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                         </Form.Item>
                         <Form.Item
-                            label="服务器文件夹名"
+                            label="cluster"
                             name="cluster"
                             rules={[
                                 {
@@ -175,7 +190,7 @@ export default () => {
                         </Form.Item>
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"persistent_storage_root(未实现)"}
+                                label={"persistent_storage_root"}
                                 name='persistent_storage_root'
                                 tooltip={"设置游戏配置目录的路径。路径需要是绝对路径。\n" +
                                     "    用户文件的完整路径是\n" +
@@ -191,7 +206,7 @@ export default () => {
                         </div>}
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"conf_dir(未实现)"}
+                                label={"conf_dir"}
                                 name='conf_dir'
                                 tooltip={"更改配置目录的名称，不包含斜杠\n" +
                                     "    用户文件的完整路径是\n" +
@@ -254,6 +269,10 @@ export default () => {
                                 span: 24,
                             }}
                         >
+                            <Alert style={{marginTop: '8px'}}
+                                   message="请先停止所有世界，自行做好保存存档，不然之前的世界会一直运行"
+                                   type="warning" showIcon/>
+                            <br/>
                             <Button style={{margin: "0 auto", display: "block"}} type="primary" htmlType="submit">
                                 保存
                             </Button>

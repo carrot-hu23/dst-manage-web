@@ -135,10 +135,13 @@ async function startLevelApi(cluster,levelName,checked) {
     return response.data
 }
 
-async function sendCommandApi(cluster,levelName,command) {
+async function sendCommandApi(cluster, levelName, command) {
 
-    const url = `/api/game/8level/command?levelName=${levelName}&command=${command}`
-    const response = await http.get(url,{
+    const url = `/api/game/8level/command`
+    const response = await http.post(url, {
+        levelName,
+        command
+    }, {
         headers: {
             'Cluster': cluster,
         }
@@ -149,6 +152,17 @@ async function sendCommandApi(cluster,levelName,command) {
 async function getOnlinePlayersApi(cluster,levelName) {
 
     const url = `/api/game/8level/players?levelName=${levelName}`
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
+async function getAllOnlinePlayersApi(cluster) {
+
+    const url = `/api/game/8level/players/all`
     const response = await http.get(url,{
         headers: {
             'Cluster': cluster,
@@ -201,6 +215,16 @@ async function startAllLevelApi(cluster,checked) {
     return response.data
 }
 
+async function getFreeUDPPortApi(cluster) {
+    const url = '/api/game/8level/udp/port'
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': cluster,
+        }
+    })
+    return response.data
+}
+
 export {
     getLevelConfigApi,
     saveLevelConfigApi,
@@ -222,10 +246,13 @@ export {
 
     sendCommandApi,
     getOnlinePlayersApi,
+    getAllOnlinePlayersApi,
 
     cleanLevelApi,
     cleanAllLevelApi,
 
     startAllLevelApi,
+
+    getFreeUDPPortApi,
 
 }

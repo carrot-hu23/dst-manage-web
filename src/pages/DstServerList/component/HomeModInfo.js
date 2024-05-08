@@ -32,18 +32,18 @@ const HomeModInfo = ({mods, subscribedModList, setSubscribedModList}) => {
                                     href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${item[0].substr(9)}`}
                                     key="list-loadmore-edit"
                                     style={{
-                                        background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
+                                        background: 'url(./assets/dst/icon_button_normal.png)'
                                     }} rel="noreferrer">
                                     <Tooltip title="点击进入订阅页">
                                         <Image preview={false} width={22}
-                                               src={'https://dst.liuyh.com/static/img/dstui/icon/update.png'}/>
+                                               src={'./assets/dst/update.png'}/>
                                     </Tooltip>
                                 </a>,
                                     // eslint-disable-next-line react/jsx-key
                                     <div>{item[4] ?
                                         <Tooltip title="必须安装才能进入">
                                             <Image preview={false} width={22}
-                                                   src={'https://dst.liuyh.com/static/img/dstui/icon/apply_skins.png'}/>
+                                                   src={'./assets/dst/apply_skins.png'}/>
                                         </Tooltip> : ''}</div>,
                                 ]}>
 

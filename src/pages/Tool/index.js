@@ -23,11 +23,11 @@ export default ()=>{
             key: '2',
             forceRender: true,
         },
-        {
-            label: '配置分享',
-            children: <ShareConfig />,
-            key: '3',
-        },
+        // {
+        //     label: '配置分享',
+        //     children: <ShareConfig />,
+        //     key: '3',
+        // },
     ]
 
     return(

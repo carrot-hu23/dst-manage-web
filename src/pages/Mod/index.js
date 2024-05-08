@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import _ from 'lodash'
+import {useTranslation} from "react-i18next";
 import luaparse from 'luaparse';
 import { parse } from "lua-json";
 
@@ -9,6 +9,7 @@ import ModList from "./ModList";
 import ModSearch from "./ModSearch";
 
 import {getMyModInfoList} from '../../api/modApi';
+import Ugc from "./Ugc";
 
 
 function unstring(str) {
@@ -25,7 +26,7 @@ function getWorkShopConfigMap2(modoverride) {
         console.log("keys",keys.length)
         const workshopMap = new Map();
         keys.forEach(workshopId => {
-            workshopMap.set(workshopId.replace('workshop-', '').replace('"', '').replace('"', ''), result[workshopId].configuration_options)
+            workshopMap.set(workshopId.replace('workshop-', '').replace('"', '').replace('"', ''), {...result[workshopId].configuration_options})
         })
         console.log("lua-json =-==-----", workshopMap)
         return workshopMap
@@ -144,7 +145,7 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
         if (options !== undefined && options !== null) {
             const temp = {}
             options.forEach(item => {
-                if (item.default !== '') {
+                if (item.default !== '' && item.name !== "null") {
                     temp[item.name] = item.default
                 }
             })
@@ -199,6 +200,8 @@ function initModList(subscribeModList, modoverrides, setDefaultValuesMap, setMod
 
 const Mod = ({modoverrides}) => {
 
+    const { t } = useTranslation()
+
     const [modList, setModList] = useState([])
     const [root, setRoot] = useState({})
 
@@ -224,7 +227,7 @@ const Mod = ({modoverrides}) => {
     const items = [
         {
             key: '1',
-            label: `配置模组`,
+            label: t('Mod Setting'),
             children: <ModList
                 modList={modList}
                 setModList={setModList}
@@ -236,8 +239,13 @@ const Mod = ({modoverrides}) => {
         },
         {
             key: '2',
-            label: `订阅模组`,
+            label: t('Mod Subscribe'),
             children: <ModSearch addModList={setModList}/>,
+        },
+        {
+            key: '3',
+            label: t('Ugc Mod'),
+            children: <Ugc />,
         },
     ];
 

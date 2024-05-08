@@ -2,7 +2,7 @@ import {Box, Card} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import {Alert, Button, Input, message, Skeleton, Space, Spin, Switch} from "antd";
 import {enableKeyCerApi, getKeyCerApi, importClusterApi, reflushKeyCerApi} from "../../../api/shareApi";
-import HiddenText from "../../../components2/HiddenText/HiddenText";
+import HiddenText from "../../Home2/HiddenText/HiddenText";
 
 
 export default ()=>{

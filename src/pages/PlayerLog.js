@@ -8,7 +8,7 @@ import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
 import {addBlackListPlayerListApi} from "../api/playerApi";
 import style from "./DstServerList2/index.module.css";
-import HiddenText from "../components2/HiddenText/HiddenText";
+import HiddenText from "./Home2/HiddenText/HiddenText";
 
 
 const { Text } = Typography;
@@ -82,10 +82,10 @@ export default function PlayerLog() {
                         target={'_blank'}
                         href={`https://steamcommunity.com/profiles/${record.steamId}`}
                         style={{
-                            background: 'url(https://dst.liuyh.com/static/img/dstui/icon_button_normal.png)'
+                            background: 'url(./assets/dst/icon_button_normal.png)'
                         }} rel="noreferrer">
                         <Image preview={false} width={22}
-                               src={'https://dst.liuyh.com/static/img/dstui/icon/steam_btn.png'}/>
+                               src={'./assets/dst/steam_btn.png'}/>
                     </a>
                 </Space>
             </div>)

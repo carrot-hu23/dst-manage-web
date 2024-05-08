@@ -19,16 +19,15 @@ import Link from "./pages/WebLink";
 
 import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
-import Forest from "./pages/Levels8/LevelSetting/LeveldataoverrideView";
 import Game from "./pages/Game";
-import TemplateConfig from "./pages/TemplateConfig";
-import AddTemplateFile from "./pages/TemplateConfig/AddTemplateFile";
 
 import Levels from "./pages/Levels";
 import ModSetting from "./pages/ModSetting";
 import AddMod from "./pages/Mod/AddMod";
 import DstServerList from "./pages/DstServerList";
 import Tool from "./pages/Tool";
+import Cluster from "./pages/Cluster";
+import Mod2 from "./pages/Mod2";
 
 export default function Router() {
   const routes = useRoutes([
@@ -41,11 +40,13 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
         { path: 'mod', element: <ModSetting /> },
+        { path: 'mod2', element: <Mod2 /> },
+
         { path: 'panel', element: <Panel /> },
 
         { path: 'tool', element: <Tool /> },
 
-
+        { path: 'home', element: <Cluster /> },
         { path: 'cluster', element: <Home2 /> },
         { path: 'levels', element: <Levels /> },
         { path: 'backup', element: <Backup /> },
@@ -58,10 +59,7 @@ export default function Router() {
 
         { path: 'mod/add/:modId', element: <AddMod /> },
 
-        { path: 'view', element: <Forest /> },
         { path: 'game', element: <Game /> },
-        { path: 'template/config', element: <TemplateConfig /> },
-        { path: 'addTemplate/:id', element: <AddTemplateFile /> },
       ],
     },
     {

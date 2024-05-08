@@ -63,5 +63,15 @@
   "rollback5": "Rollback(5)",
   "rollback6": "Rollback(6)",
 
-  "send": "send"
+  "send": "send",
+
+  "level_name": "name",
+  "level_id": "id",
+  "levelName": "世界名称",
+  "type": "类型",
+  "forest": "森林",
+  "cave": "洞穴",
+
+
+  "d": ""
 }

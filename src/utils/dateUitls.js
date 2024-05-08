@@ -213,9 +213,47 @@ function timestampToString(timestamp) {
     return dateString;
 }
 
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp * 1000); // 将时间戳转换为毫秒数
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function generateUUID() {
+    const cryptoObj = window.crypto || window.msCrypto;
+    if (!cryptoObj) {
+        console.error('Crypto API not supported.');
+        return;
+    }
+
+    const buffer = new Uint8Array(16);
+    cryptoObj.getRandomValues(buffer);
+
+    // Set version (4) and variant (8, 9, a, or b) bits
+    // eslint-disable-next-line no-bitwise
+    buffer[6] = (buffer[6] & 0x0f) | 0x40;
+    // eslint-disable-next-line no-bitwise
+    buffer[8] = (buffer[8] & 0x3f) | 0x80;
+
+    const hexCodes = Array.from(buffer)
+        .map(byte => byte.toString(16).padStart(2, '0'));
+
+    const uuid = hexCodes.join('');
+    // eslint-disable-next-line consistent-return
+    return `${uuid.substr(0, 8)}-${uuid.substr(8, 4)}-${uuid.substr(12, 4)}-${uuid.substr(16, 4)}-${uuid.substr(20)}`;
+}
 
 export {
     format,
     translateFormat,
-    timestampToString
+    timestampToString,
+    formatTimestamp,
+
+    generateUUID
 }

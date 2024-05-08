@@ -7,7 +7,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
 import style from "../../DstServerList/index.module.css";
-import HiddenText from "../../../components2/HiddenText/HiddenText";
+import HiddenText from "../../Home2/HiddenText/HiddenText";
 
 
 export default () => {
@@ -74,7 +74,7 @@ export default () => {
                 <Alert style={{
                     marginBottom: '4px'
                 }} message={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`} type="info" showIcon closable />
-                {archive.version !== archive.lastVersion &&
+                {archive.version !== archive.lastVersion && archive.version !== 0 &&
                     <Alert
                         action={[
                             <>
@@ -86,7 +86,10 @@ export default () => {
                             </>
                         ]}
                         message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
-
+                {archive.version === 0 &&
+                    <Alert
+                        action={[]}
+                        message="读取饥荒服务 version.txt 路径失败" type="warning" showIcon closable />}
             </Form>
         </>
     )

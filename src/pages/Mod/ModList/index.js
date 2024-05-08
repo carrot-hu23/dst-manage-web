@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import _ from "lodash";
 import {Row, Col, Card, Button, Space, Tooltip, message, Alert, Popconfirm, Spin} from 'antd';
 import {useNavigate, useParams} from "react-router-dom";
-
+import {useTranslation} from "react-i18next";
 import {parse, format} from "lua-json";
 
 import ModItem from '../component/modItem';
@@ -10,6 +10,7 @@ import ModDetail from '../component/modConfig';
 import {getHomeConfigApi, saveHomeConfigApi} from '../../../api/gameApi';
 import {deleteStepupWorkshopApi, updateModinfosApi} from '../../../api/modApi';
 import {beautifyLua, jsObjectToLuaTable} from "../../../utils/dstUtils";
+
 
 function containsChinese(str) {
     // eslint-disable-next-line no-plusplus
@@ -24,7 +25,7 @@ function containsChinese(str) {
 
 // eslint-disable-next-line react/prop-types
 export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaultValuesMap}) => {
-
+    const { t } = useTranslation()
     const navigate = useNavigate();
 
     const [mod, setMod] = useState({})
@@ -61,6 +62,10 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                 object1[id] = defaultValuesMap.get(id)
             }
             const workshopObject = _.merge({}, object, object1)
+            console.log("defaultValuesMap", defaultValuesMap)
+            console.log("原始0", object)
+            console.log("原始1", object1)
+            console.log("原始2", workshopObject)
             const workshopIdKeys = Object.keys(workshopObject)
             const workShops = {}
             workshopIdKeys.forEach(workshopId => {
@@ -73,19 +78,21 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                 } else {
                     workshop = workshopId
                 }
+                const options = workshopObject[workshopId]
+                delete options.null
                 workShops[workshop] = {
-                    configuration_options: workshopObject[workshopId],
+                    configuration_options: options,
                     enabled: true
                 }
             })
-            console.log(workShops)
+            console.log("结果",workShops)
             return format(workShops, {
                 singleQuote: false
             })
         } catch (error) {
             console.log(error)
             message.error("mod配置解析错误", error.message)
-            return "return {}"
+            return "return { error }"
         }
     }
 
@@ -94,7 +101,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
             .then(data => {
                 const homeConfig = data.data
                 homeConfig.modData = formatModOverride()
-                if (homeConfig.modData !== "return {}") {
+                if (homeConfig.modData !== "return { error }") {
                     console.log(homeConfig)
                     saveHomeConfigApi(cluster, homeConfig).then(() => {
                         message.info("保存mod成功")
@@ -102,6 +109,8 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                         console.log(error);
                         message.error("保存mod失败")
                     })
+                } else {
+                    message.warning("模组解析失败")
                 }
 
             })
@@ -241,7 +250,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
     return (
         <>
             <Spin spinning={confirmLoading} >
-            <Alert message={"请先启动世界，会自动下载模组，优先读取 ugc 模组"} type="info" showIcon closable />
+            <Alert message={t('Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.')} type="info" showIcon closable />
             <br/>
 
             {updateModSize.length > 0 && <>
@@ -250,24 +259,24 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
             </>}
             <Space size={16} wrap>
 
-                <Button type="primary" onClick={() => saveModConfig2()}>保存配置</Button>
+                <Button type="primary" onClick={() => saveModConfig2()}>{t('Save')}</Button>
                 {/*
                 <Tooltip title="点击会删除房间的mods, 重新启动会自动重新下载mod">
                     <Button type="primary" onClick={() => deleteStepupWorkshop()}>更新模组</Button>
                 </Tooltip>
                 */}
                 <Popconfirm
-                    title="是否更新所有模组配置"
+                    title={t('Whether to update all mod configurations')}
                     okText="Yes"
                     cancelText="No"
                     onConfirm={()=>updateModinfos()}
                 >
-                    <Button type="primary" >更新所有模组配置</Button>
+                    <Button type="primary" >{t('Update All Mod Config')}</Button>
                 </Popconfirm>
 
                 <Tooltip
                     title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
-                    <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>上传模组</Button>
+                    <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>{t('Upload Modinfo')}</Button>
                 </Tooltip>
             </Space>
             <br/><br/>
@@ -281,7 +290,7 @@ export default ({modList, setModList, root, setRoot, defaultValuesMap, setDefaul
                         {modList.length > 0 && <div>
                             {modList.map(item => <>
                                 <ModItem
-                                    key={item.modid}
+                                    key={item?.modid}
                                     mod={item}
                                     changeMod={changeMod}
                                     changeEnable={changeEnable}

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 import {Alert, Button, Form, InputNumber, message, Skeleton, Switch} from "antd";
 import {getBackupSnapshotsSettingApi, saveBackupSnapshotsSettingApi} from "../../../api/backupApi";
@@ -8,6 +9,7 @@ import {getBackupSnapshotsSettingApi, saveBackupSnapshotsSettingApi} from "../..
 export default () => {
 
     const {cluster} = useParams()
+    const { t } = useTranslation()
 
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
@@ -43,11 +45,11 @@ export default () => {
 
     return (<>
         <Alert
-            message={"快照备份，这里只是一个特殊的定时任务，会根据你设置的间隔保存存档，但是他只会保留你设置快照数量"}
+            message={t('Snapshot backup, here is just a special scheduled task, which will save the archive according to the interval you set, but it will only retain the number of snapshots you set.')}
             type="warning" showIcon closable/>
         <br/>
         <Alert
-            message={"文件以 (snapshot) 开头的都是快照备份文件， 和普通存档没有任何区别，只是做区分"}
+            message={t('Files starting with (snapshot) are snapshot backup files, which are no different from ordinary archives, just to distinguish them.')}
             type="info" showIcon closable/>
         <br/>
         <Skeleton loading={loading}>
@@ -62,7 +64,7 @@ export default () => {
                 }}
             >
                 <Form.Item
-                    label={"开启"}
+                    label={t('enable')}
                     name='enable'
                     valuePropName="checked"
                 >
@@ -70,17 +72,26 @@ export default () => {
                             unCheckedChildren="关闭"/>
                 </Form.Item>
                 <Form.Item
-                    label={"备份间隔"}
+                    label={t('is c_save()')}
+                    name='isCSave'
+                    tooltip={"开启后，每次创建备份时，都会先存档，但这可能会导致卡顿等情况"}
+                    valuePropName="checked"
+                >
+                    <Switch checkedChildren="开启"
+                            unCheckedChildren="关闭"/>
+                </Form.Item>
+                <Form.Item
+                    label={t('interval')}
                     name='interval'
                 >
                     <InputNumber
-                        addonAfter="分钟"
+                        addonAfter={t('minute')}
                         style={{width: 120,}}
                         min={1}
                         placeholder="检测间隔时间"/>
                 </Form.Item>
                 <Form.Item
-                    label={"最大快照备份数量"}
+                    label={t('maxSnapshots')}
                     name='maxSnapshots'
                 >
                     <InputNumber
@@ -89,13 +100,13 @@ export default () => {
                         placeholder="快照数量"/>
                 </Form.Item>
                 <Form.Item
-                    label={"操作"}
+                    label={t("action")}
                 >
                     <Button type={'primary'}
                             onClick={() => {
                                 save()
                             }}
-                    >保存</Button>
+                    >{t("Save")}</Button>
                 </Form.Item>
             </Form>
         </Skeleton>

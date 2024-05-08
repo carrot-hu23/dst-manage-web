@@ -3,6 +3,7 @@ import { Button, Form, message } from 'antd';
 
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom"
+import {useTranslation} from "react-i18next";
 
 import Welcome from './component/Welcome';
 import Register from './component/Register';
@@ -25,6 +26,7 @@ const mainCss = {
 
 // eslint-disable-next-line no-unused-vars
 const Begin = (props) => {
+    const { t } = useTranslation()
 
     const [form] = Form.useForm();
     const [current, setCurrent] = useState(0);
@@ -119,18 +121,18 @@ const Begin = (props) => {
                         }}
                         onClick={() => prev()}
                     >
-                        上一步
+                        {t('Previous')}
                     </Button>
                 )}
                 {current >= 0 && current < 2 && (
                     <Button type="primary" onClick={() => next()}>
-                        下一步
+                        {t('Next')}
                     </Button>
                 )}
 
                 {current === 2 && (
                     <Button type="primary" onClick={goIndex}>
-                        进入
+                        {t('Go')}
                     </Button>
                 )}
             </div>

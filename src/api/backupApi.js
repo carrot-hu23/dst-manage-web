@@ -69,6 +69,11 @@ async function saveBackupSnapshotsSettingApi(cluster, data) {
     } else {
         data.enable = 0
     }
+    if (data.isCSave) {
+        data.isCSave = 1
+    } else {
+        data.isCSave = 0
+    }
     const url = '/api/game/backup/snapshot/setting'
     const response = await http.post(url, data,{
         headers: {

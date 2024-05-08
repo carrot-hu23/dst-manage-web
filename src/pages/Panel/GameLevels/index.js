@@ -66,12 +66,12 @@ export default ({levels}) => {
                 </div>
             ),
         },
-        {
-            title: t('Location'),
-            dataIndex: 'location',
-            key: 'location',
-            hideInSearch: true,
-        },
+        // {
+        //     title: t('Location'),
+        //     dataIndex: 'location',
+        //     key: 'location',
+        //     hideInSearch: true,
+        // },
         {
             title: t('Mem'),
             dataIndex: 'mem',

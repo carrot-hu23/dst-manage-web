@@ -4,6 +4,7 @@ import aliPayImage from './alipay.jpg';
 import wechatpayImage from './wechatpay.png';
 import qqgroup from './qqgroup.png'
 import {headerFlag1} from "../../config";
+import TengxuCloudAd1 from "../Ad/TengxunCloudAd1";
 
 export default () => {
 
@@ -37,7 +38,10 @@ export default () => {
                         </a>
                     </div>
                     <br/>
-
+                    <div>
+                        <TengxuCloudAd1 />
+                    </div>
+                    <br/>
                     <div>
                         <h3>请作者喝一杯咖啡：</h3>
                         <Space size={32} wrap>

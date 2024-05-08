@@ -1,21 +1,23 @@
 import React from "react";
 import {Tabs} from "antd";
 import {Card, Box, Container} from "@mui/material";
-
+import {useTranslation} from "react-i18next";
 import BackupList from "./BackupList";
 import SnapshotBackup from "./SnapshotBackup";
 
 
 export default ()=>{
+    const { t } = useTranslation()
+
     const items = [
         {
             key: '1',
-            label: "备份列表",
+            label: t("Backup List"),
             children: <BackupList/>,
         },
         {
             key: '2',
-            label: "快照备份",
+            label: t("Snapshot Backup"),
             children: <SnapshotBackup/>,
         },
     ]
