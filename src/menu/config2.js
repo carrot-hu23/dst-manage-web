@@ -9,6 +9,11 @@ const navConfig = [
     icon: icon('trending-up'),
   },
   {
+    title: '用户列表',
+    path: '/user/list',
+    icon: icon('hard-drive'),
+  },
+  {
     title: '大厅列表',
     path: '/dst/server',
     icon: icon('server'),

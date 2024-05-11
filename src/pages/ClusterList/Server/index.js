@@ -393,13 +393,27 @@ export default () => {
     const [serverList, setServerList] = useState([])
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [showAddBtn, setShowAddBtn] = useState(true)
 
     useEffect(() => {
+
+        const userJson = localStorage.getItem('user');
+        let user = JSON.parse(userJson);
+        if(user === null) {
+            user = {
+                displayName: '',
+                email: '',
+                photoURL: ''
+            }
+        }
+        if (user.role !== 'admin') {
+            setShowAddBtn(false)
+        }
         setLoading(true)
         getClusterList()
             .then(resp => {
                 if (resp.code === 200) {
-                    message.success("获取房间成功")
+                    // message.success("获取房间成功")
                     setServerList(resp.data)
                 } else {
                     message.error("获取房间失败")
@@ -436,7 +450,7 @@ export default () => {
         getClusterList()
             .then(resp => {
                 if (resp.code === 200) {
-                    message.success("获取房间成功")
+                    // message.success("获取房间成功")
                     setServerList(resp.data)
                 } else {
                     message.error("获取房间失败")
@@ -638,9 +652,9 @@ export default () => {
         <>
             <Container maxWidth="xxl">
                 <Skeleton loading={loading} active>
-                    <div style={{marginBottom: '16px'}}>
+                    {showAddBtn && <div style={{marginBottom: '16px'}}>
                         <Button onClick={() => setOpen(true)} icon={<PlusOutlined/>}  type={'primary'}>添加房间</Button>
-                    </div>
+                    </div>}
                     <Row gutter={[16, 16]}>
                         {serverList.map((server, index) => (
                             <Col xs={24} sm={8} md={8} lg={6} xl={6}>

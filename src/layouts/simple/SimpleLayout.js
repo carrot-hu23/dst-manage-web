@@ -1,13 +1,17 @@
 import {useState} from 'react';
 import { Outlet } from 'react-router-dom';
+// antd
 import {ConfigProvider,theme} from "antd";
+// @mui
 import { styled,ThemeProvider, createTheme } from '@mui/material/styles';
 
-
+//
+import Nav from './nav';
 import RequirAuthRoute from '../../filter/RequirAuthRoute';
 import {useTheme} from "../../hooks/useTheme";
 import Header from "../dashboard/header";
-import Nav from "./nav";
+
+// ----------------------------------------------------------------------
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -36,7 +40,7 @@ const Main = styled('div')(({ theme }) => {
 
 // ----------------------------------------------------------------------
 
-export default function SimpleLayout() {
+export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
   const darkTheme = createTheme({
     palette: {

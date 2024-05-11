@@ -59,7 +59,7 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
 
-    navigate(`/${cluster}/${name}/dashboard/user/Profile`, { replace: true });
+    // navigate(`/${cluster}/${name}/dashboard/user/Profile`, { replace: true });
   };
 
   const logout = async () => {

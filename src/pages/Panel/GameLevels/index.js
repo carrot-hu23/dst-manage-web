@@ -91,7 +91,7 @@ export default ({levels}) => {
                 <Space size="middle" wrap>
                     <Popconfirm
                         title={`清理 ${record.levelName} 世界`}
-                        description="将会删除 save session 文件等内容，请自行做好备份"
+                        description={"点击后，将删除存储的 session save 等文件，存储存档文件将会删除"}
                         onConfirm={() => {
                             const levels = []
                             levels.push(record.uuid)
@@ -190,7 +190,8 @@ export default ({levels}) => {
                 </Popconfirm>
 
                 <Popconfirm
-                    title={`一键清理世界`}
+                    title={`清理存档`}
+                    description={"点击后，将删除存储的 session save 等文件，存储存档文件将会删除"}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键清理")
@@ -213,7 +214,7 @@ export default ({levels}) => {
                         type={"primary"}
                         size={'small'}
                     >
-                        一键清理
+                        一键清理存档
                     </Button>
                 </Popconfirm>
             </Space>

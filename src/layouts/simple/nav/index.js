@@ -8,6 +8,9 @@ import useResponsive from '../../../hooks/useResponsive';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 import navConfig2 from '../../../menu/config2';
+import SvgColor from "../../../components/svg-color";
+
+const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
 const NAV_WIDTH = 240;
 
@@ -32,6 +35,8 @@ export default function Nav({ openNav, onCloseNav }) {
   const navigate = useNavigate();
   const isDesktop = useResponsive('up', 'lg');
 
+  const [navConfig, setNavconfig] = useState(navConfig2)
+
   const [account, setAcount] = useState({
     displayName: '',
     email: '',
@@ -46,6 +51,20 @@ export default function Nav({ openNav, onCloseNav }) {
         email: '',
         photoURL: ''
       }
+    }
+    if (user.role !== 'admin') {
+      setNavconfig([
+        {
+          title: '房间列表',
+          path: '/cluster',
+          icon: icon('trending-up'),
+        },
+        {
+          title: '大厅列表',
+          path: '/dst/server',
+          icon: icon('server'),
+        },
+      ])
     }
     setAcount(user)
   },[])
@@ -83,7 +102,7 @@ export default function Nav({ openNav, onCloseNav }) {
         </Link>
       </Box>
 
-      <NavSection data={navConfig2} />
+      <NavSection data={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

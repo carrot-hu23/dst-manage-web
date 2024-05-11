@@ -9,6 +9,7 @@ import {archiveApi, updateGameApi} from '../../../api/gameApi';
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
 import {createBackupApi} from "../../../api/backupApi";
+import {dstSeason, dstSegs} from "../../../utils/dst";
 
 
 export default () => {
@@ -88,15 +89,60 @@ export default () => {
     const [updateGameStatus, setUpdateStatus] = useState(false)
     const [createBackupStatus, setCreateBackupStatus] = useState(false)
 
+    function getTimeStatus(daysElapsedInSeason, daysLeftInSeason) {
+        const totalDays = daysElapsedInSeason + daysLeftInSeason;
+        const thresholdEarly = totalDays / 3;
+
+        if (daysElapsedInSeason <= thresholdEarly) {
+            return '早';
+        }
+        if (daysLeftInSeason < thresholdEarly) {
+            return '晚';
+        }
+        return '';
+    }
+
+    function shareClusterInfo() {
+        if (navigator.clipboard) {
+            // 使用Clipboard API复制文本
+            let text = ""
+            text += `房间: ${  archive.clusterName}\n`
+            const status = getTimeStatus(archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)
+            text += `天数: ${  archive?.meta?.Clock?.Cycles+1}天/${dstSegs[archive.meta?.Clock?.Phase]} ${status}${dstSeason[archive?.meta?.Seasons?.Season]} (${archive?.meta?.Seasons?.ElapsedDaysInSeason}/${archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})\n`
+            text += `模组: ${  archive.mods}\n`
+            if (archive?.password) {
+                text += `密码: ${  archive?.password}\n`
+            } else {
+                text += `密码: 无\n`
+            }
+            text += `直连: ${  archive.ipConnect}\n`
+            navigator.clipboard.writeText(text)
+                .then(()=> {
+                    message.success("复制成功")
+                })
+        } else {
+            console.error("浏览器不支持Clipboard API");
+        }
+    }
+
     return (
         <>
             <Form
 
                 className={'dst'}>
                 <Form.Item label={t('ClusterName')}>
-                    <span className={style.icon}>
-                        {archive.clusterName}
-                    </span>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
+                        <span className={style.icon}>
+                            {archive.clusterName}
+                        </span>
+                        <Button type={'link'} onClick={() => {
+                            shareClusterInfo()
+                        }}>分享</Button>
+                    </div>
                 </Form.Item>
                 <Form.Item label={t('GameMod')}>
                     <span>
@@ -105,7 +151,7 @@ export default () => {
                 </Form.Item>
                 <Form.Item label={t('Season')}>
                     <span>
-                        {archive?.meta?.Clock?.Cycles+1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                        {archive?.meta?.Clock?.Cycles+1}天/{dstSegs[archive.meta?.Clock?.Phase]} {getTimeStatus(archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)}{dstSeason[archive?.meta?.Seasons?.Season]}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
                     </span>
                 </Form.Item>
                 <Form.Item label={t('Mods')}>

@@ -25,6 +25,7 @@ import Tool from "./pages/Tool";
 import Server from "./pages/ClusterList/Server";
 import OS from "./pages/ClusterList/OS";
 import Mod2 from "./pages/Mod2";
+import UserList from "./pages/UserList";
 
 export default function Router() {
   const routes = useRoutes([
@@ -70,6 +71,10 @@ export default function Router() {
         {
           path: '/cluster',
           element: <Server />,
+        },
+        {
+          path: '/user/list',
+          element: <UserList />,
         },
         {
           path: '/os/info',
