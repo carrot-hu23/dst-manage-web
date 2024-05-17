@@ -193,11 +193,10 @@ export default () => {
             const clusterOptions = ()=>{
                 return serverList?.map(level => {
                     return {
-                        value: level.ID,
+                        value: level.id,
                         label: level.name,
-                        clusterName: level.clusterName
                     }
-                }).filter(level=>!userClusterList?.map(uc=>uc.clusterName).includes(level.clusterName))
+                }).filter(level=>!userClusterList?.map(uc=>uc.uuid).includes(level.uuid))
             }
 
             return (<>

@@ -31,26 +31,26 @@ async function queryUserAccountListApi(params) {
             params2.append(key, params[key]);
         }
     }
-    const url = `/api/user/account?${params2.toString()}`
+    const url = `/proxy/user/account?${params2.toString()}`
     const response = await http.get(url)
 
     return response.data
 }
 
 async function createUserAccountApi(data) {
-    const url = `/api/user/account`
+    const url = `/proxy/user/account`
     const response = await http.post(url,data)
     return response.data
 }
 
 async function updateUserAccountApi(data) {
-    const url = `/api/user/account`
+    const url = `/proxy/user/account`
     const response = await http.put(url,data)
     return response.data
 }
 
 async function deleteUserAccountApi(id) {
-    const url = `/api/user/account?id=${id}`
+    const url = `/proxy/user/account?id=${id}`
     const response = await http.delete(url)
     return response.data
 }
@@ -58,20 +58,20 @@ async function deleteUserAccountApi(id) {
 
 async function queryUserClusterListApi(userId) {
 
-    const url = `/api/user/account/cluster?userId=${userId}`
+    const url = `/proxy/user/account/cluster?userId=${userId}`
     const response = await http.get(url)
 
     return response.data
 }
 
 async function addUserClusterApi(data) {
-    const url = `/api/user/account/cluster`
+    const url = `/proxy/user/account/cluster`
     const response = await http.post(url,data)
     return response.data
 }
 
 async function deleteUserClusterApi(id) {
-    const url = `/api/user/account/cluster?id=${id}`
+    const url = `/proxy/user/account/cluster?id=${id}`
     const response = await http.delete(url)
     return response.data
 }

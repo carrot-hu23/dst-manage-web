@@ -15,11 +15,16 @@ http.interceptors.request.use((config) => config, (error) => Promise.reject(erro
 http.interceptors.response.use((response) => response, (error) => {    
     const {status} = error.response
     console.log(status);
-    if (status === 401 || status === 504) {
+    if (status === 401 || status === 504 || status === 502) {
         console.log(status);
         
         if (status === 504) {
-            message.error("服务器异常")
+            message.error("服务器异常，检测ip端口账号是否正确")
+            return Promise.reject(error)
+        }
+        if (status === 502) {
+            message.error("服务器错误")
+            return Promise.reject(error)
         }
         if (status === 401) {
             message.warning("登录失效")

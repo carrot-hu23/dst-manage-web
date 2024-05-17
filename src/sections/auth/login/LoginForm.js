@@ -21,7 +21,7 @@ export default function LoginForm() {
   const passwordRef = useRef(null);
 
   const handleClick = async() => {
-    const loginResponse = await http.post("/api/login", {
+    const loginResponse = await http.post("/login", {
       username: usernameRef.current.value,
       password: passwordRef.current.value
     })

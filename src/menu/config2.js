@@ -13,16 +13,6 @@ const navConfig = [
     path: '/user/list',
     icon: icon('hard-drive'),
   },
-  {
-    title: '大厅列表',
-    path: '/dst/server',
-    icon: icon('server'),
-  },
-  {
-    title: '系统信息',
-    path: '/os/info',
-    icon: icon('hard-drive'),
-  },
 ];
 
 export default navConfig;

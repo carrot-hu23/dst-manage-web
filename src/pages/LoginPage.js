@@ -52,10 +52,6 @@ export default function LoginPage() {
     const mdUp = useResponsive('up', 'md');
     const [isFirstTime, setIsFirstTime] = useState(false);
 
-    const [news, setNews] = useState([{
-        title: "",
-        url: ""
-    }])
     const { t } = useTranslation()
 
     useEffect(() => {
@@ -68,11 +64,6 @@ export default function LoginPage() {
             }
         })
         setIsFirstTime(false)
-        getNews().then((resp)=>{
-            if (resp.code === 200) {
-                setNews(resp.data)
-            }
-        })
     }, [])
 
     return (
@@ -85,16 +76,6 @@ export default function LoginPage() {
                                 Hi, Welcome Back
                             </Typography>
                             <img src="/assets/login.png" alt="login"/>
-
-                            <Typography variant="h5" sx={{px: 5, mt: 1, mb: 1}}>
-                                news: <a
-                                    target={'_blank'}
-                                    href={news[0].url}
-                                    rel="noreferrer">
-                                    {news[0].title}
-                                </a>
-                            </Typography>
-
                         </StyledSection>
                     )}
 

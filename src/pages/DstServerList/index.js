@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import React, { useState } from 'react';
-
+import {useParams} from "react-router-dom";
 import { ProTable } from '@ant-design/pro-components';
 import { Container, Box, Card } from '@mui/material';
 import {Button, Modal, Image, Skeleton, message} from 'antd';
@@ -64,6 +64,8 @@ const GameModEnum = {
 
 const DstServerList = () => {
 
+    const {cluster} = useParams()
+
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const onSelectChange = (newSelectedRowKeys) => {
         console.log('selectedRowKeys changed: ', newSelectedRowKeys);
@@ -97,7 +99,7 @@ const DstServerList = () => {
 
         setIsModalOpen(true);
 
-        dstHomeDetailApi({
+        dstHomeDetailApi(cluster,{
             rowId: record.__rowId,
             region: record.region
         }).then(response => {
@@ -122,9 +124,7 @@ const DstServerList = () => {
             copyable: true,
             // ellipsis: true,
             width: 300,
-            render: (text, record) => {
-                return(<div className={style.icon}>{record.name}</div>)
-            }
+            render: (text, record) => (<div className={style.icon}>{record.name}</div>)
         },
         {
             title: '当前人数',
@@ -319,7 +319,7 @@ const DstServerList = () => {
                         request={async (params = {}, sort, filter) => {
                             console.log(sort, filter);
                             console.log('params', params)
-                            const msg = await dstHomeListApi(params)
+                            const msg = await dstHomeListApi(cluster, params)
                             return {
                                 data: msg.data,
                                 success: true,

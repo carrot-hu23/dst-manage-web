@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import React, {useState} from 'react';
+import {useParams} from "react-router-dom";
 
 import {ProTable} from '@ant-design/pro-components';
 import {Container, Box} from '@mui/material';
@@ -14,7 +15,7 @@ import style from "./index.module.css"
 
 const DstServerList = () => {
 
-
+    const {cluster} = useParams()
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // 对话框的loading
@@ -37,7 +38,7 @@ const DstServerList = () => {
 
         setIsModalOpen(true);
 
-        dstHomeDetailApi2(record.RowId).then(response => {
+        dstHomeDetailApi2(cluster,record.RowId).then(response => {
             setLoading(false)
             console.log("response", response)
             setHomeInfo(response)
@@ -232,7 +233,7 @@ const DstServerList = () => {
                         request={async (params = {}, sort, filter) => {
                             console.log(sort, filter);
                             console.log('params', params)
-                            const msg = await dstHomeListApi2(params)
+                            const msg = await dstHomeListApi2(cluster, params)
                             return {
                                 data: msg.List,
                                 success: true,

@@ -64,7 +64,7 @@ export default function AccountPopover() {
 
   const logout = async () => {
     localStorage.clear()
-    const data = await http.get("/api/logout")
+    const data = await http.get("/logout")
     console.log('logout', data);
     
     navigate('/login', { replace: true });

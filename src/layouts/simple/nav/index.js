@@ -58,12 +58,7 @@ export default function Nav({ openNav, onCloseNav }) {
           title: '房间列表',
           path: '/cluster',
           icon: icon('trending-up'),
-        },
-        {
-          title: '大厅列表',
-          path: '/dst/server',
-          icon: icon('server'),
-        },
+        }
       ])
     }
     setAcount(user)

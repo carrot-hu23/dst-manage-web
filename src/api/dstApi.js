@@ -3,9 +3,8 @@ import { http } from "../utils/http";
 const dstHomeServerListUrl = "/api/dst/home/server"
 const dstHomeServerDetailUrl = "/api/dst/home/server/detail"
 
-async function getHomeListApi(params) {
+async function getHomeListApi(cluster, params) {
     // const url = '/dst/index/serverlist/getserverlist.html'
-    const  payload = {}
     if (params.mod !== undefined) {
         params.mod = parseInt(params.mod, 10)
     }
@@ -35,14 +34,16 @@ async function getHomeListApi(params) {
             }
     }, {
         headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Cluster': cluster,
         }
     })
     return response.data
 }
 
-export async function dstHomeListApi(params) {
-    const response = await getHomeListApi(params)
+export async function dstHomeListApi(cluster, params) {
+
+    const response = await getHomeListApi(cluster, params)
     const responseData = JSON.parse(response)
     const fields = responseData.successinfo.fields
     const data = responseData.successinfo.data
@@ -68,7 +69,7 @@ export async function dstHomeListApi(params) {
     return temp
 }
 
-export async function dstHomeDetailApi(params) {
+export async function dstHomeDetailApi(cluster, params) {
     // const url = '/dst/index/serverlist/getserverdetail.html'
 
     const response = await http.post(dstHomeServerDetailUrl, {
@@ -76,7 +77,8 @@ export async function dstHomeDetailApi(params) {
         region: params.region
     }, {
         headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Cluster': cluster,
         }
     })
     return response.data
@@ -84,7 +86,7 @@ export async function dstHomeDetailApi(params) {
 
 
 
-export async function dstHomeListApi2(params) {
+export async function dstHomeListApi2(cluster, params) {
 
     const params2 = new URLSearchParams();
 
@@ -99,14 +101,22 @@ export async function dstHomeListApi2(params) {
 
 
     const url = `/api/dst/home/server2?${params2.toString()}`
-    const response = await http.get(url)
+    const response = await http.get(url, {
+        headers: {
+            'Cluster': cluster,
+        }
+    })
 
     return response.data
 }
 
-export async function dstHomeDetailApi2(rowId) {
+export async function dstHomeDetailApi2(cluster, rowId) {
     const url = `/api/dst/home/server/detail2?rowId=${rowId}`
-    const response = await http.get(url)
+    const response = await http.get(url,{
+        headers: {
+            'Cluster': cluster,
+        }
+    })
 
     return response.data
 }

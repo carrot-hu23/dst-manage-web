@@ -2,37 +2,30 @@
 
 import React, {useEffect, useState} from 'react';
 import {
-    Alert,
     Button,
     Card,
     Col,
     Form,
     Input,
     Modal,
-    Radio,
     Row,
-    Tag,
     message,
     Spin,
     Space,
-    Tooltip, Skeleton, Popconfirm, Progress, Badge
+    Skeleton, Popconfirm, InputNumber
 } from 'antd';
-import {EditOutlined, PlusOutlined, QuestionCircleOutlined, SettingOutlined, DeleteOutlined} from '@ant-design/icons';
+import {EditOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Container} from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import {createCluster, deleteCluster, getClusterList, updateCluster} from "../../../api/clusterApi";
-import style from "../../DstServerList/index.module.css";
 import {useTranslation} from "react-i18next";
-import {dstHomeDetailApi} from "../../../api/dstApi";
 import HomeDetail from "../../DstServerList/home";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
 
-const ServerItem = ({server, serverList, updateServerList, removeServerList}) => {
+const ServerItem = ({server, serverList, updateServerList, reloadServerList}) => {
 
     const navigate = useNavigate();
     const {t} = useTranslation()
-
-    const archive = server.gameArchive
 
     function to(cluster, name) {
         console.log(`/${cluster}/${name}/dashboard/panel`)
@@ -47,37 +40,16 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
 
     function deleteServer(server) {
         setSpinning(true)
-        deleteCluster(server.clusterName)
+        deleteCluster(server.id)
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("删除成功")
-                    removeServerList(server)
+                    reloadServerList()
                 } else {
                     message.error("删除失败")
                 }
                 setSpinning(false)
             })
-    }
-
-    const viewHomeDetail = (server) => {
-        console.log(server.rowId)
-        console.log(server.region)
-        setSearchLoading(true)
-        setIsOpenHomeDetail(true);
-
-        dstHomeDetailApi({
-            rowId: server.rowId,
-            region: server.region
-        }).then(response => {
-            const responseData = JSON.parse(response)
-            const {success} = responseData
-            if (success) {
-                setHomeInfo(responseData)
-            } else {
-                message.warning("请求Klei服务器超时")
-            }
-            setSearchLoading(false)
-        })
     }
 
     const UpdateServer = ({server, serverList, updateServerList}) => {
@@ -130,16 +102,11 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
             <>
                 <Spin spinning={spining} tip={"正在更新配置"}>
 
-                    <Alert message="以下路径请使用绝对路径，不支持相对路径，同时不要使用特殊字符" type="warning" showIcon
-                           closable/>
-                    <br/>
                     <Form
                         labelCol={{
                             span: 6,
                         }}
                         form={form}
-                        // layout="vertical"
-                        // labelAlign={'left'}
                     >
                         <Form.Item label="房间名称"
                                    name="name"
@@ -152,113 +119,49 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                         >
                             <Input/>
                         </Form.Item>
-                        {/*
-                        <Alert
-                            message="如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
-                            type="warning" showIcon closable/>
-                        */}
-                        {/*
-                        <Form.Item label="存档名称"
-                                   tooltip={"如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串"}
-                                   name="clusterName"
+                        <Form.Item label="ip"
+                                   name="ip"
                                    rules={[
                                        {
                                            required: true,
-                                           validator: validateName
+                                           message: 'Please input your ip!',
                                        },
                                    ]}
                         >
                             <Input/>
                         </Form.Item>
-                        */}
-                        <Form.Item label="steamcmd 路径"
-                                   name="steamcmd"
+                        <Form.Item label="port"
+                                   name="port"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your steamcmd path!',
+                                           message: 'Please input your port!',
                                        },
                                    ]}
                         >
-                            <Input/>
+                            <InputNumber/>
                         </Form.Item>
-                        <Form.Item label="饥荒路径"
-                                   name="force_install_dir"
+                        <Form.Item label="username"
+                                   name="username"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your force_install_dir path!',
+                                           message: 'Please input your username!',
                                        },
                                    ]}
                         >
                             <Input/>
                         </Form.Item>
-                        {/*
-                        <Form.Item
-                            tooltip={"暂时未实现"}
-                            label="persistent_storage_root(暂时未实现)"
-                            name="persistent_storage_root"
-                            rules={[
-                                {
-                                    required: false,
-                                    message: 'Please input your persistent_storage_root path!',
-                                },
-                            ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item
-                            tooltip={"暂时未实现"}
-                            label="conf_dir(暂时未实现)"
-                            name="conf_dir"
-                            rules={[
-                                {
-                                    required: false,
-                                    message: 'Please input your conf_dir path!',
-                                },
-                            ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        */}
-                        <Form.Item label="ugc_directory"
-                                   name="ugc_directory"
-                                   rules={[
-                                       {
-                                           required: false,
-                                           message: 'Please input your ugc_directory path!',
-                                       },
-                                   ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label="备份路径"
-                                   name="backup"
+                        <Form.Item label="password"
+                                   name="password"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your backup path!',
+                                           message: 'Please input your password!',
                                        },
                                    ]}
                         >
-                            <Input/>
-                        </Form.Item>
-
-                        <Form.Item
-                            label="启动方式"
-                            name="bin"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input dontstarve_dedicated_server bin',
-                                },
-                            ]}
-                        >
-                            <Radio.Group>
-                                <Radio value={32}>32</Radio>
-                                <Radio value={64}>64</Radio>
-                                <Radio value={100}>lua-jit</Radio>
-                            </Radio.Group>
+                            <Input.Password />
                         </Form.Item>
                         <Form.Item
                             label={"操作"}
@@ -300,11 +203,6 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                     title={`${server.name}`}
                     hoverable
                     actions={[
-                        // <div>
-                        //     {server.status && <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
-                        //         viewHomeDetail(server)
-                        //     }}>信息</Button> }
-                        // </div>,
                         <Popconfirm
                             title="是否删除房间"
                             description="请自行做好备份"
@@ -314,9 +212,9 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                                 deleteServer(server)
                             }}
                         >
-                           <Button icon={<DeleteOutlined key="delete"/>} type={'primary'} danger size={'small'}>删除</Button>
+                           <Button icon={<DeleteOutlined key="delete"/>} type={'link'} danger size={'small'}>删除</Button>
                         </Popconfirm>,
-                        <Button icon={<EditOutlined key="edit"/>} type={'primary'} size={'small'} onClick={() => {
+                        <Button icon={<EditOutlined key="edit"/>} type={'link'} size={'small'} onClick={() => {
                             setOpen(true)
                         }}>配置</Button>,
 
@@ -324,63 +222,21 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                     extra={[
                         <Space size={8} wrap>
                             <div>
-                                {server.status &&  <Badge status="success" />}
-                                {!server.status && <Badge status="default" />}
-                            </div>
-                            <div>
-                                <Button type={'primary'} size={'small'} onClick={() => to(server.clusterName, server.name)}>进入</Button>
+                                <Button type={'primary'} size={'small'} onClick={() => to(server.uuid, server.name)}>进入</Button>
                             </div>
                         </Space>
                     ]}
                 >
                     <Form className={'dst'}>
-                        <Form.Item label={t('ClusterName')}>
-                    <span className={style.icon}>
-                        {archive.clusterName}
-                    </span>
+                        <Form.Item label={t('ip')}>
+                            <HiddenText text={server.ip + ":" + server.port}/>
                         </Form.Item>
-                        <Form.Item label={t('GameMod')}>
-                    <span>
-                        {archive.gameMod}
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('Season')}>
-                    <span>
-                        {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('Mods')}>
-                    <span>
-                        {archive.mods}
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('人数')}>
-                            <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
-                        </Form.Item>
-                        <Form.Item label={t('IpConnect')}>
-                            <Space size={8}>
-                                <HiddenText text={archive.ipConnect}/>
-                                <Tooltip placement="topLeft"
-                                         title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
-                                    <QuestionCircleOutlined/>
-                                </Tooltip>
-                            </Space>
-                        </Form.Item>
-                        <Form.Item label={t('Password')}>
-                            <HiddenText text={archive.password}/>
-                        </Form.Item>
-                        <Form.Item label={t('Version')}>
-                    <span>
-                        {archive.version} / {archive.lastVersion}
-                    </span>
-                        </Form.Item>
-
                     </Form>
 
                 </Card>
             </Spin>
 
-            <Modal width={860} title="更新房间配置" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
+            <Modal width={860} title="更新集群配置" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}
                    footer={null}>
                 <UpdateServer server={server} serverList={serverList} updateServerList={updateServerList}/>
             </Modal>
@@ -429,16 +285,6 @@ export default () => {
             if (oldServerList[i].ID === server.ID) {
                 newServerList.push(server)
             } else {
-                newServerList.push(oldServerList[i])
-            }
-        }
-        setServerList(newServerList)
-    }
-    const removeServerList = (server) => {
-        const oldServerList = serverList
-        const newServerList = []
-        for (let i = 0; i < oldServerList.length; i++) {
-            if (oldServerList[i].ID !== server.ID) {
                 newServerList.push(oldServerList[i])
             }
         }
@@ -503,11 +349,8 @@ export default () => {
         };
         return (
             <>
-                <Spin spinning={spining} tip={"正在创建房间"}>
+                <Spin spinning={spining} tip={"正在添加房间"}>
 
-                    <Alert message="以下路径请使用绝对路径，不支持相对路径，同时不要使用特殊字符" type="warning" showIcon
-                           closable/>
-                    <br/>
                     <Form
                         // layout="vertical"
                         // labelAlign={'left'}
@@ -527,113 +370,49 @@ export default () => {
                         >
                             <Input/>
                         </Form.Item>
-                        {/*
-                        <Alert
-                            message="如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
-                            type="warning" showIcon closable/>
-                        */}
-                        <Form.Item label="存档名称"
-                                   tooltip={"如果指定的存档不存在，将会新建一个存档。存档名称只支持 英文开头，同时存档不要为子串"}
-                                   name="clusterName"
+                        <Form.Item label="ip"
+                                   name="ip"
                                    rules={[
                                        {
                                            required: true,
-                                           validator: validateName
+                                           message: 'Please input your ip!',
                                        },
                                    ]}
                         >
                             <Input/>
                         </Form.Item>
-                        <Form.Item label="steamcmd 路径"
-                                   name="steamcmd"
-                                   tooltip={"docker 环境 路径填写 /app/steamcmd"}
+                        <Form.Item label="port"
+                                   name="port"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your steamcmd path!',
+                                           message: 'Please input your port!',
                                        },
                                    ]}
                         >
-                            <Input/>
+                            <InputNumber/>
                         </Form.Item>
-                        <Form.Item label="饥荒路径"
-                                   tooltip={"docker 环境 路径请填 /app/dst-dedicated-server"}
-                                   name="force_install_dir"
+                        <Form.Item label="username"
+                                   name="username"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your force_install_dir path!',
+                                           message: 'Please input your username!',
                                        },
                                    ]}
                         >
                             <Input/>
                         </Form.Item>
-                        {/*
-                        <Form.Item
-                                   tooltip={"暂时未实现"}
-                                   label="persistent_storage_root(暂时未实现)"
-                                   name="persistent_storage_root"
-                                   rules={[
-                                       {
-                                           required: false,
-                                           message: 'Please input your persistent_storage_root path!',
-                                       },
-                                   ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item
-                            tooltip={"暂时未实现"}
-                            label="conf_dir(暂时未实现)"
-                            name="conf_dir"
-                            rules={[
-                                {
-                                    required: false,
-                                    message: 'Please input your conf_dir path!',
-                                },
-                            ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        */}
-                        <Form.Item label="ugc_directory"
-                                   name="ugc_directory"
-                                   rules={[
-                                       {
-                                           required: false,
-                                           message: 'Please input your ugc_directory path!',
-                                       },
-                                   ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label="备份路径"
-                                   name="backup"
+                        <Form.Item label="password"
+                                   name="password"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your backup path!',
+                                           message: 'Please input your password!',
                                        },
                                    ]}
                         >
                             <Input/>
-                        </Form.Item>
-
-                        <Form.Item
-                            label="启动方式"
-                            name="bin"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input dontstarve_dedicated_server bin',
-                                },
-                            ]}
-                        >
-                            <Radio.Group>
-                                <Radio value={32}>32</Radio>
-                                <Radio value={64}>64</Radio>
-                                <Radio value={100}>lua-jit</Radio>
-                            </Radio.Group>
                         </Form.Item>
                         <Form.Item
                             label={"操作"}
@@ -659,28 +438,9 @@ export default () => {
                         {serverList.map((server, index) => (
                             <Col xs={24} sm={8} md={8} lg={6} xl={6}>
                                 <ServerItem key={index} server={server} serverList={serverList}
-                                            removeServerList={removeServerList} updateServerList={updateServerList}/>
+                                            reloadServerList={reload} updateServerList={updateServerList}/>
                             </Col>
                         ))}
-                        {/*
-                        <Col xs={24} sm={8} md={6} lg={6} xl={6}>
-                            <div
-                                onClick={() => setOpen(true)}
-                                style={{
-                                    height: "100px",
-                                    backgroundColor: '#75757',
-                                    border: '1px dashed #d9d9d9',
-                                    borderRadius: '8px',
-                                    textAlign: 'center',
-                                    verticalAlign: 'top',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
-                                <Button icon={<PlusOutlined/>}  type={'primary'}>添加房间</Button>
-                            </div>
-                        </Col>
-                        */}
                     </Row>
 
                     <Modal style={{
