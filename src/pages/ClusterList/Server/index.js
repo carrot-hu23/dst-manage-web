@@ -314,9 +314,9 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                                 deleteServer(server)
                             }}
                         >
-                           <Button icon={<DeleteOutlined key="delete"/>} type={'primary'} danger size={'small'}>删除</Button>
+                           <Button icon={<DeleteOutlined key="delete"/>} type={'text'} danger size={'small'}>删除</Button>
                         </Popconfirm>,
-                        <Button icon={<EditOutlined key="edit"/>} type={'primary'} size={'small'} onClick={() => {
+                        <Button icon={<EditOutlined key="edit"/>} type={'text'} size={'small'} onClick={() => {
                             setOpen(true)
                         }}>配置</Button>,
 
