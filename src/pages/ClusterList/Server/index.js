@@ -11,7 +11,6 @@ import {
     Modal,
     Radio,
     Row,
-    Tag,
     message,
     Spin,
     Space,
@@ -27,7 +26,7 @@ import {dstHomeDetailApi} from "../../../api/dstApi";
 import HomeDetail from "../../DstServerList/home";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
 
-const ServerItem = ({server, serverList, updateServerList, removeServerList}) => {
+const ServerItem = ({isAdmin, server, serverList, updateServerList, removeServerList}) => {
 
     const navigate = useNavigate();
     const {t} = useTranslation()
@@ -273,6 +272,18 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
         )
     }
 
+    const LabelStyle = ({label, children})=>{
+        return(
+            <div style={{paddingBottom: 8, display: 'flex'}}>
+                <div>
+                    <span style={{paddingRight: 8}}>{label}:</span>
+                </div>
+                <div>
+                    {children}
+                </div>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -299,7 +310,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                     bordered={false}
                     title={`${server.name}`}
                     hoverable
-                    actions={[
+                    actions={isAdmin?[
                         // <div>
                         //     {server.status && <Button icon={<SettingOutlined key="setting"/>} size={'small'} onClick={() => {
                         //         viewHomeDetail(server)
@@ -320,7 +331,7 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                             setOpen(true)
                         }}>配置</Button>,
 
-                    ]}
+                    ]:[]}
                     extra={[
                         <Space size={8} wrap>
                             <div>
@@ -333,50 +344,60 @@ const ServerItem = ({server, serverList, updateServerList, removeServerList}) =>
                         </Space>
                     ]}
                 >
-                    <Form className={'dst'}>
-                        <Form.Item label={t('ClusterName')}>
-                    <span className={style.icon}>
-                        {archive.clusterName}
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('GameMod')}>
-                    <span>
-                        {archive.gameMod}
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('Season')}>
-                    <span>
-                        {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('Mods')}>
-                    <span>
-                        {archive.mods}
-                    </span>
-                        </Form.Item>
-                        <Form.Item label={t('人数')}>
-                            <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
-                        </Form.Item>
-                        <Form.Item label={t('IpConnect')}>
-                            <Space size={8}>
-                                <HiddenText text={archive.ipConnect}/>
-                                <Tooltip placement="topLeft"
-                                         title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
-                                    <QuestionCircleOutlined/>
-                                </Tooltip>
-                            </Space>
-                        </Form.Item>
-                        <Form.Item label={t('Password')}>
-                            <HiddenText text={archive.password}/>
-                        </Form.Item>
-                        <Form.Item label={t('Version')}>
-                    <span>
-                        {archive.version} / {archive.lastVersion}
-                    </span>
-                        </Form.Item>
-
-                    </Form>
-
+                    <Row>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <LabelStyle label={t('ClusterName')} >
+                                <span className={style.icon}>
+                                    <Tooltip title={archive.clusterName}>
+                                        {archive?.clusterName?.slice(0, 15)} ...
+                                    </Tooltip>
+                                </span>
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <LabelStyle label={t('GameMod')} >
+                                {archive.gameMod}
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                            <LabelStyle label={t('Mods')} >
+                                {archive.mods}
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <LabelStyle label={t('Season')} >
+                                {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                            <LabelStyle label={t('人数')} >
+                                <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <LabelStyle label={t('IpConnect')} >
+                                <Space size={8}>
+                                    <HiddenText text={archive.ipConnect}/>
+                                    <Tooltip placement="topLeft"
+                                             title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
+                                        <QuestionCircleOutlined/>
+                                    </Tooltip>
+                                </Space>
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <LabelStyle label={t('Password')} >
+                                <HiddenText text={archive.password}/>
+                            </LabelStyle>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <LabelStyle label={t('Version')} >
+                                 <span>
+                                     {archive.version} / {archive.lastVersion}
+                                 </span>
+                            </LabelStyle>
+                        </Col>
+                    </Row>
                 </Card>
             </Spin>
 
@@ -657,30 +678,11 @@ export default () => {
                     </div>}
                     <Row gutter={[16, 16]}>
                         {serverList.map((server, index) => (
-                            <Col xs={24} sm={8} md={8} lg={6} xl={6}>
-                                <ServerItem key={index} server={server} serverList={serverList}
+                            <Col xs={24} sm={12} md={8} lg={8} xl={6}>
+                                <ServerItem isAdmin={showAddBtn} key={index} server={server} serverList={serverList}
                                             removeServerList={removeServerList} updateServerList={updateServerList}/>
                             </Col>
                         ))}
-                        {/*
-                        <Col xs={24} sm={8} md={6} lg={6} xl={6}>
-                            <div
-                                onClick={() => setOpen(true)}
-                                style={{
-                                    height: "100px",
-                                    backgroundColor: '#75757',
-                                    border: '1px dashed #d9d9d9',
-                                    borderRadius: '8px',
-                                    textAlign: 'center',
-                                    verticalAlign: 'top',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
-                                <Button icon={<PlusOutlined/>}  type={'primary'}>添加房间</Button>
-                            </div>
-                        </Col>
-                        */}
                     </Row>
 
                     <Modal style={{
