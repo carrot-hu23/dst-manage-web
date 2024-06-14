@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {Segmented, Skeleton, Tabs} from 'antd';
+import {Skeleton} from 'antd';
 import {Container, Box} from '@mui/material';
 import {parse} from "lua-json";
 import {useParams} from "react-router-dom";
@@ -9,8 +9,6 @@ import GameOperator from "./GameOperator";
 
 import ControlPanel from "./ControlPanel";
 import {getLevelStatusApi} from "../../api/8level";
-import ServerLog from "./ServerLog";
-
 
 
 const Panel = () => {
@@ -105,19 +103,7 @@ const Panel = () => {
             <Container maxWidth="xxl">
                 <Box sx={{p: 0}} dir="ltr">
                     <Skeleton loading={loading} >
-
-                        <Segmented
-                            style={{
-                                marginBottom: '12px'
-                            }}
-                            options={['操作台', '远程指令',]}
-                            onChange={(value) => {
-                                setSegmented(value)
-                            }}
-                        />
-                        {segmented === "操作台" && <GameOperator levels={levels}/>}
-                        {segmented === "远程指令" && <ServerLog levels={levels}/> }
-
+                        <GameOperator levels={levels}/>
                     </Skeleton>
                 </Box>
             </Container>

@@ -14,9 +14,10 @@ import {
     message,
     Spin,
     Space,
-    Tooltip, Skeleton, Popconfirm, Progress, Badge
+    Tooltip, Skeleton, Popconfirm, Badge
 } from 'antd';
-import {EditOutlined, PlusOutlined, QuestionCircleOutlined, SettingOutlined, DeleteOutlined} from '@ant-design/icons';
+import {EditOutlined, PlusOutlined, QuestionCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ProDescriptions } from '@ant-design/pro-components';
 import {Container} from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import {createCluster, deleteCluster, getClusterList, updateCluster} from "../../../api/clusterApi";
@@ -344,60 +345,75 @@ const ServerItem = ({isAdmin, server, serverList, updateServerList, removeServer
                         </Space>
                     ]}
                 >
-                    <Row>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <LabelStyle label={t('ClusterName')} >
-                                <span className={style.icon}>
-                                    <Tooltip title={archive.clusterName}>
-                                        {archive?.clusterName?.slice(0, 15)} ...
-                                    </Tooltip>
-                                </span>
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <LabelStyle label={t('GameMod')} >
-                                {archive.gameMod}
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                            <LabelStyle label={t('Mods')} >
-                                {archive.mods}
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <LabelStyle label={t('Season')} >
-                                {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                            <LabelStyle label={t('人数')} >
-                                <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <LabelStyle label={t('IpConnect')} >
-                                <Space size={8}>
-                                    <HiddenText text={archive.ipConnect}/>
-                                    <Tooltip placement="topLeft"
-                                             title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
-                                        <QuestionCircleOutlined/>
-                                    </Tooltip>
-                                </Space>
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <LabelStyle label={t('Password')} >
-                                <HiddenText text={archive.password}/>
-                            </LabelStyle>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <LabelStyle label={t('Version')} >
-                                 <span>
-                                     {archive.version} / {archive.lastVersion}
-                                 </span>
-                            </LabelStyle>
-                        </Col>
-                    </Row>
+                    <ProDescriptions
+                        column={2}
+                        //title="高级定义列表"
+                    >
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            contentStyle={{
+                                maxWidth: '72%',
+                            }}
+                            ellipsis
+                            label={t('ClusterName')}
+                        >
+                            <span className={style.icon}>
+                                {archive.clusterName}
+                            </span>
+                        </ProDescriptions.Item>
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            label={t('GameMod')}
+                        >
+                            {archive.gameMod}
+                        </ProDescriptions.Item>
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            label={t('Mods')}
+                        >
+                            {archive.mods}
+                        </ProDescriptions.Item>
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            label={t('Season')}
+                        >
+                            {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                        </ProDescriptions.Item>
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            label={t('Players')}
+                        >
+                            <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
+                        </ProDescriptions.Item>
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            label={t('Version')}
+                        >
+                            {archive.version} / {archive.lastVersion}
+                        </ProDescriptions.Item>
+                        <ProDescriptions.Item
+                            span={2}
+                            valueType="text"
+                            label={t('IpConnect')}
+                            contentStyle={{
+                                height: '44px',
+                            }}
+                        >
+                            <Space size={8}>
+                                <HiddenText text={archive.ipConnect}/>
+                                <Tooltip placement="topLeft"
+                                         title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
+                                    <QuestionCircleOutlined/>
+                                </Tooltip>
+                            </Space>
+                        </ProDescriptions.Item>
+                    </ProDescriptions>
                 </Card>
             </Spin>
 

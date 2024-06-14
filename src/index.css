@@ -7,3 +7,7 @@
     display: inline;
     margin-bottom: 1em;
 }
+
+.ant-descriptions .ant-descriptions-row >th, .ant-descriptions .ant-descriptions-row >td {
+     padding-bottom: 6px;
+}

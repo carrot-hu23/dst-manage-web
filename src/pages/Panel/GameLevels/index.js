@@ -137,7 +137,7 @@ export default ({levels}) => {
                 padding: '8px'
             }} size={16}>
                 <Popconfirm
-                    title={`一键启动世界`}
+                    title={`启动世界`}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键启动")
@@ -159,12 +159,12 @@ export default ({levels}) => {
                         size={'small'}
                         type="primary"
                     >
-                        一键启动
+                        启动存档
                     </Button>
                 </Popconfirm>
 
                 <Popconfirm
-                    title={`一键关闭世界`}
+                    title={`关闭世界`}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键关闭")
@@ -185,7 +185,7 @@ export default ({levels}) => {
                     <Button
                         size={'small'}
                     >
-                        一键关闭
+                        关闭存档
                     </Button>
                 </Popconfirm>
 
@@ -214,7 +214,7 @@ export default ({levels}) => {
                         type={"primary"}
                         size={'small'}
                     >
-                        一键清理存档
+                        清理存档
                     </Button>
                 </Popconfirm>
             </Space>

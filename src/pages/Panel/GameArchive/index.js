@@ -1,6 +1,7 @@
 import {Alert, Button, Form, message, Popconfirm, Space, Tooltip} from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React, {useEffect, useState} from 'react';
+import {ProDescriptions} from "@ant-design/pro-components";
 
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
@@ -127,100 +128,122 @@ export default () => {
 
     return (
         <>
-            <Form
-
-                className={'dst'}>
-                <Form.Item label={t('ClusterName')}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <span className={style.icon}>
-                            {archive.clusterName}
-                        </span>
-                        <Button type={'link'} onClick={() => {
-                            shareClusterInfo()
-                        }}>分享</Button>
-                    </div>
-                </Form.Item>
-                <Form.Item label={t('GameMod')}>
-                    <span>
-                        {archive.gameMod}
+            {archive.version !== archive.lastVersion &&
+                <Alert
+                    action={[
+                        <>
+                            <a target={'_blank'}
+                               href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
+                               rel="noreferrer">
+                                查看
+                            </a>
+                        </>
+                    ]}
+                    message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
+            <ProDescriptions
+                column={2}
+            >
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    contentStyle={{
+                        maxWidth: '80%',
+                    }}
+                    ellipsis
+                    label={t('ClusterName')}
+                >
+                    <span className={style.icon}>
+                        {archive.clusterName}
                     </span>
-                </Form.Item>
-                <Form.Item label={t('Season')}>
-                    <span>
-                        {archive?.meta?.Clock?.Cycles+1}天/{dstSegs[archive.meta?.Clock?.Phase]} {getTimeStatus(archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)}{dstSeason[archive?.meta?.Seasons?.Season]}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
-                    </span>
-                </Form.Item>
-                <Form.Item label={t('Mods')}>
-                    <span>
-                        {archive.mods}
-                    </span>
-                </Form.Item>
-                <Form.Item label={t('人数')}>
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('GameMod')}
+                >
+                    {archive.gameMod}
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('Mods')}
+                >
+                    {archive.mods}
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('Season')}
+                >
+                    {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('Players')}
+                >
                     <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
-                </Form.Item>
-                <Form.Item label={t('IpConnect')}>
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('Version')}
+                >
+                    {archive.version} / {archive.lastVersion}
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('IpConnect')}
+                >
                     <Space size={8}>
-                        <HiddenText text={archive.ipConnect} />
-                        <Tooltip placement="topLeft" title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
-                            <QuestionCircleOutlined />
+                        <HiddenText text={archive.ipConnect}/>
+                        <Tooltip placement="topLeft"
+                                 title={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`}>
+                            <QuestionCircleOutlined/>
                         </Tooltip>
                     </Space>
-                </Form.Item>
-                <Form.Item label={t('Password')}>
-                    <HiddenText text={archive.password} />
-                </Form.Item>
-                <Form.Item label={t('Version')}>
-                    <span>
-                        {archive.version} / {archive.lastVersion}
-                    </span>
-                </Form.Item>
-                {/*
-                <Alert style={{
-                    marginBottom: '4px'
-                }} message={`请开放对应的 ${archive.port} udp 端口，已开放请忽略`} type="info" showIcon closable />
-                */}
-                {archive.version !== archive.lastVersion &&
-                    <Alert
-                        action={[
-                            <>
-                                <a target={'_blank'}
-                                   href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
-                                   rel="noreferrer">
-                                    查看
-                                </a>
-                            </>
-                        ]}
-                        message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
-                <Form.Item label={"操作按钮"}>
-                    <Space size={16}>
-                        <Popconfirm
-                            title="是否更新游戏"
-                            description={(
-                                <span>更新游戏，将停止世界，请自行启动</span>
-                            )}
-                            placement="topLeft"
-                            onConfirm={()=>updateGameOnclick()}
-                        >
-                            <Button  loading={updateGameStatus} type="primary">
-                                {t('updateGame')}
-                            </Button>
-                        </Popconfirm>
-
-                        <Button
-                            onClick={() => {
-                                createBackupOnClick()
-                            }}
-                            loading={createBackupStatus}
-                        >
-                            {t('createBackup')}
-                        </Button>
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('Password')}
+                >
+                    <Space size={8}>
+                        <HiddenText text={archive.password}/>
                     </Space>
-                </Form.Item>
-            </Form>
+                </ProDescriptions.Item>
+                <ProDescriptions.Item
+                    span={2}
+                    valueType="text"
+                    label={t('操作')}
+                >
+                <Space size={16}>
+                    <Popconfirm
+                        title="是否更新游戏"
+                        description={(
+                            <span>更新游戏，将停止世界，请自行启动</span>
+                        )}
+                        placement="topLeft"
+                        onConfirm={()=>updateGameOnclick()}
+                    >
+                        <Button size={'small'} loading={updateGameStatus} type="primary">
+                            {t('updateGame')}
+                        </Button>
+                    </Popconfirm>
+
+                    <Button
+                        size={'small'}
+                        onClick={() => {
+                            createBackupOnClick()
+                        }}
+                        loading={createBackupStatus}
+                    >
+                        {t('createBackup')}
+                    </Button>
+                </Space>
+                </ProDescriptions.Item>
+            </ProDescriptions>
         </>
     )
 }

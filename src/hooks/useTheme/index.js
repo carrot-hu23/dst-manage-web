@@ -10,22 +10,10 @@ export function useTheme() {
 
 // ThemeProvider 组件
 export function ThemeProvider2({ children }) {
-    // const [theme, setTheme] = useState('light'); // 默认主题为 'light'
-    //
-    // // 切换主题
-    // const toggleTheme = () => {
-    //     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-    // };
-    //
-    // // 将主题和切换方法传递给子组件
-    // const themeContextValue = {
-    //     theme,
-    //     toggleTheme,
-    // };
 
     const [theme, setTheme] = useState(() => {
         const storedTheme = localStorage.getItem('theme');
-        return storedTheme || 'dark';
+        return storedTheme || 'light';
     });
 
     useEffect(() => {

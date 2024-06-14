@@ -7,6 +7,7 @@ import GameArchive from "../GameArchive";
 import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
 import CardTitle from "../CardTitle";
+import ServerLog from "../ServerLog";
 
 
 export default ({levels}) => {
@@ -32,6 +33,8 @@ export default ({levels}) => {
                 </Grid>
 
                 <Grid item xs={12} md={7} lg={7}>
+                    <ServerLog levels={levels}/>
+                    <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
                             <CardTitle title={'在线玩家'} />
