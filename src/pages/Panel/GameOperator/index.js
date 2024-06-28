@@ -37,7 +37,7 @@ export default ({levels}) => {
                     <br/>
                     <Card>
                         <Box sx={{p: 1}} dir="ltr">
-                            <GameLevels/>
+                            <GameLevels levelList={levels}/>
                         </Box>
                     </Card>
                 </Grid>

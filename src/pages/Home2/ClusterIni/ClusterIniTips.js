@@ -58,7 +58,13 @@ export default ()=>{
         {
             key: '2',
             label: t('Server tandem'),
-            children: <p>暂无</p>,
+            children:
+                <>
+                    <p>具体请参考：<Link
+                        href="https://atjiu.github.io/dstmod-tutorial/#/multi_dedicated_server">https://atjiu.github.io/dstmod-tutorial/#/multi_dedicated_server</Link>
+                    </p>
+                    基本就是主世界 bind_ip 填写 0.0.0.0 master_ip 填写 当前服务器的公网ip。从世界 bind_ip 填写 127.0.0.1，master_ip 填写主世界的ip
+                </>,
             style: panelStyle,
         },
     ]

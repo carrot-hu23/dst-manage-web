@@ -18,7 +18,7 @@ export default ()=>{
     },[])
 
     return<>
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl">
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
                     <h4>帮助文档</h4>

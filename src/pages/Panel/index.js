@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Skeleton, Tabs} from 'antd';
 import {Container, Box} from '@mui/material';
-import {parse} from "lua-json";
 
 import GameOperator from "./GameOperator";
 
@@ -32,12 +31,6 @@ const Panel = () => {
                             Ps: level.Ps,
                             status: level.status,
                             modoverrides: level.modoverrides
-                        }
-                        try {
-                            const data = parse(level.leveldataoverride)
-                            item.location = data.location
-                        } catch (error) {
-                            console.log(error)
                         }
                         items.push(item)
                     })

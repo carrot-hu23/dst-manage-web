@@ -21,7 +21,7 @@ const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph} = Typography;
 
 export default () => {
 
@@ -55,7 +55,6 @@ export default () => {
 
     return (
         <Card>
-
             <Drawer title="Docker 路径参考" placement="right" onClose={() => setOpen(false)} open={open}>
                 <Typography>
                     <Title level={4}>路径参考:</Title>
@@ -96,6 +95,9 @@ export default () => {
             </Drawer>
 
             <Box sx={{p: 3, pb: 1}} dir="ltr">
+                <Alert style={{marginBottom: '12px'}}
+                       message="请先停止所有世界，自行做好保存存档，不然之前的世界会一直运行"
+                       type="warning" showIcon/>
                 <Form
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -230,6 +232,7 @@ export default () => {
                             </Form.Item>
                         </div>}
 
+                        {/*
                         <Form.Item
                             label="beta(暂时未实现)"
                             name="beta"
@@ -245,6 +248,7 @@ export default () => {
                                 <Radio value={1}>true</Radio>
                             </Radio.Group>
                         </Form.Item>
+                        */}
                         <Form.Item
                             label="bin"
                             name="bin"
@@ -269,10 +273,6 @@ export default () => {
                                 span: 24,
                             }}
                         >
-                            <Alert style={{marginTop: '8px'}}
-                                   message="请先停止所有世界，自行做好保存存档，不然之前的世界会一直运行"
-                                   type="warning" showIcon/>
-                            <br/>
                             <Button style={{margin: "0 auto", display: "block"}} type="primary" htmlType="submit">
                                 保存
                             </Button>

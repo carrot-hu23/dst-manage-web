@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm, notification, AutoComplete} from "antd";
+import {Button, Spin, Space, Input, Select, Switch, message, Tabs, Popconfirm, AutoComplete} from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -13,7 +13,6 @@ import {useTheme} from "../../../hooks/useTheme";
 import style from "../../DstServerList/index.module.css";
 
 
-const {TextArea} = Input;
 const { TabPane } = Tabs;
 
 const CommandAutoComplete = () => {
@@ -47,13 +46,12 @@ export default ({levels}) => {
     const [spinLoading, setSpinLoading] = useState(false)
 
     const notHasLevels = levels === undefined || levels === null || levels.length === 0
-    const [levelName, setLevelName] = useState(notHasLevels?"":levels[0].key)
-
+    const levelNameRef = useRef(notHasLevels?"":levels[0].key)
     const editorRef = useRef()
     const inputRef = useRef(null);
+    const timerIdRef = useRef("");
 
     const [command, setCommand] = useState('');
-    const [timerId, setTimerId] = useState("")
 
     const onchange = (e) => {
         setCommand(e.target.value);
@@ -71,9 +69,9 @@ export default ({levels}) => {
             message.warning("请填写指令在发送")
             return
         }
-        console.log(levelName, escapeString(command))
+        console.log(levelNameRef.current, escapeString(command))
         setSpinLoading(true)
-        sendCommandApi(cluster, levelName, escapeString(command))
+        sendCommandApi(cluster, levelNameRef.current, escapeString(command))
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("发送指令成功")
@@ -86,7 +84,7 @@ export default ({levels}) => {
 
     useEffect(() => {
 
-        readLevelServerLogApi(cluster, levelName, 100)
+        readLevelServerLogApi(cluster, levelNameRef.current, 100)
             .then(resp => {
                 if (resp.code === 200) {
                     let logs = ""
@@ -109,72 +107,20 @@ export default ({levels}) => {
 
     useEffect(()=>{
         return () => {
-            if (timerId) {
-                clearInterval(timerId);
+            if (timerIdRef.current) {
+                clearInterval(timerIdRef.current);
             }
         };
-    }, [timerId])
-    const notify = {
-        token: false,
-        leveldataoverride: false,
-        socketport: false,
-        sim: false,
-        shutting: false
-    }
-    function parseLog(lines) {
-        lines.forEach(line => {
-            // if (line.includes("Shutting down")) {
-            //     notify.shutting = true
-            // }
-            // if (line.includes("E_INVALID_TOKEN")) {
-            //     if (!notify.token) {
-            //         openNotificationWithIcon({type: "error", message: "请检查令牌是否过期"})
-            //         notify.token = true
-            //     }
-            // }
-            // if (line.includes("Level data override is invalid!")) {
-            //     if (!notify.leveldataoverride) {
-            //         openNotificationWithIcon({type: "error", message: "世界配置无效，请从本地复制"})
-            //         notify.leveldataoverride = true
-            //     }
-            //
-            // }
-            // if (line.includes("SOCKET_PORT_ALREADY_IN_USE") && !line.includes("Unhandled exception during shard mode startup: RakNet UDP startup failed: SOCKET_PORT_ALREADY_IN_USE (5)")) {
-            //     if (!notify.socketport) {
-            //         openNotificationWithIcon({type: "error", message: "端口被暂用，请换一个端口，在世界配置端口配置修改"})
-            //         notify.socketport = true
-            //     }
-            // }
-
-            // if (line.includes("Sim paused")) {
-            //     if (!notify.sim && notify.shutting !== true) {
-            //         openNotificationWithIcon({type: "success", message: "世界启动成功"})
-            //         notify.sim = true
-            //     }
-            // }
-        })
-    }
-
-    const [api, contextHolder] = notification.useNotification();
-    const openNotificationWithIcon = ({type, message}) => {
-        console.log(type, message)
-        api[type]({
-            message: `房间启动${type==='success'?'成功':'失败'}`,
-            description: <span>{message}</span>,
-            duration: 0,
-        });
-    }
+    }, [timerIdRef.current])
 
     function pullLog() {
         if (!inputRef.current) return
         const lines = inputRef.current.input.value
-        // setSpinLoading(true)
-        readLevelServerLogApi(cluster, levelName, lines)
+        readLevelServerLogApi(cluster, levelNameRef.current, lines)
             .then(resp => {
                 if (resp.code === 200) {
                     let logs = ""
                     const lines = resp.data || []
-                    parseLog(lines)
                     lines.reverse()
                     lines.forEach(line => {
                         logs += `${line}\n`
@@ -186,34 +132,34 @@ export default ({levels}) => {
                 }else {
                     editorRef.current.current.setValue("")
                 }
-                // setSpinLoading(false)
             })
     }
 
     const handleChange = (value) => {
-        setLevelName(value)
+        levelNameRef.current = value
     }
 
     const startPolling = () => {
         // 使用定时器每隔1秒钟请求一次日志数据，并更新到logLines状态
         const timerId = setInterval(() => {
             pullLog(); // 每次请求最新的100行日志
-        }, 1000);
+        }, 3000);
 
         // 将定时器ID保存到状态中，以便后续取消轮询时清除定时器
-        setTimerId(timerId);
+        timerIdRef.current = timerId;
     };
 
     const stopPolling = () => {
         // 取消轮询，清除定时器
-        clearInterval(timerId);
+        if (timerIdRef.current) {
+            clearInterval(timerIdRef.current);
+        }
     };
 
     return <>
         <Spin spinning={spinLoading} description={"正在获取日志"}>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
-                    {contextHolder}
                     <Tabs defaultActiveKey="1">
                         <TabPane tab={t('Level Log')} key="1">
                             <Space.Compact style={{width: '100%'}}>
@@ -265,7 +211,7 @@ export default ({levels}) => {
                                         checkedChildren={t('Y')} unCheckedChildren={t('N')}/>
                                 </div>
                                 <Button onClick={()=>{
-                                    window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelName}`
+                                    window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}`
                                 }}
                                         icon={<DownloadOutlined />} type={'link'}>
                                     {t('Download Log')}

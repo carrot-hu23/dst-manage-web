@@ -95,11 +95,22 @@ export default () => {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={8}>
                 <Skeleton loading={loading} active>
-                    <Segmented
-                        value={activeTab}
-                        onChange={handleTabChange}
-                        options={['默认', '全部']}
-                    />
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Segmented
+                            value={activeTab}
+                            onChange={handleTabChange}
+                            options={['默认', '全部']}
+                        />
+
+                        {/*
+                         <Button type="primary" onClick={() => onFinish()}>
+                            {t('save')}
+                        </Button>
+                        */}
+                    </div>
                     <br/>
                     <Form
                         // eslint-disable-next-line react/prop-types

@@ -1,17 +1,23 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import {Button, Input, message, Modal, Popconfirm, Space, Table, Upload} from 'antd';
-import {useEffect, useRef, useState} from 'react';
+import {Alert, Button, Input, message, Modal, Popconfirm, Space, Table, Upload} from 'antd';
+import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {UploadOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import {useTranslation} from "react-i18next";
 
-import {deleteBackupApi, getBackupApi, renameBackupApi, restoreBackupApi} from '../../../api/backupApi';
+import {
+    deleteBackupApi,
+    getBackupApi,
+    renameBackupApi,
+    restoreBackupApi
+} from '../../../api/backupApi';
 import BackupStatistic from "./Statistic";
+import CreateBackUpBtn from "../../Panel/Op/CreateBackUpBtn";
 
 
-const MyUploadFile = () => {
+const MyUploadFile = ({reload}) => {
     const { t } = useTranslation()
 
     const [fileList, setFileList] = useState([]);
@@ -29,8 +35,12 @@ const MyUploadFile = () => {
         axios.post('/api/game/backup/upload', formData)
             .then(response => {
                 console.log(response.data);
+                if (response?.data?.code === 200) {
+                    message.success("上传成功")
+                }
                 setFileList([]);
                 setUploading(false);
+                reload()
             })
             .catch(error => {
                 console.log(error);
@@ -169,19 +179,6 @@ const Backup = () => {
             }
         },
         render: (text) =>
-            // searchedColumn === dataIndex ? (
-            //   <Highlighter
-            //     highlightStyle={{
-            //       backgroundColor: '#ffc069',
-            //       padding: 0,
-            //     }}
-            //     searchWords={[searchText]}
-            //     autoEscape
-            //     textToHighlight={text ? text.toString() : ''}
-            //   />
-            // ) : (
-            //   text
-            // ),
             text
     });
 
@@ -337,10 +334,18 @@ const Backup = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-
                     <Popconfirm
-                        title="Restore the archive"
-                        description="Are you sure to back up this archive?"
+                        title="是否恢复存档备份"
+                        description={<>
+                            <div>
+                                请自行做好备份处理，恢复备份将覆盖之前的存档
+                            </div>
+                            <div>
+                                之前的存档进度将会丢失 。。。
+                            </div>
+                            <br/>
+                            <CreateBackUpBtn />
+                        </>}
                         onConfirm={()=>{restoreArchive(record.fileName)}}
                         onCancel={()=>{}}
                         okText="Yes"
@@ -367,13 +372,14 @@ const Backup = () => {
 
     const HeaderTitle = () => (
         <Space wrap>
-            <MyUploadFile/>
+            <MyUploadFile reload={updateBackupData}/>
             <Button type="primary" danger onClick={deleteSelectBackup}>
                 {t('Delete')}
             </Button>
             <Button onClick={updateBackupData}>
                 {t('Refresh')}
             </Button>
+            <CreateBackUpBtn />
         </Space>
 
     )
@@ -397,7 +403,7 @@ const Backup = () => {
     )
 
     const DeletetModal = () => (
-        <Modal title="提示"
+        <Modal title="是否删除备份"
                open={isDeleteModalOpen}
                confirmLoading={confirmLoading}
                getContainer={false}
@@ -428,11 +434,13 @@ const Backup = () => {
     return (
         <>
             <DeletetModal />
+            <Alert message="Tips: 目前只支持 zip 压缩存档。点击恢复将会替换当前存档内容" type="info" showIcon />
             <BackupStatistic size={backupData.length} data={backupDataSize}/>
             <br/>
             <HeaderTitle />
             <br/><br/>
             <Table
+                ref={actionRef}
                 rowSelection={rowSelection}
                 scroll={{
                     x: 600,

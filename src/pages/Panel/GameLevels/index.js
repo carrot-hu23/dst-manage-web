@@ -15,9 +15,9 @@ function formatData(data, num) {
 }
 
 
-export default () => {
+export default ({levelList}) => {
 
-    const [levels, setLevels] = useState([])
+    const [levels, setLevels] = useState(levelList)
     useEffect(()=>{
         const timerId = setInterval(()=>{
             getLevelStatusApi()
@@ -232,6 +232,7 @@ export default () => {
 
                 <Popconfirm
                     title={`一键清理世界`}
+                    description={"此操作将会删除存档的 save session 等文件，请做好备份"}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键清理")

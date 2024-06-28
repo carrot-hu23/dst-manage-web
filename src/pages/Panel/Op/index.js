@@ -1,15 +1,14 @@
-import {Button, message, Popconfirm, Space} from "antd";
+import {Alert, Button, Drawer, message, Popconfirm, Space} from "antd";
 import React, {useState} from "react";
 import {useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {updateGameApi} from "../../../api/gameApi";
-import {createBackupApi} from "../../../api/backupApi";
 import {deleteStepupWorkshopApi} from "../../../api/modApi";
+import CreateBackUpBtn from "./CreateBackUpBtn";
 
 export default ()=>{
     
     const [updateGameStatus, setUpdateStatus] = useState(false)
-    const [createBackupStatus, setCreateBackupStatus] = useState(false)
     const {cluster} = useParams()
     const [open, setOpen] = useState(false);
     const {t} = useTranslation()
@@ -31,20 +30,6 @@ export default ()=>{
             .catch(error => {
                 message.error(`饥荒更新失败${error}`)
                 setUpdateStatus(false)
-            })
-    }
-
-    const createBackupOnClick = () => {
-
-        message.success('正在创建游戏备份')
-        createBackupApi(cluster)
-            .then(response => {
-                message.success('创建游戏备份成功')
-                setCreateBackupStatus(false)
-            })
-            .catch(error => {
-                message.error(`创建游戏备份失败${error}`)
-                setCreateBackupStatus(false)
             })
     }
 
@@ -71,17 +56,7 @@ export default ()=>{
                 {t('updateGame')}
             </Button>
 
-            <Button style={{
-                background: '#13CE66',
-                color: '#fff'
-            }}
-                    onClick={() => {
-                        createBackupOnClick()
-                    }}
-                    loading={createBackupStatus}
-            >
-                {t('createBackup')}
-            </Button>
+           <CreateBackUpBtn />
 
             <Popconfirm
                 title="是否更新房间模组"
@@ -100,4 +75,27 @@ export default ()=>{
             </Popconfirm>
         </Space>
     </>
+}
+
+const ArchiveList = ()=>{
+    const [open, setOpen] = useState(false);
+    const showDrawer = () => {
+        setOpen(true);
+    };
+    const onClose = () => {
+        setOpen(false);
+    };
+    const {t} = useTranslation()
+
+    return(
+        <>
+            <Button type="primary" onClick={showDrawer}>{t('Archive')}</Button>
+
+            <Drawer title="存档列表" onClose={onClose} open={open}>
+                <Alert style={{marginBottom: '12px'}}
+                       message="在这里可以上传自己的存档(只支持zip压缩格式)，也可以恢复存档，点击上传存档后，在点击恢复存档，刷新页面"
+                       type="warning" showIcon/>
+            </Drawer>
+        </>
+    )
 }
