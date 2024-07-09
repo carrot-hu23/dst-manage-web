@@ -91,7 +91,7 @@ export default ({addModList}) => {
             setLoading(false)
         }).catch(error => {
             setTimeout(messageApi.destroy, 1);
-            message.success(`获取 ${modName} 失败`)
+            message.warning(`获取 ${modName} 失败`)
             setLoading(false)
             console.log(error)
         })

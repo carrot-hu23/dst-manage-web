@@ -11,7 +11,6 @@ import {
     Divider,
     Skeleton, message, Select,
 } from 'antd';
-import {Box, Card, Container} from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import {format, parse} from "lua-json";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
@@ -56,7 +55,7 @@ function parseWorldConfig(modoverrides, workshopId) {
 }
 
 
-export default () => {
+export default ({reload}) => {
 
     const [levels, setLevels] = useState([])
     const [loading, setLoading] = useState(false)
@@ -139,6 +138,7 @@ export default () => {
             .then(resp => {
                 if (resp.code === 200) {
                     message.success("保存成功")
+                    reload()
                 } else {
                     message.error("保存失败", resp.msg)
                 }
@@ -187,15 +187,11 @@ export default () => {
 
     return (
         <>
-            <Card>
-                <Box sx={{p: 3}} dir="ltr">
-                    <Skeleton loading={loading}>
-                        <Tabs
-                            items={items}
-                        />
-                    </Skeleton>
-                </Box>
-            </Card>
+            <Skeleton loading={loading}>
+                <Tabs
+                    items={items}
+                />
+            </Skeleton>
         </>
     )
 }
