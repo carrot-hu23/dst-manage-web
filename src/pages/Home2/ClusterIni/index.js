@@ -55,6 +55,7 @@ export default () => {
                         message.success("保存配置成功")
                     } else {
                         message.error("保存配置失败")
+                        message.warning(resp.msg)
                     }
                 })
         }).catch(err => {
