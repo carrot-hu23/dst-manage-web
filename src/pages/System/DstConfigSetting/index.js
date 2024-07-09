@@ -32,22 +32,37 @@ export default () => {
     const handleTabChange = (value) => {
         setActiveTab(value);
     };
-
+    const [data, setData] = useState({})
     useEffect(() => {
         // 获取配置文件
         readDstConfigSync()
             .then(data => {
                 console.log('dst_config', data);
                 form.setFieldsValue(data.data)
+                setData(data.data)
                 setLoading(false)
             })
     }, [form])
 
 
     const onFinish = (values) => {
-        console.log("values", values)
-        writeDstConfigSync(values).then(resp => {
-            message.success("保存配置成功")
+        if (values.persistent_storage_root === undefined  && data.persistent_storage_root !== "") {
+            values.persistent_storage_root = data.persistent_storage_root
+        }
+        if (values.conf_dir === undefined  && data.conf_dir !== "") {
+            values.conf_dir = data.conf_dir
+        }
+        if (values.ugc_directory === undefined  && data.ugc_directory !== "") {
+            values.ugc_directory = data.ugc_directory
+        }
+        setData(values)
+        writeDstConfigSync(values)
+            .then(resp => {
+                if (resp.code === 200) {
+                    message.success("保存配置成功")
+                } else {
+                    message.warning(resp.msg)
+                }
         })
     };
 

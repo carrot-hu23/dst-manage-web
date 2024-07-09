@@ -12,7 +12,7 @@ import {
     Tabs,
     Alert,
     Divider,
-    Skeleton, Empty, Typography, Tag, Radio
+    Skeleton, Empty, Typography, Tag, Radio, Drawer, Spin
 } from 'antd';
 import {Box, Card, Container, Grid} from "@mui/material";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
@@ -27,6 +27,8 @@ import LevelTips from "./Tips/LevelTips";
 import {getFreeUDPPortApi} from "../../api/8level";
 import ConfigViewEditor from "./LevelSetting/LeveldataoverrideView/ConfigViewEditor";
 import {cave, forest} from "../../utils/dst";
+import Assembly from "../Tool/Assembly";
+import Preinstall from "../Tool/Preinstall";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
@@ -636,6 +638,48 @@ const defaultDstWorldSetting = {
     }
 }
 
+const Template = ({reload})=>{
+
+    const [open, setOpen] = useState(false);
+    const showDrawer = () => {
+        setOpen(true);
+    };
+    const onClose = () => {
+        setOpen(false);
+    };
+    return (
+        <>
+            <Button type="primary" onClick={showDrawer}>
+                世界模板
+            </Button>
+            <Drawer width={800} title="世界模板" onClose={onClose} open={open}>
+                <Preinstall reload={reload} />
+            </Drawer>
+        </>
+    )
+}
+
+const MultSelectMod = ({reload})=>{
+
+    const [open, setOpen] = useState(false);
+    const showDrawer = () => {
+        setOpen(true);
+    };
+    const onClose = () => {
+        setOpen(false);
+    };
+    return (
+        <>
+            <Button type="primary" onClick={showDrawer}>
+                多层选择器
+            </Button>
+            <Drawer width={800} title="多层选择器" onClose={onClose} open={open}>
+                <Assembly reload={reload} />
+            </Drawer>
+        </>
+    )
+}
+
 const App = () => {
 
     const {cluster} = useParams()
@@ -944,11 +988,56 @@ const App = () => {
         }
     }
 
+    const [spinLoading, setSpinLoading] = useState(false)
+    const handleRefresh = () => {
+        setLoading(true)
+        getLevelListApi()
+            .then(resp => {
+                if (resp.code === 200) {
+                    const levels = resp.data
+                    levelListRef.current = levels
+                    const items2 = levels.map(level => {
+                        const closable = level.uuid !== "Master"
+                        if (level.uuid !== "Master") {
+                            if (level.leveldataoverride === "return {}" || level.leveldataoverride === "") {
+                                level.leveldataoverride = forest
+                            }
+                        }
+                        return   {
+                            label: level.levelName,
+                            children: <LevelItem
+                                dstWorldSetting={dstWorldSetting}
+                                level={{
+                                    leveldataoverride: level.leveldataoverride,
+                                    modoverrides: level.modoverrides,
+                                    server_ini: level.server_ini
+                                }}
+                                levelName={level.levelName}
+                                changeValue={changeValue}
+                            />,
+                            key: level.uuid,
+                            closable: closable,
+                        }})
+                    setItems([...items2])
+                    if (levels.length === 0) {
+                        setActiveKey("")
+                    } else {
+                        setActiveKey(levels[0].uuid)
+                    }
+                    setLoading(false)
+                    message.success("获取配置成功")
+                } else {
+                    message.error("获取世界失败")
+                }
+            })
+    };
+
     return (
         <Container maxWidth="xxl">
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
                     <Skeleton loading={loading}>
+                        <Spin spinning={spinLoading}>
                         {levelListRef.current.length === 0 && (<>
                             <Empty description={'当前暂无世界，请点击 添加世界 按钮'} />
                         </>)}
@@ -965,7 +1054,7 @@ const App = () => {
                             items={items}
                         />
                         <Divider/>
-                        <Space size={8} wrap>
+                        <Space size={12} wrap>
                             <Button type={"primary"} onClick={() => setOpenAdd(true)}>{t('add level')}</Button>
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
@@ -974,11 +1063,15 @@ const App = () => {
                                         if (resp.code === 200) {
                                             message.success("保存成功")
                                         } else {
-                                            message.error("保存失败", resp.msg)
+                                            message.error("保存失败")
+                                            message.warning(resp.msg)
                                         }
                                     })
                             }}>{t('save level')}</Button>
+                            <Template reload={handleRefresh} />
+                            <MultSelectMod reload={handleRefresh} />
                         </Space>
+                        </Spin>
                     </Skeleton>
                 </Box>
                 <Modal

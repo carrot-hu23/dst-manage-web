@@ -28,7 +28,8 @@ export default ({isGameUpdate, isMod, autoCheck}) => {
                     message.success("保存成功")
                     form.setFieldsValue(resp.data)
                 } else {
-                    message.error("保存失败", resp.message)
+                    message.error("保存失败")
+                    message.warning(resp.msg)
                 }
                 setSpin(false)
             })
