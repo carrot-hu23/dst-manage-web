@@ -38,11 +38,11 @@ const navConfig = [
     path: '/dashboard/log',
     icon: icon('database'),
   },
-  {
-    title: 'Tool',
-    path: '/dashboard/tool',
-    icon: icon('star')
-  },
+  // {
+  //   title: 'Tool',
+  //   path: '/dashboard/tool',
+  //   icon: icon('star')
+  // },
   {
     title: 'Setting',
     path: '/dashboard/setting',
