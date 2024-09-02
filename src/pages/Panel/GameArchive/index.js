@@ -54,42 +54,6 @@ export default () => {
 
     }, [])
 
-    const updateGameOnclick = () => {
-        message.success('正在更新游戏')
-        setUpdateStatus(true)
-        updateGameApi(cluster)
-            .then(response => {
-                if (response.code === 200) {
-                    message.success('饥荒更新完成')
-                } else {
-                    message.error(`${response.msg}`)
-                    message.warning("请检查steamcmd路径是否设置正确")
-                }
-
-                setUpdateStatus(false)
-            })
-            .catch(error => {
-                message.error(`饥荒更新失败${error}`)
-                setUpdateStatus(false)
-            })
-    }
-
-    const createBackupOnClick = () => {
-
-        message.success('正在创建游戏备份')
-        createBackupApi(cluster)
-            .then(response => {
-                message.success('创建游戏备份成功')
-                setCreateBackupStatus(false)
-            })
-            .catch(error => {
-                message.error(`创建游戏备份失败${error}`)
-                setCreateBackupStatus(false)
-            })
-    }
-    const [updateGameStatus, setUpdateStatus] = useState(false)
-    const [createBackupStatus, setCreateBackupStatus] = useState(false)
-
     function getTimeStatus(daysElapsedInSeason, daysLeftInSeason) {
         const totalDays = daysElapsedInSeason + daysLeftInSeason;
         const thresholdEarly = totalDays / 3;
@@ -212,36 +176,6 @@ export default () => {
                     <Space size={8}>
                         <HiddenText text={archive.password}/>
                     </Space>
-                </ProDescriptions.Item>
-                <ProDescriptions.Item
-                    span={2}
-                    valueType="text"
-                    label={t('操作')}
-                >
-                <Space size={16}>
-                    <Popconfirm
-                        title="是否更新游戏"
-                        description={(
-                            <span>更新游戏，将停止世界，请自行启动</span>
-                        )}
-                        placement="topLeft"
-                        onConfirm={()=>updateGameOnclick()}
-                    >
-                        <Button size={'small'} loading={updateGameStatus} type="primary">
-                            {t('updateGame')}
-                        </Button>
-                    </Popconfirm>
-
-                    <Button
-                        size={'small'}
-                        onClick={() => {
-                            createBackupOnClick()
-                        }}
-                        loading={createBackupStatus}
-                    >
-                        {t('createBackup')}
-                    </Button>
-                </Space>
                 </ProDescriptions.Item>
             </ProDescriptions>
         </>

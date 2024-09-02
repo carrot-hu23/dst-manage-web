@@ -8,6 +8,7 @@ import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
 import CardTitle from "../CardTitle";
 import ServerLog from "../ServerLog";
+import Op from "../Op";
 
 
 export default ({levels}) => {
@@ -17,6 +18,12 @@ export default ({levels}) => {
             <Grid container spacing={2}>
 
                 <Grid item xs={12} md={5} lg={5}>
+                    <Card>
+                        <Box sx={{p: 2}} dir="ltr">
+                            <Op />
+                        </Box>
+                    </Card>
+                    <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
                             <CardTitle title={'房间信息'} />

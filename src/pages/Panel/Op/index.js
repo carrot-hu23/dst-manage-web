@@ -60,7 +60,7 @@ export default ()=>{
             })
     }
     
-    return<>
+    return<Space size={16} wrap>
         <div>
             <Popconfirm
                 title="是否更新游戏"
@@ -76,8 +76,8 @@ export default ()=>{
             </Popconfirm>
         </div>
        <div style={{
-           marginTop: '12px',
-           marginBottom: '12px'
+           // marginTop: '12px',
+           // marginBottom: '12px'
        }}>
            <Button
                    onClick={() => {
@@ -105,5 +105,5 @@ export default ()=>{
                 <Button  type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
             </Popconfirm>
         </div>
-    </>
+    </Space>
 }
