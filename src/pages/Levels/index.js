@@ -32,11 +32,16 @@ import Preinstall from "../Tool/Preinstall";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
+
     const { t } = useTranslation()
     const {theme} = useTheme();
 
     const ref = useRef(level.leveldataoverride)
-    const [view, setView] = useState("editor")
+
+    useEffect(()=>{
+        ref.current = level.leveldataoverride
+        console.log("leveldataoverride update")
+    }, [level])
 
     function updateValue(newValue) {
         changeValue(levelName, {leveldataoverride: newValue})
@@ -283,7 +288,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
                     <h3>{t('UDP recommended port not used')}</h3>
                     <Space size={[8, 16]} wrap>
                         {freeUdpPorts.map(port=>(
-                            <Tag color={'green'} >{port}</Tag>
+                            <div key={port} ><Tag color={'green'} >{port}</Tag></div>
                         ))}
                     </Space>
                 </div>
@@ -328,164 +333,17 @@ function parseWorldConfig(modoverrides) {
     }
 }
 
-const SelectorMod = ({form, editorRef, level, formValueChange}) => {
-
-    const Connect = () => {
-        return (
-            <Form
-                form={form}
-                // initialValues={{
-                //     world_config: parseWorldConfig(editorRef.current.current.getValue())
-                // }}
-                onValuesChange={formValueChange}
-            >
-                <Form.List name="world_config">
-                    {(fields, {add, remove}) => (
-                        <>
-                            {fields.map(({key, name, ...restField}) => (
-                                <Space
-                                    key={key}
-                                    style={{
-                                        display: 'flex',
-                                    }}
-                                    align="baseline"
-                                    size={[8, 16]}
-                                    wrap
-                                >
-                                    <Form.Item
-                                        label={'世界id'}
-                                        {...restField}
-                                        name={[name, 'id']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: '缺失世界id',
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="世界id"/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label={'世界名称'}
-                                        {...restField}
-                                        name={[name, 'name']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: '世界名称',
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="世界名称，不允许换行"/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label={'分类'}
-                                        {...restField}
-                                        name={[name, 'category']}
-                                    >
-                                        <Input placeholder="世界类别，用于筛选，将显示于左侧菜单"/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label={'人数'}
-                                        {...restField}
-                                        name={[name, 'galleryful']}
-                                    >
-                                        <InputNumber placeholder="世界人数限制"/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label={'不分流'}
-                                        {...restField}
-                                        name={[name, 'extra']}
-                                        valuePropName="checked"
-                                    >
-                                        <Switch checkedChildren="是" unCheckedChildren="否"/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label={'洞穴'}
-                                        {...restField}
-                                        name={[name, 'is_cave']}
-                                        valuePropName="checked"
-                                    >
-                                        <Switch checkedChildren="是" unCheckedChildren="否"/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label={'不可见'}
-                                        {...restField}
-                                        name={[name, 'invisible']}
-                                        valuePropName="checked"
-                                    >
-                                        <Switch checkedChildren="是" unCheckedChildren="否"/>
-                                    </Form.Item>
-                                    <MinusCircleOutlined onClick={() => remove(name)}/>
-                                </Space>
-                            ))}
-                            <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined/>}>
-                                    Add field
-                                </Button>
-                            </Form.Item>
-                        </>
-                    )}
-                </Form.List>
-                {/**
-                 <Form.Item>
-                 <Space size={8} wrap>
-                 <Button type="primary" icon={<SnippetsOutlined />}>
-                 复  制
-                 </Button>
-
-                 <Button type="primary">
-                 保存配置
-                 </Button>
-                 </Space>
-                 </Form.Item>
-                 */}
-            </Form>
-        )
-    }
-
-    const Info = () => {
-        return (
-            <>1</>
-        )
-    }
-    const items = [
-        {
-            label: '连接配置',
-            children: <Connect/>,
-            key: '1',
-        },
-        {
-            label: '基本配置',
-            children: <Info/>,
-            key: '2',
-        },
-    ]
-
-    return (
-        <>
-            <Alert message="目前只支持 [WIP] 又是一个世界选择器 workshop-1754389029 "
-                   type="info"
-                   showIcon
-                   action={
-                       <a target={'_blank'}
-                          href="https://steamcommunity.com/sharedfiles/filedetails/?id=1754389029">详细</a>
-                   }
-            />
-            <br/>
-            <Tabs
-                items={items}
-            />
-        </>
-    )
-}
-
 const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
     const { t } = useTranslation()
 
     const modoverridesRef = useRef(level.modoverrides)
     const editorRef = useRef()
     const editorRef2 = useRef()
+
+    useEffect(()=>{
+        editorRef?.current?.current?.setValue(level.modoverrides)
+        editorRef2?.current?.current?.setValue(level.leveldataoverride)
+    }, [level])
 
     const [form] = Form.useForm()
     form.setFieldsValue({
@@ -552,7 +410,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
     }
 
     const onTabItemChange = (activeKey) => {
-        console.log("activeKey", activeKey)
+
         if (activeKey === '4') {
             // 更新form 的数据
             const world_config = parseWorldConfig(editorRef.current.current.getValue())
@@ -604,12 +462,6 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
             key: '3',
             forceRender: true,
         },
-        // {
-        //     label: '多层选择器',
-        //     children: <SelectorMod formValueChange={formValueChange} form={form} editorRef={editorRef}
-        //                            modoverridesRef={modoverridesRef} level={level}/>,
-        //     key: '4',
-        // },
     ]
     useEffect(() => {
 
@@ -639,6 +491,8 @@ const defaultDstWorldSetting = {
 }
 
 const Template = ({reload})=>{
+
+    const { t } = useTranslation()
 
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
@@ -708,7 +562,6 @@ const App = () => {
                         console.log(resp)
                         if (resp.code === 200) {
                             const levels = resp.data
-                            // TODO 当为空的时候
                             levelListRef.current = levels
                             const items2 = levels.map(level => {
                                 const closable = level.uuid !== "Master"
@@ -764,7 +617,6 @@ const App = () => {
             }
             return level
         })
-        // TODO 更新
     }
 
     const add = (levelName, uuid, leveldataoverride, modoverrides, server_ini) => {
@@ -862,7 +714,6 @@ const App = () => {
         levelForm.validateFields().then(() => {
 
             const body = levelForm.getFieldsValue()
-            console.log("form", body)
 
             if (body.levelName === undefined || body.levelName === '') {
                 message.warning("世界名不能为空")
@@ -990,7 +841,7 @@ const App = () => {
 
     const [spinLoading, setSpinLoading] = useState(false)
     const handleRefresh = () => {
-        setLoading(true)
+        setSpinLoading(true)
         getLevelListApi()
             .then(resp => {
                 if (resp.code === 200) {
@@ -1024,7 +875,7 @@ const App = () => {
                     } else {
                         setActiveKey(levels[0].uuid)
                     }
-                    setLoading(false)
+                    setSpinLoading(false)
                     message.success("获取配置成功")
                 } else {
                     message.error("获取世界失败")

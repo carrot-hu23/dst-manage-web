@@ -53,7 +53,7 @@
   "Setting": "系统设置",
   "Lobby": "游戏大厅",
   "Link": "外部链接",
-
+  "Help": "帮助文档",
 
   "Remote": "远程操作",
   "MasterLog": "森林日志",
@@ -168,7 +168,8 @@
   "steam_group_only": "仅Steam群组进入",
   "steam_group_id": "Steam群组ID",
   "steam_group_admins": "群组管理员",
-
+  "offline_cluster": "离线模式",
+  "lan_only_cluster": "仅局域网",
   "endless": "无尽",
   "survival": "生存",
   "wilderness": "荒野",

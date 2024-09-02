@@ -64,7 +64,7 @@ const navConfig = [
     icon: icon('github')
   },
   {
-    title: '帮助文档',
+    title: 'Help',
     path: '/dashboard/help',
     icon: icon('help-circle')
   },

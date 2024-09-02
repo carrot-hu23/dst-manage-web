@@ -29,6 +29,11 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
     const cavesWorldGenGroup = dstWorldSetting.zh.cave.WORLDGEN_GROUP
     const cavesWorldSettingsGroup = dstWorldSetting.zh.cave.WORLDSETTINGS_GROUP
 
+    useEffect(()=>{
+        const levelObject = getLevelObject(valueRef.current)
+        setLeveldataoverrideObject(levelObject.overrides)
+    }, [valueRef.current])
+
     const forestItems = [
         {
             label: '世界配置',
@@ -151,7 +156,6 @@ const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, cha
             .sort((a, b) => data[a].order - data[b].order)
             .map(key =>
                 <div key={key}>
-                    {console.log("RENDER",key)}
                     <h3>{data[key].text}</h3>
                     <Space size={[32, 8]} wrap>
                         {Object.entries(data[key].items)
@@ -203,7 +207,6 @@ const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange
         if (currentValue !== defaultValue) {
             setIsDefault(false)
         }
-        console.log("RENDER",1)
     }, [])
 
     function handleChange(value) {

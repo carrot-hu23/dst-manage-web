@@ -12,7 +12,6 @@ import {
     Tooltip,
     Skeleton,
     Modal,
-    Typography,
     Segmented
 } from "antd";
 import {Grid} from "@mui/material";
@@ -234,14 +233,30 @@ export default () => {
                             <InputNumber placeholder="预留位" maxLength={200}/>
                         </Form.Item>
                         {activeTab === '全部' && <div>
-                        <Form.Item
-                            label={t('tick_rate')}
-                            name='tick_rate'
-                            tooltip={"客户端与服务器之间每秒通信的次数\n" +
-                                "性能满足的情况下，通信频率越高，游戏越流畅、体验越好，但会大幅提高服务器的运行压力。取值应为可被60整除的值，如15、20、30、60等。"}
-                        >
-                            <InputNumber placeholder="通信次数" maxLength={200}/>
-                        </Form.Item>
+                            <Form.Item
+                                label={t('tick_rate')}
+                                name='tick_rate'
+                                tooltip={"客户端与服务器之间每秒通信的次数\n" +
+                                    "性能满足的情况下，通信频率越高，游戏越流畅、体验越好，但会大幅提高服务器的运行压力。取值应为可被60整除的值，如15、20、30、60等。"}
+                            >
+                                <InputNumber placeholder="通信次数" maxLength={200}/>
+                            </Form.Item>
+                            <Form.Item
+                                label={t('offline_cluster')}
+                                name='offline_cluster'
+                                valuePropName="checked"
+                                tooltip={"创建一个离线服务器。此服务器不会在公共服务器列表展示，只有本地用户可以加入，所有steam相关的功能无效"}
+                            >
+                                <Switch checkedChildren="开启" unCheckedChildren="关闭"/>
+                            </Form.Item>
+                            <Form.Item
+                                label={t('lan_only_cluster')}
+                                name='lan_only_cluster'
+                                valuePropName="checked"
+                                tooltip={"如果设置为true，服务器仅允许同一个局域网的玩家进入"}
+                            >
+                                <Switch checkedChildren="开启" unCheckedChildren="关闭"/>
+                            </Form.Item>
                         </div>}
                         <Form.Item
                             label={t('max_snapshots')}

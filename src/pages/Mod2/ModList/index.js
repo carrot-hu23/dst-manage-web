@@ -75,7 +75,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
             })
         } catch (error) {
             console.log(error)
-            message.error("mod配置解析错误", error.message)
+            message.warning("mod配置解析错误", error.message)
             return "return { error }"
         }
     }

@@ -1,10 +1,9 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import { Outlet } from 'react-router-dom';
 // antd
 import {ConfigProvider,theme} from "antd";
 // @mui
 import { styled,ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 //
 import Header from './header';
 import Nav from './nav';

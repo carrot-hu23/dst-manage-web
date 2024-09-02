@@ -54,7 +54,8 @@ export default ({levels}) => {
     const [command, setCommand] = useState('');
 
     const onchange = (e) => {
-        setCommand(e.target.value);
+        console.log("e", e)
+        setCommand(e);
     };
     function escapeString(str) {
         return str.replace(/\\/g, '\\\\')
@@ -93,10 +94,10 @@ export default ({levels}) => {
                     lines.forEach(line => {
                         logs += `${line}\n`
                     })
-                    editorRef.current.current.setValue(logs)
-                    editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount());
+                    editorRef?.current?.current?.setValue(logs)
+                    editorRef?.current?.current?.revealLine(editorRef?.current?.current?.getModel()?.getLineCount());
                 } else {
-                    editorRef.current.current.setValue("")
+                    editorRef?.current?.current?.setValue("")
                 }
             })
     }, [])
@@ -125,12 +126,12 @@ export default ({levels}) => {
                     lines.forEach(line => {
                         logs += `${line}\n`
                     })
-                    if (logs !== editorRef.current.current.getValue()) {
-                        editorRef.current.current.setValue(logs)
-                        editorRef.current.current.revealLine(editorRef.current.current.getModel().getLineCount())
+                    if (logs !== editorRef?.current?.current?.getValue()) {
+                        editorRef?.current?.current?.setValue(logs)
+                        editorRef?.current?.current?.revealLine(editorRef?.current?.current?.getModel()?.getLineCount())
                     }
                 }else {
-                    editorRef.current.current.setValue("")
+                    editorRef?.current?.current?.setValue("")
                 }
             })
     }
@@ -162,7 +163,7 @@ export default ({levels}) => {
                 <Box sx={{p: 3}} dir="ltr">
                     <Tabs defaultActiveKey="1">
                         <TabPane tab={t('Level Log')} key="1">
-                            <Space.Compact style={{width: '100%'}}>
+                            <Space.Compact style={{width: '100%', marginBottom: 12}}>
                                 <Select
                                     style={{
                                         width: 120,
@@ -223,13 +224,12 @@ export default ({levels}) => {
                             <Space.Compact
                                 style={{
                                     width: '100%',
+                                    marginBottom: 12
                                 }}
                             >
                                 <Input defaultValue="" onChange={onchange} />
                                 <Button type="primary" onClick={() => sendInstruct(command)}>{t('send')}</Button>
                             </Space.Compact>
-                            <br/>
-                            <br/>
                             <Space size={8} wrap>
                                 <Button size={'small'} type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
                                 <Popconfirm

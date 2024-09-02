@@ -6,7 +6,6 @@ import {Tabs} from "antd";
 
 import DstConfigSetting from "./DstConfigSetting";
 import TimedTask from "./TimedTask";
-import InstallSteamCmd from "./InstallSteamCmd";
 import WebLinkSetting from "./WebLinkSetting";
 
 import AutoGameUpdate from "./AutoGameUpdate";

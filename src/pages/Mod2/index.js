@@ -60,10 +60,14 @@ export default () => {
 
     function initModConfigList(modoverrides, subscribeModList, setModList, defaultConfigOptionsRef, modConfigOptionsRef) {
         const workshopMap = parseModoverrides(modoverrides);
+        console.log("workshopMap", workshopMap)
         subscribeModList.push({
             mod_config: {
                 author: "kelei",
-                description: "禁用本地所有模组，tips: 这个只是个虚拟的模组，只是兼容了下。如果不知道是干什么用的请不要开启！！！ 不支持自定禁用某些模组 \n\n 请勿乱点！！！",
+                description: "禁用本地所有模组，tips: 这个只是个虚拟的模组，只是兼容了下。如果不知道是干什么用的请不要开启！！！ 不支持自定禁用某些模组 \n\n 请勿乱点！！！\n\n 如果要删除，对应模组配置里面的 client_mods_disabled = {\n" +
+                    "    configuration_options = {},\n" +
+                    "    enabled = true,\n" +
+                    "  },",
                 name: "client_mods_disabled",
                 configuration_options: []
             },
