@@ -12,10 +12,9 @@ import {
     Tabs,
     Alert,
     Divider,
-    Skeleton, Empty, Typography, Tag, Radio, Drawer, Spin
+    Skeleton, Empty, Tag, Radio, Drawer, Spin
 } from 'antd';
 import {Box, Card, Container, Grid} from "@mui/material";
-import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {format, parse} from "lua-json";
 import {useTranslation} from "react-i18next";
 
@@ -26,7 +25,7 @@ import {useParams} from "react-router-dom";
 import LevelTips from "./Tips/LevelTips";
 import {getFreeUDPPortApi} from "../../api/8level";
 import ConfigViewEditor from "./LevelSetting/LeveldataoverrideView/ConfigViewEditor";
-import {cave, forest} from "../../utils/dst";
+import {cave, forest, porkland} from "../../utils/dst";
 import Assembly from "../Tool/Assembly";
 import Preinstall from "../Tool/Preinstall";
 
@@ -88,8 +87,44 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
     }
 
     const LeveldataoverrideViewer = ()=>{
+
+        function getLevelObject(value) {
+            value = value.replace(/\n/g, "")
+            try {
+                return parse(value)
+            } catch (error) {
+                message.warning("lua配置解析错误")
+                console.log(error)
+                return {}
+            }
+        }
+        const [loading, setLoading] = useState(true)
+        const [porklandSetting, setPorklandSetting] = useState()
+        useEffect(()=>{
+            if (getLevelObject(ref.current).location === 'porkland') {
+                setLoading(true)
+                // 获取 哈姆雷特的配置项
+                fetch('./misc/porkland_setting.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("111111111111", typeof data)
+                        setPorklandSetting(data)
+                    })
+                    .catch(error => {
+                        console.error('无法加载配置文件', error);
+                    }).finally(()=>{
+                    setLoading(false)
+                })
+            } else {
+                setLoading(false)
+            }
+        }, [])
+
         return(
-            <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>
+            <Skeleton loading={loading} >
+                <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting} porklandSetting={porklandSetting}/>
+            </Skeleton>
+
         )
     }
 
@@ -722,6 +757,8 @@ const App = () => {
 
             if (body.type === "forest") {
                 body.leveldataoverride = forest
+            } else if (body.type === 'porkland') {
+                body.leveldataoverride = porkland
             } else {
                 body.leveldataoverride = cave
             }
@@ -905,8 +942,11 @@ const App = () => {
                             items={items}
                         />
                         <Divider/>
-                        <Space size={12} wrap>
-                            <Button type={"primary"} onClick={() => setOpenAdd(true)}>{t('add level')}</Button>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent:'space-between'
+                        }}>
+                            <Space size={12} wrap>
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
                                 updateLevelsApi({levels: levelListRef.current})
@@ -919,9 +959,13 @@ const App = () => {
                                         }
                                     })
                             }}>{t('save level')}</Button>
-                            <Template reload={handleRefresh} />
-                            <MultSelectMod reload={handleRefresh} />
-                        </Space>
+                            <Button type={"primary"} onClick={() => setOpenAdd(true)}>{t('add level')}</Button>
+                            </Space>
+                            <Space size={12} wrap>
+                                <Template reload={handleRefresh} />
+                                <MultSelectMod reload={handleRefresh} />
+                            </Space>
+                        </div>
                         </Spin>
                     </Skeleton>
                 </Box>
@@ -981,6 +1025,7 @@ const App = () => {
                             <Radio.Group>
                                 <Radio value={'forest'}>{t('forest')}</Radio>
                                 <Radio value={'cave'}>{t('cave')}</Radio>
+                                <Radio value={'porkland'}>{t('porkland')}</Radio>
                             </Radio.Group>
                         </Form.Item>
                     </Form>

@@ -16,7 +16,7 @@ function getLevelObject(value) {
     }
 }
 
-export default ({valueRef, dstWorldSetting, changeValue}) => {
+export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
 
     const levelObject = getLevelObject(valueRef.current)
     const levelType = levelObject.location
@@ -33,6 +33,51 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
         const levelObject = getLevelObject(valueRef.current)
         setLeveldataoverrideObject(levelObject.overrides)
     }, [valueRef.current])
+
+    const porklandItems = [
+        {
+            label: '世界配置',
+            children: <div>
+                <h2>世界设置</h2>
+                <Group
+                    valueRef={valueRef}
+                    data={porklandSetting?.WORLDSETTINGS_GROUP}
+                    url={"./misc/customization_porkland.webp"}
+                    leveldataoverrideObject={leveldataoverrideObject}
+                    onStateChange={(name, newValue) => {
+                        setLeveldataoverrideObject(current=> {
+                            current[name]=newValue
+                            return {...current}
+                        })
+                    }}
+                    changeValue={changeValue}
+                    type={'porkland'}
+                />
+            </div>,
+            key: '1'
+        },
+        {
+            label: '世界生成',
+            children: <div>
+                <h2>世界生成</h2>
+                <Group
+                    valueRef={valueRef}
+                    data={porklandSetting?.WORLDGEN_GROUP}
+                    url={"./misc/customization_porkland.webp"}
+                    leveldataoverrideObject={leveldataoverrideObject}
+                    onStateChange={(name, newValue) => {
+                        setLeveldataoverrideObject(current=> {
+                            current[name]=newValue
+                            return {...current}
+                        })
+                    }}
+                    changeValue={changeValue}
+                    type={'porkland'}
+                />
+            </div>,
+            key: '2'
+        }
+    ]
 
     const forestItems = [
         {
@@ -134,8 +179,10 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
                         <Tabs items={caveItems} />
                     </>
                 )}
-
-                {(levelType !== 'forest' && levelType !== 'cave') && (<>
+                {levelType === 'porkland' &&(<>
+                    <Tabs items={porklandItems} />
+                </>)}
+                {(levelType !== 'forest' && levelType !== 'cave' && levelType !== 'porkland') && (<>
                     <Alert style={{
                         marginBottom: '4px'
                     }} message={`暂不支持此类型世界配置文件可视化 ${levelType}`} type="info" showIcon closable />
@@ -150,7 +197,22 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
     )
 }
 
-const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, changeValue}) => {
+const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, changeValue, type}) => {
+
+    function getWebp(key, key2) {
+        if (type === 'porkland' && (key === 'survivors' || key === 'global'))  {
+            return './misc/worldsettings_customization.webp'
+        }
+        const list = [
+            'task_set','boons','rock',  'mushroom', 'weather',
+        ]
+        if (type === 'porkland' && list.includes(key2))  {
+            return './misc/worldgen_customization.webp'
+        }
+        return url
+    }
+
+
     return (<>
         {Object.keys(data)
             .sort((a, b) => data[a].order - data[b].order)
@@ -165,7 +227,7 @@ const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, cha
                                     <div style={{
                                         width: '64px',
                                         height: '64px',
-                                        backgroundImage: `url(${url})`,
+                                        backgroundImage: `url(${getWebp(key, key2)})`,
                                         backgroundPosition: `-${Math.round(value.image.x * data[key].atlas.width / data[key].atlas.item_size) * 100}% -${Math.round(value.image.y * data[key].atlas.height / data[key].atlas.item_size) * 100}%`
                                     }}/>
                                     <div>
