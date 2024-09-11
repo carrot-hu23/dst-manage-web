@@ -27,6 +27,7 @@ import DstServerList from "./pages/DstServerList";
 import Tool from "./pages/Tool";
 import Cluster from "./pages/Cluster";
 import Mod2 from "./pages/Mod2";
+import Dashboard from "./pages/Dashboard";
 
 export default function Router() {
   const routes = useRoutes([

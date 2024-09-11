@@ -1,10 +1,14 @@
 import {useTranslation} from "react-i18next";
 import {useTheme} from '@mui/material/styles';
-import {Grid, Container, Typography, CardHeader, Box, Card} from '@mui/material';
-import { Timeline } from 'antd';
+import {Grid, Container, CardHeader, Box, Card} from '@mui/material';
+import {DatePicker, Segmented, Space, Timeline} from 'antd';
 // components
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
+
+import locale from 'antd/locale/zh_CN';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 
 import {
     AppCurrentVisits,
@@ -14,7 +18,12 @@ import {
 import {countActivePlayers, countRoleRate, countTopNActive, lastThNRegenerateApi} from '../api/statisticsApi';
 import {getBeginWeek, getEndWeek, translateFormat} from '../utils/dateUitls';
 import {dstRolesMap} from "../utils/dst";
+import UserStatistic from "./Dashboard/UserStatistic";
 
+
+dayjs.locale('zh-cn');
+
+const {RangePicker} = DatePicker;
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +32,26 @@ export default function DashboardAppPage() {
 
     const theme = useTheme();
     const {cluster} = useParams()
+
+
+    const today = dayjs();
+    const startOfWeek = today.startOf('week');
+    const endOfWeek = today.endOf('week');
+    const defaultRange = [startOfWeek, endOfWeek];
+    const [selectedRange, setSelectedRange] = useState([]);
+
+    // 处理日期范围选择变化
+    const handleRangeChange = (dates) => {
+        if (dates && dates.length === 2) {
+            const [start, end] = dates;
+            setSelectedRange([start, end]);
+            count(start.valueOf(), end.valueOf())
+        } else {
+            // 处理用户清空选择的情况
+            setSelectedRange([]);
+        }
+    };
+
     const [userChartData, setUserChartData] = useState({
         title: '',
         xData: [],
@@ -41,9 +70,8 @@ export default function DashboardAppPage() {
 
     const [timelineList, setTimelineList] = useState([])
 
-
-    useEffect(() => {
-        countActivePlayers(cluster, "DAY", getBeginWeek(), getEndWeek())
+    function count(start, end) {
+        countActivePlayers(cluster, "DAY", start, end)
             .then(response => {
                 const {data} = response
                 setUserChartData({
@@ -69,8 +97,7 @@ export default function DashboardAppPage() {
                 console.error(ereor);
             })
 
-
-        countTopNActive(cluster, 10, getBeginWeek(), getEndWeek())
+        countTopNActive(cluster, 10, start, end)
             .then(response => {
                 const {data} = response
                 setTopNActive({
@@ -82,7 +109,7 @@ export default function DashboardAppPage() {
                 console.error(ereor);
             })
 
-        countRoleRate(cluster, getBeginWeek(), getEndWeek())
+        countRoleRate(cluster, start, end)
             .then(response => {
                 const {data} = response
                 setRoleRate({
@@ -101,7 +128,10 @@ export default function DashboardAppPage() {
             .catch(ereor => {
                 console.error(ereor);
             })
+    }
 
+    useEffect(() => {
+        count(getBeginWeek(), getEndWeek())
         lastThNRegenerateApi(cluster, 10)
             .then(response => {
                 const {data} = response
@@ -121,9 +151,36 @@ export default function DashboardAppPage() {
     return (
         <>
             <Container maxWidth="xxl">
-
+                <Card>
+                    <Box sx={{p: 2}} dir="ltr">
+                        <Space wrap size={16}>
+                            <RangePicker
+                                defaultValue={defaultRange}
+                                format="YYYY-MM-DD"
+                                locale="zh-cn" // 可选，设置为中文或其他语言
+                                onChange={handleRangeChange}
+                                needConfirm
+                            />
+                            <Segmented
+                                options={['本周', '上周', '本月', '上月']}
+                                onChange={(value) => {
+                                    if (value === '上周') {
+                                        count(dayjs().subtract(1, 'week').startOf('week').format('YYYY-MM-DD').valueOf(), dayjs().subtract(1, 'week').endOf('week').format('YYYY-MM-DD').valueOf())
+                                    } else if (value === '本月') {
+                                        count(dayjs().startOf('month').format('YYYY-MM-DD').valueOf(), dayjs().endOf('month').format('YYYY-MM-DD').valueOf())
+                                    } else if (value === '上月') {
+                                        count(dayjs().subtract(1, 'month').startOf('month').format('YYYY-MM-DD').valueOf(), dayjs().subtract(1, 'month').endOf('month').format('YYYY-MM-DD').valueOf())
+                                    } else {
+                                        // 本周
+                                        count(dayjs().startOf('week').format('YYYY-MM-DD').valueOf(), dayjs().endOf('week').format('YYYY-MM-DD').valueOf())
+                                    }
+                                }}
+                            />
+                        </Space>
+                    </Box>
+                </Card>
+                <br/>
                 <Grid container spacing={3}>
-
                     <Grid item xs={12} md={6} lg={8}>
                         <AppWebsiteVisits
                             title={t('playerActiveOfThisWeek')}
@@ -136,12 +193,7 @@ export default function DashboardAppPage() {
                         <AppCurrentVisits
                             title={t('roleRatioOfThisTheWeek')}
                             chartData={roleRate.chartData}
-                            chartColors={[
-                                theme.palette.primary.main,
-                                theme.palette.info.main,
-                                theme.palette.warning.main,
-                                theme.palette.error.main,
-                            ]}
+
                         />
 
                     </Grid>

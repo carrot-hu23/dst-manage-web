@@ -84,7 +84,7 @@ export default () => {
         <>
             <div className={`${style.antInput} scrollbar`}
                  style={{
-                     height: '64vh',
+                     height: '60vh',
                      overflowY: 'auto',
                  }}
             >
@@ -104,12 +104,6 @@ export default () => {
                             onChange={handleTabChange}
                             options={['默认', '全部']}
                         />
-
-                        {/*
-                         <Button type="primary" onClick={() => onFinish()}>
-                            {t('save')}
-                        </Button>
-                        */}
                     </div>
                     <br/>
                     <Form
@@ -356,14 +350,7 @@ export default () => {
                             <Switch checkedChildren={t('open')} unCheckedChildren={t('close')} />
                         </Form.Item>
                         </div>}
-                        <Form.Item
-                            label={t('Action')}>
-                            <Button type="primary" onClick={() => onFinish()}>
-                                {t('save')}
-                            </Button>
-                        </Form.Item>
                     </Form>
-                    <br/><br/>
                     <br/><br/>
                 </Skeleton>
                     </Grid>
@@ -372,6 +359,13 @@ export default () => {
                     </Grid>
                 </Grid>
 
+            </div>
+            <div style={{
+                height: '4vh',
+            }}>
+                <Button type="primary" onClick={() => onFinish()}>
+                    {t('save')}
+                </Button>
             </div>
         </>
     )

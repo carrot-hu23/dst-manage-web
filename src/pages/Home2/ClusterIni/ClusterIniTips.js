@@ -80,7 +80,7 @@ export default ()=>{
                 }}
                 items={getTips(panelStyle)}
             />
-           <TengxuCloudAd1 />
+
         </>
     )
 }

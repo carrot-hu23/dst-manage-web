@@ -87,10 +87,9 @@ export default ({title, tips, getApi, saveApi}) => {
 
     return (
         <>
-            <div style={{
+            <div className={'scrollbar'} style={{
                 height: '64vh',
                 overflowY: 'auto',
-                overflowX: 'auto'
             }}>
                 <Typography variant="h6" sx={{mb: 4}}>
                     {title}
@@ -189,7 +188,7 @@ export default ({title, tips, getApi, saveApi}) => {
                         </span>
                     ))}
                 </span>
-                            <TengxuCloudAd2 />
+
                         </Grid>
                     </Grid>
                 </Skeleton>
