@@ -190,7 +190,7 @@ export default ({levels}) => {
                 </Popconfirm>
 
                 <Popconfirm
-                    title={`清理存档`}
+                    title={`删除存档`}
                     description={"点击后，将删除存储的 session save 等文件，存储存档文件将会删除"}
                     onConfirm={() => {
                         setSpin(true)
@@ -214,7 +214,7 @@ export default ({levels}) => {
                         type={"primary"}
                         size={'small'}
                     >
-                        清理存档
+                        删除存档
                     </Button>
                 </Popconfirm>
             </Space>

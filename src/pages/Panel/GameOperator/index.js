@@ -26,14 +26,14 @@ export default ({levels}) => {
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <CardTitle title={'房间信息'} />
+
                             <GameArchive/>
                         </Box>
                     </Card>
                     <br/>
                     <Card>
                         <Box sx={{p: 2}} dir="ltr">
-                            <CardTitle title={'世界列表'} />
+
                             <GameLevels levels={levels}/>
                         </Box>
                     </Card>
@@ -44,7 +44,7 @@ export default ({levels}) => {
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <CardTitle title={'在线玩家'} />
+
                             <OnlinePlayers levels={levels}/>
                         </Box>
                     </Card>

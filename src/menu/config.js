@@ -3,7 +3,11 @@ import SvgColor from "../components/svg-color";
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
 const navConfig = [
-
+  {
+    title: '统计页面',
+    path: '/dashboard/app',
+    icon: icon('trending-up'),
+  },
   {
     title: '操作面板',
     path: '/dashboard/panel',
@@ -39,11 +43,6 @@ const navConfig = [
     title: '游戏日志',
     path: '/dashboard/log',
     icon: icon('database'),
-  },
-  {
-    title: '统计页面',
-    path: '/dashboard/app',
-    icon: icon('trending-up'),
   },
   {
     title: '自动维护',
