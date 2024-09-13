@@ -22,7 +22,8 @@ import {MonacoEditor} from "../NewEditor";
 import {createLevelApi, deleteLevelApi, getLevelListApi, updateLevelsApi} from "../../api/clusterLevelApi";
 import {useTheme} from "../../hooks/useTheme";
 import {useParams} from "react-router-dom";
-import {cave, forest} from "../../utils/dst";
+import {cave, forest, porkland} from "../../utils/dst";
+import {queryUserClusterPermissionApi} from "../../api/userApi";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
@@ -50,6 +51,11 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
     }, [])
     const items = [
         {
+            label: '可视化',
+            children: <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>,
+            key: '1',
+        },
+        {
             label: '手动编辑',
             children: <MonacoEditor
                 ref={editorRef}
@@ -61,13 +67,8 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
                     theme: theme === 'dark'?'vs-dark':''
                 }}
             />,
-            key: '1',
-            forceRender: true,
-        },
-        {
-            label: '可视化',
-            children: <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>,
             key: '2',
+            forceRender: true,
         },
     ]
     return (
@@ -405,8 +406,8 @@ const SelectorMod = ({form, editorRef, level, formValueChange}) => {
     )
 }
 
-const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
-
+const LevelItem = ({dstWorldSetting, levelName, level, changeValue, permission}) => {
+    console.log("permission", permission)
     const modoverridesRef = useRef(level.modoverrides)
     const editorRef = useRef()
     const editorRef2 = useRef()
@@ -515,24 +516,22 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue}) => {
             key: '2',
             forceRender: true,
         },
-        {
+    ]
+    if (permission.allowEditingServerIni) {
+        items.push({
             label: '端口配置',
-            children: <div style={{
-                "height": "50vh",
-                "width": "100%",
-                overflowY: 'auto',
-            }}><ServerIni levelName={levelName} level={level} changeValue={changeValue}/>
+            children: <div>
+                <div style={{
+                    "height": "50vh",
+                    "width": "100%",
+                    overflowY: 'auto',
+                }}><ServerIni levelName={levelName} level={level} changeValue={changeValue}/>
+                </div>
             </div>,
             key: '3',
             forceRender: true,
-        },
-        // {
-        //     label: '多层选择器',
-        //     children: <SelectorMod formValueChange={formValueChange} form={form} editorRef={editorRef}
-        //                            modoverridesRef={modoverridesRef} level={level}/>,
-        //     key: '4',
-        // },
-    ]
+        })
+    }
     useEffect(() => {
 
     }, [])
@@ -576,54 +575,85 @@ const App = () => {
 
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        setLoading(true)
-        fetch('misc/dst_world_setting.json')
-            .then(response => response.json())
-            .then(data => {
-                setDstWorldSetting(data)
-                getLevelListApi(cluster)
-                    .then(resp => {
-                        console.log(resp)
-                        if (resp.code === 200) {
-                            const levels = resp.data
-                            // TODO 当为空的时候
-                            levelListRef.current = levels
-                            const items2 = levels.map(level => {
-                                const closable = level.uuid === "Master"?false:true
-                              return   {
-                                label: level.levelName,
-                                children: <LevelItem
-                                    dstWorldSetting={data}
-                                    level={{
-                                        leveldataoverride: level.leveldataoverride,
-                                        modoverrides: level.modoverrides,
-                                        server_ini: level.server_ini
-                                    }}
-                                    levelName={level.levelName}
-                                    changeValue={changeValue}
-                                />,
-                                key: level.uuid,
-                                  closable: closable,
-                            }})
-                            setItems(items2)
-                            if (levels.length === 0) {
-                                setActiveKey("")
-                            } else {
-                                setActiveKey(levels[0].uuid)
-                            }
-                            // setActiveKey(levels[0].uuid)
-                            message.success("获取配置成功")
-                        } else {
-                            message.error("获取世界失败")
-                        }
-                        setLoading(false)
-                    })
-            })
-            .catch(error => {
-                console.error('无法加载配置文件', error);
-            })
+    const [permission, setPermission] = useState({
+        allowAddLevel: true,
+        allowEditingServerIni: true
+    })
+    const [role, setRole] = useState()
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            // 获取 DST 世界设置
+            const response = await fetch('misc/dst_world_setting.json');
+            const data = await response.json();
+            setDstWorldSetting(data);
 
+            const userJson = localStorage.getItem('user');
+            let user = JSON.parse(userJson);
+            setRole(user.role)
+            let permission = {
+                allowAddLevel: true,
+                allowEditingServerIni: true
+            }
+            if (user.role !== 'admin') {
+                const userClusterPermissionResp = await queryUserClusterPermissionApi(cluster)
+                permission = userClusterPermissionResp.data
+                setPermission(permission)
+            }
+            // 获取等级列表
+            const resp = await getLevelListApi(cluster);
+            if (resp.code === 200) {
+                const levels = resp.data;
+                levelListRef.current = levels;
+                const items2 = levels.map(level => {
+                    let closable = false
+                    if (user.role === 'admin') {
+                        closable = level.uuid === "Master" ? false : true;
+                    } else {
+                        if (level.uuid === "Master") {
+                            closable = false
+                        } else {
+                            closable = permission.allowAddLevel
+                        }
+                    }
+                    return {
+                        label: level.levelName,
+                        children: (
+                            <LevelItem
+                                dstWorldSetting={data}
+                                level={{
+                                    leveldataoverride: level.leveldataoverride,
+                                    modoverrides: level.modoverrides,
+                                    server_ini: level.server_ini
+                                }}
+                                levelName={level.levelName}
+                                changeValue={changeValue}
+                                permission={permission}
+                            />
+                        ),
+                        key: level.uuid,
+                        closable: closable,
+                    };
+                });
+                setItems(items2);
+                if (levels.length === 0) {
+                    setActiveKey("");
+                } else {
+                    setActiveKey(levels[0].uuid);
+                }
+                message.success("获取配置成功");
+            } else {
+                message.error("获取世界失败");
+            }
+        } catch (error) {
+            console.error('无法加载配置文件', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, [])
 
     const onChange = (newActiveKey) => {
@@ -671,30 +701,8 @@ const App = () => {
 
     }
     const remove = (targetKey) => {
-
         setDeleteLevelName(targetKey)
         setOpenDelete(true)
-
-        // let newActiveKey = activeKey;
-        // let lastIndex = -1;
-        // items.forEach((item, i) => {
-        //     if (item.key === targetKey) {
-        //         lastIndex = i - 1;
-        //     }
-        // });
-        // const newPanes = items.filter((item) => item.key !== targetKey);
-        // if (newPanes.length && newActiveKey === targetKey) {
-        //     if (lastIndex >= 0) {
-        //         newActiveKey = newPanes[lastIndex].key;
-        //     } else {
-        //         newActiveKey = newPanes[0].key;
-        //     }
-        // }
-        // setItems(newPanes);
-        // setActiveKey(newActiveKey);
-        //
-        // // TODO 删除对应的level
-        // levelListRef.current = levelListRef.current.filter((item) => item.levelName !== targetKey)
     };
     const removeLevel = (targetKey) => {
         let newActiveKey = activeKey;
@@ -748,6 +756,8 @@ const App = () => {
 
             if (body.type === "forest") {
                 body.leveldataoverride = forest
+            } else if (body.type === 'porkland') {
+                body.leveldataoverride = porkland
             } else {
                 body.leveldataoverride = cave
             }
@@ -887,7 +897,9 @@ const App = () => {
                         />
                         <Divider/>
                         <Space size={24} wrap>
-                            <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
+                            {(role === 'admin' || permission.allowAddLevel) && (
+                                <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
+                            )}
                             <Button type={"primary"} onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
                                 updateLevelsApi(cluster, {levels: levelListRef.current})
@@ -912,7 +924,7 @@ const App = () => {
                         setOpenAdd(false)
                     }}>
 
-                    <Alert message="不要使用特殊字符" type="warning" showIcon
+                    <Alert message="不要使用特殊字符，如果文件不存在，将会新建一个。名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种" type="warning" showIcon
                            closable/>
                     <br/>
                     <Form
@@ -935,9 +947,6 @@ const App = () => {
                         >
                             <Input placeholder="请输入世界名" />
                         </Form.Item>
-                        <Alert
-                            message="如果文件不存在，将会新建一个。名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种"
-                            type="warning" showIcon closable/>
                         <Form.Item label="文件名"
                                    name="uuid"
                                    rules={[
@@ -962,6 +971,7 @@ const App = () => {
                             <Radio.Group>
                                 <Radio value={'forest'}>{'森林'}</Radio>
                                 <Radio value={'cave'}>{'洞穴'}</Radio>
+                                <Radio value={'porkland'}>{'哈姆雷特'}</Radio>
                             </Radio.Group>
                         </Form.Item>
                     </Form>

@@ -64,6 +64,14 @@ async function queryUserClusterListApi(userId) {
     return response.data
 }
 
+async function queryUserClusterPermissionApi(cluster) {
+
+    const url = `/api/user/account/cluster/permission?clusterName=${cluster}`
+    const response = await http.get(url)
+
+    return response.data
+}
+
 async function addUserClusterApi(data) {
     const url = `/api/user/account/cluster`
     const response = await http.post(url,data)
@@ -73,6 +81,12 @@ async function addUserClusterApi(data) {
 async function deleteUserClusterApi(id) {
     const url = `/api/user/account/cluster?id=${id}`
     const response = await http.delete(url)
+    return response.data
+}
+
+async function putUserClusterApi(data) {
+    const url = `/api/user/account/cluster`
+    const response = await http.put(url, data, {})
     return response.data
 }
 
@@ -87,4 +101,6 @@ export {
     queryUserClusterListApi,
     addUserClusterApi,
     deleteUserClusterApi,
+    putUserClusterApi,
+    queryUserClusterPermissionApi,
 }

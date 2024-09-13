@@ -107,6 +107,14 @@ export default function PlayerLog() {
             render: (text, record, _, action) => <HiddenText text={record.ip} />
         },
         {
+            title: '地区',
+            dataIndex: 'region',
+            key: 'region',
+            valueType: 'string',
+            search: false,
+            // render: (text, record, _, action) => <HiddenText text={record.ip} />
+        },
+        {
             title: 'Action',
             dataIndex: 'action',
             key: 'action',

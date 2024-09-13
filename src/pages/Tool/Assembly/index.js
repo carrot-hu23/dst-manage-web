@@ -178,14 +178,14 @@ export default () => {
             </div>,
             key: '1',
         },
-        {
-            label: '世界配置同步',
-            children: <>
-                <SyncConfig levels={levels} />
-            </>,
-            key: '2',
-            forceRender: true,
-        },
+        // {
+        //     label: '世界配置同步',
+        //     children: <>
+        //         <SyncConfig levels={levels} />
+        //     </>,
+        //     key: '2',
+        //     forceRender: true,
+        // },
     ]
 
     return (

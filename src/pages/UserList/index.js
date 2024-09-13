@@ -1,4 +1,4 @@
-import {Button, Drawer, Form, Image, Input, message, Modal, Popconfirm, Select, Table} from "antd";
+import {Button, Drawer, Form, Image, Input, message, Modal, Popconfirm, Select, Switch, Table} from "antd";
 import React, {useEffect, useRef, useState} from "react";
 import {DeleteOutlined, LockOutlined, UserOutlined} from "@ant-design/icons";
 
@@ -8,7 +8,7 @@ import {
     createUserAccountApi,
     queryUserAccountListApi,
     deleteUserAccountApi,
-    updateUserAccountApi, queryUserClusterListApi, addUserClusterApi, deleteUserClusterApi
+    updateUserAccountApi, queryUserClusterListApi, addUserClusterApi, deleteUserClusterApi, putUserClusterApi
 } from "../../api/userApi";
 import {getClusterList} from "../../api/clusterApi";
 
@@ -141,6 +141,58 @@ export default () => {
                 dataIndex: 'clusterName',
                 key: 'clusterName',
                 search: false,
+            },
+            {
+                title: '创建世界',
+                valueType: 'option',
+                key: 'option',
+                render: (_, record) => [
+                    // eslint-disable-next-line react/jsx-key
+                    (<div>
+                        <Switch checked={record.allowAddLevel} checkedChildren="开启" unCheckedChildren="关闭" onChange={(v)=>{
+                            const data = {
+                                ID: record.ID,
+                                allowAddLevel: v,
+                                allowEditingServerIni: record.allowEditingServerIni
+                            }
+                            putUserClusterApi(data)
+                                .then(resp=>{
+                                    if (resp.code  === 200) {
+                                        message.success("修改成功")
+                                        reloadUserClusterList()
+                                    } else {
+                                        message.warning("修改失败")
+                                    }
+                                })
+                        }}/>
+                    </div>)
+                ],
+            },
+            {
+                title: '编辑sever_ini',
+                valueType: 'option',
+                key: 'option',
+                render: (_, record) => [
+                    // eslint-disable-next-line react/jsx-key
+                    (<div>
+                        <Switch checked={record.allowEditingServerIni} checkedChildren="开启" unCheckedChildren="关闭"  onChange={(v)=>{
+                            const data = {
+                                ID: record.ID,
+                                allowAddLevel: record.allowAddLevel,
+                                allowEditingServerIni: v
+                            }
+                            putUserClusterApi(data)
+                                .then(resp=>{
+                                    if (resp.code  === 200) {
+                                        message.success("修改成功")
+                                        reloadUserClusterList()
+                                    } else {
+                                        message.warning("修改失败")
+                                    }
+                                })
+                        }}/>
+                    </div>)
+                ],
             },
             {
                 title: '操作',
