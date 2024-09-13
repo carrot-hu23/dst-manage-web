@@ -35,27 +35,27 @@ export default ({levels}) => {
 
     }, [])
     const [updateUgcMods, setUpdateUgcMods] = useState([])
-    useEffect(()=>{
-        getUgcModAcfApi(cluster, "Master")
-            .then(resp=>{
-            if (resp.code === 200) {
-                try {
-                    const modoverrides = parse(levels[0]?.modoverrides)
-                    const workshopIds = Object.keys(modoverrides).map(key=>key.replace("workshop-", ""))
-                    console.log("workshopIds", workshopIds)
-                    console.log(resp.data.filter(ugc=>ugc.timeupdated !== ugc.timelast))
-                    // workshopId
-                    setUpdateUgcMods(resp.data
-                        .filter(ugc=>ugc.timeupdated !== ugc.timelast)
-                        .filter(ugc=>workshopIds.includes(ugc.workshopId))
-                    )
-                } catch (e) {
-                    console.log(e)
-                }
-            }
-            console.log(resp)
-        })
-    }, [])
+    // useEffect(()=>{
+    //     getUgcModAcfApi(cluster, "Master")
+    //         .then(resp=>{
+    //         if (resp.code === 200) {
+    //             try {
+    //                 const modoverrides = parse(levels[0]?.modoverrides)
+    //                 const workshopIds = Object.keys(modoverrides).map(key=>key.replace("workshop-", ""))
+    //                 console.log("workshopIds", workshopIds)
+    //                 console.log(resp.data.filter(ugc=>ugc.timeupdated !== ugc.timelast))
+    //                 // workshopId
+    //                 setUpdateUgcMods(resp.data
+    //                     .filter(ugc=>ugc.timeupdated !== ugc.timelast)
+    //                     .filter(ugc=>workshopIds.includes(ugc.workshopId))
+    //                 )
+    //             } catch (e) {
+    //                 console.log(e)
+    //             }
+    //         }
+    //         console.log(resp)
+    //     })
+    // }, [])
 
     const [openUgc, setOpenUgc] = useState(false)
 
@@ -148,9 +148,6 @@ export default ({levels}) => {
                         <span className={style.icon}>
                             {archive.clusterName}
                         </span>
-                        <Button type={'link'} onClick={() => {
-                            shareClusterInfo()
-                        }}>分享</Button>
                     </div>
 
                 </Form.Item>
