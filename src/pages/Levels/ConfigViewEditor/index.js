@@ -95,6 +95,7 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
                     }}
                     changeValue={changeValue}
                     type={'porkland'}
+                    isWorldGen
                 />
             </div>,
             key: '2'
@@ -221,9 +222,12 @@ export default ({valueRef, dstWorldSetting, changeValue}) => {
     )
 }
 
-const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, changeValue, type}) => {
+const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, changeValue, type, isWorldGen}) => {
 
     function getWebp(key, key2) {
+        if (type === 'porkland' && key === 'global' && isWorldGen) {
+            return url
+        }
         if (type === 'porkland' && (key === 'survivors' || key === 'global'))  {
             return './misc/worldsettings_customization.webp'
         }

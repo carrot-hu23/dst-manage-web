@@ -689,10 +689,10 @@ const App = () => {
 
         newPanes.push({
             label: levelName,
-            children: <LevelItem dstWorldSetting={dstWorldSetting} level={{
+            children: <LevelItem permission={permission} dstWorldSetting={dstWorldSetting} level={{
                 leveldataoverride: newLevel.leveldataoverride,
                 modoverrides: newLevel.modoverrides,
-                server_ini: newLevel.server_ini
+                server_ini: newLevel.server_ini,
             }} levelName={levelName} changeValue={changeValue}/>,
             key: uuid,
         })
