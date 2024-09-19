@@ -197,7 +197,7 @@ export default ({levels}) => {
                                 checkedChildren="是" unCheckedChildren="否"/>
                         </div>
                         <Button onClick={()=>{
-                            window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}`
+                            window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}&clusterName=${cluster}`
                         }}
                                 icon={<DownloadOutlined />} type={'link'}>
                             下载日志
