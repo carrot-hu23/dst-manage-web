@@ -26,6 +26,7 @@ import {useTranslation} from "react-i18next";
 import {dstHomeDetailApi} from "../../../api/dstApi";
 import HomeDetail from "../../DstServerList/home";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
+import {generateUUID} from "../../../utils/dateUitls";
 
 const ServerItem = ({isAdmin, server, serverList, updateServerList, removeServerList}) => {
 
@@ -585,7 +586,7 @@ export default () => {
         const onFinish = (values) => {
             setSpinning(true)
             if (values.clusterType === '远程') {
-                values.clusterName = crypto.randomUUID()
+                values.clusterName = generateUUID()
             }
             console.log('createCluster:', values);
             createCluster(values)
