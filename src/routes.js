@@ -3,7 +3,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 
-import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -21,13 +20,10 @@ import Help from "./pages/Help";
 import Home2 from "./pages/Home2";
 
 import Levels from "./pages/Levels";
-import ModSetting from "./pages/ModSetting";
-import AddMod from "./pages/Mod/AddMod";
+import AddMod from "./pages/Mod2/AddMod";
 import DstServerList from "./pages/DstServerList";
 import Tool from "./pages/Tool";
-import Cluster from "./pages/Cluster";
 import Mod2 from "./pages/Mod2";
-import Dashboard from "./pages/Dashboard";
 
 export default function Router() {
   const routes = useRoutes([
@@ -37,16 +33,10 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/panel" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
-        { path: 'mod', element: <ModSetting /> },
         { path: 'mod2', element: <Mod2 /> },
-
         { path: 'panel', element: <Panel /> },
-
         { path: 'tool', element: <Tool /> },
-
-        { path: 'home', element: <Cluster /> },
         { path: 'cluster', element: <Home2 /> },
         { path: 'levels', element: <Levels /> },
         { path: 'backup', element: <Backup /> },

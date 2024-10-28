@@ -10,15 +10,20 @@ import {dstRoles} from '../../../utils/dst';
 import {getAllOnlinePlayersApi, getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
+import {useLevelsStore} from "../../../store/useLevelsStore";
+import {usePlayerListStore} from "../../../store/usePlayerListStore";
 
 
-const Online = ({levels}) => {
+const Online = () => {
     const { t } = useTranslation()
 
     const {cluster} = useParams()
     const [loading, setLoading] = useState(true)
     const [spin, setSpin] = useState(false)
-    const [playerList, setPlayerList] = useState([])
+
+    const levels = useLevelsStore((state) => state.levels)
+    const playerList = usePlayerListStore((state) => state.playerList)
+    const setPlayerList = usePlayerListStore((state) => state.setPlayerList)
 
     const notHasLevels = levels === undefined || levels === null || levels.length === 0
     const [levelName, setLevelName] = useState(notHasLevels?"":levels[0].key)

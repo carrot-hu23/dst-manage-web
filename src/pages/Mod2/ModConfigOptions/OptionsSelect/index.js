@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import _ from "lodash";
 import { FixedSizeList as List } from 'react-window';
 
-import Select2 from "../../../Mod/component/Select2";
+import Select2 from "../../component/Select2";
 import {generateUUID} from "../../../../utils/dateUitls";
 
 const OptionSelect = ({mod, defaultConfigOptionsRef, modConfigOptionsRef}) => {

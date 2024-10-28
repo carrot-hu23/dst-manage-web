@@ -9,10 +9,10 @@ import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
 import ServerLog from "../ServerLog";
 import OS from "../OS";
+import {useLevelsStore} from "../../../store/useLevelsStore";
 
-
-export default ({levels}) => {
-
+export default () => {
+    const levels = useLevelsStore((state) => state.levels)
     return (
         <>
             <Card>
@@ -31,24 +31,24 @@ export default ({levels}) => {
                     <br/>
                     <Card>
                         <Box sx={{p: 3}} dir="ltr">
-                            <GameArchive levels={levels}/>
+                            <GameArchive/>
                         </Box>
                     </Card>
                     <br/>
                     <Card>
                         <Box sx={{p: 1}} dir="ltr">
-                            <GameLevels levelList={levels}/>
+                            <GameLevels/>
                         </Box>
                     </Card>
                 </Grid>
 
                 <Grid item xs={12} md={7} lg={7}>
 
-                    <ServerLog levels={levels}/>
+                    <ServerLog />
                     <br/>
                     <Card>
                         <Box sx={{p: 2}} dir="ltr">
-                            <OnlinePlayers levels={levels}/>
+                            <OnlinePlayers />
                         </Box>
                     </Card>
                 </Grid>

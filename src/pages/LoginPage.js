@@ -80,7 +80,7 @@ export default function LoginPage() {
                             <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
                                 Hi, Welcome Back
                             </Typography>
-                            <img src="/assets/login.png" alt="login"/>
+                            <img src="/assets/login.gif" alt="login"/>
 
                             <Typography variant="h5" sx={{px: 5, mt: 1, mb: 1}}>
                                 news: <a
@@ -101,7 +101,7 @@ export default function LoginPage() {
                             </Typography>
                             <Divider sx={{my: 3}}>
                                 <Typography variant="body2" sx={{color: 'text.secondary'}}>
-                                    OR
+                                    《饥荒联机版》万圣夜回归！
                                 </Typography>
                             </Divider>
 

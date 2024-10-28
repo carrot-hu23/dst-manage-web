@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import {useEffect} from "react";
 // @antd
-import {Tag,Dropdown,message} from "antd";
+import {Tag,Dropdown} from "antd";
 import {GithubFilled,} from '@ant-design/icons';
 
 // @mui
@@ -16,15 +16,9 @@ import { bgBlur } from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
 //
-import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import NotificationsPopover from './NotificationsPopover';
-import SwitchLanguage from "../../../locales/SwitchLanguage";
-import {StyledNavItemIcon} from "../../../components/nav-section/styles";
 import {useTheme} from "../../../hooks/useTheme";
 import useResponsive from "../../../hooks/useResponsive";
-import Latency from "./Latency";
 import {headerFlag1, headerFlag2} from "../../../config";
 
 // ----------------------------------------------------------------------
@@ -92,10 +86,6 @@ export default function Header({ onOpenNav }) {
                     <Iconify icon="eva:menu-2-fill" />
                 </IconButton>
 
-                {/*
-          TODO 暂时去掉搜索
-          <Searchbar />
-          */}
                 {isDesktop && <Tag color="#2784FF">{headerFlag1}</Tag>}
                 {isDesktop && <Tag color="#f50">{headerFlag2}</Tag>}
 
@@ -111,16 +101,11 @@ export default function Header({ onOpenNav }) {
                         sm: 1,
                     }}
                 >
-                    {/* <LanguagePopover />
-          <NotificationsPopover />
-            <SwitchLanguage/> */}
-                    {/*<Latency />*/}
                     <IconButton
                         onClick={()=>{
                             window.open('https://github.com/hujinbo23/dst-admin-go', '_blank');
                         }}
                     >
-
                         <GithubFilled />
                     </IconButton>
                     <ToggleLanguage/>
@@ -134,7 +119,6 @@ export default function Header({ onOpenNav }) {
 
 const ToggleTheme = () => {
     const {theme, toggleTheme} = useTheme();
-    console.log("theme: ", theme)
     return (
         <>
             <div>

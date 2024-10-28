@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import React, {useRef, useState} from 'react';
 import {ProTable} from '@ant-design/pro-components';
-import {Button, Image, message, Popconfirm, Space, Tag, Typography} from 'antd';
+import {Button, Image, message, Popconfirm, Space, Tag} from 'antd';
 import {Container, Box, Card} from '@mui/material';
 
 import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
@@ -10,8 +10,6 @@ import {addBlackListPlayerListApi} from "../api/playerApi";
 import style from "./DstServerList2/index.module.css";
 import HiddenText from "./Home2/HiddenText/HiddenText";
 
-
-const { Text } = Typography;
 
 const playerActionEnum = {
     "[LeaveAnnouncement]": '离开房间',
@@ -174,8 +172,6 @@ export default function PlayerLog() {
                         actionRef={actionRef}
                         rowSelection={rowSelection}
                         request={async (params = {}, sort, filter) => {
-                            // console.log(sort, filter);
-                            console.log('params', params)
                             const resp = await getPlayerLog(cluster, params)
                             setData(resp.data)
                             return {
@@ -192,6 +188,7 @@ export default function PlayerLog() {
                             onChange: setCurrentPage,
                             showSizeChanger: true,
                             onShowSizeChange: (current, size) => setPageSize(size),
+                            // pageSizeOptions: [5, 10, 20 ,50, 100]
                         }}
                         headerTitle="玩家日志"
                         toolBarRender={() => [

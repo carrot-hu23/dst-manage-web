@@ -24,11 +24,6 @@ export default () => {
             label: t('ClusterIni'),
             children: <ClusterIni/>
         },
-        // {
-        //     key: '2',
-        //     label: `令 __ 牌`,
-        //     children: <Token/>
-        // },
         {
             key: '3',
             label: t('Adminlist'),

@@ -3,11 +3,14 @@ import {Box, Card} from "@mui/material";
 
 import {Button, Input, Select, Space, message, Spin, Divider, Tag} from 'antd';
 import {sendCommandApi} from "../../../../api/8level";
+import {useLevelsStore} from "../../../../store/useLevelsStore";
 
 
 const {TextArea} = Input;
 
-export default ({levels}) => {
+export default () => {
+
+    const levels = useLevelsStore((state) => state.levels)
 
     useEffect(()=>{
         const historyJson = localStorage.getItem('history');
@@ -16,7 +19,6 @@ export default ({levels}) => {
             history = []
         }
         setHistoryCommand(history)
-        console.log(history)
     }, [])
 
     function addHistory(command) {

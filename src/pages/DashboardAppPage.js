@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {useTheme} from '@mui/material/styles';
 import {Grid, Container, CardHeader, Box, Card} from '@mui/material';
-import {DatePicker, Segmented, Space, Timeline} from 'antd';
+import {ConfigProvider, DatePicker, Segmented, Space, Timeline} from 'antd';
 // components
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
@@ -18,11 +18,8 @@ import {
 import {countActivePlayers, countRoleRate, countTopNActive, lastThNRegenerateApi} from '../api/statisticsApi';
 import {getBeginWeek, getEndWeek, translateFormat} from '../utils/dateUitls';
 import {dstRolesMap} from "../utils/dst";
-import UserStatistic from "./Dashboard/UserStatistic";
-
 
 dayjs.locale('zh-cn');
-
 const {RangePicker} = DatePicker;
 
 // ----------------------------------------------------------------------
@@ -150,7 +147,8 @@ export default function DashboardAppPage() {
 
     return (
         <>
-            <Container maxWidth="xxl">
+            <ConfigProvider locale={locale}>
+                <Container maxWidth="xxl">
                 <Card>
                     <Box sx={{p: 2}} dir="ltr">
                         <Space wrap size={16}>
@@ -219,6 +217,7 @@ export default function DashboardAppPage() {
                     </Grid>
                 </Grid>
             </Container>
+            </ConfigProvider>
         </>
     );
 }

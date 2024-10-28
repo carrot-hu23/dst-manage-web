@@ -7,13 +7,15 @@ import GameOperator from "./GameOperator";
 
 import {getLevelStatusApi} from "../../api/8level";
 import RemoteControl from "./GameOperator/RemoteControl";
+import {useLevelsStore} from "../../store/useLevelsStore";
 
 
 const Panel = () => {
 
     const { t } = useTranslation()
-    const [levels, setLevels] = useState([])
+    const setLevels = useLevelsStore((state) => state.setLevels)
     const [loading, setLoading] = useState(true)
+
     useEffect(()=>{
         setLoading(true)
         getLevelStatusApi()
@@ -44,12 +46,12 @@ const Panel = () => {
         {
             key: '1',
             label: t('Panel'),
-            children: <GameOperator levels={levels}/>
+            children: <GameOperator/>
         },
         {
             key: '2',
             label: t('Remote'),
-            children: <RemoteControl levels={levels}/>,
+            children: <RemoteControl/>,
         },
     ];
 

@@ -11,6 +11,7 @@ import WebLinkSetting from "./WebLinkSetting";
 import AutoGameUpdate from "./AutoGameUpdate";
 import AutoGameDown from "./AutoGameDown";
 import AutoModUpdate from "./AutoModUpdate";
+import Kv from "./Kv";
 
 const System = () => {
     const items = [
@@ -38,6 +39,11 @@ const System = () => {
             key: '5',
             label: "更新模组",
             children: <AutoModUpdate />,
+        },
+        {
+            key: '6',
+            label: "主题设置",
+            children: <Kv />,
         },
         {
             key: '7',

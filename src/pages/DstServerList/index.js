@@ -296,15 +296,11 @@ const DstServerList = () => {
                 footer={null}
                 onOk={handleOk}
                 onCancel={handleCancel}
-
+                width={800}
             >
                 <Skeleton title loading={loading} active>
                     <div
-                        style={{
-                            height: 500
-                        }
-
-                        }>
+                        style={{height: 600}}>
                         <HomeDetail home={homeInfo} />
                     </div>
                 </Skeleton>

@@ -12,6 +12,7 @@ import ModList from "./ModList";
 
 import Workshop from "./Workshop";
 import UgcAcf from "./UgcAcf";
+import UploadModFiles from "./UploadModFiles";
 
 
 export default () => {

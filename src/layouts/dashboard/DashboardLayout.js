@@ -1,16 +1,16 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { Outlet } from 'react-router-dom';
-// antd
+
 import {ConfigProvider,theme} from "antd";
-// @mui
 import { styled,ThemeProvider, createTheme } from '@mui/material/styles';
-//
+
 import Header from './header';
 import Nav from './nav';
 import RequirAuthRoute from '../../filter/RequirAuthRoute';
 import {useTheme} from "../../hooks/useTheme";
-
-// ----------------------------------------------------------------------
+import {useThemeStore} from "../../store/useThemeStore";
+import {useBackgroundUrlStore} from "../../store/useBackgroundUrlStore";
+import {getKv} from "../../api/dstConfigApi";
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -28,7 +28,7 @@ const Main = styled('div')(({ theme }) => {
         minHeight: '100%',
         paddingTop: APP_BAR_MOBILE + 24,
         paddingBottom: theme.spacing(10),
-        backgroundColor: theme.palette.mode === 'dark'? 'black':"",
+        // backgroundColor: theme.palette.mode === 'dark'? 'black':"",
         [theme.breakpoints.up('lg')]: {
             paddingTop: APP_BAR_DESKTOP + 4,
             paddingLeft: theme.spacing(2),
@@ -40,6 +40,7 @@ const Main = styled('div')(({ theme }) => {
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout() {
+
     const [open, setOpen] = useState(false);
     const darkTheme = createTheme({
         palette: {
@@ -58,38 +59,54 @@ export default function DashboardLayout() {
 
     const t = useTheme()
 
+    const { themeConfig, fetchThemeConfig} = useThemeStore()
+    useEffect(()=>{
+        fetchThemeConfig()
+    }, [])
+    const [backgroundUrl, setBackgroundUrl] = useState("")
+    useEffect(() => {
+        document.body.style.backgroundColor = t.theme === 'dark' ? '#000' : ''
+        getKv("backgroundUrl")
+            .then(resp => {
+                if (resp.code === 200) {
+                    const backgroundUr = resp.data
+                    setBackgroundUrl(backgroundUr)
+                    if (backgroundUr !== null && backgroundUr !== "") {
+                        document.body.style.backgroundImage = `url('${backgroundUr}')`
+                        document.body.style.backgroundSize = 'cover'
+                        document.body.style.backgroundPosition = 'center'
+                        document.body.style.backgroundRepeat = 'no-repeat'
+                    }
+                }
+            })
+        // 清理函数，组件卸载时调用
+        return () => {
+            document.body.style.backgroundColor = ''
+            document.body.style.backgroundImage = ''
+            document.body.style.backgroundSize = ''
+            document.body.style.backgroundPosition = ''
+            document.body.style.backgroundRepeat = ''
+        };
+    }, [])
+
     return (
-        <StyledRoot>
+        <StyledRoot
+            style={backgroundUrl !== "" ?{maxHeight: '100vh',}:{}}
+        >
             <RequirAuthRoute>
-                {t.theme === 'dark' && (
-                    <>
-                        <ThemeProvider theme={darkTheme}>
-                            <ConfigProvider
-                                theme={{
-                                    algorithm: theme.darkAlgorithm,
-                                    token: {
-                                        // Seed Token，影响范围大
-                                        // colorPrimary: '#00b96b',
-                                        borderRadius: 4,
-                                    },
-                                }}
-                            >
-                                <Header onOpenNav={() => setOpen(true)} />
-                                <Nav openNav={open} onCloseNav={() => setOpen(false)} />
-                                <Main>
-                                    <Outlet />
-                                </Main>
-                            </ConfigProvider>
-                        </ThemeProvider>
-                    </>
-                )}
-                {t.theme !== 'dark' && (<>
-                    <Header onOpenNav={() => setOpen(true)} />
-                    <Nav openNav={open} onCloseNav={() => setOpen(false)} />
-                    <Main>
-                        <Outlet />
-                    </Main>
-                </>)}
+                <>
+                    <ThemeProvider theme={t.theme === 'dark' ? darkTheme : null}>
+                        <ConfigProvider
+                            theme={{...themeConfig, ...{algorithm: t.theme === 'dark' ? theme.darkAlgorithm : null}}}
+                        >
+                            <Header onOpenNav={() => setOpen(true)}/>
+                            <Nav openNav={open} onCloseNav={() => setOpen(false)}/>
+                            <Main>
+                                <Outlet/>
+                            </Main>
+                        </ConfigProvider>
+                    </ThemeProvider>
+                </>
             </RequirAuthRoute>
         </StyledRoot>
     );

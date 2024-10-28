@@ -7,6 +7,7 @@ import {ClearOutlined} from '@ant-design/icons';
 import {parse} from "lua-json";
 
 import {cleanAllLevelApi, cleanLevelApi, getLevelStatusApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+import {useLevelsStore} from "../../../store/useLevelsStore";
 
 
 
@@ -15,9 +16,11 @@ function formatData(data, num) {
 }
 
 
-export default ({levelList}) => {
+export default () => {
 
-    const [levels, setLevels] = useState(levelList)
+    const levels = useLevelsStore((state) => state.levels)
+    const setLevels = useLevelsStore((state) => state.setLevels)
+
     useEffect(()=>{
         const timerId = setInterval(()=>{
             getLevelStatusApi()
@@ -107,12 +110,6 @@ export default ({levelList}) => {
                 </div>
             ),
         },
-        // {
-        //     title: t('Location'),
-        //     dataIndex: 'location',
-        //     key: 'location',
-        //     hideInSearch: true,
-        // },
         {
             title: t('Mem'),
             dataIndex: 'mem',
@@ -120,8 +117,6 @@ export default ({levelList}) => {
             render: (_, record) => (
                 <>
                     <span>{`${formatData((record.Ps !== undefined ? record.Ps.RSS : 0) / 1024, 2)}MB`}</span>
-                    <Progress  percent={record.Ps.memUage} size={'small'} />
-
                 </>
             ),
         },

@@ -11,6 +11,7 @@ import {sendCommandApi} from "../../../api/8level";
 import PanelLog from "./PanelLog";
 import {useTheme} from "../../../hooks/useTheme";
 import style from "../../DstServerList/index.module.css";
+import {useLevelsStore} from "../../../store/useLevelsStore";
 
 
 const { TabPane } = Tabs;
@@ -39,11 +40,13 @@ const CommandAutoComplete = () => {
 };
 
 
-export default ({levels}) => {
+export default () => {
     const { t } = useTranslation()
     const {theme} = useTheme();
     const {cluster} = useParams()
     const [spinLoading, setSpinLoading] = useState(false)
+
+    const levels = useLevelsStore((state) => state.levels)
 
     const notHasLevels = levels === undefined || levels === null || levels.length === 0
     const levelNameRef = useRef(notHasLevels?"":levels[0].key)
