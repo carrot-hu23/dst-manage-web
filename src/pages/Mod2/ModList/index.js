@@ -15,7 +15,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
 
     const { t } = useTranslation()
     const navigate = useNavigate();
-    const {cluster} = useParams()
+    const {cluster,name} = useParams()
 
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [mod, setMod] = useState({})
@@ -184,11 +184,12 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                         >
                             <Button type="primary" >{t('Update All Mod Config')}</Button>
                         </Popconfirm>
-
+                        {/*
                         <Tooltip
                             title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
-                            <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>{t('Upload Modinfo')}</Button>
+                            <Button type="primary" onClick={() => navigate(`/dashboard/${cluster}/${name}/mod/add/0`)}>{t('Upload Modinfo')}</Button>
                         </Tooltip>
+                        */}
                     </Space>
                 </div>
             </Spin>

@@ -11,16 +11,15 @@ export function useTheme() {
 // ThemeProvider 组件
 export function ThemeProvider2({ children }) {
 
-    const [theme, setTheme] = useState(() => {
-        const storedTheme = localStorage.getItem('theme');
-        return storedTheme || 'light';
-    });
+    const [theme, setTheme] = useState();
 
     useEffect(() => {
-        localStorage.setItem('theme', theme);
+        const storedTheme = localStorage.getItem('theme');
+        setTheme(storedTheme || 'dark')
     }, [theme]);
 
     const toggleTheme = () => {
+        localStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
         setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
     };
 

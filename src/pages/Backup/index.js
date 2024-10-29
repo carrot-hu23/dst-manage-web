@@ -313,6 +313,40 @@ const Backup = () => {
             })
     }
 
+    const downloadFile = async (url, cluster, name) => {
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    // 可以在这里添加必要的请求头，例如 Authorization
+                    Cluster: cluster
+                },
+            });
+
+            // 检查响应是否成功
+            if (!response.ok) {
+                message.warning("下载文件时出错 Network response was not ok")
+                return
+            }
+
+            // 获取文件 Blob
+            const blob = await response.blob();
+
+            // 创建一个链接并下载文件
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = name; // 设置下载的文件名
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl); // 释放内存
+        } catch (error) {
+            console.error('下载文件时出错:', error);
+            message.warning("下载文件时出错")
+        }
+    }
+
     const columns = [
         {
             title: '存档名称',
@@ -358,7 +392,7 @@ const Backup = () => {
                         setDeleteBackup(record)
                     }}>修改</Button>
                     <Button type="link" onClick={() => {
-                        window.location.href = `/api/game/backup/download?fileName=${record.fileName}&cluster=${cluster}`;
+                        downloadFile(`/api/game/backup/download?fileName=${record.fileName}&cluster=${cluster}`, cluster, record.fileName)
                     }}>下载</Button>
                     <Button type="text" danger onClick={() => {
                         setIsDeleteModalOpen(true);
