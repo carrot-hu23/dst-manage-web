@@ -21,14 +21,14 @@ export default () => {
     const tabs = [
         {
             key: '1',
-            label: t('ClusterIni'),
+            label: t('cluster.clusterIni'),
             children: <ClusterIni/>
         },
         {
             key: '3',
-            label: t('Adminlist'),
+            label: t('cluster.adminlist'),
             children: <NameList
-                title={t('Adminlist')}
+                title={t('cluster.adminlist')}
                 getApi={getAdminlistApi}
                 saveApi={saveAdminlistApi}
                 tips={`管理员KleilD列表\n
@@ -38,9 +38,9 @@ export default () => {
         },
         {
             key: '4',
-            label: t('Whitelist'),
+            label: t('cluster.whitelist'),
             children: <NameList
-                title={t('Whitelist')}
+                title={t('cluster.whitelist')}
                 getApi={getWhitelistApi}
                 saveApi={saveWhitelistApi}
                 tips={`白名单KleilD列表\n
@@ -48,9 +48,9 @@ export default () => {
         },
         {
             key: '5',
-            label: t('Blacklist'),
+            label: t('cluster.blacklist'),
             children: <NameList
-                title={t('Blacklist')}
+                title={t('cluster.blacklist')}
                 getApi={getBlacklistApi}
                 saveApi={saveBlacklistApi}
                 tips={`被封禁玩家列表\n

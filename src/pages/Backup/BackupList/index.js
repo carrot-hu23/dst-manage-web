@@ -18,7 +18,7 @@ import CreateBackUpBtn from "../../Panel/Op/CreateBackUpBtn";
 
 
 const MyUploadFile = ({reload}) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation()
 
     const [fileList, setFileList] = useState([]);
     const [uploading, setUploading] = useState(false);
@@ -68,7 +68,7 @@ const MyUploadFile = ({reload}) => {
                     beforeUpload={handleBeforeUpload}
                     onRemove={handleRemove}
                 >
-                    <Button icon={<UploadOutlined/>}>{t('Select File')}</Button>
+                    <Button icon={<UploadOutlined/>}>{t('backup.select.File')}</Button>
                 </Upload>
                 <Button
                     type="primary"
@@ -77,7 +77,7 @@ const MyUploadFile = ({reload}) => {
                     loading={uploading}
                     // style={{ marginTop: 16 }}
                 >
-                    {uploading ? 'Uploading' : t('Start Upload')}
+                    {uploading ? t('backup.uploading') : t('backup.upload')}
                 </Button>
             </Space>
         </div>
@@ -87,102 +87,8 @@ const MyUploadFile = ({reload}) => {
 
 const Backup = () => {
 
-    const { t } = useTranslation()
-
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef(null);
-
+    const {t} = useTranslation()
     const {cluster} = useParams()
-
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm();
-        setSearchText(selectedKeys[0]);
-        setSearchedColumn(dataIndex);
-    };
-    const handleReset = (clearFilters) => {
-        clearFilters();
-        setSearchText('');
-    };
-    const getColumnSearchProps = (dataIndex) => ({
-        filterDropdown: ({setSelectedKeys, selectedKeys, confirm, clearFilters, close}) => (
-            <div
-                style={{
-                    padding: 8,
-                }}
-                onKeyDown={(e) => e.stopPropagation()}
-            >
-                <Input
-                    ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{
-                        marginBottom: 8,
-                        display: 'block',
-                    }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-
-                        size="small"
-                        style={{
-                            width: 90,
-                        }}
-                    >
-                        Search
-                    </Button>
-                    <Button
-                        onClick={() => clearFilters && handleReset(clearFilters)}
-                        size="small"
-                        style={{
-                            width: 90,
-                        }}
-                    >
-                        Reset
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            confirm({
-                                closeDropdown: false,
-                            });
-                            setSearchText(selectedKeys[0]);
-                            setSearchedColumn(dataIndex);
-                        }}
-                    >
-                        Filter
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            close();
-                        }}
-                    >
-                        close
-                    </Button>
-                </Space>
-            </div>
-        ),
-        // filterIcon: (filtered) => (
-        // ),
-        onFilter: (value, record) =>
-            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-        onFilterDropdownOpenChange: (visible) => {
-            if (visible) {
-                setTimeout(() => searchInput.current?.select(), 100);
-            }
-        },
-        render: (text) =>
-            text
-    });
-
-
     const actionRef = useRef();
 
     const [loading, setLoading] = useState(true)
@@ -198,7 +104,6 @@ const Backup = () => {
     const [deleteBackup, setDeleteBackup] = useState({});
 
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [newBackupName, setNewBackupName] = useState("");
 
     const inputRef = useRef("");
 
@@ -242,7 +147,7 @@ const Backup = () => {
         deleteBackupApi(cluster, fileNames)
             .then(data => {
                 console.log(data);
-                message.success("删除成功")
+                message.success(t("backup.delete.ok"))
 
                 setSelectBackup([])
                 setSelectedRowKeys([])
@@ -261,7 +166,7 @@ const Backup = () => {
             .then(data => {
                 if (data.code === 200) {
                     setTimeout(() => {
-                        message.success("删除成功")
+                        message.success(t("backup.delete.ok"))
                         setConfirmLoading(false);
                         setIsDeleteModalOpen(false)
                         setBackupData(newBackupData)
@@ -283,12 +188,12 @@ const Backup = () => {
             .then(data => {
                 if (data.code === 200) {
                     setTimeout(() => {
-                        message.success("重命名成功")
+                        message.success(t("backup.rename.ok"))
                         updateBackupData()
                     }, 1000);
                 }
             }).catch(error => {
-            message.error("重名失败")
+            message.error(t("backup.rename.error"))
         }).finally(() => {
             setConfirmLoading(false);
             setIsEditModalOpen(false)
@@ -299,72 +204,73 @@ const Backup = () => {
         restoreBackupApi(cluster, fileName)
             .then(data => {
                 if (data.code === 200) {
-                    message.success("恢复存档成功")
+                    message.success(t("backup.restore.ok"))
                 }
             }).catch(error => {
-                message.error("恢复存档失败")
-            })
+            console.log(error)
+            message.error(t("backup.restore.error"))
+        })
     }
 
     const columns = [
         {
-            title: t('fileName'),
+            title: t('backup.fileName'),
             dataIndex: 'fileName',
             key: 'fileName',
             render: (text) => <Button type="link">{text}</Button>,
             editable: true,
-            ...getColumnSearchProps('fileName'),
         },
         {
-            title: t('fileSize'),
+            title: t('backup.fileSize'),
             dataIndex: 'fileSize',
             key: 'fileSize',
             render: (fileSize) => <span>{`${(fileSize / 1024 / 1024).toFixed(2)} MB`}</span>,
             sorter: (a, b) => b.fileSize - a.fileSize,
         },
         {
-            title: t('createTime'),
+            title: t('backup.createTime'),
             dataIndex: 'createTime',
             key: 'createTime',
             render: (createTime) => <span>{new Date(createTime).toLocaleString()}</span>,
             sorter: (a, b) => b.createTime - a.createTime,
         },
         {
-            title: t('action'),
+            title: t('backup.action'),
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
                     <Popconfirm
-                        title="是否恢复存档备份"
+                        title={t('backup.restore.title')}
                         description={<>
-                            <div>
-                                请自行做好备份处理，恢复备份将覆盖之前的存档
-                            </div>
-                            <div>
-                                之前的存档进度将会丢失 。。。
-                            </div>
                             <br/>
-                            <CreateBackUpBtn />
+                           <span>
+                               {t('backup.restore.desc')}
+                           </span>
+                            <br/><br/>
+                            <CreateBackUpBtn/>
                         </>}
-                        onConfirm={()=>{restoreArchive(record.fileName)}}
-                        onCancel={()=>{}}
+                        onConfirm={() => {
+                            restoreArchive(record.fileName)
+                        }}
+                        onCancel={() => {
+                        }}
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button type="link">{t('Restore')}</Button>
+                        <Button type="link">{t('backup.restore')}</Button>
                     </Popconfirm>
 
                     <Button type="link" onClick={() => {
                         setIsEditModalOpen(true);
                         setDeleteBackup(record)
-                    }}>{t('Edit')}</Button>
+                    }}>{t('backup.edit')}</Button>
                     <Button type="link" onClick={() => {
                         window.location.href = `/api/game/backup/download?fileName=${record.fileName}`;
-                    }}>{t('Download')}</Button>
+                    }}>{t('backup.download')}</Button>
                     <Button type="text" danger onClick={() => {
                         setIsDeleteModalOpen(true);
                         setDeleteBackup(record)
-                    }}>{t('Delete')}</Button>
+                    }}>{t('backup.delete')}</Button>
                 </Space>
             ),
         },
@@ -374,18 +280,18 @@ const Backup = () => {
         <Space wrap>
             <MyUploadFile reload={updateBackupData}/>
             <Button type="primary" danger onClick={deleteSelectBackup}>
-                {t('Delete')}
+                {t('backup.delete')}
             </Button>
             <Button onClick={updateBackupData}>
-                {t('Refresh')}
+                {t('backup.refresh')}
             </Button>
-            <CreateBackUpBtn />
+            <CreateBackUpBtn/>
         </Space>
 
     )
 
     const EditModal = () => (
-        <Modal title="修改文件名"
+        <Modal title={t('backup.edit.title')}
                open={isEditModalOpen}
                confirmLoading={confirmLoading}
                getContainer={false}
@@ -396,14 +302,17 @@ const Backup = () => {
                    setIsEditModalOpen(false)
                }}>
             <br/>
-            <span>当前文件名：{deleteBackup.fileName}</span>
-            <br/><br/>
-            <Input allowClear placeholder="新的文件名" ref={inputRef}/>
+            <div>{t('backup.cur.filename')}: </div>
+            <div>
+                {deleteBackup.fileName}
+            </div>
+            <br/>
+            <Input allowClear placeholder={t('backup.newBackupName')} ref={inputRef}/>
         </Modal>
     )
 
     const DeletetModal = () => (
-        <Modal title="是否删除备份"
+        <Modal title={t('backup.delete.title')}
                open={isDeleteModalOpen}
                confirmLoading={confirmLoading}
                getContainer={false}
@@ -413,7 +322,7 @@ const Backup = () => {
                onCancel={() => {
                    setIsDeleteModalOpen(false)
                }}>
-            <p>确认删除：</p>
+            <p>{t('backup.cur.filename')}</p>
             <p>{deleteBackup.fileName || ""}</p>
         </Modal>
     )
@@ -433,12 +342,10 @@ const Backup = () => {
 
     return (
         <>
-            <DeletetModal />
-            <Alert message="Tips: 目前只支持 zip 压缩存档。点击恢复将会替换当前存档内容" type="info" showIcon />
+            <DeletetModal/>
+            <Alert message={`Tips: ${t('backup.tips1')}`} type="info" showIcon/>
             <BackupStatistic size={backupData.length} data={backupDataSize}/>
-            <br/>
-            <HeaderTitle />
-            <br/><br/>
+            <HeaderTitle/>
             <Table
                 ref={actionRef}
                 rowSelection={rowSelection}

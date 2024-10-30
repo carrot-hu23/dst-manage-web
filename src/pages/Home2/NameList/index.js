@@ -5,7 +5,6 @@ import {Button, Input, Form, Skeleton, message} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 
 import './index.css';
-import TengxuCloudAd2 from "../../Ad/TengxunCloudAd2";
 
 const formItemLayout = {
     labelCol: {
@@ -39,12 +38,12 @@ const formItemLayoutWithOutLabel = {
 };
 
 export default ({title, tips, getApi, saveApi}) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation()
     const [loading, setLoading] = useState(false);
     const [spin, setSpin] = useState(false);
     const [form] = Form.useForm()
     const lines = tips.split("\n")
-    useEffect(()=>{
+    useEffect(() => {
         fetchData()
     }, [])
     const fetchData = async () => {
@@ -62,17 +61,17 @@ export default ({title, tips, getApi, saveApi}) => {
         }
     };
 
-    const saveData = async (payload)=>{
+    const saveData = async (payload) => {
         setSpin(true)
         try {
-            const response = await saveApi("",payload);
+            const response = await saveApi("", payload);
             const code = await response.code;
             if (code === 200) {
-                message.success("保存成功")
+                message.success(t('cluster.save.ok'))
             } else {
-                message.error("保存失败")
+                message.warning(t('cluster.save.error'))
             }
-        }catch (error) {
+        } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
             setSpin(false)
@@ -148,9 +147,9 @@ export default ({title, tips, getApi, saveApi}) => {
                                                         />
                                                     </Form.Item>
                                                     {<MinusCircleOutlined
-                                                            className="dynamic-delete-button"
-                                                            onClick={() => remove(field.name)}
-                                                        />}
+                                                        className="dynamic-delete-button"
+                                                        onClick={() => remove(field.name)}
+                                                    />}
                                                 </Form.Item>
                                             ))}
                                             <Form.Item>
@@ -181,7 +180,7 @@ export default ({title, tips, getApi, saveApi}) => {
 
                         <Grid item xs={12} md={6} lg={4}>
                 <span>
-                    {lines.map(line=>(
+                    {lines.map(line => (
                         <span>
                             {line}
                             <br/>

@@ -1,7 +1,8 @@
 import { http } from "../utils/http";
 
-async function searchMod(cluster,text, page, size) {
-    const url = `/api/mod/search?text=${text}&page=${page}&size=${size}`
+async function searchMod(lang, cluster,text, page, size) {
+
+    const url = `/api/mod/search?text=${text}&page=${page}&size=${size}&lang=${lang}`
     const response = await http.get(url,{
         headers: {
             'Cluster': cluster,
@@ -10,8 +11,8 @@ async function searchMod(cluster,text, page, size) {
     return response.data
 }
 
-async function getModInfo(cluster,modId) {
-    const url = `/api/mod/${modId}`
+async function getModInfo(lang,cluster,modId) {
+    const url = `/api/mod/${modId}?lang=${lang}`
     const response = await http.get(url,{
         timeout: 1000*60*10,
         headers: {

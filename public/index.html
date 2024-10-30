@@ -22,7 +22,17 @@
   <!-- Css simplebar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplebar/5.3.9/simplebar.min.css" />
 
-  <title>饥荒多层管理控制台</title>
+  <script>
+    // 检测用户的语言
+    const userLang = navigator.language || navigator.userLanguage;
+
+    // 设置标题内容
+    if (userLang.startsWith("zh")) {
+      document.title = "饥荒管理控制台";
+    } else {
+      document.title = "Don't Starve Management Console";
+    }
+  </script>
   <meta name="description"
     content="饥荒多层管理面板，GitHub: https://github.com/hujinbo23/dst-admin-go" />
   <meta name="keywords" content="dont starve together,react, go" />

@@ -2,8 +2,7 @@
 import {StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import {useEffect, useState} from 'react';
-import {Container} from '@mui/material';
-import {Progress, Skeleton, Tooltip} from 'antd';
+import {Progress, Tooltip} from 'antd';
 import {useTranslation} from "react-i18next";
 import {getSystemInfoApi} from "../../../api/systeminfoApi";
 import {useTheme} from "../../../hooks/useTheme";
@@ -20,8 +19,6 @@ export default () => {
     const {t} = useTranslation()
     const [responsive, setResponsive] = useState(false);
     const [systeminfo, setSysteminfo] = useState({})
-    const [loading, setLoding] = useState(false)
-
 
     const cpuUsedPercent = formatData(systeminfo?.cpu?.cpuUsedPercent || 0, 2);
     const cpuPercent = systeminfo?.cpu?.cpuPercent || []
@@ -42,13 +39,11 @@ export default () => {
     const diskUsage = formatData((diskTotal - diskFree) / diskTotal * 100, 2);
 
     useEffect(() => {
-        setLoding(true)
         getSystemInfoApi()
             .then(resp => {
                 if (resp.code === 200) {
                     setSysteminfo(resp.data)
                 }
-                setLoding(false)
             })
 
     }, [])
@@ -76,7 +71,7 @@ export default () => {
 
                         <StatisticCard
                             statistic={{
-                                title: t('Panel'),
+                                title: t('panel.panel'),
                                 value: `${formatData(systeminfo.panelMemUsage / 1024, 2)} M`,
                                 description: (
                                     <>
@@ -88,9 +83,9 @@ export default () => {
 
                         <Divider type={responsive ? 'horizontal' : 'vertical'}/>
                         <StatisticCard statistic={{
-                            title: t('MemoryUsage'),
+                            title: t('panel.memoryUsage'),
                             value: `${formatData(memUsed / 1024 / 1024 / 1024, 2)} GB`,
-                            description: <Statistic title={t('TotalMem')}
+                            description: <Statistic title={t('panel.totalMem')}
                                                     value={`${formatData(memAvailable / 1024 / 1024 / 1024, 2)} / ${formatData(memTotal / 1024 / 1024 / 1024, 2)} GB`}/>,
                         }} chart={
                             <>
@@ -103,9 +98,9 @@ export default () => {
 
                         <StatisticCard statistic={
                             {
-                                title: t('CpuUsage'),
+                                title: t('panel.cpuUsage'),
                                 value: `${cpuUsedPercent} %`,
-                                description: <Statistic title={t('CpuCores')} value={cpuCores}/>,
+                                description: <Statistic title={t('panel.cpuCores')} value={cpuCores}/>,
                             }} chart={
                             <>
                                 <Tooltip placement="rightTop" style={{
@@ -113,6 +108,7 @@ export default () => {
                                 }} title={(
                                     <div>
                                         {cpuPercent !== undefined && cpuPercent.map((value, index) =>
+                                            // eslint-disable-next-line react/jsx-key
                                             <div>
                                                 {`核心${index}`}: {formatData(value, 2)}%<Progress
                                                 percent={formatData(value, 2)} size="small" strokeColor={'#5BD171'}
@@ -128,9 +124,9 @@ export default () => {
                         } chartPlacement="left"/>
 
                         <StatisticCard statistic={{
-                            title: t('DiskFree'),
+                            title: t('panel.diskFree'),
                             value: `${formatData(diskFree, 2)} GB`,
-                            description: <Statistic title={t('TotalDisk')}
+                            description: <Statistic title={t('panel.totalDisk')}
                                                     value={`${formatData(diskTotal, 2)} GB`}/>,
                         }} chart={
                             <>

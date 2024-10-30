@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import { Outlet } from 'react-router-dom';
 
 import {ConfigProvider,theme} from "antd";
@@ -9,11 +9,13 @@ import Nav from './nav';
 import RequirAuthRoute from '../../filter/RequirAuthRoute';
 import {useTheme} from "../../hooks/useTheme";
 import {useThemeStore} from "../../store/useThemeStore";
-import {useBackgroundUrlStore} from "../../store/useBackgroundUrlStore";
-import {getKv} from "../../api/dstConfigApi";
+import typography from "../../theme/typography";
+import shadows from "../../theme/shadows";
+import customShadows from "../../theme/customShadows";
+import componentsOverride from "../../theme/overrides";
 
-const APP_BAR_MOBILE = 64;
-const APP_BAR_DESKTOP = 92;
+const APP_BAR_MOBILE = 48;
+const APP_BAR_DESKTOP = 80;
 
 const StyledRoot = styled('div')({
     display: 'flex',
@@ -28,7 +30,7 @@ const Main = styled('div')(({ theme }) => {
         minHeight: '100%',
         paddingTop: APP_BAR_MOBILE + 24,
         paddingBottom: theme.spacing(10),
-        // backgroundColor: theme.palette.mode === 'dark'? 'black':"",
+        backgroundColor: theme.palette.mode === 'dark'? 'black':"",
         [theme.breakpoints.up('lg')]: {
             paddingTop: APP_BAR_DESKTOP + 4,
             paddingLeft: theme.spacing(2),
@@ -42,20 +44,38 @@ const Main = styled('div')(({ theme }) => {
 export default function DashboardLayout() {
 
     const [open, setOpen] = useState(false);
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-        },
-        components: {
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        borderRadius: '8px',
-                    },
-                },
+    // const darkTheme = createTheme({
+    //
+    //     shape: { borderRadius: 6 },
+    //     typography,
+    //     shadows: shadows(),
+    //     customShadows: customShadows(),
+    //     components: {
+    //         MuiCard: {
+    //             styleOverrides: {
+    //                 root: {
+    //                     borderRadius: '12px',
+    //                 },
+    //             },
+    //         },
+    //     },
+    // });
+    const c = customShadows()
+    const themeOptions = useMemo(
+        () => ({
+            palette: {
+                mode: 'dark',
             },
-        },
-    });
+            shape: { borderRadius: 6 },
+            typography,
+            shadows: shadows(),
+            customShadows: c,
+        }),
+        []
+    );
+    const darkTheme = createTheme(themeOptions);
+    console.log("darkTheme", darkTheme)
+    darkTheme.components = componentsOverride(darkTheme);
 
     const t = useTheme()
 
@@ -65,28 +85,28 @@ export default function DashboardLayout() {
     }, [])
     const [backgroundUrl, setBackgroundUrl] = useState("")
     useEffect(() => {
-        document.body.style.backgroundColor = t.theme === 'dark' ? '#000' : ''
-        getKv("backgroundUrl")
-            .then(resp => {
-                if (resp.code === 200) {
-                    const backgroundUr = resp.data
-                    setBackgroundUrl(backgroundUr)
-                    if (backgroundUr !== null && backgroundUr !== "") {
-                        document.body.style.backgroundImage = `url('${backgroundUr}')`
-                        document.body.style.backgroundSize = 'cover'
-                        document.body.style.backgroundPosition = 'center'
-                        document.body.style.backgroundRepeat = 'no-repeat'
-                    }
-                }
-            })
-        // 清理函数，组件卸载时调用
-        return () => {
-            document.body.style.backgroundColor = ''
-            document.body.style.backgroundImage = ''
-            document.body.style.backgroundSize = ''
-            document.body.style.backgroundPosition = ''
-            document.body.style.backgroundRepeat = ''
-        };
+        // document.body.style.backgroundColor = t.theme === 'dark' ? '#000' : ''
+        // getKv("backgroundUrl")
+        //     .then(resp => {
+        //         if (resp.code === 200) {
+        //             const backgroundUr = resp.data
+        //             setBackgroundUrl(backgroundUr)
+        //             if (backgroundUr !== null && backgroundUr !== "") {
+        //                 document.body.style.backgroundImage = `url('${backgroundUr}')`
+        //                 document.body.style.backgroundSize = 'cover'
+        //                 document.body.style.backgroundPosition = 'center'
+        //                 document.body.style.backgroundRepeat = 'no-repeat'
+        //             }
+        //         }
+        //     })
+        // // 清理函数，组件卸载时调用
+        // return () => {
+        //     document.body.style.backgroundColor = ''
+        //     document.body.style.backgroundImage = ''
+        //     document.body.style.backgroundSize = ''
+        //     document.body.style.backgroundPosition = ''
+        //     document.body.style.backgroundRepeat = ''
+        // };
     }, [])
 
     return (

@@ -12,12 +12,12 @@ export default ()=>{
     const items = [
         {
             key: '1',
-            label: t("Backup List"),
+            label: t("backup.BackupList"),
             children: <BackupList/>,
         },
         {
             key: '2',
-            label: t("Snapshot Backup"),
+            label: t("backup.SnapshotBackup"),
             children: <SnapshotBackup/>,
         },
     ]

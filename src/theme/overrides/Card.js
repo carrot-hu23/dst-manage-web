@@ -9,6 +9,7 @@ export default function Card(theme) {
           borderRadius: Number(theme.shape.borderRadius) * 2,
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
+          backgroundColor: theme.palette.mode === 'dark'?"#1E1E1E":""
         },
       },
     },

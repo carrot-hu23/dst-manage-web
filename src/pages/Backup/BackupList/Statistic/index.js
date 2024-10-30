@@ -1,20 +1,18 @@
-
-import { useState } from 'react';
-import { StatisticCard } from '@ant-design/pro-components';
+import {useState} from 'react';
+import {StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import {useTranslation} from "react-i18next";
 
 import './index.css';
 import {useTheme} from "../../../../hooks/useTheme";
 
-
-const { Statistic, Divider } = StatisticCard;
+const {Divider} = StatisticCard;
 
 // eslint-disable-next-line react/prop-types
 const BackupStatistic = ({size, data}) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation()
     const [responsive, setResponsive] = useState(false);
-    const {theme, toggleTheme} = useTheme();
+    const {theme} = useTheme();
 
     return (
         <>
@@ -26,22 +24,14 @@ const BackupStatistic = ({size, data}) => {
                     direction={responsive ? 'column' : 'row'}>
                     <StatisticCard
                         statistic={{
-                            title: t('backup number'),
+                            title: t('backup.backup.number'),
                             value: size,
-                        }} />
-                    <Divider type={responsive ? 'horizontal' : 'vertical'} />
+                        }}/>
+                    <Divider type={responsive ? 'horizontal' : 'vertical'}/>
                     <StatisticCard statistic={{
-                        title: t('backup size'),
-                        // value: `${data} GB`,
-                        value: data > 1 ? `${data} GB`:`${data * 1024} MB`,
-                        // description: <Statistic title="占比" value="38.5%" />,
+                        title: t('backup.backup.size'),
+                        value: data > 1 ? `${data} GB` : `${data * 1024} MB`,
                     }}
-                        // chart={
-                        //     <>
-                        //         <Progress type="circle" percent={30} strokeColor={20 > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
-                        //     </>
-                        // }
-                        // chartPlacement="left"
                     />
                 </StatisticCard.Group>
             </RcResizeObserver>

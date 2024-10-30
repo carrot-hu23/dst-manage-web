@@ -1,49 +1,55 @@
 /* eslint-disable no-unused-vars */
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { ProTable } from '@ant-design/pro-components';
-import { Container, Box, Card } from '@mui/material';
-import {Button, Modal, Image, Skeleton, message} from 'antd';
-import { dstHomeListApi, dstHomeDetailApi } from '../../api/dstApi';
+import {ProTable} from '@ant-design/pro-components';
+import {Container, Box, Card} from '@mui/material';
+import {Button, Modal, Image, Skeleton, message, ConfigProvider} from 'antd';
+
+import i18n from "i18next";
+import zhCN from "antd/es/locale/zh_CN";
+import enUS from "antd/es/locale/en_US";
+
+
+import {dstHomeListApi, dstHomeDetailApi} from '../../api/dstApi';
 
 import HomeDetail from './home';
 
 import style from "./index.module.css"
 
 
-const SortWayEnum ={
+const SortWayEnum = {
 
     1: "降序",
     2: "升序",
 }
 
-const SortTypeEnum ={
+const SortTypeEnum = {
     connected: "按照人数",
     name: "服务器名称",
     maxconnections: "人数上限",
     v: "游戏版本",
 }
 
-const PasswordEnum ={
+const PasswordEnum = {
     '-1': "任意",
     0: "不需要",
     1: "需要",
 }
 
-const WordEnum ={
+const WordEnum = {
     '-1': "任意",
     1: "单层",
     2: "双层",
     3: "多层",
 }
 
-const PlayerPercentEnum ={
+const PlayerPercentEnum = {
     ">0": ">0",
     "<1": "<1",
 }
 
-const SeasonsEnum ={
+const SeasonsEnum = {
     spring: "春天",
     summer: "夏天",
     autumn: "秋天",
@@ -63,6 +69,8 @@ const GameModEnum = {
 }
 
 const DstServerList = () => {
+
+    const currentLocale = i18n.language.startsWith('zh') ? zhCN : enUS;
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const onSelectChange = (newSelectedRowKeys) => {
@@ -103,7 +111,7 @@ const DstServerList = () => {
         }).then(response => {
             setLoading(false)
             const responseData = JSON.parse(response)
-            const { success } = responseData
+            const {success} = responseData
             if (success) {
                 setHomeInfo(responseData)
             } else {
@@ -123,7 +131,7 @@ const DstServerList = () => {
             // ellipsis: true,
             width: 300,
             render: (text, record) => {
-                return(<div className={style.icon}>{record.name}</div>)
+                return (<div className={style.icon}>{record.name}</div>)
             }
         },
         {
@@ -289,82 +297,65 @@ const DstServerList = () => {
 
 
     return (
-        <>
-            <Modal
-                getContainer={false}
-                open={isModalOpen}
-                footer={null}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                width={800}
-            >
-                <Skeleton title loading={loading} active>
-                    <div
-                        style={{height: 600}}>
-                        <HomeDetail home={homeInfo} />
-                    </div>
-                </Skeleton>
-            </Modal>
+        <ConfigProvider locale={currentLocale}>
+            <>
+                <Modal
+                    getContainer={false}
+                    open={isModalOpen}
+                    footer={null}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    width={800}
+                >
+                    <Skeleton title loading={loading} active>
+                        <div
+                            style={{height: 600}}>
+                            <HomeDetail home={homeInfo}/>
+                        </div>
+                    </Skeleton>
+                </Modal>
 
-            <Container maxWidth="xxl">
-                <Card>
-                    <Box sx={{p: 1}} dir="ltr">
-                    <ProTable
-                        columns={columns}
-                        // cardBordered
-                        request={async (params = {}, sort, filter) => {
-                            console.log(sort, filter);
-                            console.log('params', params)
-                            const msg = await dstHomeListApi(params)
-                            return {
-                                data: msg.data,
-                                success: true,
-                                total: msg.total
-                            };
-                        }}
-                        scroll={{
-                            x: 600,
-                        }}
-                        // editable={{
-                        //     type: 'multiple',
-                        // }}
-                        // columnsState={{
-                        //     persistenceKey: 'pro-table-singe-demos',
-                        //     persistenceType: 'localStorage',
-                        //     onChange(value) {
-                        //         console.log('value: ', value);
-                        //     },
-                        // }}
-                        rowKey="__rowId"
-                        // search={{
-                        //     labelWidth: 'auto',
-                        // }}
-                        // options={{
-                        //     setting: {
-                        //         listsHeight: 400,
-                        //     },
-                        // }}
-                        pagination={{
-                            pageSize: 10,
-                            onChange: (page) => console.log(page),
-                        }}
-                        // dateFormatter="string"
-                        headerTitle="饥荒服务器列表"
-                        toolBarRender={() => [
-                            <Button key="button" type="primary" disabled={!hasSelected > 0}>
-                                导出配置
-                            </Button>,
-                        ]}
-                        rowSelection={{
-                            type: 'radio',
-                            ...rowSelection
-                        }}
-                        tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => false}
-                    />
-                </Box>
-                </Card>
-            </Container>
-        </>
+                <Container maxWidth="xxl">
+                    <Card>
+                        <Box sx={{p: 1}} dir="ltr">
+                            <ProTable
+                                columns={columns}
+                                // cardBordered
+                                request={async (params = {}, sort, filter) => {
+                                    console.log(sort, filter);
+                                    console.log('params', params)
+                                    const msg = await dstHomeListApi(params)
+                                    return {
+                                        data: msg.data,
+                                        success: true,
+                                        total: msg.total
+                                    };
+                                }}
+                                scroll={{
+                                    x: 600,
+                                }}
+                                rowKey="__rowId"
+                                pagination={{
+                                    pageSize: 10,
+                                    onChange: (page) => console.log(page),
+                                }}
+                                headerTitle="饥荒服务器列表"
+                                // toolBarRender={() => [
+                                //     <Button key="button" type="primary" disabled={!hasSelected > 0}>
+                                //         导出配置
+                                //     </Button>,
+                                // ]}
+                                rowSelection={{
+                                    type: 'radio',
+                                    ...rowSelection
+                                }}
+                                tableAlertRender={({selectedRowKeys, selectedRows, onCleanSelected}) => false}
+                            />
+                        </Box>
+                    </Card>
+                </Container>
+            </>
+        </ConfigProvider>
     );
 
 };

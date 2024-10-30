@@ -80,7 +80,7 @@ export default function LoginPage() {
                             <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
                                 Hi, Welcome Back
                             </Typography>
-                            <img src="/assets/login.gif" alt="login"/>
+                            <img src="/assets/login.png" alt="login"/>
 
                             <Typography variant="h5" sx={{px: 5, mt: 1, mb: 1}}>
                                 news: <a

@@ -45,12 +45,12 @@ const Panel = () => {
     const items = [
         {
             key: '1',
-            label: t('Panel'),
+            label: t('panel.panel'),
             children: <GameOperator/>
         },
         {
             key: '2',
-            label: t('Remote'),
+            label: t('panel.remote'),
             children: <RemoteControl/>,
         },
     ];

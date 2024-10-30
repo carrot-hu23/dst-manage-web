@@ -9,7 +9,7 @@ import {getBackupSnapshotsSettingApi, saveBackupSnapshotsSettingApi} from "../..
 export default () => {
 
     const {cluster} = useParams()
-    const { t } = useTranslation()
+    const {t} = useTranslation()
 
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
@@ -36,20 +36,20 @@ export default () => {
         saveBackupSnapshotsSettingApi(cluster, form.getFieldsValue())
             .then(resp => {
                 if (resp.code === 200) {
-                    message.success("保存成功")
+                    message.success(t('backup.save.ok'))
                 } else {
-                    message.error("保存失败")
+                    message.error(t('backup.save.error'))
                 }
             })
     }
 
     return (<>
         <Alert
-            message={t('Snapshot backup, here is just a special scheduled task, which will save the archive according to the interval you set, but it will only retain the number of snapshots you set.')}
+            message={t('backup.tips2')}
             type="warning" showIcon closable/>
         <br/>
         <Alert
-            message={t('Files starting with (snapshot) are snapshot backup files, which are no different from ordinary archives, just to distinguish them.')}
+            message={t('backup.tips3')}
             type="info" showIcon closable/>
         <br/>
         <Skeleton loading={loading}>
@@ -64,34 +64,32 @@ export default () => {
                 }}
             >
                 <Form.Item
-                    label={t('enable')}
+                    label={t('backup.snapshotBackup.enable')}
                     name='enable'
                     valuePropName="checked"
                 >
-                    <Switch checkedChildren="开启"
-                            unCheckedChildren="关闭"/>
+                    <Switch checkedChildren={t('switch.open')} unCheckedChildren={t('switch.close')}/>
                 </Form.Item>
                 <Form.Item
-                    label={t('is c_save()')}
+                    label={t('backup.snapshotBackup.c_save()')}
                     name='isCSave'
                     tooltip={"开启后，每次创建备份时，都会先存档，但这可能会导致卡顿等情况"}
                     valuePropName="checked"
                 >
-                    <Switch checkedChildren="开启"
-                            unCheckedChildren="关闭"/>
+                    <Switch checkedChildren={t('switch.open')} unCheckedChildren={t('switch.close')}/>
                 </Form.Item>
                 <Form.Item
-                    label={t('interval')}
+                    label={t('backup.snapshotBackup.interval')}
                     name='interval'
                 >
                     <InputNumber
-                        addonAfter={t('minute')}
+                        addonAfter={t('backup.snapshotBackup.interval.minute')}
                         style={{width: 120,}}
                         min={1}
                         placeholder="检测间隔时间"/>
                 </Form.Item>
                 <Form.Item
-                    label={t('maxSnapshots')}
+                    label={t('backup.snapshotBackup.maxSnapshots')}
                     name='maxSnapshots'
                 >
                     <InputNumber
@@ -100,13 +98,13 @@ export default () => {
                         placeholder="快照数量"/>
                 </Form.Item>
                 <Form.Item
-                    label={t("action")}
+                    label={t("backup.snapshotBackup.action")}
                 >
                     <Button type={'primary'}
                             onClick={() => {
                                 save()
                             }}
-                    >{t("Save")}</Button>
+                    >{t("backup.save")}</Button>
                 </Form.Item>
             </Form>
         </Skeleton>

@@ -14,21 +14,21 @@ export default ()=>{
     const {t} = useTranslation()
     
     const updateGameOnclick = () => {
-        message.success('正在更新游戏')
+        message.success(t('panel.updating.game'))
         setUpdateStatus(true)
         updateGameApi(cluster)
             .then(response => {
                 if (response.code === 200) {
-                    message.success('饥荒更新完成')
+                    message.success(t('panel.update.success'))
                 } else {
-                    message.error(`${response.msg}`)
-                    message.warning("请检查steamcmd路径是否设置正确")
+                    message.warning(`${response.msg}`)
+                    message.warning(t('panel.update.error'))
                 }
 
                 setUpdateStatus(false)
             })
             .catch(error => {
-                message.error(`饥荒更新失败${error}`)
+                console.log(error)
                 setUpdateStatus(false)
             })
     }
@@ -53,11 +53,11 @@ export default ()=>{
                     }}
                     loading={updateGameStatus}
             >
-                {t('updateGame')}
+                {t('panel.updateGame')}
             </Button>
 
            <CreateBackUpBtn />
-
+            {/*
             <Popconfirm
                 title="是否更新房间模组"
                 description={(
@@ -73,6 +73,7 @@ export default ()=>{
             >
                 <Button type="primary" danger onClick={() => setOpen(true)}>{t('UpdateGameMode')}</Button>
             </Popconfirm>
+            */}
         </Space>
     </>
 }

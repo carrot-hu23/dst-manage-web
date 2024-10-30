@@ -153,7 +153,6 @@ const Online = () => {
                 <Spin spinning={spin}>
                     <Skeleton loading={loading} active>
                         <Space size={8}>
-                            <span>{t('level')}</span>
                             <Select
                                 style={{
                                     width: 120,
@@ -167,13 +166,11 @@ const Online = () => {
                             />
                             <Button type={'primary'} size={'small'} onClick={() => {
                                 queryPlayers()
-                            }}>{t('query')}</Button>
+                            }}>{t('panel.query')}</Button>
                             <Button type={'primary'} size={'small'} onClick={() => {
                                 queryAllPlayers()
-                            }}>{t('query_all')}</Button>
-                            <div>
-                                {t('Players')}: <Tag color={'green'}>{playerList.length}</Tag>
-                            </div>
+                            }}>{t('panel.query_all')}</Button>
+                            <Tag color={'green'}>{playerList.length}</Tag>
                         </Space>
 
                         <List
@@ -212,8 +209,8 @@ const Online = () => {
                                         <Spin spinning={loading}>
                                             <Space wrap>
                                                 <Button size={'small'} type="primary" onClick={() => { killPlayer(item) }} >K I L L</Button>
-                                                <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >{t('respawn')}</Button>
-                                                <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >{t('kick')}</Button>
+                                                <Button size={'small'} type="primary" onClick={() => { respawnPlayer(item) }} >{t('panel.respawn')}</Button>
+                                                <Button size={'small'} type="primary" onClick={() => { kickPlayer(item) }} >{t('panel.kick')}</Button>
                                             </Space>
                                         </Spin>
                                     </Col>

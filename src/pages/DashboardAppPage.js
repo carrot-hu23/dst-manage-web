@@ -1,11 +1,13 @@
 import {useTranslation} from "react-i18next";
-import {useTheme} from '@mui/material/styles';
 import {Grid, Container, CardHeader, Box, Card} from '@mui/material';
 import {ConfigProvider, DatePicker, Segmented, Space, Timeline} from 'antd';
 // components
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
+import i18n from "i18next";
+import zhCN from "antd/es/locale/zh_CN";
+import enUS from "antd/es/locale/en_US";
 import locale from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
@@ -26,8 +28,8 @@ const {RangePicker} = DatePicker;
 
 export default function DashboardAppPage() {
     const {t} = useTranslation()
+    const currentLocale = i18n.language.startsWith('zh') ? zhCN : enUS;
 
-    const theme = useTheme();
     const {cluster} = useParams()
 
 
@@ -147,7 +149,7 @@ export default function DashboardAppPage() {
 
     return (
         <>
-            <ConfigProvider locale={locale}>
+            <ConfigProvider locale={currentLocale}>
                 <Container maxWidth="xxl">
                 <Card>
                     <Box sx={{p: 2}} dir="ltr">
@@ -155,18 +157,18 @@ export default function DashboardAppPage() {
                             <RangePicker
                                 defaultValue={defaultRange}
                                 format="YYYY-MM-DD"
-                                locale="zh-cn" // 可选，设置为中文或其他语言
+                                // locale="zh-cn" // 可选，设置为中文或其他语言
                                 onChange={handleRangeChange}
                                 needConfirm
                             />
                             <Segmented
-                                options={['本周', '上周', '本月', '上月']}
+                                options={[t('time.this.week'), t('time.last.week'), t('time.this.month'), t('time.last.month')]}
                                 onChange={(value) => {
-                                    if (value === '上周') {
+                                    if (value === t('time.last.week')) {
                                         count(dayjs().subtract(1, 'week').startOf('week').format('YYYY-MM-DD').valueOf(), dayjs().subtract(1, 'week').endOf('week').format('YYYY-MM-DD').valueOf())
-                                    } else if (value === '本月') {
+                                    } else if (value === t('time.this.month')) {
                                         count(dayjs().startOf('month').format('YYYY-MM-DD').valueOf(), dayjs().endOf('month').format('YYYY-MM-DD').valueOf())
-                                    } else if (value === '上月') {
+                                    } else if (value === t('time.last.month')) {
                                         count(dayjs().subtract(1, 'month').startOf('month').format('YYYY-MM-DD').valueOf(), dayjs().subtract(1, 'month').endOf('month').format('YYYY-MM-DD').valueOf())
                                     } else {
                                         // 本周

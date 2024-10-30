@@ -88,13 +88,13 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                 if (homeConfig.modData !== "return { error }") {
                     console.log(homeConfig)
                     saveHomeConfigApi(cluster, homeConfig).then(() => {
-                        message.info("保存mod成功")
+                        message.info(t('mod.save.ok'))
                     }).catch(error => {
                         console.log(error);
-                        message.error("保存mod失败")
+                        message.error(t('mod.save.error'))
                     })
                 } else {
-                    message.warning("模组解析失败")
+                    message.warning(t('mod.parse.error'))
                 }
             })
     }
@@ -104,9 +104,9 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
         updateModinfosApi()
             .then(data => {
                 if (data.code === 200) {
-                    message.success("更新模组配置成功，请刷新页面")
+                    message.success(t('mod.update.ok'))
                 } else {
-                    message.warning("更新模组配置失败")
+                    message.warning(t('mod.update.error'))
                 }
                 setConfirmLoading(false)
             })
@@ -132,7 +132,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
     return (
         <>
             <Spin spinning={confirmLoading} >
-                <Alert message={t('Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.')} type="warning" showIcon closable />
+                <Alert message={t('mod.tips1')} type="warning" showIcon closable />
                 <br/>
 
                 {updateModSize.length > 0 && <>
@@ -141,19 +141,19 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                 </>}
                 <Space size={16} wrap>
 
-                    <Button type="primary" onClick={() => saveModConfig()}>{t('Save')}</Button>
+                    <Button type="primary" onClick={() => saveModConfig()}>{t('mod.save')}</Button>
                     <Popconfirm
-                        title={t('Whether to update all mod configurations')}
+                        title={t('mod.tips2')}
                         okText="Yes"
                         cancelText="No"
                         onConfirm={()=>updateModConfigOptions()}
                     >
-                        <Button type="primary" >{t('Update All Mod Config')}</Button>
+                        <Button type="primary" >{t('mod.update.all')}</Button>
                     </Popconfirm>
 
                     <Tooltip
-                        title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
-                        <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>{t('Upload Modinfo')}</Button>
+                        title={t('mod.tips3')}>
+                        <Button type="primary" onClick={() => navigate(`/dashboard/mod/add/0`)}>{t('mod.upload.modinfo')}</Button>
                     </Tooltip>
                 </Space>
                 <br/><br/>

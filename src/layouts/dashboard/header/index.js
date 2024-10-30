@@ -25,9 +25,9 @@ import {headerFlag1, headerFlag2} from "../../../config";
 
 const NAV_WIDTH = 240;
 
-const HEADER_MOBILE = 64;
+const HEADER_MOBILE = 48;
 
-const HEADER_DESKTOP = 92;
+const HEADER_DESKTOP = 80;
 
 const StyledRoot = styled(AppBar)(({ theme }) => {
 
@@ -87,7 +87,6 @@ export default function Header({ onOpenNav }) {
                 </IconButton>
 
                 {isDesktop && <Tag color="#2784FF">{headerFlag1}</Tag>}
-                {isDesktop && <Tag color="#f50">{headerFlag2}</Tag>}
 
                 {/* eslint-disable */}
 

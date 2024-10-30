@@ -9,10 +9,9 @@ import OnlinePlayers from "../OnlinePlayers";
 import GameLevels from "../GameLevels";
 import ServerLog from "../ServerLog";
 import OS from "../OS";
-import {useLevelsStore} from "../../../store/useLevelsStore";
 
 export default () => {
-    const levels = useLevelsStore((state) => state.levels)
+
     return (
         <>
             <Card>

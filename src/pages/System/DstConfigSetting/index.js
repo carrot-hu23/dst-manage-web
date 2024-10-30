@@ -14,6 +14,8 @@ import {
     Alert
 } from 'antd';
 import {Card, Box} from '@mui/material';
+import {useTranslation} from "react-i18next";
+
 import {readDstConfigSync, writeDstConfigSync} from "../../../api/dstConfigApi";
 
 const onFinishFailed = (errorInfo) => {
@@ -25,10 +27,14 @@ const { Title, Paragraph} = Typography;
 
 export default () => {
 
+    const {t} = useTranslation()
+    const {i18n} = useTranslation();
+    const lang = i18n.language;
+
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(true)
 
-    const [activeTab, setActiveTab] = useState('默认');
+    const [activeTab, setActiveTab] = useState(lang === 'en' ? '自定义' : '默认');
     const handleTabChange = (value) => {
         setActiveTab(value);
     };
@@ -111,7 +117,7 @@ export default () => {
 
             <Box sx={{p: 3, pb: 1}} dir="ltr">
                 <Alert style={{marginBottom: '12px'}}
-                       message="请先停止所有世界，自行做好保存存档，不然之前的世界会一直运行"
+                       message={t('setting.dstConfig.tips1')}
                        type="warning" showIcon/>
                 <Form
                     onFinish={onFinish}
@@ -122,11 +128,13 @@ export default () => {
                 >
                     <Skeleton loading={loading} active>
                         <Space size={16} wrap>
-                            <Segmented
-                                value={activeTab}
-                                onChange={handleTabChange}
-                                options={['默认', '自定义']}
-                            />
+                            {lang === 'zh' && (<>
+                                <Segmented
+                                    value={activeTab}
+                                    onChange={handleTabChange}
+                                    options={['默认', '自定义']}
+                                />
+                            </>)}
                             <Button icon={<img src="/assets/icons/navbar/docker-svgrepo-com.svg" width={12} alt="docker-svgrepo-com"/>}
                                     size={"small"}
                                     type={'primary'}
@@ -137,7 +145,7 @@ export default () => {
                         </Space>
                         <br/>
                         <Form.Item
-                            label="steamcmd安装路径"
+                            label={t('setting.dstConfig.steamcmd')}
                             name="steamcmd"
                             rules={[
                                 {
@@ -149,7 +157,7 @@ export default () => {
                             <Input/>
                         </Form.Item>
                         <Form.Item
-                            label="饥荒服务器安装路径"
+                            label={t('setting.dstConfig.force_install_dir')}
                             name="force_install_dir"
                             rules={[
                                 {
@@ -161,21 +169,20 @@ export default () => {
                             <Input/>
                         </Form.Item>
                         <Form.Item
-                            label="游戏存档备份路径"
+                            label={t('setting.dstConfig.backup')}
                             name="backup"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input dontstarve_dedicated_server name',
+                                    message: 'Please input backup path',
                                 },
                             ]}
                             tooltip={"这个路径是放你创建存档备份的路径"}
                         >
                             <Input placeholder="游戏存档备份路径"/>
-                            {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                         </Form.Item>
                         <Form.Item
-                            label="mod下载路径"
+                            label={t('setting.dstConfig.mod_download_path')}
                             name="mod_download_path"
                             tooltip={"这个路径是面板下载的模组路径和游戏的模组路径没有关系"}
                             rules={[
@@ -186,15 +193,14 @@ export default () => {
                             ]}
                         >
                             <Input placeholder="服务器文件夹名"/>
-                            {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                         </Form.Item>
                         <Form.Item
-                            label="cluster"
+                            label={t('setting.dstConfig.cluster')}
                             name="cluster"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input dontstarve_dedicated_server name',
+                                    message: 'Please input cluster',
                                 },
                             ]}
                             tooltip={"设置此服务器将使用的存档目录的名称\n" +
@@ -203,11 +209,10 @@ export default () => {
                                 "    默认值为：Cluster_1"}
                         >
                             <Input placeholder="服务器文件夹名"/>
-                            {/* <TextArea rows={2} placeholder="服务器房间文件位置" /> */}
                         </Form.Item>
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"persistent_storage_root"}
+                                label={t('setting.dstConfig.persistent_storage_root')}
                                 name='persistent_storage_root'
                                 tooltip={"设置游戏配置目录的路径。路径需要是绝对路径。\n" +
                                     "    用户文件的完整路径是\n" +
@@ -223,7 +228,7 @@ export default () => {
                         </div>}
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"conf_dir"}
+                                label={t('setting.dstConfig.conf_dir')}
                                 name='conf_dir'
                                 tooltip={"更改配置目录的名称，不包含斜杠\n" +
                                     "    用户文件的完整路径是\n" +
@@ -236,7 +241,7 @@ export default () => {
                         </div>}
                         {activeTab === '自定义' && <div>
                             <Form.Item
-                                label={"ugc_directory"}
+                                label={t('setting.dstConfig.ugc_directory')}
                                 name='ugc_directory'
                                 tooltip={"专用服务器现在将 v2 mods 存储在 <install_directory>/ugc_mods/<ClusterDirectory>/<ShardDirectory>\n" +
                                     "    （ClusterDirectory 和 ShardDirectory 分别是通过 -cluster 和 -shard 定义的值）\n" +
@@ -265,7 +270,7 @@ export default () => {
                         </Form.Item>
                         */}
                         <Form.Item
-                            label="bin"
+                            label={t('setting.dstConfig.bin')}
                             name="bin"
                             rules={[
                                 {
@@ -275,8 +280,8 @@ export default () => {
                             ]}
                         >
                             <Radio.Group>
-                                <Radio value={32}>32位启动</Radio>
-                                <Radio value={64}>64位启动</Radio>
+                                <Radio value={32}>{t('setting.dstConfig.bin.32')}</Radio>
+                                <Radio value={64}>{t('setting.dstConfig.bin.64')}</Radio>
                                 <Tooltip title={'luajit是一种特殊的启动方式，目前只是兼容这种启动方式。环境需要自己安装，详细参考: https://github.com/CN-DST-DEVELOPER/Faster_DST'}>
                                     <Radio value={100}>luajit</Radio>
                                 </Tooltip>
@@ -289,7 +294,7 @@ export default () => {
                             }}
                         >
                             <Button style={{margin: "0 auto", display: "block"}} type="primary" htmlType="submit">
-                                保存
+                                {t('setting.dstConfig.save')}
                             </Button>
                         </Form.Item>
                     </Skeleton>

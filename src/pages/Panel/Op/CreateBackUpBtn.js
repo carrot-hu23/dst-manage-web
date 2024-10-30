@@ -12,18 +12,17 @@ export default ()=>{
     const {cluster} = useParams()
     const createBackupOnClick = () => {
         setCreateBackupStatus(true)
-        message.success('正在创建游戏备份')
         createBackupApi(cluster)
             .then(response => {
                 if (response.code === 200) {
-                    message.success('创建游戏备份成功')
+                    message.success(t('panel.backup.success'))
                 } else {
-                    message.warning('创建游戏备份失败')
+                    message.warning(t('panel.backup.error'))
                 }
                 setCreateBackupStatus(false)
             })
             .catch(error => {
-                message.error(`创建游戏备份失败${error}`)
+                console.log(error)
                 setCreateBackupStatus(false)
             })
     }
@@ -37,7 +36,7 @@ export default ()=>{
                     }}
                     loading={createBackupStatus}
             >
-                {t('createBackup')}
+                {t('panel.backup.create')}
             </Button>
         </>
     )

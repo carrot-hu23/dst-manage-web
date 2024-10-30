@@ -22,7 +22,7 @@ export const useThemeStore = create((set) => ({
             const themeConfig = JSON.parse(newConfig)
             set({themeConfig})
             saveKv({
-                "key": "backgroundUr",
+                "key": "theme",
                 "value": newConfig
             }).then(resp => {
                 console.log(resp)

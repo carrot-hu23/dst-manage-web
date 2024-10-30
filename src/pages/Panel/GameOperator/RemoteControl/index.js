@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Box, Card} from "@mui/material";
+import {useTranslation} from "react-i18next";
 
 import {Button, Input, Select, Space, message, Spin, Divider, Tag} from 'antd';
 import {sendCommandApi} from "../../../../api/8level";
@@ -9,7 +10,7 @@ import {useLevelsStore} from "../../../../store/useLevelsStore";
 const {TextArea} = Input;
 
 export default () => {
-
+    const { t } = useTranslation()
     const levels = useLevelsStore((state) => state.levels)
 
     useEffect(()=>{
@@ -122,13 +123,12 @@ export default () => {
                                     }
                                 })}
                             />
-                            <span>世界</span>
                         </Space>
                         <br/><br/>
                         <TextArea onChange={onchange} rows={3}/>
                         <br/><br/>
                         <Button type="primary" onClick={() => sendInstructOrder()}>
-                            发送指令
+                            {t('panel.remote.send.command')}
                         </Button>
 
                         <Divider />
@@ -148,18 +148,17 @@ export default () => {
                                     }
                                 })}
                             />
-                            <span>世界</span>
                         </Space>
                         <br/><br/>
                         <TextArea onChange={onchange2} rows={3}/>
                         <br/><br/>
                         <Button type="primary" onClick={() => SentBroad()}>
-                            发送广播
+                            {t('panel.remote.send.message')}
                         </Button>
                     </Spin>
                     <br/>
                     <div>
-                        历史指令:
+                        {t('panel.remote.send.history')}:
                         {historyCommand.map(c=>(
                             <Tag key={c} closeIcon onClose={() => removeHistory(c)}>{c}</Tag>
                         ))}

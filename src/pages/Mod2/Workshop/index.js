@@ -2,14 +2,20 @@
 import {useEffect, useState} from 'react';
 import {Row, Col, Card, Input, Pagination, Button, message} from 'antd';
 import {useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
 import {getModInfo, searchMod} from '../../../api/modApi';
 import {timestampToString} from "../../../utils/dateUitls";
 import {fShortenNumber} from "../../../utils/formatNumber";
+
 
 const {Search} = Input;
 const {Meta} = Card;
 
 const ModCard2 = ({modinfo, addModList, subscribe}) => {
+
+    const { t } = useTranslation()
+
     const [loading, setLoading] = useState(false)
     return (<>
         <Card
@@ -37,20 +43,24 @@ const ModCard2 = ({modinfo, addModList, subscribe}) => {
                 fontSize: '12px',
                 paddingBottom: '2px'
             }}>
-                订阅数:&nbsp;{fShortenNumber(modinfo.sub)}</div>
+                {t('mod.subscriptions')}:&nbsp;{fShortenNumber(modinfo.sub)}</div>
             <Button
                 loading={loading}
                 type="primary"
                 size={'small'}
-                onClick={() => subscribe(modinfo.id, modinfo.name, addModList, setLoading)}>订阅</Button>
+                onClick={() => subscribe(modinfo.id, modinfo.name, addModList, setLoading)}>{t('mod.subscribe')}</Button>
         </Card>
         <br/>
     </>)
 }
 
 export default ({addModList}) => {
-    const [modList, setModList] = useState([])
 
+    const { t } = useTranslation()
+    const { i18n } = useTranslation();
+    const lang = i18n.language;
+
+    const [modList, setModList] = useState([])
     const [pageSize, setPageSize] = useState(20)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -66,13 +76,12 @@ export default ({addModList}) => {
     const subscribe = (modId, modName, addModList, setLoading) => {
         messageApi.open({
             type: 'loading',
-            content: `正在订阅 ${modName}`,
+            content: `${t('mod.subscribing')} ${modName}`,
             duration: 0,
         });
         setLoading(true)
         // message.info(`正在订阅 ${modName}`)
-        getModInfo(cluster, modId).then(data => {
-            console.log(data.data);
+        getModInfo(lang, cluster, modId).then(data => {
             data.data.installed = true
             addModList(current => {
                 const newData = []
@@ -87,26 +96,24 @@ export default ({addModList}) => {
 
             // Dismiss manually and asynchronously
             setTimeout(messageApi.destroy, 1);
-            message.success(`订阅 ${modName} 成功`)
+            message.success(`${t('mod.subscribe.ok')} ${modName}`)
             setLoading(false)
         }).catch(error => {
             setTimeout(messageApi.destroy, 1);
-            message.warning(`获取 ${modName} 失败`)
+            message.warning(`${t('mod.subscribe.error')} ${modName} 失败`)
             setLoading(false)
             console.log(error)
         })
     }
 
     const updateModList = (text, page, pageSize) => {
-        message.info(`正在搜索`)
-        searchMod(cluster, text, page, pageSize).then(data => {
+        message.info(t('mod.search'))
+        searchMod(lang, cluster, text, page, pageSize).then(data => {
             setModList(data.data.data)
             setPage(data.data.page)
             setPageSize(data.data.size)
             setTotal(data.data.total)
-            message.success(`搜索成功`)
         }).catch(error => {
-            message.error(`搜索失败`)
             console.log(error)
         })
     }
@@ -138,18 +145,11 @@ export default ({addModList}) => {
             <br/>
             <br/>
             <Row>
-                {/*
-                 {modList.map(modinfo => (<Col key={modinfo.id} xs={24} sm={8} md={8} lg={8} xl={8}>
-                    <ModCard modInfo={modinfo} addModList={addModList} subscribe={subscribe} />
-                    <br />
-                </Col>))}
-                */}
                 {modList.map(modinfo => (
                     <Col key={modinfo.id} xs={12} sm={8} md={6} lg={4} xl={4}>
                         <ModCard2 modinfo={modinfo} addModList={addModList} subscribe={subscribe}/>
                     </Col>
                 ))}
-
             </Row>
             <br/><br/>
             <Pagination

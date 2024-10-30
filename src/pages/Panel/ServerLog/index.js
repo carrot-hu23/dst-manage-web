@@ -161,104 +161,92 @@ export default () => {
     };
 
     return <>
-        <Spin spinning={spinLoading} description={"正在获取日志"}>
+        <Spin spinning={spinLoading}>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
-                    <Tabs defaultActiveKey="1">
-                        <TabPane tab={t('Level Log')} key="1">
-                            <Space.Compact style={{width: '100%', marginBottom: 12}}>
-                                <Select
-                                    style={{
-                                        width: 120,
-                                    }}
-                                    onChange={handleChange}
-                                    defaultValue={notHasLevels?"":levels[0].levelName}
-                                    options={levels.map(level=>{
-                                        return {
-                                            value: level.key,
-                                            label: level.levelName,
-                                        }
-                                    })}
-                                />
-                                <Input defaultValue="100" ref={inputRef}/>
-                                <Button type="primary" onClick={() => pullLog()}>{t('pull')}</Button>
-                            </Space.Compact>
-                            <br/><br/>
-                            <MonacoEditor
-                                className={style.icon}
-                                ref={editorRef}
-                                style={{
-                                    "height": "370px",
-                                    "width": "100%",
+                    <Space.Compact style={{width: '100%', marginBottom: 12}}>
+                        <Select
+                            style={{
+                                width: 120,
+                            }}
+                            onChange={handleChange}
+                            defaultValue={notHasLevels?"":levels[0].levelName}
+                            options={levels.map(level=>{
+                                return {
+                                    value: level.key,
+                                    label: level.levelName,
+                                }
+                            })}
+                        />
+                        <Input defaultValue="100" ref={inputRef}/>
+                        <Button type="primary" onClick={() => pullLog()}>{t('panel.pull')}</Button>
+                    </Space.Compact>
+                    <br/>
+                    <MonacoEditor
+                        className={style.icon}
+                        ref={editorRef}
+                        style={{
+                            "height": "370px",
+                            "width": "100%",
+                        }}
+                        options={{
+                            readOnly: true,
+                            language: 'java',
+                            theme: theme === 'dark'?'vs-dark':''
+                        }}
+                    />
+                    <br/>
+                    <Space align={"baseline"} size={16} wrap>
+                        <div>
+                            <span style={{marginRight:'8px'}}>{t('panel.auto')}
+                            </span>
+                            <Switch
+                                defaultChecked
+                                onChange={(checked, event)=>{
+                                    if (checked) {
+                                        startPolling()
+                                    } else {
+                                        stopPolling()
+                                    }
                                 }}
-                                options={{
-                                    readOnly: true,
-                                    language: 'java',
-                                    theme: theme === 'dark'?'vs-dark':''
-                                }}
-                            />
-                            <br/>
-                            <Space align={"baseline"} size={16} wrap>
-                                <div>
-                                    <span style={{
-                                        marginRight:'8px'
-                                    }}>{t('auto')}</span>
-                                    <Switch
-                                        defaultChecked
-                                        onChange={(checked, event)=>{
-                                            if (checked) {
-                                                startPolling()
-                                            } else {
-                                                stopPolling()
-                                            }
-                                        }}
-                                        checkedChildren={t('Y')} unCheckedChildren={t('N')}/>
-                                </div>
-                                <Button onClick={()=>{
-                                    window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}`
-                                }}
-                                        icon={<DownloadOutlined />} type={'link'}>
-                                    {t('Download Log')}
-                                </Button>
-                            </Space>
-
-                            <br/><br/>
-
-                            <Space.Compact
-                                style={{
-                                    width: '100%',
-                                    marginBottom: 12
-                                }}
-                            >
-                                <Input defaultValue="" onChange={onchange} />
-                                <Button type="primary" onClick={() => sendInstruct(command)}>{t('send')}</Button>
-                            </Space.Compact>
-                            <Space size={8} wrap>
-                                <Button size={'small'} type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
-                                <Popconfirm
-                                    title={t('regenerate')}
-                                    description="请保存好数据"
-                                    onConfirm={()=>{sendInstruct("c_regenerateworld()")}}
-                                    onCancel={()=>{}}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                <Button size={'small'} type={"primary"} danger>{t('regenerate')}</Button>
-                                </Popconfirm>
-                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
-                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
-                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
-                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
-                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
-                                <Button size={'small'} onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
-                            </Space>
-                        </TabPane>
-
-                        <TabPane tab={t('Panel Log')} key="2">
-                            <PanelLog />
-                        </TabPane>
-                    </Tabs>
-
+                                checkedChildren={t('panel.y')} unCheckedChildren={t('panel.n')}/>
+                        </div>
+                        <Button onClick={()=>{
+                            window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}`
+                        }}
+                                icon={<DownloadOutlined />} type={'link'}>
+                            {t('panel.download.log')}
+                        </Button>
+                    </Space>
+                    <br/>
+                    <Space.Compact
+                        style={{
+                            width: '100%',
+                            marginBottom: 12
+                        }}
+                    >
+                        <Input defaultValue="" onChange={onchange} />
+                        <Button type="primary" onClick={() => sendInstruct(command)}>{t('panel.send')}</Button>
+                    </Space.Compact>
+                    <Space size={8} wrap>
+                        <Button size={'small'} type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('panel.c_save()')}</Button>
+                        <Popconfirm
+                            title={t('panel.regenerate')}
+                            description="请保存好数据"
+                            onConfirm={()=>{sendInstruct("c_regenerateworld()")}}
+                            onCancel={()=>{}}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button size={'small'} type={"primary"} danger>{t('panel.regenerate')}</Button>
+                        </Popconfirm>
+                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(1)") }} >{t('panel.rollback1')}</Button>
+                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(2)") }} >{t('panel.rollback2')}</Button>
+                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(3)") }} >{t('panel.rollback3')}</Button>
+                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(4)") }} >{t('panel.rollback4')}</Button>
+                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(5)") }} >{t('panel.rollback5')}</Button>
+                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(6)") }} >{t('panel.rollback6')}</Button>
+                    </Space>
                 </Box>
             </Card>
         </Spin>

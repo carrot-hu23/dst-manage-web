@@ -4,6 +4,7 @@ import {Alert, message, Select, Space, Tabs} from "antd";
 import {parse,format} from "lua-json";
 
 import './index.css'
+import {useTranslation} from "react-i18next";
 
 function getLevelObject(value) {
     value = value.replace(/\n/g, "")
@@ -18,16 +19,21 @@ function getLevelObject(value) {
 
 export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
 
+    const { t } = useTranslation()
+    const { i18n } = useTranslation()
+    // 获取当前语言
+    const lang = i18n.language
+
     const levelObject = getLevelObject(valueRef.current)
     const levelType = levelObject.location
     // 获取用户默认值
     const [leveldataoverrideObject, setLeveldataoverrideObject] = useState(levelObject.overrides)
 
     // 获取世界默认值
-    const forestWorldGenGroup = dstWorldSetting.zh.forest.WORLDGEN_GROUP
-    const forestWorldSettingsGroup = dstWorldSetting.zh.forest.WORLDSETTINGS_GROUP
-    const cavesWorldGenGroup = dstWorldSetting.zh.cave.WORLDGEN_GROUP
-    const cavesWorldSettingsGroup = dstWorldSetting.zh.cave.WORLDSETTINGS_GROUP
+    const forestWorldGenGroup = lang ==='en'? dstWorldSetting.en.forest.WORLDGEN_GROUP : dstWorldSetting.zh.forest.WORLDGEN_GROUP
+    const forestWorldSettingsGroup =  lang ==='en'? dstWorldSetting.en.forest.WORLDSETTINGS_GROUP : dstWorldSetting.zh.forest.WORLDSETTINGS_GROUP
+    const cavesWorldGenGroup = lang ==='en'? dstWorldSetting.en.cave.WORLDGEN_GROUP : dstWorldSetting.zh.cave.WORLDGEN_GROUP
+    const cavesWorldSettingsGroup = lang ==='en'? dstWorldSetting.en.cave.WORLDSETTINGS_GROUP : dstWorldSetting.zh.cave.WORLDSETTINGS_GROUP
 
     useEffect(()=>{
         const levelObject = getLevelObject(valueRef.current)
@@ -36,9 +42,8 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
 
     const porklandItems = [
         {
-            label: '世界配置',
+            label: t("level.worldSettings"),
             children: <div>
-                <h2>世界设置</h2>
                 <Group
                     valueRef={valueRef}
                     data={porklandSetting?.WORLDSETTINGS_GROUP}
@@ -57,9 +62,8 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
             key: '1'
         },
         {
-            label: '世界生成',
+            label: t("level.worldGeneration"),
             children: <div>
-                <h2>世界生成</h2>
                 <Group
                     valueRef={valueRef}
                     data={porklandSetting?.WORLDGEN_GROUP}
@@ -82,9 +86,8 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
 
     const forestItems = [
         {
-            label: '世界配置',
+            label: t("level.worldSettings"),
             children: <div>
-                <h2>世界设置</h2>
                 <Group
                     valueRef={valueRef}
                     data={forestWorldSettingsGroup}
@@ -102,9 +105,8 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
             key: '1'
         },
         {
-            label: '世界生成',
+            label: t("level.worldGeneration"),
             children: <div>
-                <h2>世界生成</h2>
                 <Group
                     valueRef={valueRef}
                     data={forestWorldGenGroup}
@@ -125,9 +127,8 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
 
     const caveItems = [
         {
-            label: '世界配置',
+            label: t("level.worldSettings"),
             children: <div>
-                <h2>世界设置</h2>
                 <Group
                     valueRef={valueRef}
                     data={cavesWorldSettingsGroup}
@@ -145,9 +146,8 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
             key: 3,
         },
         {
-            label: '世界生成',
+            label: t("level.worldGeneration"),
             children: <div>
-                <h2>世界生成</h2>
                 <Group
                     valueRef={valueRef}
                     data={cavesWorldGenGroup}
@@ -186,11 +186,7 @@ export default ({valueRef, dstWorldSetting, changeValue, porklandSetting}) => {
                 {(levelType !== 'forest' && levelType !== 'cave' && levelType !== 'porkland') && (<>
                     <Alert style={{
                         marginBottom: '4px'
-                    }} message={`暂不支持此类型世界配置文件可视化 ${levelType}`} type="info" showIcon closable />
-                    <br/>
-                    <Alert style={{
-                        marginBottom: '4px'
-                    }} message={`或者世界配置为空，请先填写世界配置`} type="info" showIcon closable />
+                    }} message={`${t("level.warning.not.support.view")} ${levelType}`} type="info" showIcon closable />
                 </>)}
 
             </div>
@@ -267,6 +263,7 @@ const Group = ({valueRef, data, url, leveldataoverrideObject, onStateChange, cha
 }
 
 const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange, changeValue}) => {
+    const { t } = useTranslation()
     const [isDefault, setIsDefault] = useState(true);
 
     useEffect(() => {
@@ -278,7 +275,7 @@ const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange
     function handleChange(value) {
         try {
             setIsDefault(value === defaultValue);
-            console.log("value: ", value, "name: ", name)
+            // console.log("value: ", value, "name: ", name)
 
             const data = parse(valueRef.current.replace(/\n/g, ""))
             data.overrides[name] = value
@@ -287,7 +284,7 @@ const Item = ({currentValue, defaultValue, options, name, valueRef,onStateChange
             // valueRef.current = format(data)
             changeValue(format(data))
         } catch (error) {
-            message.warning("lua配置解析错误")
+            message.warning(t("level.warning.lua.error"))
         }
     }
 

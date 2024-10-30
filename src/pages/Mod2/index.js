@@ -35,7 +35,7 @@ export default () => {
             setLoading(true)
             const modoverridesResp = await getHomeConfigApi(cluster)
             if (modoverridesResp.code !== 200) {
-                message.warning("获取模组配置失败")
+                message.warning(t('mod.fetch.error'))
                 return
             }
             const modoverrides = modoverridesResp.data.modData
@@ -43,7 +43,7 @@ export default () => {
 
             const modInfoListResp = await getMyModInfoList(cluster)
             if (modInfoListResp.code !== 200) {
-                message.warning("获取模组配置失败")
+                message.warning(t('mod.fetch.error'))
                 return
             }
             let modList = modInfoListResp.data
@@ -161,7 +161,7 @@ export default () => {
     const items = [
         {
             key: '1',
-            label: t('Mod Setting'),
+            label: t('mod.Setting'),
             children: <ModList modList={modList} setModList={setmodList}
                                defaultConfigOptionsRef={defaultConfigOptionsRef}
                                modConfigOptionsRef={modConfigOptionsRef}
@@ -169,12 +169,12 @@ export default () => {
         },
         {
             key: '2',
-            label: t('Mod Subscribe'),
+            label: t('mod.Subscribe'),
             children: <Workshop addModList={setmodList}/>,
         },
         {
             key: '3',
-            label: t('Ugc Mod'),
+            label: t('mod.UgcMod'),
             children: <UgcAcf />,
         },
     ];
