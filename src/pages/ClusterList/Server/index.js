@@ -14,13 +14,19 @@ import {
     message,
     Spin,
     Space,
-    Tooltip, Skeleton, Popconfirm, Badge, Segmented, InputNumber, Tag, Statistic, Image
+    Tooltip, Skeleton, Popconfirm, Badge, Segmented, InputNumber, Tag, Statistic, Image, Empty, Select
 } from 'antd';
 import {EditOutlined, PlusOutlined, QuestionCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import {ProDescriptions, ProTable} from '@ant-design/pro-components';
 import {Container} from '@mui/material';
 import {useNavigate} from "react-router-dom";
-import {createCluster, deleteCluster, getClusterList, updateCluster} from "../../../api/clusterApi";
+import {
+    createCluster,
+    deleteCluster,
+    fetchRemoteClusterList,
+    getClusterList,
+    updateCluster
+} from "../../../api/clusterApi";
 import style from "../../DstServerList/index.module.css";
 import {useTranslation} from "react-i18next";
 import {dstHomeDetailApi} from "../../../api/dstApi";
@@ -28,8 +34,9 @@ import HomeDetail from "../../DstServerList/home";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
 import {generateUUID} from "../../../utils/dateUitls";
 import useResponsive from "../../../hooks/useResponsive";
+import ClusterCard from "./clusterCard";
 
-const UpdateServer = ({server, serverList, updateServerList, setOpen}) => {
+export const UpdateServer = ({server, serverList, updateServerList, setOpen}) => {
     const [form] = Form.useForm()
     useEffect(() => {
         form.setFieldsValue(server)
@@ -88,12 +95,8 @@ const UpdateServer = ({server, serverList, updateServerList, setOpen}) => {
                 </>)}
 
                 <Form
-                    labelCol={{
-                        span: 6,
-                    }}
+                    labelCol={{span: 6,}}
                     form={form}
-                    // layout="vertical"
-                    // labelAlign={'left'}
                 >
                     <Form.Item label="房间名称"
                                name="name"
@@ -143,34 +146,6 @@ const UpdateServer = ({server, serverList, updateServerList, setOpen}) => {
                         >
                             <Input/>
                         </Form.Item>
-                        {/*
-                        <Form.Item
-                                   tooltip={"暂时未实现"}
-                                   label="persistent_storage_root(暂时未实现)"
-                                   name="persistent_storage_root"
-                                   rules={[
-                                       {
-                                           required: false,
-                                           message: 'Please input your persistent_storage_root path!',
-                                       },
-                                   ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item
-                            tooltip={"暂时未实现"}
-                            label="conf_dir(暂时未实现)"
-                            name="conf_dir"
-                            rules={[
-                                {
-                                    required: false,
-                                    message: 'Please input your conf_dir path!',
-                                },
-                            ]}
-                        >
-                            <Input/>
-                        </Form.Item>
-                        */}
                         <Form.Item label="ugc_directory"
                                    name="ugc_directory"
                                    rules={[
@@ -484,9 +459,11 @@ export default () => {
 
     const [serverListBak, setServerListBak] = useState([])
     const [serverList, setServerList] = useState([])
+    const [openAdd, setOpenAdd] = useState(false)
+
     const [server, setServer] = useState([])
-    const [open, setOpen] = useState(false)
-    const [open2, setOpen2] = useState(false)
+    const [openUpdate, setOpenUpdate] = useState(false)
+
     const [loading, setLoading] = useState(false)
     const [showAddBtn, setShowAddBtn] = useState(true)
 
@@ -560,7 +537,6 @@ export default () => {
         const [clusterType, setClusterType] = useState('本地')
 
         const stringList = serverList.map(server => server.clusterName)
-
         const [spining, setSpinning] = useState(false)
 
         const validateName = (_, value) => {
@@ -583,7 +559,8 @@ export default () => {
             }
 
             return Promise.resolve();
-        };
+        }
+
         const onFinish = (values) => {
             setSpinning(true)
             if (values.clusterType === '远程') {
@@ -598,26 +575,31 @@ export default () => {
                     } else {
                         message.error("创建房间成功")
                     }
-                    setOpen(false)
+                    setOpenAdd(false)
                     setSpinning(false)
                 })
         };
+
+        const [remote, setRemote] = useState("remote1");
+        const onChange = (e) => {
+            setRemote(e.target.value);
+        };
+        const [form] = Form.useForm()
+
+        const [remoteClusterList, setRemoteClusterList] = useState([])
         return (
             <>
                 <Spin spinning={spining} tip={"正在创建房间"}>
-
                     <Alert message="以下路径请使用绝对路径，不支持相对路径，同时不要使用特殊字符" type="warning" showIcon
                            closable/>
                     <br/>
                     <Form
-                        // layout="vertical"
-                        // labelAlign={'left'}
+                        form={form}
                         labelCol={{
                             span: 6,
                         }}
-                        onFinish={onFinish}
+                        // onFinish={onFinish}
                         initialValues={{
-                            // clusterName: crypto.randomUUID()
                             clusterType: '本地',
                             levelType: 'forest'
                         }}
@@ -805,11 +787,89 @@ export default () => {
                             >
                                 <Input/>
                             </Form.Item>
+
+                            <Form.Item
+                                label="远程类型"
+                                name="remote"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please choose remote type!',
+                                    },
+                                ]}
+                            >
+                                <Radio.Group onChange={onChange}>
+                                    <Radio value={'remote1'}>单房间</Radio>
+                                    <Radio value={'remote2'}>多房间</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            {remote === "remote2" && (
+                                <>
+                                    <Form.Item
+                                        label={"-"}
+                                    >
+                                        <Space size={8} wrap>
+                                            <span>
+                                                请点击获取世界，选择房间添加
+                                            </span>
+                                            <Button type={'primary'} size={'small'} onClick={()=>{
+                                                console.log(form.getFieldValue())
+                                                fetchRemoteClusterList(form.getFieldValue())
+                                                    .then(resp=>{
+                                                        if (resp.code !== 200) {
+                                                            message.warning("获取世界失败，请检测ip port 账号密码是否正确")
+                                                        } else {
+                                                            setRemoteClusterList(resp.data)
+                                                        }
+                                                    })
+                                            }}>获取世界</Button>
+                                        </Space>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label={"世界列表"}
+                                        name={'remoteClusterNameList'}
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please choose level !',
+                                            },
+                                        ]}
+                                    >
+                                        <Select mode="multiple">
+                                            {remoteClusterList
+                                                .map(cluster=><Select.Option key={cluster.clusterName} value={cluster.clusterName}>{cluster.name}/{cluster.clusterName}</Select.Option>)}
+                                        </Select>
+                                    </Form.Item>
+                                </>
+                            )}
+
                         </>)}
                         <Form.Item
                             label={"操作"}
                         >
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" onClick={() => {
+                                form.validateFields().then(value => {
+                                    setSpinning(true)
+                                    const values = form.getFieldValue()
+                                    if (values.clusterType === '远程') {
+                                        values.clusterName = generateUUID()
+                                    }
+                                    // console.log('values:', values);
+                                    createCluster(values)
+                                        .then(resp => {
+                                            if (resp.code === 200) {
+                                                message.success("创建房间成功")
+                                                reload()
+                                            } else {
+                                                message.error("创建房间失败")
+                                            }
+                                        }).finally(() => {
+                                        setSpinning(false)
+                                    })
+                                }).catch(err => {
+                                    message.error(err.errorFields[0].errors[0])
+                                })
+                            }}>
                                 保存
                             </Button>
                         </Form.Item>
@@ -959,7 +1019,7 @@ export default () => {
                                 type={'link'}
                                 onClick={() => {
                                     setServer(record)
-                                    setOpen2(true)
+                                    setOpenUpdate(true)
                             }}>配置</Button>
                         </div>}
                     </Space>
@@ -985,12 +1045,11 @@ export default () => {
                     <div style={{marginBottom: '16px'}}>
                         <Space size={16} wrap>
                             {showAddBtn && <div>
-                                <Button onClick={() => setOpen(true)} icon={<PlusOutlined/>} type={'primary'}>添加房间</Button>
+                                <Button color="primary" variant="filled" onClick={() => setOpenAdd(true)} icon={<PlusOutlined/>} type={'primary'}>添加房间</Button>
                             </div>}
                             <Segmented
                                 options={['全部','本地', '远程',]}
                                 onChange={(value) => {
-                                    console.log(value)
                                     if (value === '远程') {
                                         setServerList(serverListBak.filter(server=>server.clusterType === '远程'))
                                     } else if (value === '本地') {
@@ -1001,6 +1060,7 @@ export default () => {
                                 }}
                             />
                         </Space>
+                        {/*
                         {isDesktop && <div style={{
                             float: 'right'
                         }}>
@@ -1013,7 +1073,10 @@ export default () => {
                                        }}
                             />
                         </div>}
+                        */}
                     </div>
+
+                    {/*
                     {(isDesktop && listType === '列表') && (
                         <ProTable search={false} headerTitle={'房间列表'} columns={columns} dataSource={serverList} />
                     )}
@@ -1027,20 +1090,40 @@ export default () => {
                             ))}
                         </Row>
                     )}
+                    */}
 
+                    {serverList.map((server, index) => (
+                        <div key={index} style={{
+                            paddingBottom: 16
+                        }}>
+                            <ClusterCard cluster={server}
+                                         showAddBtn={showAddBtn}
+                                         serverList={serverList}
+                                         updateServerList={updateServerList}
+                                         removeServerList={removeServerList}
+                            />
+                        </div>
+                    ))}
+                    {serverList?.length === 0 && (
+                        <>
+                            <Empty description={"当前暂无房间，请点击 添加房间 按钮来创建世界"} />
+                        </>
+                    )}
                     <Modal style={{
                         top: '8vh'
-                    }} width={800} title="添加房间" open={open} onOk={() => setOpen(false)}
-                           onCancel={() => setOpen(false)}
+                    }} width={800} title="添加房间" open={openAdd} onOk={() => setOpenAdd(false)}
+                           onCancel={() => setOpenAdd(false)}
                            footer={null}>
                         <AddServer serverList={serverList} reload={reload}/>
                     </Modal>
 
-                    <Modal width={860} title="更新房间配置" open={open2} onOk={() => setOpen2(false)}
-                           onCancel={() => setOpen2(false)}
+                    {/*
+                    Modal width={860} title="更新房间配置" open={openUpdate} onOk={() => setOpenUpdate(false)}
+                           onCancel={() => setOpenUpdate(false)}
                            footer={null}>
-                        <UpdateServer server={server} serverList={serverList} updateServerList={updateServerList} setOpen={setOpen2}/>
+                        <UpdateServer server={server} serverList={serverList} updateServerList={updateServerList} setOpen={setOpenUpdate}/>
                     </Modal>
+                    */}
                 </Skeleton>
 
             </Container>

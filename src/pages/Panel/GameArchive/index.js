@@ -1,20 +1,24 @@
-import {Alert, Button, Form, message, Popconfirm, Space, Tooltip} from 'antd';
+import {Alert, Space, Tooltip} from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React, {useEffect, useState} from 'react';
 import {ProDescriptions} from "@ant-design/pro-components";
 
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
-import {archiveApi, updateGameApi} from '../../../api/gameApi';
+import {archiveApi} from '../../../api/gameApi';
 
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
-import {createBackupApi} from "../../../api/backupApi";
-import {dstSeason, dstSegs} from "../../../utils/dst";
+import {dstSeason, dstSegs, getDstMod, getTimeStatus} from "../../../utils/dst";
+import {getAllOnlinePlayersApi} from "../../../api/8level";
+
+import {usePlayerListStore} from "../../../store/usePlayerListStore";
 
 
 export default () => {
-    useNavigate();
+
+    const playerList = usePlayerListStore((state) => state.playerList)
+
     const [archive, setArchive] = useState({
         players: [],
         maxPlayers: 0
@@ -25,70 +29,10 @@ export default () => {
     useEffect(() => {
         archiveApi(cluster)
             .then(data => {
-                // const ar = {
-                //     clusterName: data.data.clusterName,
-                //     gameMod: data.data.gameMod,
-                //     mods: data.data.mods,
-                //     ipConnect: data.data.ipConnect,
-                //     meta: data.data.meta
-                // }
-                // const metaInfo = data.data.meta
-                // ar.days = metaInfo.Clock.Cycles || '未知'
-                // ar.season = metaInfo.Seasons.Season || '未知'
-                // ar.phase = metaInfo.Clock.Phase || '未知'
-                // ar.elapseddaysinseason = metaInfo.Seasons.ElapsedDaysInSeason || '未知'
-                // ar.remainingdaysinseason = metaInfo.Seasons.RemainingDaysInSeason || '未知'
-                // ar.version = data.data.version
-                // ar.lastVersion = data.data.lastVersion
-                // ar.password = data.data.clusterPassword
-                // ar.port = data.data.port
-                // const {players} = data.data
-                // if (players === null) {
-                //     ar.players = []
-                // } else {
-                //     ar.players = players
-                // }
-                // ar.maxPlayers = data.data.maxPlayers
                 setArchive(data.data)
             }).catch(error => console.log(error))
 
     }, [])
-
-    function getTimeStatus(daysElapsedInSeason, daysLeftInSeason) {
-        const totalDays = daysElapsedInSeason + daysLeftInSeason;
-        const thresholdEarly = totalDays / 3;
-
-        if (daysElapsedInSeason <= thresholdEarly) {
-            return '早';
-        }
-        if (daysLeftInSeason < thresholdEarly) {
-            return '晚';
-        }
-        return '';
-    }
-
-    function shareClusterInfo() {
-        if (navigator.clipboard) {
-            // 使用Clipboard API复制文本
-            let text = ""
-            text += `房间: ${  archive.clusterName}\n`
-            const status = getTimeStatus(archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)
-            text += `天数: ${  archive?.meta?.Clock?.Cycles+1}天/${dstSegs[archive.meta?.Clock?.Phase]} ${status}${dstSeason[archive?.meta?.Seasons?.Season]} (${archive?.meta?.Seasons?.ElapsedDaysInSeason}/${archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})\n`
-            text += `模组: ${  archive.mods}\n`
-            if (archive?.password) {
-                text += `密码: ${  archive?.password}\n`
-            } else {
-                text += `密码: 无\n`
-            }
-            text += `直连: ${  archive.ipConnect}\n`
-            navigator.clipboard.writeText(text)
-                .then(()=> {
-                    message.success("复制成功")
-                })
-        } else {
-            console.error("浏览器不支持Clipboard API");
-        }
-    }
 
     return (
         <>
@@ -125,7 +69,7 @@ export default () => {
                     valueType="text"
                     label={t('GameMod')}
                 >
-                    {archive.gameMod}
+                    {getDstMod("",archive.gameMod)}
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
@@ -139,14 +83,15 @@ export default () => {
                     valueType="text"
                     label={t('Season')}
                 >
-                    {archive?.meta?.Clock?.Cycles + 1}/{archive?.Clock?.Phase} {archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                    {archive?.meta?.Clock?.Cycles + 1}天/{dstSegs[archive?.meta?.Clock?.Phase]} {getTimeStatus("zh", archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)}{dstSeason[archive?.meta?.Seasons?.Season]}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
                     label={t('Players')}
                 >
-                    <span>{`${archive?.players?.length}/${archive.maxPlayers}`}</span>
+                    <span>{`${playerList?.length}/${archive.maxPlayers}`}</span>
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}

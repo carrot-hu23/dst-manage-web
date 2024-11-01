@@ -70,16 +70,17 @@ export default ()=>{
                 placement="topLeft"
                 onConfirm={()=>updateGameOnclick()}
             >
-                <Button  loading={updateGameStatus} type="primary">
+                <Button
+                    color="primary" variant="filled"
+                    loading={updateGameStatus}
+                >
                     {t('updateGame')}
                 </Button>
             </Popconfirm>
         </div>
-       <div style={{
-           // marginTop: '12px',
-           // marginBottom: '12px'
-       }}>
+       <div>
            <Button
+               color="default" variant="filled"
                    onClick={() => {
                        createBackupOnClick()
                    }}
@@ -102,7 +103,7 @@ export default ()=>{
                 onConfirm={()=>deleteStepupWorkshop()}
                 onCancel={()=>setOpen(false)}
             >
-                <Button  type="primary" danger onClick={() => setOpen(true)}>更新模组</Button>
+                <Button  color="default" variant="filled" danger onClick={() => setOpen(true)}>删除模组</Button>
             </Popconfirm>
         </div>
     </Space>

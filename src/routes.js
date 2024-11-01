@@ -26,6 +26,7 @@ import Server from "./pages/ClusterList/Server";
 import OS from "./pages/ClusterList/OS";
 import Mod2 from "./pages/Mod2";
 import UserList from "./pages/UserList";
+import ThemeSetting from "./pages/ThemeSetting";
 
 export default function Router() {
   const routes = useRoutes([
@@ -79,6 +80,10 @@ export default function Router() {
         {
           path: '/os/info',
           element: <OS />,
+        },
+        {
+          path: '/theme/setting',
+          element: <ThemeSetting />,
         },
         { path: 'dst/server', element: <DstServerList /> },
       ],

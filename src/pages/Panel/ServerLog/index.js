@@ -162,7 +162,7 @@ export default ({levels}) => {
                             })}
                         />
                         <Input defaultValue="100" ref={inputRef}/>
-                        <Button type="primary" onClick={() => pullLog()}>拉取</Button>
+                        <Button color="primary" variant="filled" onClick={() => pullLog()}>拉取</Button>
                     </Space.Compact>
                     <br/><br/>
                     <MonacoEditor
@@ -196,7 +196,9 @@ export default ({levels}) => {
                                 }}
                                 checkedChildren="是" unCheckedChildren="否"/>
                         </div>
-                        <Button onClick={()=>{
+                        <Button
+                            color="primary" variant="filled"
+                            onClick={()=>{
                             window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}&clusterName=${cluster}`
                         }}
                                 icon={<DownloadOutlined />} type={'link'}>
@@ -211,7 +213,7 @@ export default ({levels}) => {
                         }}
                     >
                         <Input onChange={onchange} />
-                        <Button type="primary" onClick={() => sendInstruct(command)}>发送指令</Button>
+                        <Button color="primary" variant="filled" onClick={() => sendInstruct(command)}>发送指令</Button>
                     </Space.Compact>
 
                     <Space.Compact
@@ -222,11 +224,11 @@ export default ({levels}) => {
                         }}
                     >
                         <Input onChange={onchange2} />
-                        <Button type="primary" onClick={() => sendInstruct(`c_announce"${command2}"`)}>发送消息</Button>
+                        <Button color="primary" variant="filled" onClick={() => sendInstruct(`c_announce"${command2}"`)}>发送消息</Button>
                     </Space.Compact>
 
                     <Space size={8} wrap>
-                        <Button size={'small'} type={"primary"} onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
+                        <Button size={'middle'} color="primary" variant="filled" onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
                         <Popconfirm
                             title={t('regenerate')}
                             description="请保存好数据"
@@ -235,14 +237,14 @@ export default ({levels}) => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button size={'small'} type={"primary"} danger>{t('regenerate')}</Button>
+                            <Button size={'middle'} color="danger" variant="filled" danger>{t('regenerate')}</Button>
                         </Popconfirm>
-                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
-                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
-                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
-                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
-                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
-                        <Button size={'small'} onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
                     </Space>
                 </Box>
             </Card>

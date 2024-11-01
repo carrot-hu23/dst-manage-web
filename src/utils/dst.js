@@ -1,3 +1,22 @@
+export function getTimeStatus(lang,daysElapsedInSeason, daysLeftInSeason) {
+    const totalDays = daysElapsedInSeason + daysLeftInSeason;
+    const thresholdEarly = totalDays / 3;
+
+    if (daysElapsedInSeason <= thresholdEarly) {
+        if (lang === "en") {
+            return "morning"
+        }
+        return '早';
+    }
+    if (daysLeftInSeason < thresholdEarly) {
+        if (lang === "en") {
+            return "evening"
+        }
+        return '晚';
+    }
+    return '';
+}
+
 const dstSeason = {
     spring: "春",
     summer: "夏",
@@ -148,6 +167,19 @@ const dstGameMod = [
     },
 
 ]
+
+export function getDstMod(lang, name) {
+    if (lang === "en") {
+        return name
+    }
+    let result = name
+    dstGameMod.forEach(item=>{
+        if (item.name === name) {
+            result = item.cn
+        }
+    })
+    return result
+}
 
 const forest = `
 return {

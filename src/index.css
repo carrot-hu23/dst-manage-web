@@ -11,3 +11,14 @@
 .ant-descriptions .ant-descriptions-row >th, .ant-descriptions .ant-descriptions-row >td {
      padding-bottom: 6px;
 }
+
+.ant-table-wrapper .ant-table-tbody tr td{
+    border-bottom: 4px;
+}
+/*.ant-table-content {*/
+/*    border-radius: 18px;*/
+/*}*/
+/*.ant-table-wrapper .ant-table-tbody .ant-table-row .ant-table-row-level-1{*/
+/*    background-color: #1E1E1E;*/
+/*    border-radius: 16px;*/
+/*}*/

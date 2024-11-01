@@ -2,31 +2,31 @@
 import PropTypes from 'prop-types';
 
 // @antd
-import {Tag,Dropdown,message} from "antd";
+import {Tag, Dropdown, Typography} from "antd";
 import {GithubFilled,} from '@ant-design/icons';
 import {useParams} from "react-router-dom";
 // @mui
-import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import {styled} from '@mui/material/styles';
+import {Box, Stack, AppBar, Toolbar, IconButton} from '@mui/material';
 
 import {useTranslation} from "react-i18next";
 
 // utils
-import { bgBlur } from '../../../utils/cssStyles';
+import {bgBlur} from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
 //
-import Searchbar from './Searchbar';
+// import Searchbar from './Searchbar'
 import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import NotificationsPopover from './NotificationsPopover';
-import SwitchLanguage from "../../../locales/SwitchLanguage";
-import {StyledNavItemIcon} from "../../../components/nav-section/styles";
+// import LanguagePopover from './LanguagePopover';
+// import NotificationsPopover from './NotificationsPopover';
+// import SwitchLanguage from "../../../locales/SwitchLanguage";
+// import {StyledNavItemIcon} from "../../../components/nav-section/styles";
 import {useTheme} from "../../../hooks/useTheme";
 import useResponsive from "../../../hooks/useResponsive";
-import Latency from "./Latency";
-import {headerFlag1, headerFlag2} from "../../../config";
+import {headerFlag1} from "../../../config";
 
+const {Text} = Typography;
 
 // ----------------------------------------------------------------------
 
@@ -36,11 +36,11 @@ const HEADER_MOBILE = 64;
 
 const HEADER_DESKTOP = 92;
 
-const StyledRoot = styled(AppBar)(({ theme }) => {
+const StyledRoot = styled(AppBar)(({theme}) => {
 
     if (theme.palette.mode === 'dark') {
         return {
-            ...bgBlur({ color: theme.palette.background.default }),
+            ...bgBlur({color: theme.palette.background.default}),
             boxShadow: 'none',
             zIndex: 1,
             position: 'absolute',
@@ -53,7 +53,7 @@ const StyledRoot = styled(AppBar)(({ theme }) => {
         }
     }
     return {
-        ...bgBlur({ color: theme.palette.background.default }),
+        ...bgBlur({color: theme.palette.background.default}),
         boxShadow: 'none',
         zIndex: 1,
         position: 'absolute',
@@ -63,7 +63,7 @@ const StyledRoot = styled(AppBar)(({ theme }) => {
     }
 });
 
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+const StyledToolbar = styled(Toolbar)(({theme}) => ({
     minHeight: HEADER_MOBILE,
     [theme.breakpoints.up('lg')]: {
         minHeight: HEADER_DESKTOP,
@@ -77,7 +77,7 @@ Header.propTypes = {
     onOpenNav: PropTypes.func,
 };
 
-export default function Header({ onOpenNav }) {
+export default function Header({onOpenNav}) {
     const isDesktop = useResponsive('up', 'lg');
     const {cluster, name} = useParams()
     return (
@@ -88,17 +88,16 @@ export default function Header({ onOpenNav }) {
                     sx={{
                         mr: 1,
                         color: 'text.primary',
-                        display: { lg: 'none' },
+                        display: {lg: 'none'},
                     }}
                 >
-                    <Iconify icon="eva:menu-2-fill" />
+                    <Iconify icon="eva:menu-2-fill"/>
                 </IconButton>
 
                 {isDesktop && <Tag color="#2784FF">{headerFlag1}</Tag>}
-                {isDesktop && <Tag color="#f50">{headerFlag2}</Tag>}
-                {/* eslint-disable */}
 
-                <Box sx={{ flexGrow: 1 }} />
+                {/* eslint-disable */}
+                <Box sx={{flexGrow: 1}}/>
 
                 <Stack
                     direction="row"
@@ -108,24 +107,24 @@ export default function Header({ onOpenNav }) {
                         sm: 1,
                     }}
                 >
-                    {/* <LanguagePopover />
-          <NotificationsPopover />
-            <SwitchLanguage/> */}
-                    {/*<Latency />*/}
 
-                    {name !== undefined && <Tag  color="#108ee9">{name}</Tag>}
+                    {name !== undefined &&
+                        <Tag color="#2784FF" bordered={false}>
+                            {name}
+                        </Tag>
+                    }
 
                     <IconButton
-                        onClick={()=>{
+                        onClick={() => {
                             window.open('https://github.com/hujinbo23/dst-admin-go', '_blank');
                         }}
                     >
 
-                        <GithubFilled />
+                        <GithubFilled/>
                     </IconButton>
                     <ToggleLanguage/>
-                    <ToggleTheme />
-                    <AccountPopover />
+                    <ToggleTheme/>
+                    <AccountPopover/>
                 </Stack>
             </StyledToolbar>
         </StyledRoot>
@@ -176,7 +175,7 @@ const ToggleTheme = () => {
 const ToggleLanguage = () => {
     const {theme, toggleTheme} = useTheme();
     const {i18n} = useTranslation();
-    const onClick = ({ key }) => {
+    const onClick = ({key}) => {
         i18n.changeLanguage(key)
     };
     const items = [
@@ -208,7 +207,7 @@ const ToggleLanguage = () => {
                         <path d="M0 0h24v24H0z" fill="none"></path>
                         <path
                             d=" M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z "
-                            className="css-c4d79v" fill={theme === 'dark'?"white":""}></path>
+                            className="css-c4d79v" fill={theme === 'dark' ? "white" : ""}></path>
                     </svg>
                 </div>
             </IconButton>

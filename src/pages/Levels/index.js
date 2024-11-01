@@ -641,9 +641,8 @@ const App = () => {
                 } else {
                     setActiveKey(levels[0].uuid);
                 }
-                message.success("获取配置成功");
             } else {
-                message.error("获取世界失败");
+                message.warning("获取世界失败");
             }
         } catch (error) {
             console.error('无法加载配置文件', error);
@@ -898,9 +897,9 @@ const App = () => {
                         <Divider/>
                         <Space size={24} wrap>
                             {(role === 'admin' || permission.allowAddLevel) && (
-                                <Button type={"primary"} onClick={() => setOpenAdd(true)}>添加世界</Button>
+                                <Button color="primary" variant="filled" onClick={() => setOpenAdd(true)}>添加世界</Button>
                             )}
-                            <Button type={"primary"} onClick={() => {
+                            <Button color="primary" variant="filled" onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
                                 updateLevelsApi(cluster, {levels: levelListRef.current})
                                     .then(resp => {

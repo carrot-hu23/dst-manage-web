@@ -10,6 +10,7 @@ import { message} from 'antd';
 // components
 import Iconify from '../../../components/iconify';
 import { http } from '../../../utils/http';
+import {useThemeStore} from "../../../store/useThemeStore";
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,8 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+
+    const {fetchThemeConfig} = useThemeStore()
 
   const handleClick = async() => {
     const loginResponse = await http.post("/api/login", {
@@ -30,6 +33,7 @@ export default function LoginForm() {
         message.error("登录失败")
         return
     }
+    fetchThemeConfig()
     localStorage.setItem("token", loginResponseData.data.username)
     localStorage.setItem("user", JSON.stringify(loginResponseData.data))
 

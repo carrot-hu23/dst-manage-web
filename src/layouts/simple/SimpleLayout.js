@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import { Outlet } from 'react-router-dom';
 // antd
 import {ConfigProvider,theme} from "antd";
@@ -10,6 +10,10 @@ import Nav from './nav';
 import RequirAuthRoute from '../../filter/RequirAuthRoute';
 import {useTheme} from "../../hooks/useTheme";
 import Header from "../dashboard/header";
+import typography from "../../theme/typography";
+import shadows from "../../theme/shadows";
+import customShadows from "../../theme/customShadows";
+import ComponentsOverrides from "../../theme/overrides";
 
 // ----------------------------------------------------------------------
 
@@ -42,25 +46,42 @@ const Main = styled('div')(({ theme }) => {
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-    components: {
-      MuiCard: {
-        styleOverrides: {
-          root: {
-            borderRadius: '8px',
-          },
-        },
-      },
-    },
-  });
+  // const darkTheme = createTheme({
+  //   palette: {
+  //     mode: 'dark',
+  //   },
+  //   components: {
+  //     MuiCard: {
+  //       styleOverrides: {
+  //         root: {
+  //           borderRadius: '8px',
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
 
-  const t = useTheme()
+  // const themeOptions = useMemo(
+  //     () => ({
+  //       palette: {
+  //         mode: 'dark',
+  //       },
+  //       shape: { borderRadius: 6 },
+  //       typography,
+  //       shadows: shadows(),
+  //       customShadows: customShadows(),
+  //     }),
+  //     []
+  // );
+  // const darkTheme = createTheme(themeOptions);
+  // darkTheme.components = ComponentsOverrides(darkTheme);
+
+  // const t = useTheme()
 
   return (
-      <StyledRoot>
+      <div>
+          {/*
+          <StyledRoot>
         <RequirAuthRoute>
           {t.theme === 'dark' && (
               <>
@@ -93,5 +114,17 @@ export default function DashboardLayout() {
           </>)}
         </RequirAuthRoute>
       </StyledRoot>
+          */}
+
+          <StyledRoot>
+              <RequirAuthRoute>
+                  <Header onOpenNav={() => setOpen(true)} />
+                  <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+                  <Main>
+                      <Outlet />
+                  </Main>
+              </RequirAuthRoute>
+          </StyledRoot>
+      </div>
   );
 }

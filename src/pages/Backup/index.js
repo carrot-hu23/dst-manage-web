@@ -83,116 +83,7 @@ const MyUploadFile = () => {
 
 const Backup = () => {
 
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef(null);
-
     const {cluster} = useParams()
-
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm();
-        setSearchText(selectedKeys[0]);
-        setSearchedColumn(dataIndex);
-    };
-    const handleReset = (clearFilters) => {
-        clearFilters();
-        setSearchText('');
-    };
-    const getColumnSearchProps = (dataIndex) => ({
-        filterDropdown: ({setSelectedKeys, selectedKeys, confirm, clearFilters, close}) => (
-            <div
-                style={{
-                    padding: 8,
-                }}
-                onKeyDown={(e) => e.stopPropagation()}
-            >
-                <Input
-                    ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{
-                        marginBottom: 8,
-                        display: 'block',
-                    }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-
-                        size="small"
-                        style={{
-                            width: 90,
-                        }}
-                    >
-                        Search
-                    </Button>
-                    <Button
-                        onClick={() => clearFilters && handleReset(clearFilters)}
-                        size="small"
-                        style={{
-                            width: 90,
-                        }}
-                    >
-                        Reset
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            confirm({
-                                closeDropdown: false,
-                            });
-                            setSearchText(selectedKeys[0]);
-                            setSearchedColumn(dataIndex);
-                        }}
-                    >
-                        Filter
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            close();
-                        }}
-                    >
-                        close
-                    </Button>
-                </Space>
-            </div>
-        ),
-        // filterIcon: (filtered) => (
-        // ),
-        onFilter: (value, record) =>
-            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-        onFilterDropdownOpenChange: (visible) => {
-            if (visible) {
-                setTimeout(() => searchInput.current?.select(), 100);
-            }
-        },
-        render: (text) =>
-            // searchedColumn === dataIndex ? (
-            //   <Highlighter
-            //     highlightStyle={{
-            //       backgroundColor: '#ffc069',
-            //       padding: 0,
-            //     }}
-            //     searchWords={[searchText]}
-            //     autoEscape
-            //     textToHighlight={text ? text.toString() : ''}
-            //   />
-            // ) : (
-            //   text
-            // ),
-            text
-    });
-
-
-    const actionRef = useRef();
-
-    const [loading, setLoading] = useState(true)
 
     // 选中的备份文件
     const [selectBackup, setSelectBackup] = useState({})
@@ -205,7 +96,6 @@ const Backup = () => {
     const [deleteBackup, setDeleteBackup] = useState({});
 
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [newBackupName, setNewBackupName] = useState("");
 
     const inputRef = useRef("");
 
@@ -217,12 +107,9 @@ const Backup = () => {
                 for (let i = 0; i < backupList.length; i++) {
                     backupList[i].key = i
                 }
-                backupList.sort((a, b) => {
-                    return b.createTime < a.createTime ? -1 : 1
-                })
+                backupList.sort((a, b) => b.createTime < a.createTime ? -1 : 1)
                 setBackupData(backupList)
                 setData(backupList)
-                setLoading(false)
             })
     }
 
@@ -354,7 +241,6 @@ const Backup = () => {
             key: 'fileName',
             render: (text) => <Button type="link">{text}</Button>,
             editable: true,
-            ...getColumnSearchProps('fileName'),
         },
         {
             title: '文件大小',
@@ -375,7 +261,6 @@ const Backup = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-
                     <Popconfirm
                         title="Restore the archive"
                         description="Are you sure to back up this archive?"
@@ -469,7 +354,6 @@ const Backup = () => {
                 <Card>
                     <Box sx={{p: 3}} dir="ltr">
                         <BackupStatistic size={backupData.length} data={backupDataSize}/>
-                        <br/>
                         <HeaderTitle />
                         <br/><br/>
                         <Table

@@ -74,7 +74,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Box sx={{px: 2.5, py: 3, display: 'inline-flex'}}>
-          <Button type={'primary'}  icon={<LeftOutlined />} onClick={() => {navigate("/cluster")}}>
+          <Button block color="primary" variant="filled"  icon={<LeftOutlined />} onClick={() => {navigate("/cluster")}}>
             返回
           </Button>
       </Box>

@@ -30,9 +30,32 @@ async function deleteCluster(clusterName) {
     return response.data
 }
 
+async function getKv (key) {
+    const url = `/api/kv?key=${key}`
+    const data = await http.get(url)
+    return data.data
+}
+
+async function saveKv(params) {
+    const url = '/api/kv'
+    const data = await http.post(url, params)
+    return data.data
+}
+async function fetchRemoteClusterList(params) {
+    const url = '/api/cluster/remote'
+    const data = await http.post(url, params)
+    return data.data
+}
+
 export  {
     getClusterList,
     createCluster,
     deleteCluster,
-    updateCluster
+    updateCluster,
+
+    getKv,
+    saveKv,
+
+    fetchRemoteClusterList,
+    
 }

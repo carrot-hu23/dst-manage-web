@@ -65,12 +65,6 @@ export default ({levels}) => {
                 </div>
             ),
         },
-        // {
-        //     title: '世界类型',
-        //     dataIndex: 'location',
-        //     key: 'location',
-        //     hideInSearch: true,
-        // },
         {
             title: '内存',
             dataIndex: 'mem',
@@ -78,14 +72,13 @@ export default ({levels}) => {
             render: (_, record) => (
                 <>
                     <span>{`${formatData((record.Ps !== undefined ? record.Ps.RSS : 0) / 1024, 2)}MB`}</span>
-                    <Progress  percent={record.Ps.memUage} size={'small'} />
-
                 </>
             ),
         },
         {
             title: '操作',
             key: 'action',
+            align: 'right',
             hideInSearch: true,
             render: (_, record) => (
                 <Space size="middle" wrap>
@@ -133,8 +126,7 @@ export default ({levels}) => {
     return (
         <>
             <Space style={{
-                paddingTop: '16px',
-                padding: '8px'
+                paddingBottom: '16px',
             }} size={16}>
                 <Popconfirm
                     title={`启动世界`}
@@ -156,8 +148,7 @@ export default ({levels}) => {
                     cancelText="No"
                     >
                     <Button
-                        size={'small'}
-                        type="primary"
+                        color="primary" variant="filled"
                     >
                         启动存档
                     </Button>
@@ -183,7 +174,7 @@ export default ({levels}) => {
                     cancelText="No"
                 >
                     <Button
-                        size={'small'}
+                        color="default" variant="filled"
                     >
                         关闭存档
                     </Button>
@@ -210,9 +201,8 @@ export default ({levels}) => {
                     cancelText="No"
                 >
                     <Button
-                        danger
+                        color="default" variant="filled"
                         type={"primary"}
-                        size={'small'}
                     >
                         删除存档
                     </Button>
@@ -220,15 +210,15 @@ export default ({levels}) => {
             </Space>
             <Spin spinning={spin} tip={startText}>
                 <Table
+                    className={'custom-table'}
                     scroll={{
                         x: 300,
                     }}
-                    // pagination={{
-                    //     position: ['none']
-                    // }}
                     columns={columns}
                     dataSource={levels}
                     headerTitle="世界列表"
+                    showHeader={false}
+                    pagination={levels?.length >= 10}
                 />
             </Spin>
         </>

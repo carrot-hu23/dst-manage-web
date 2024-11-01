@@ -1,15 +1,19 @@
-import {useState} from 'react';
-import { Outlet } from 'react-router-dom';
+import {useEffect, useMemo, useState} from 'react';
+import {Outlet} from 'react-router-dom';
 // antd
-import {ConfigProvider,theme} from "antd";
+import {ConfigProvider, theme} from "antd";
 // @mui
-import { styled,ThemeProvider, createTheme } from '@mui/material/styles';
+import {styled, ThemeProvider, createTheme} from '@mui/material/styles';
 
 //
 import Header from './header';
 import Nav from './nav';
 import RequirAuthRoute from '../../filter/RequirAuthRoute';
 import {useTheme} from "../../hooks/useTheme";
+import typography from "../../theme/typography";
+import shadows from "../../theme/shadows";
+import customShadows from "../../theme/customShadows";
+import ComponentsOverrides from "../../theme/overrides";
 
 // ----------------------------------------------------------------------
 
@@ -22,14 +26,14 @@ const StyledRoot = styled('div')({
     overflow: 'hidden',
 });
 
-const Main = styled('div')(({ theme }) => {
+const Main = styled('div')(({theme}) => {
     return {
         flexGrow: 1,
         overflow: 'auto',
         minHeight: '100%',
         paddingTop: APP_BAR_MOBILE + 24,
         paddingBottom: theme.spacing(10),
-        backgroundColor: theme.palette.mode === 'dark'? 'black':"",
+        backgroundColor: theme.palette.mode === 'dark' ? 'black' : "",
         [theme.breakpoints.up('lg')]: {
             paddingTop: APP_BAR_DESKTOP + 4,
             paddingLeft: theme.spacing(2),
@@ -42,24 +46,48 @@ const Main = styled('div')(({ theme }) => {
 
 export default function DashboardLayout() {
     const [open, setOpen] = useState(false);
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-        },
-        components: {
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        borderRadius: '8px',
-                    },
-                },
-            },
-        },
-    });
 
-    const t = useTheme()
+    // const darkTheme = createTheme({
+    //     palette: {
+    //         mode: 'dark',
+    //     },
+    //     components: {
+    //         MuiCard: {
+    //             styleOverrides: {
+    //                 root: {
+    //                     borderRadius: '8px',
+    //                 },
+    //             },
+    //         },
+    //     },
+    // });
 
-    return (
+    // const themeOptions = useMemo(
+    //     () => ({
+    //         palette: {
+    //             mode: 'dark',
+    //         },
+    //         shape: { borderRadius: 6 },
+    //         typography,
+    //         shadows: shadows(),
+    //         customShadows: customShadows(),
+    //     }),
+    //     []
+    // );
+    // const darkTheme = createTheme(themeOptions);
+    // darkTheme.components = ComponentsOverrides(darkTheme);
+    //
+    // const t = useTheme()
+    //
+    // const themeConfig = {}
+    //
+    // useEffect(()=>{
+    //     document.body.style.backgroundColor = t.theme === 'dark' ? 'black' : '#F9FAFB'
+    // }, [t.theme])
+
+    return (<div>
+
+            {/*
         <StyledRoot>
             <RequirAuthRoute>
                 {t.theme === 'dark' && (
@@ -93,5 +121,18 @@ export default function DashboardLayout() {
                 </>)}
             </RequirAuthRoute>
         </StyledRoot>
+        */}
+            <StyledRoot>
+                <RequirAuthRoute>
+                    <>
+                        <Header onOpenNav={() => setOpen(true)}/>
+                        <Nav openNav={open} onCloseNav={() => setOpen(false)}/>
+                        <Main>
+                            <Outlet/>
+                        </Main>
+                    </>
+                </RequirAuthRoute>
+            </StyledRoot>
+        </div>
     );
 }

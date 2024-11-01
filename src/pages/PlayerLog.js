@@ -160,7 +160,7 @@ export default function PlayerLog() {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button size={'small'} type={'primary'} danger>拉黑</Button>
+                        <Button size={'small'} color="danger" variant="filled">拉黑</Button>
                     </Popconfirm>
                 </div>)
         },
@@ -203,7 +203,7 @@ export default function PlayerLog() {
                             }}
                             headerTitle="玩家日志"
                             toolBarRender={() => [
-                                <Button type="primary" danger onClick={()=>{
+                                <Button color="danger" variant="filled" danger onClick={()=>{
                                     deleteLogs("", {
                                         ids: selectedRowKeys
                                     }).then(resp=>{

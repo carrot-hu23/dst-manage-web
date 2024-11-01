@@ -147,7 +147,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                             overflowX: 'auto'
                         }}>
                             {modList.length > 0 && <div>
-                                {modList.map(item => <>
+                                {modList.map(item => <div key={item?.modid}>
                                     <ModItem
                                         key={item?.modid}
                                         mod={item}
@@ -157,7 +157,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                                         modList={modList}
                                         setModList={setModList}
                                     />
-                                </>)}
+                                </div>)}
                             </div>}
                         </div>
                         <br/>
@@ -175,14 +175,14 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                 <div className={'dst'}>
                     <Divider className={'dst'} />
                     <Space size={16} wrap>
-                        <Button type="primary" onClick={() => saveModConfig()}>{t('Save')}</Button>
+                        <Button color="primary" variant="filled" onClick={() => saveModConfig()}>{t('Save')}</Button>
                         <Popconfirm
                             title={t('Whether to update all mod configurations')}
                             okText="Yes"
                             cancelText="No"
                             onConfirm={()=>updateModConfigOptions()}
                         >
-                            <Button type="primary" >{t('Update All Mod Config')}</Button>
+                            <Button color="primary" variant="filled" >更新所有</Button>
                         </Popconfirm>
                         {/*
                         <Tooltip

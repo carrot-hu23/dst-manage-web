@@ -296,7 +296,7 @@ const DstServerList = () => {
                 footer={null}
                 onOk={handleOk}
                 onCancel={handleCancel}
-
+                width={800}
             >
                 <Skeleton title loading={loading} active>
                     <div
@@ -329,30 +329,11 @@ const DstServerList = () => {
                         scroll={{
                             x: 600,
                         }}
-                        // editable={{
-                        //     type: 'multiple',
-                        // }}
-                        // columnsState={{
-                        //     persistenceKey: 'pro-table-singe-demos',
-                        //     persistenceType: 'localStorage',
-                        //     onChange(value) {
-                        //         console.log('value: ', value);
-                        //     },
-                        // }}
                         rowKey="__rowId"
-                        // search={{
-                        //     labelWidth: 'auto',
-                        // }}
-                        // options={{
-                        //     setting: {
-                        //         listsHeight: 400,
-                        //     },
-                        // }}
                         pagination={{
                             pageSize: 10,
                             onChange: (page) => console.log(page),
                         }}
-                        // dateFormatter="string"
                         headerTitle="饥荒服务器列表"
                         toolBarRender={() => [
                             <Button key="button" type="primary" disabled={!hasSelected > 0}>

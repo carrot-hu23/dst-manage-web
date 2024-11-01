@@ -23,6 +23,11 @@ const navConfig = [
     path: '/os/info',
     icon: icon('hard-drive'),
   },
+  {
+    title: '主题设置',
+    path: '/theme/setting',
+    icon: icon('star'),
+  },
 ];
 
 export default navConfig;

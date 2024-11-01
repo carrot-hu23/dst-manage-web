@@ -535,7 +535,7 @@ export default () => {
                             scroll={{
                                 x: 600,
                             }}
-                            rowKey="RowId"
+                            rowKey="username"
                             pagination={{
                                 pageSize: 10,
                                 onChange: (page) => console.log(page),

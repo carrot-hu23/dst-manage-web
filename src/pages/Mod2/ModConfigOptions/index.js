@@ -102,7 +102,7 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                         </div>
 
                         <Space size={16} wrap>
-                            <Button type="primary" onClick={() => setOpen(true)}>
+                            <Button color="primary" variant="filled" onClick={() => setOpen(true)}>
                                 {t('options')}
                             </Button>
                             <Popconfirm
@@ -114,15 +114,15 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                                 {mod.update && <Badge dot>
                                     <Button style={{
                                         backgroundColor: "#149b6e"
-                                    }} type="primary">
+                                    }} color="primary" variant="filled" >
                                         {t('Update Configuration')}
                                     </Button>
                                 </Badge>}
-                                {!mod.update && <Button type="primary">
+                                {!mod.update && <Button color="primary" variant="filled">
                                     {t('Update Configuration')}
                                 </Button>}
                             </Popconfirm>
-                            <Button>
+                            <Button color="default" variant="filled">
                                 <a
                                     target={'_blank'}
                                     href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}

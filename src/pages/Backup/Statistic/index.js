@@ -2,17 +2,16 @@
 import { useState } from 'react';
 import { StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
-import { Progress } from 'antd';
 
 import './index.css';
 import {useTheme} from "../../../hooks/useTheme";
 
-const { Statistic, Divider } = StatisticCard;
+const {Divider } = StatisticCard;
 
 // eslint-disable-next-line react/prop-types
 const BackupStatistic = ({size, data}) => {
     const [responsive, setResponsive] = useState(false);
-    const {theme, toggleTheme} = useTheme();
+    const {theme} = useTheme();
 
     return (
         <>
@@ -30,16 +29,8 @@ const BackupStatistic = ({size, data}) => {
                     <Divider type={responsive ? 'horizontal' : 'vertical'} />
                     <StatisticCard statistic={{
                         title: '备份大小',
-                        // value: `${data} GB`,
                         value: data > 1 ? `${data} GB`:`${data * 1024} MB`,
-                        // description: <Statistic title="占比" value="38.5%" />,
                     }}
-                        // chart={
-                        //     <>
-                        //         <Progress type="circle" percent={30} strokeColor={20 > 70 ? 'red' : '#5BD171'} status='normal' width={70} strokeLinecap="butt" strokeWidth={8} />
-                        //     </>
-                        // }
-                        // chartPlacement="left"
                     />
                 </StatisticCard.Group>
             </RcResizeObserver>

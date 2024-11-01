@@ -8,12 +8,12 @@
 
 .dark.ant-pro-card * {
     color: white;
-    background: #1E1E1E;
+    background-color: transparent;
 }
 
 .dark.ant-pro-card * {
     color: white;
-    background: #1E1E1E;
+    background-color: #141414;
 }
 
 .dark.ant-pro-card-statistic .ant-pro-card-statistic-layout-inline .ant-statistic-content {
