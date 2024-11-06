@@ -6,12 +6,12 @@ const navConfig = [
   {
     title: '房间列表',
     path: '/cluster',
-    icon: icon('trending-up'),
+    icon: icon('folder'),
   },
   {
     title: '用户列表',
     path: '/user/list',
-    icon: icon('hard-drive'),
+    icon: icon('users'),
   },
   {
     title: '大厅列表',
@@ -27,6 +27,11 @@ const navConfig = [
     title: '主题设置',
     path: '/theme/setting',
     icon: icon('star'),
+  },
+  {
+    title: '个人信息',
+    path: 'user',
+    icon: icon('smile'),
   },
 ];
 

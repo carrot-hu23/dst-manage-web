@@ -109,7 +109,7 @@ export default function Header({onOpenNav}) {
                 >
 
                     {name !== undefined &&
-                        <Tag bordered={false} color="processing" bordered={false}>
+                        <Tag color="processing" bordered={false}>
                             {name}
                         </Tag>
                     }

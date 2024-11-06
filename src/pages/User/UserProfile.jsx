@@ -1,29 +1,29 @@
-import {Button, Form, Input, message, Skeleton} from 'antd';
-import {Card, Container, Box, Typography} from '@mui/material';
+import {Button, Form, Input, message, Skeleton, Typography} from 'antd';
+import {Card, Container, Box} from '@mui/material';
 import {useEffect, useState} from "react";
 import {getUserInfoApi, updateUserApi} from "../../api/userApi";
 
-export default ()=>{
+export default () => {
 
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm();
 
-    useEffect(()=>{
+    useEffect(() => {
         setLoading(true)
         getUserInfoApi()
-            .then(resp=>{
+            .then(resp => {
                 if (resp.code === 200) {
                     form.setFieldsValue(resp.data)
                 }
                 setLoading(false)
             })
-    },[])
+    }, [])
 
     function updateUserInfo() {
         form.validateFields().then(() => {
             const data = form.getFieldsValue()
             updateUserApi("", data)
-                .then(resp=>{
+                .then(resp => {
                     if (resp.code === 200) {
                         message.success("保存成功")
                     } else {
@@ -37,51 +37,49 @@ export default ()=>{
 
     }
 
-    return<>
+    return <>
         <Container maxWidth="xl">
-            <Typography variant="h4" sx={{mb: 5}}>
-                用户信息修改
-            </Typography>
             <Card>
                 <Box sx={{p: 3}} dir="ltr">
+                    <Typography.Title level={4}>个人信息</Typography.Title>
                     <Skeleton loading={loading} active>
                         <Form
                             form={form}
                             initialValues={{}}
-                            labelCol={{
-                                span: 4,
-                            }}
+                            layout="vertical"
                         >
                             <Form.Item
                                 label="头像url"
                                 name="photoURL"
                             >
-                                <Input />
+                                <Input/>
                             </Form.Item>
                             <Form.Item
                                 label="用户名"
                                 name="username"
                                 rules={[{required: true, message: '请输入用户名',},]}
                             >
-                                <Input />
+                                <Input/>
                             </Form.Item>
                             <Form.Item
                                 label="显示昵称"
                                 name="displayName"
                                 rules={[{required: true, message: '请输入显示昵称',},]}
                             >
-                                <Input />
+                                <Input/>
                             </Form.Item>
                             <Form.Item
                                 label="密码"
                                 name="password"
                                 rules={[{required: true, message: '请输入密码',},]}
                             >
-                                <Input />
+                                <Input/>
                             </Form.Item>
 
                         </Form>
-                        <Button style={{margin: "0 auto", display: "block"}} type="primary" onClick={() => {updateUserInfo()}}>
+                        <Button style={{margin: "0 auto", display: "block"}} type="primary" onClick={() => {
+                            updateUserInfo()
+                        }}>
                             保存
                         </Button>
                     </Skeleton>

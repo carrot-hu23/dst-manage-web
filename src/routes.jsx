@@ -3,7 +3,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 
-import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -27,6 +26,7 @@ import OS from "./pages/ClusterList/OS";
 import Mod2 from "./pages/Mod2";
 import UserList from "./pages/UserList";
 import ThemeSetting from "./pages/ThemeSetting";
+import DstSetting from "@/pages/DstSetting";
 
 export default function Router() {
   const routes = useRoutes([
@@ -36,7 +36,6 @@ export default function Router() {
       children: [
         { element: <Navigate to="/:cluster/:name/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
         { path: 'log', element: <PlayerLog /> },
         { path: 'mod2', element: <Mod2 /> },
         { path: 'panel', element: <Panel /> },
@@ -86,6 +85,8 @@ export default function Router() {
           element: <ThemeSetting />,
         },
         { path: 'dst/server', element: <DstServerList /> },
+        { path: 'user', element: <UserProfile /> },
+        { path: 'dst', element: <DstSetting /> },
       ],
     },
     {
