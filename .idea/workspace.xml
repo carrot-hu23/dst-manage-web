@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ee351fe7-866b-4478-876d-224c5f71f225" name="Changes" comment="增加主题">
+      <change afterPath="$PROJECT_DIR$/.idea/dst-manage-web.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build-stats.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/bg1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/bg5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rename-js-to-jsx.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stats.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/illustrations/illustration_login1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/illustrations/illustration_login2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/preview.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppTheme.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppTheme.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_mock/account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_mock/blog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_mock/products.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_mock/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/8level.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/8level.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/InitApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/InitApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/WebLinkApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/WebLinkApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/announceApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/announceApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/autoCheckApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/autoCheckApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/backupApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/backupApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/clusterApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/clusterApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/clusterLevelApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/clusterLevelApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/dstApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/dstApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/dstConfigApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/dstConfigApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/gameApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/gameApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/gameDashboardApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/gameDashboardApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/jobTaskApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/jobTaskApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/level.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/level.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/loginApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/loginApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/modApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/modApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/playerApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/playerApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/playerLogApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/playerLogApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/preinstallApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/preinstallApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/shareApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/shareApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/statisticsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/statisticsApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/systemApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/systemApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/userApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/userApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/chart/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chart/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/chart/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chart/styles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/chart/useChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chart/useChart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/color-utils/ColorMultiPicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/color-utils/ColorMultiPicker.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/color-utils/ColorPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/color-utils/ColorPreview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/color-utils/ColorSinglePicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/color-utils/ColorSinglePicker.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/color-utils/Icon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/color-utils/Icon.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/color-utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/color-utils/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/iconify/Iconify.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/iconify/Iconify.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/iconify/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/iconify/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/label/Label.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/label/Label.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/label/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/label/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/label/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/label/styles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/logo/Logo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/logo/Logo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/logo/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/logo/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/nav-section/NavSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav-section/NavSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/nav-section/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav-section/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/nav-section/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav-section/styles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/scroll-to-top/ScrollToTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scroll-to-top/ScrollToTop.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/scroll-to-top/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scroll-to-top/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/scrollbar/Scrollbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scrollbar/Scrollbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/scrollbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scrollbar/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/scrollbar/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scrollbar/styles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/svg-color/SvgColor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/svg-color/SvgColor.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/svg-color/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/svg-color/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/filter/RequirAuthRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/filter/RequirAuthRoute.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useResponsive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useResponsive.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useTheme/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTheme/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/DashboardLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/DashboardLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/AccountPopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/AccountPopover.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/LanguagePopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/LanguagePopover.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/Latency.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/Latency.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/NotificationsPopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/NotificationsPopover.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/Searchbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/Searchbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/nav/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/nav/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/simple/SimpleLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/simple/SimpleLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/simple/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/simple/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/simple/nav/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/simple/nav/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/locales/SwitchLanguage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/locales/SwitchLanguage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/locales/i18n.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/locales/i18n.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/locales/resources.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/locales/resources.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/config.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu/config2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/config2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Backup/Statistic/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Backup/Statistic/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Backup/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Backup/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ClusterList/OS/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClusterList/OS/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ClusterList/Server/clusterCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClusterList/Server/clusterCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ClusterList/Server/createCluster.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClusterList/Server/createCluster.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ClusterList/Server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClusterList/Server/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DashboardAppPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DashboardAppPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/DstEmoji/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/DstEmoji/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/component/HomeModInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/component/HomeModInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/component/HomeOverView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/component/HomeOverView.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/component/Players.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/component/Players.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/home/Secondaries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/home/Secondaries.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/home/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/DstEmoji/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/DstEmoji/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/component/HomeModInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/component/HomeModInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/component/HomeOverView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/component/HomeOverView.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/component/Players.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/component/Players.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/home/Secondaries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/home/Secondaries.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/home/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Github/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Github/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Help/CollapseWithMarkdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Help/CollapseWithMarkdown.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Help/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Help/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/Blacklist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/Blacklist/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/ClusterIni/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/ClusterIni/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/HiddenText/HiddenText.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/HiddenText/HiddenText.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/NameList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/NameList/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/Token/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/Token/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/Whitelist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/Whitelist/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Levels/ConfigViewEditor/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Levels/ConfigViewEditor/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Levels/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Levels/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Login/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/LoginPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/OptionsSelect/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/OptionsSelect/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/Select3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/Select3/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModList/ModItem/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModList/ModItem/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModList/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/UgcAcf/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/UgcAcf/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/Workshop/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/Workshop/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/NewEditor/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NewEditor/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Page404.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Page404.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/Announce/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/Announce/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/ControlPanel/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/ControlPanel/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameArchive/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameArchive/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameLevels/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameLevels/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameOperator/CleanLevel/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameOperator/CleanLevel/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameOperator/RemoteControl/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameOperator/RemoteControl/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameOperator/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameOperator/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/OnlinePlayers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/OnlinePlayers/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/Op/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/Op/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/ServerLog/PanelLog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/ServerLog/PanelLog.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/ServerLog/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/ServerLog/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/SystemInfo/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/SystemInfo/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/PlayerLog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/PlayerLog.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/AutoGameDown/Recovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/AutoGameDown/Recovery.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/AutoGameDown/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/AutoGameDown/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/AutoGameUpdate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/AutoGameUpdate/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/AutoModUpdate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/AutoModUpdate/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/DstConfigSetting/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/DstConfigSetting/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/EmbeddedPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/EmbeddedPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/InstallSteamCmd/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/InstallSteamCmd/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/TimedTask/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/TimedTask/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/WebLinkSetting/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/WebLinkSetting/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/System/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/System/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ThemeSetting/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ThemeSetting/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Tool/Assembly/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tool/Assembly/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Tool/Preinstall/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tool/Preinstall/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Tool/ShareConfig/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tool/ShareConfig/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Tool/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tool/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/User/UserProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/User/UserProfile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/UserList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/UserList/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/UserPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/UserPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/WebLink/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/WebLink/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/End.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/End.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/Environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/Environment.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/Register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/Setting.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/Welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/Welcome.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/installDst.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/installDst.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/component/installSteamcmd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/component/installSteamcmd.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/begin/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/begin/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppConversionRates.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppConversionRates.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppCurrentSubject.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppCurrentSubject.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppCurrentVisits.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppCurrentVisits.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppNewsUpdate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppNewsUpdate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppOrderTimeline.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppOrderTimeline.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppTasks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppTasks.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppTrafficBySite.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppTrafficBySite.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppWebsiteVisits.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppWebsiteVisits.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/AppWidgetSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/AppWidgetSummary.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/app/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/blog/BlogPostCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/blog/BlogPostCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/blog/BlogPostsSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/blog/BlogPostsSearch.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/blog/BlogPostsSort.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/blog/BlogPostsSort.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/blog/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/blog/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductCartWidget.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductCartWidget.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductFilterSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductFilterSidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductSort.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/products/ProductSort.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/products/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/products/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/user/UserListHead.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/user/UserListHead.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/user/UserListToolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/user/UserListToolbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/user/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/user/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/auth/login/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/auth/login/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sections/auth/login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/auth/login/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/serviceWorker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/setupProxy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/useLevelsStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useLevelsStore.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/usePlayerListStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/usePlayerListStore.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/useThemeStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useThemeStore.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/customShadows.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/customShadows.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/globalStyles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/globalStyles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Autocomplete.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Backdrop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Backdrop.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Button.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Button.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Card.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Input.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Paper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Paper.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Table.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Tooltip.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Tooltip.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/Typography.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/Typography.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/overrides/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/overrides/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/palette.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/palette.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/shadows.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/shadows.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/typography.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/typography.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/terminalUtils.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../../Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="多层版本-1.3.2" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2bcNBfoz50vFWZ681WvaIFgrHxg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "C:/Users/paratera/Desktop/我的/饥荒面板/dst-manage-web/public/assets",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "ts.external.directory.path": "C:\\software\\GoLand 2023.1.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets\illustrations" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\src\pages\ClusterList\Server" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\misc" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\src\pages\Mod2" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\src\pages\Home2" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\src\pages\Mod2\UgcAcf" />
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\src\pages\Mod\UgcAcf" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="调整备份界面样式" />
+    <MESSAGE value="调整菜单" />
+    <MESSAGE value="调整clusterini页面" />
+    <MESSAGE value="多层选择器放到世界设置里面" />
+    <MESSAGE value="订阅模组失败增加提示" />
+    <MESSAGE value="增加文档页面" />
+    <MESSAGE value="调整首页界面布局" />
+    <MESSAGE value="添加哈姆雷特世界设置界面" />
+    <MESSAGE value="统计界面增加时间查询" />
+    <MESSAGE value="统计界面添加时间查询" />
+    <MESSAGE value="添加远程节点控制页面" />
+    <MESSAGE value="适配饥荒631099新版本配置文件" />
+    <MESSAGE value="修复猪镇配置文件显示问题" />
+    <MESSAGE value="添加下载服务日志" />
+    <MESSAGE value="增加列表样式" />
+    <MESSAGE value="删除一些无用的样式和组件" />
+    <MESSAGE value="调整定制化界面" />
+    <MESSAGE value="增加导出卡密" />
+    <MESSAGE value="调整界面" />
+    <MESSAGE value="添加卡密续费" />
+    <MESSAGE value="调整README" />
+    <MESSAGE value="添加 theme config" />
+    <MESSAGE value="修复下载备份失败问题" />
+    <MESSAGE value="调整中英文" />
+    <MESSAGE value="增加主题" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加主题" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
