@@ -5,16 +5,18 @@ import {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {UploadOutlined} from '@ant-design/icons';
 import axios from 'axios';
-
+import {useTranslation} from "react-i18next";
 import {Box, Card, Container} from '@mui/material';
 
-// import Highlighter from 'react-highlight-words';
 import BackupStatistic from './Statistic';
 
 import {deleteBackupApi, getBackupApi, renameBackupApi, restoreBackupApi} from '../../api/backupApi';
 
 
+
 const MyUploadFile = () => {
+    const {t} = useTranslation()
+
     const [fileList, setFileList] = useState([]);
     const [uploading, setUploading] = useState(false);
     const {cluster} = useParams()
@@ -64,7 +66,7 @@ const MyUploadFile = () => {
                     beforeUpload={handleBeforeUpload}
                     onRemove={handleRemove}
                 >
-                    <Button icon={<UploadOutlined/>}>选择文件</Button>
+                    <Button icon={<UploadOutlined/>}>{t('backup.select.File')}</Button>
                 </Upload>
                 <Button
                     type="primary"
@@ -73,7 +75,7 @@ const MyUploadFile = () => {
                     loading={uploading}
                     // style={{ marginTop: 16 }}
                 >
-                    {uploading ? '正在上传' : '开始上传'}
+                    {uploading ? t('backup.uploading') : t('backup.upload')}
                 </Button>
             </Space>
         </div>
@@ -83,6 +85,7 @@ const MyUploadFile = () => {
 
 const Backup = () => {
 
+    const {t} = useTranslation()
     const {cluster} = useParams()
 
     // 选中的备份文件
@@ -155,7 +158,7 @@ const Backup = () => {
             .then(data => {
                 if (data.code === 200) {
                     setTimeout(() => {
-                        message.success("删除成功")
+                        message.success(t("backup.delete.ok"))
                         setConfirmLoading(false);
                         setIsDeleteModalOpen(false)
                         setBackupData(newBackupData)
@@ -177,15 +180,15 @@ const Backup = () => {
             .then(data => {
                 if (data.code === 200) {
                     setTimeout(() => {
-                        message.success("重命名成功")
+                        message.success(t("backup.rename.ok"))
                         updateBackupData()
                     }, 1000);
                 }
             }).catch(error => {
-            message.error("重名失败")
-        }).finally(() => {
-            setConfirmLoading(false);
-            setIsEditModalOpen(false)
+                message.error(t("backup.rename.error"))
+            }).finally(() => {
+                setConfirmLoading(false);
+                setIsEditModalOpen(false)
         });
     }
 
@@ -193,10 +196,10 @@ const Backup = () => {
         restoreBackupApi(cluster, fileName)
             .then(data => {
                 if (data.code === 200) {
-                    message.success("恢复存档成功")
+                    message.success(t("backup.restore.ok"))
                 }
             }).catch(error => {
-                message.error("恢复存档失败")
+                message.error(t("backup.restore.error"))
             })
     }
 
@@ -236,53 +239,53 @@ const Backup = () => {
 
     const columns = [
         {
-            title: '存档名称',
+            title: t('backup.fileName'),
             dataIndex: 'fileName',
             key: 'fileName',
             render: (text) => <Button type="link">{text}</Button>,
             editable: true,
         },
         {
-            title: '文件大小',
+            title: t('backup.fileSize'),
             dataIndex: 'fileSize',
             key: 'fileSize',
             render: (fileSize) => <span>{`${(fileSize / 1024 / 1024).toFixed(2)} MB`}</span>,
             sorter: (a, b) => b.fileSize - a.fileSize,
         },
         {
-            title: '创建时间',
+            title: t('backup.createTime'),
             dataIndex: 'createTime',
             key: 'createTime',
             render: (createTime) => <span>{new Date(createTime).toLocaleString()}</span>,
             sorter: (a, b) => b.createTime - a.createTime,
         },
         {
-            title: '操作',
+            title: t('backup.action'),
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
                     <Popconfirm
-                        title="Restore the archive"
-                        description="Are you sure to back up this archive?"
+                        title={t('backup.restore.title')}
+                        description={t('backup.restore.desc')}
                         onConfirm={()=>{restoreArchive(record.fileName)}}
                         onCancel={()=>{}}
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button type="link">恢复备份</Button>
+                        <Button type="link">{t('backup.restore')}</Button>
                     </Popconfirm>
 
                     <Button type="link" onClick={() => {
                         setIsEditModalOpen(true);
                         setDeleteBackup(record)
-                    }}>修改</Button>
+                    }}>{t('backup.edit')}</Button>
                     <Button type="link" onClick={() => {
                         downloadFile(`/api/game/backup/download?fileName=${record.fileName}&cluster=${cluster}`, cluster, record.fileName)
-                    }}>下载</Button>
+                    }}>{t('backup.download')}</Button>
                     <Button type="text" danger onClick={() => {
                         setIsDeleteModalOpen(true);
                         setDeleteBackup(record)
-                    }}>删除</Button>
+                    }}>{t('backup.delete')}</Button>
                 </Space>
             ),
         },
@@ -292,17 +295,17 @@ const Backup = () => {
         <Space wrap>
             <MyUploadFile/>
             <Button type="primary" danger onClick={deleteSelectBackup}>
-                删除
+                {t('backup.delete')}
             </Button>
             <Button onClick={updateBackupData}>
-                刷新
+                {t('backup.refresh')}
             </Button>
         </Space>
 
     )
 
     const EditModal = () => (
-        <Modal title="修改文件名"
+        <Modal title={t('backup.edit.title')}
                open={isEditModalOpen}
                confirmLoading={confirmLoading}
                getContainer={false}
@@ -313,14 +316,17 @@ const Backup = () => {
                    setIsEditModalOpen(false)
                }}>
             <br/>
-            <span>当前文件名：{deleteBackup.fileName}</span>
-            <br/><br/>
-            <Input allowClear placeholder="新的文件名" ref={inputRef}/>
+            <div>{t('backup.cur.filename')}: </div>
+            <div>
+                {deleteBackup.fileName}
+            </div>
+            <br/>
+            <Input allowClear placeholder={t('backup.newBackupName')} ref={inputRef}/>
         </Modal>
     )
 
     const DeletetModal = () => (
-        <Modal title="提示"
+        <Modal  title={t('backup.delete.title')}
                open={isDeleteModalOpen}
                confirmLoading={confirmLoading}
                getContainer={false}
@@ -330,7 +336,7 @@ const Backup = () => {
                onCancel={() => {
                    setIsDeleteModalOpen(false)
                }}>
-            <p>确认删除：</p>
+            <p>{t('backup.cur.filename')}</p>
             <p>{deleteBackup.fileName || ""}</p>
         </Modal>
     )

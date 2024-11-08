@@ -24,10 +24,12 @@ import {useTheme} from "../../hooks/useTheme";
 import {useParams} from "react-router-dom";
 import {cave, forest, porkland} from "../../utils/dst";
 import {queryUserClusterPermissionApi} from "../../api/userApi";
+import {useTranslation} from "react-i18next";
 
 
 const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, changeValue}) => {
 
+    const {t} = useTranslation()
     const {theme} = useTheme();
 
     const ref = useRef(level.leveldataoverride)
@@ -51,12 +53,12 @@ const Leveldataoverride = ({editorRef, dstWorldSetting, levelName, level, change
     }, [])
     const items = [
         {
-            label: '可视化',
+            label: t('level.view'),
             children: <ConfigViewEditor changeValue={updateValue} valueRef={ref} dstWorldSetting={dstWorldSetting}/>,
             key: '1',
         },
         {
-            label: '手动编辑',
+            label: t('level.edit'),
             children: <MonacoEditor
                 ref={editorRef}
                 style={{
@@ -112,18 +114,21 @@ const Modoverrides = ({editorRef, modoverridesRef, levelName, level, changeValue
 }
 
 const ServerIni = ({levelName, level, changeValue}) => {
+    const {t} = useTranslation()
 
     function onValuesChange(changedValues, allValues) {
         changeValue(levelName, {server_ini: allValues})
     }
 
+    const {cluster} = useParams()
+
     return (
         <Form
             labelCol={{
-                span: 3,
+                span: 4,
             }}
             wrapperCol={{
-                span: 11,
+                span: 18,
             }}
             layout="horizontal"
             initialValues={level.server_ini || {
@@ -133,7 +138,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             onValuesChange={onValuesChange}
         >
             <Form.Item
-                label="端口"
+                label={t('serverini.server_port')}
                 name="server_port"
                 tooltip={`
             服务器监听的 UDP 端口，每个服务器需要设置不同的端口\n\n
@@ -147,18 +152,18 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="主世界"
+                label={t('serverini.is_master')}
                 valuePropName="checked"
                 name='is_master'
                 tooltip={`
         将该世界设为主世界，即第一次进入房间时将会进入的世界。
         主服务器运行的是一个房间的核心世界，其它世界都是该世界的附属，比如季节、天数等都是以该世界为准的。
         `}>
-                <Switch checkedChildren="是" unCheckedChildren="否"/>
+                <Switch checkedChildren={t('switch.open')} unCheckedChildren={t('switch.close')}/>
             </Form.Item>
 
             <Form.Item
-                label="世界名"
+                label={t('serverini.name')}
                 name="name"
                 tooltip={`name`}
             >
@@ -166,7 +171,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="世界 ID"
+                label={t('serverini.id')}
                 name="id"
                 tooltip={`
             随机数字，用于区分不同的从服务器。
@@ -184,7 +189,7 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="路径兼容"
+                label={t('serverini.encode_user_path')}
                 valuePropName="checked"
                 name='encode_user_path'
                 tooltip={`
@@ -194,17 +199,17 @@ const ServerIni = ({levelName, level, changeValue}) => {
             </Form.Item>
 
             <Form.Item
-                label="认证端口"
+                label={t('serverini.authentication_port')}
                 name='authentication_port'
-                tooltip={`authentication_port`}
+                tooltip={`serverini.authentication_port`}
             >
                 <InputNumber style={{
                     width: '100%',
-                }} placeholder="authentication_port"/>
+                }} placeholder="serverini.authentication_port"/>
             </Form.Item>
 
             <Form.Item
-                label="世界端口"
+                label={t('serverini.master_server_port')}
                 name='master_server_port'
                 tooltip={`master_server_port`}
             >
@@ -407,7 +412,9 @@ const SelectorMod = ({form, editorRef, level, formValueChange}) => {
 }
 
 const LevelItem = ({dstWorldSetting, levelName, level, changeValue, permission}) => {
-    console.log("permission", permission)
+
+    const {t} = useTranslation()
+
     const modoverridesRef = useRef(level.modoverrides)
     const editorRef = useRef()
     const editorRef2 = useRef()
@@ -493,7 +500,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue, permission})
 
     const items = [
         {
-            label: '世界配置',
+            label: t('level.leveldataoverride'),
             children: <div style={{
                 "height": "50vh",
                 "width": "100%"
@@ -505,7 +512,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue, permission})
             forceRender: true,
         },
         {
-            label: '模组配置',
+            label: t('level.modoverrides'),
             children: <div style={{
                 "height": "50vh",
                 "width": "100%"
@@ -519,7 +526,7 @@ const LevelItem = ({dstWorldSetting, levelName, level, changeValue, permission})
     ]
     if (permission.allowEditingServerIni) {
         items.push({
-            label: '端口配置',
+            label: t('level.serverIni'),
             children: <div>
                 <div style={{
                     "height": "50vh",
@@ -556,12 +563,25 @@ const defaultDstWorldSetting = {
             WORLDGEN_GROUP: {},
             WORLDSETTINGS_GROUP: {}
         }
+    },
+    en: {
+        forest: {
+            WORLDGEN_GROUP: {},
+            WORLDSETTINGS_GROUP: {}
+        },
+        cave: {
+            WORLDGEN_GROUP: {},
+            WORLDSETTINGS_GROUP: {}
+        }
     }
 }
 
 const App = () => {
 
     const {cluster} = useParams()
+    const {t} = useTranslation()
+    const { i18n } = useTranslation();
+    const lang = i18n.language;
 
     const levelListRef = useRef([]);
     const [openAdd, setOpenAdd] = useState(false)
@@ -607,6 +627,14 @@ const App = () => {
                 levelListRef.current = levels;
                 const items2 = levels.map(level => {
                     let closable = false
+                    if (lang === "en") {
+                        if (level.uuid === "Master") {
+                            level.levelName = "Forest"
+                        }
+                        if (level.uuid === "Caves") {
+                            level.levelName = "Caves"
+                        }
+                    }
                     if (user.role === 'admin') {
                         closable = level.uuid === "Master" ? false : true;
                     } else {
@@ -790,7 +818,7 @@ const App = () => {
         const stringList = levelListRef.current.map(level=>level.levelName)
         // 判断是否重复字符串
         if (value && stringList.includes(value)) {
-            return Promise.reject(new Error('世界名称重复'));
+            return Promise.reject(new Error(t('level.name.duplication')));
         }
         return Promise.resolve();
     };
@@ -802,19 +830,19 @@ const App = () => {
         const stringList = levelListRef.current.map(level=>level.uuid)
         // 判断是否重复字符串
         if (value && stringList.includes(value)) {
-            return Promise.reject(new Error('文件名称重复'));
+            return Promise.reject(new Error(t('level.filename.duplication')));
         }
         // 判断是否为子串
         for (let i = 0; i < stringList.length; i++) {
             if (value && stringList[i].includes(value)) {
-                return Promise.reject(new Error('文件名称为其他字符串的子串'));
+                return Promise.reject(new Error(t('level.filename.error.substring')));
             }
         }
 
         // 判断是否以英文开头且不含有特殊字符
         const regex = /^[a-zA-Z][a-zA-Z0-9]*$/;
         if (value && !regex.test(value)) {
-            return Promise.reject(new Error('名称以英文开头且不含有特殊字符'));
+            return Promise.reject(new Error(t('level.filename.error.contain.special.characters')));
         }
 
         return Promise.resolve();
@@ -897,25 +925,26 @@ const App = () => {
                         <Divider/>
                         <Space size={24} wrap>
                             {(role === 'admin' || permission.allowAddLevel) && (
-                                <Button color="primary" variant="filled" onClick={() => setOpenAdd(true)}>添加世界</Button>
+                                <Button color="primary" variant="filled" onClick={() => setOpenAdd(true)}>{t('level.add')}</Button>
                             )}
                             <Button color="primary" variant="filled" onClick={() => {
                                 console.log("保存世界:", levelListRef.current)
                                 updateLevelsApi(cluster, {levels: levelListRef.current})
                                     .then(resp => {
                                         if (resp.code === 200) {
-                                            message.success("保存成功")
+                                            message.success(t('level.save.success'))
                                         } else {
-                                            message.error("保存失败", resp.msg)
+                                            message.warning(t('level.save.error'))
+                                            message.warning(resp.msg)
                                         }
                                     })
-                            }}>保存世界</Button>
+                            }}>{t('level.save')}</Button>
                         </Space>
                     </Skeleton>
                 </Box>
                 <Modal
                     width={800}
-                    title="添加世界"
+                    title={t('level.add')}
                     open={openAdd}
                     onOk={() => onCreateLevel()}
                     confirmLoading={confirmLoading}
@@ -923,18 +952,15 @@ const App = () => {
                         setOpenAdd(false)
                     }}>
 
-                    <Alert message="不要使用特殊字符，如果文件不存在，将会新建一个。名称只支持 英文开头，同时存档不要为子串。比如 aa aaa aa1 这种" type="warning" showIcon
+                    <Alert message={t('level.add.tips1')} type="warning" showIcon
                            closable/>
                     <br/>
                     <Form
                         form={levelForm}
-                        // layout="vertical"
-                        // labelAlign={'left'}
-                        labelCol={{
-                            span: 4,
-                        }}
+                        layout="vertical"
+                        labelAlign={'left'}
                     >
-                        <Form.Item label="世界名"
+                        <Form.Item label={t('level.name')}
                                    name="levelName"
                                    rules={[
                                        {
@@ -946,7 +972,10 @@ const App = () => {
                         >
                             <Input placeholder="请输入世界名" />
                         </Form.Item>
-                        <Form.Item label="文件名"
+                        <Alert
+                            message={t('level.add.tips2')}
+                            type="warning" showIcon closable/>
+                        <Form.Item label={t('level.filename')}
                                    name="uuid"
                                    rules={[
                                        {
@@ -957,7 +986,7 @@ const App = () => {
                         >
                             <Input placeholder="请输入文件名" />
                         </Form.Item>
-                        <Form.Item label={'类型'}
+                        <Form.Item label={t('level.type')}
                                    name="type"
                                    rules={[
                                        {
@@ -968,9 +997,9 @@ const App = () => {
                                    ]}
                         >
                             <Radio.Group>
-                                <Radio value={'forest'}>{'森林'}</Radio>
-                                <Radio value={'cave'}>{'洞穴'}</Radio>
-                                <Radio value={'porkland'}>{'哈姆雷特'}</Radio>
+                                <Radio value={'forest'}>{t('level.type.forest')}</Radio>
+                                <Radio value={'cave'}>{t('level.type.caves')}</Radio>
+                                <Radio value={'porkland'}>{t('level.type.porkland')}</Radio>
                             </Radio.Group>
                         </Form.Item>
                     </Form>

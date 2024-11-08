@@ -7,6 +7,7 @@ import {useTheme} from "../../../hooks/useTheme";
 import {dstSeason, dstSegs, getDstMod, getTimeStatus} from "../../../utils/dst";
 import {UpdateServer} from "./index";
 import {deleteCluster} from "../../../api/clusterApi";
+import style from "@/pages/DstServerList/index.module.css";
 
 const {Link} = Typography;
 
@@ -157,7 +158,10 @@ export default ({cluster, showAddBtn, serverList, updateServerList, removeServer
                                     }}
                                     ellipsis
                                 >
-                                    {cluster?.gameArchive?.clusterName}
+                                    <span className={style.icon}>
+                                         {cluster?.gameArchive?.clusterName}
+                                    </span>
+
                                 </Typography.Text>
                             </Space>
                         </Col>

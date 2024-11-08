@@ -4,19 +4,28 @@ import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
 import {Image, Skeleton, Col, Button, Space, message, Spin, Select, List, Tag} from 'antd';
+import {useTranslation} from "react-i18next";
 
 import {dstRoles} from '../../../utils/dst';
 import {getAllOnlinePlayersApi, getOnlinePlayersApi, sendCommandApi} from "../../../api/8level";
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
-import {usePlayerListStore} from "../../../store/usePlayerListStore";
 
-const Online = ({levels}) => {
+import {usePlayerListStore} from "@/store/usePlayerListStore";
+import {useLevelsStore} from "@/store/useLevelsStore";
+
+
+const Online = () => {
+
+    const { t } = useTranslation()
+
+
 
     const {cluster} = useParams()
     const [loading, setLoading] = useState(true)
     const [spin, setSpin] = useState(false)
 
+    const levels = useLevelsStore((state) => state.levels)
     const playerList = usePlayerListStore((state) => state.playerList)
     const setPlayerList = usePlayerListStore((state) => state.setPlayerList)
 
@@ -124,10 +133,10 @@ const Online = ({levels}) => {
                             />
                             <Button color="primary" variant="filled" size={'small'} onClick={() => {
                                 queryPlayers()
-                            }}>查询</Button>
+                            }}>{t('panel.query')}</Button>
                             <Button color="primary" variant="filled" size={'small'} onClick={() => {
                                 queryAllPlayers()
-                            }}>查询所有</Button>
+                            }}>{t('panel.query_all')}</Button>
                             <div>
                                 <Tag color={'green'}>{playerList.length}</Tag>
                             </div>
@@ -168,10 +177,10 @@ const Online = ({levels}) => {
                                                 }}>K I L L</Button>
                                                 <Button size={'small'} color="primary" variant="filled" onClick={() => {
                                                     respawnPlayer(item)
-                                                }}>复活</Button>
+                                                }}>{t('panel.respawn')}</Button>
                                                 <Button size={'small'} color="primary" variant="filled" onClick={() => {
                                                     kickPlayer(item)
-                                                }}>踢出</Button>
+                                                }}>{t('panel.kick')}</Button>
                                             </Space>
                                         </Spin>
                                     </Col>

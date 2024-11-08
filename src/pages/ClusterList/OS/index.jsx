@@ -2,11 +2,13 @@
 import {StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import {useEffect, useState} from 'react';
-import {Container, Card} from '@mui/material';
 import {Progress, Skeleton, Tooltip} from 'antd';
 import {useTranslation} from "react-i18next";
-import {getSystemInfoApi} from "../../../api/systemApi";
+import {Card, Container} from "@mui/material";
+
 import {useTheme} from "../../../hooks/useTheme";
+import {getSystemInfoApi} from "@/api/systemApi";
+
 
 function formatData(data, num) {
     return data.toFixed(num)
@@ -20,8 +22,6 @@ export default () => {
     const {t} = useTranslation()
     const [responsive, setResponsive] = useState(false);
     const [systeminfo, setSysteminfo] = useState({})
-    const [loading, setLoding] = useState(false)
-
 
     const cpuUsedPercent = formatData(systeminfo?.cpu?.cpuUsedPercent || 0, 2);
     const cpuPercent = systeminfo?.cpu?.cpuPercent || []
@@ -42,13 +42,11 @@ export default () => {
     const diskUsage = formatData((diskTotal - diskFree) / diskTotal * 100, 2);
 
     useEffect(() => {
-        setLoding(true)
         getSystemInfoApi()
             .then(resp => {
                 if (resp.code === 200) {
                     setSysteminfo(resp.data)
                 }
-                setLoding(false)
             })
 
     }, [])
@@ -70,30 +68,30 @@ export default () => {
         <>
 
             <Container maxWidth="xxl">
-                <Skeleton loading={loading}>
                 <Card>
                     <RcResizeObserver key="resize-observer" onResize={(offset) => {
                         setResponsive(offset.width < 596);
                     }}>
-                        <StatisticCard.Group className={theme === 'dark' ? 'dark' : ''} direction={responsive ? 'column' : 'row'}>
+                        <StatisticCard.Group className={theme === 'dark' ? 'dark' : ''}
+                                             direction={responsive ? 'column' : 'row'}>
 
                             <StatisticCard
                                 statistic={{
-                                    title: "面板占用",
+                                    title: t('panel.panel'),
                                     value: `${formatData(systeminfo.panelMemUsage / 1024, 2)} M`,
-                                    // description: (
-                                    //     <>
-                                    //         <Statistic title={'CPU'} value={`${systeminfo.panelCpuUsage} %`}/>
-                                    //     </>
-                                    // ),
+                                    description: (
+                                        <>
+                                            {systeminfo?.host?.os} /{systeminfo?.host?.kernelArch}-{systeminfo?.host?.platform}
+                                        </>
+                                    ),
                                 }}
                             />
 
                             <Divider type={responsive ? 'horizontal' : 'vertical'}/>
                             <StatisticCard statistic={{
-                                title: t('MemoryUsage'),
+                                title: t('panel.memoryUsage'),
                                 value: `${formatData(memUsed / 1024 / 1024 / 1024, 2)} GB`,
-                                description: <Statistic title={t('TotalMem')}
+                                description: <Statistic title={t('panel.totalMem')}
                                                         value={`${formatData(memAvailable / 1024 / 1024 / 1024, 2)} / ${formatData(memTotal / 1024 / 1024 / 1024, 2)} GB`}/>,
                             }} chart={
                                 <>
@@ -106,9 +104,9 @@ export default () => {
 
                             <StatisticCard statistic={
                                 {
-                                    title: t('CpuUsage'),
+                                    title: t('panel.cpuUsage'),
                                     value: `${cpuUsedPercent} %`,
-                                    description: <Statistic title={t('CpuCores')} value={cpuCores}/>,
+                                    description: <Statistic title={t('panel.cpuCores')} value={cpuCores}/>,
                                 }} chart={
                                 <>
                                     <Tooltip placement="rightTop" style={{
@@ -116,9 +114,11 @@ export default () => {
                                     }} title={(
                                         <div>
                                             {cpuPercent !== undefined && cpuPercent.map((value, index) =>
-                                                <div key={"active-131"}>
+                                                // eslint-disable-next-line react/jsx-key
+                                                <div>
                                                     {`核心${index}`}: {formatData(value, 2)}%<Progress
-                                                    percent={formatData(value, 2)} size="small" strokeColor={'#5BD171'}
+                                                    percent={formatData(value, 2)} size="small"
+                                                    strokeColor={'#5BD171'}
                                                     status="active"/>
                                                 </div>)}
                                         </div>)}>
@@ -131,9 +131,9 @@ export default () => {
                             } chartPlacement="left"/>
 
                             <StatisticCard statistic={{
-                                title: t('DiskFree'),
+                                title: t('panel.diskFree'),
                                 value: `${formatData(diskFree, 2)} GB`,
-                                description: <Statistic title={t('TotalDisk')}
+                                description: <Statistic title={t('panel.totalDisk')}
                                                         value={`${formatData(diskTotal, 2)} GB`}/>,
                             }} chart={
                                 <>
@@ -145,7 +145,6 @@ export default () => {
                         </StatisticCard.Group>
                     </RcResizeObserver>
                 </Card>
-        </Skeleton>
             </Container>
 
         </>

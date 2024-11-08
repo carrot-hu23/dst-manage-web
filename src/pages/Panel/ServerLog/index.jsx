@@ -10,14 +10,17 @@ import {MonacoEditor} from "../../NewEditor";
 import {sendCommandApi} from "../../../api/8level";
 import {useTheme} from "../../../hooks/useTheme";
 import style from "../../DstServerList/index.module.css";
+import {useLevelsStore} from "@/store/useLevelsStore";
 
 
-export default ({levels}) => {
+export default () => {
+
     const { t } = useTranslation()
     const {theme} = useTheme();
     const {cluster} = useParams()
-    const [spinLoading, setSpinLoading] = useState(false)
 
+    const levels = useLevelsStore((state) => state.levels)
+    const [spinLoading, setSpinLoading] = useState(false)
     const notHasLevels = levels === undefined || levels === null || levels.length === 0
 
     const editorRef = useRef()
@@ -162,7 +165,7 @@ export default ({levels}) => {
                             })}
                         />
                         <Input defaultValue="100" ref={inputRef}/>
-                        <Button color="primary" variant="filled" onClick={() => pullLog()}>拉取</Button>
+                        <Button color="primary" variant="filled" onClick={() => pullLog()}>{t('panel.pull')}</Button>
                     </Space.Compact>
                     <br/><br/>
                     <MonacoEditor
@@ -181,7 +184,7 @@ export default ({levels}) => {
                     <br/>
                     <Space align={"baseline"} size={16} wrap>
                         <div>
-                            自动轮询
+                            {t('panel.auto')}
                             <Switch
                                 style={{
                                     marginLeft: 4
@@ -194,7 +197,7 @@ export default ({levels}) => {
                                         stopPolling()
                                     }
                                 }}
-                                checkedChildren="是" unCheckedChildren="否"/>
+                                checkedChildren={t('panel.y')} unCheckedChildren={t('panel.n')}/>
                         </div>
                         <Button
                             color="primary" variant="filled"
@@ -202,7 +205,7 @@ export default ({levels}) => {
                             window.location.href = `/api/game/level/server/download?fileName=server_log.txt&levelName=${levelNameRef.current}&clusterName=${cluster}`
                         }}
                                 icon={<DownloadOutlined />} type={'link'}>
-                            下载日志
+                            {t('panel.download.log')}
                         </Button>
                     </Space>
 
@@ -213,7 +216,7 @@ export default ({levels}) => {
                         }}
                     >
                         <Input onChange={onchange} />
-                        <Button color="primary" variant="filled" onClick={() => sendInstruct(command)}>发送指令</Button>
+                        <Button color="primary" variant="filled" onClick={() => sendInstruct(command)}>{t('panel.send.command')}</Button>
                     </Space.Compact>
 
                     <Space.Compact
@@ -224,27 +227,27 @@ export default ({levels}) => {
                         }}
                     >
                         <Input onChange={onchange2} />
-                        <Button color="primary" variant="filled" onClick={() => sendInstruct(`c_announce"${command2}"`)}>发送消息</Button>
+                        <Button color="primary" variant="filled" onClick={() => sendInstruct(`c_announce"${command2}"`)}>{t('panel.send.message')}</Button>
                     </Space.Compact>
 
                     <Space size={8} wrap>
-                        <Button size={'middle'} color="primary" variant="filled" onClick={() => {sendInstruct("c_save()")}} >{t('c_save')}</Button>
+                        <Button size={'middle'} color="primary" variant="filled" onClick={() => {sendInstruct("c_save()")}} >{t('panel.c_save()')}</Button>
                         <Popconfirm
-                            title={t('regenerate')}
+                            title={t('panel.regenerate')}
                             description="请保存好数据"
                             onConfirm={()=>{sendInstruct("c_regenerateworld()")}}
                             onCancel={()=>{}}
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button size={'middle'} color="danger" variant="filled" danger>{t('regenerate')}</Button>
+                            <Button size={'middle'} color="danger" variant="filled" danger>{t('panel.regenerate')}</Button>
                         </Popconfirm>
-                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(1)") }} >{t('rollback1')}</Button>
-                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(2)") }} >{t('rollback2')}</Button>
-                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(3)") }} >{t('rollback3')}</Button>
-                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(4)") }} >{t('rollback4')}</Button>
-                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(5)") }} >{t('rollback5')}</Button>
-                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(6)") }} >{t('rollback6')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(1)") }} >{t('panel.rollback1')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(2)") }} >{t('panel.rollback2')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(3)") }} >{t('panel.rollback3')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(4)") }} >{t('panel.rollback4')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(5)") }} >{t('panel.rollback5')}</Button>
+                        <Button size={'middle'} color="default" variant="filled" onClick={() => { sendInstruct("c_rollback(6)") }} >{t('panel.rollback6')}</Button>
                     </Space>
                 </Box>
             </Card>

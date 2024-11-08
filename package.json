@@ -52,6 +52,7 @@
     "change-case": "^4.1.2",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.13",
+    "echarts": "^5.5.1",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^7.0.2",
     "lodash": "^4.17.21",

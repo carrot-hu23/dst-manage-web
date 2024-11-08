@@ -4,34 +4,39 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 
 const navConfig = [
   {
-    title: '房间列表',
+    title: 'Cluster',
     path: '/cluster',
     icon: icon('folder'),
   },
   {
-    title: '用户列表',
+    title: 'Users',
     path: '/user/list',
     icon: icon('users'),
   },
   {
-    title: '大厅列表',
+    title: 'DstLobby',
     path: '/dst/server',
     icon: icon('server'),
   },
   {
-    title: '系统信息',
+    title: 'OsInfo',
     path: '/os/info',
     icon: icon('hard-drive'),
   },
   {
-    title: '主题设置',
+    title: 'Theme',
     path: '/theme/setting',
     icon: icon('star'),
   },
   {
-    title: '个人信息',
-    path: 'user',
+    title: 'Userprofile',
+    path: 'user/profile',
     icon: icon('smile'),
+  },
+  {
+    title: 'Github',
+    path: 'github',
+    icon: icon('github')
   },
 ];
 

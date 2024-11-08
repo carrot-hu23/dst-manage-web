@@ -33,7 +33,7 @@ export default () => {
             setLoading(true)
             const modoverridesResp = await getHomeConfigApi(cluster)
             if (modoverridesResp.code !== 200) {
-                message.warning("获取模组配置失败")
+                message.warning(t('mod.fetch.error'))
                 return
             }
             const modoverrides = modoverridesResp.data.modData
@@ -41,7 +41,7 @@ export default () => {
 
             const modInfoListResp = await getMyModInfoList(cluster)
             if (modInfoListResp.code !== 200) {
-                message.warning("获取模组配置失败")
+                message.warning(t('mod.fetch.error'))
                 return
             }
             let modList = modInfoListResp.data
@@ -62,7 +62,10 @@ export default () => {
         subscribeModList.push({
             mod_config: {
                 author: "kelei",
-                description: "禁用本地所有模组，tips: 这个只是个虚拟的模组，只是兼容了下。如果不知道是干什么用的请不要开启！！！ 不支持自定禁用某些模组 \n\n 请勿乱点！！！",
+                description: "禁用本地所有模组，tips: 这个只是个虚拟的模组，只是兼容了下。如果不知道是干什么用的请不要开启！！！ 不支持自定禁用某些模组 \n\n 请勿乱点！！！\n\n 如果要删除，对应模组配置里面的 client_mods_disabled = {\n" +
+                    "    configuration_options = {},\n" +
+                    "    enabled = true,\n" +
+                    "  },",
                 name: "client_mods_disabled",
                 configuration_options: []
             },
@@ -155,7 +158,7 @@ export default () => {
     const items = [
         {
             key: '1',
-            label: t('Mod Setting'),
+            label: t('mod.Setting'),
             children: <ModList modList={modList} setModList={setmodList}
                                defaultConfigOptionsRef={defaultConfigOptionsRef}
                                modConfigOptionsRef={modConfigOptionsRef}
@@ -163,14 +166,9 @@ export default () => {
         },
         {
             key: '2',
-            label: t('Mod Subscribe'),
+            label: t('mod.Subscribe'),
             children: <Workshop addModList={setmodList}/>,
         },
-        // {
-        //     key: '3',
-        //     label: t('Ugc Mod'),
-        //     children: <UgcAcf />,
-        // },
     ];
 
     return (

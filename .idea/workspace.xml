@@ -4,17 +4,52 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee351fe7-866b-4478-876d-224c5f71f225" name="Changes" comment="改为vite">
-      <change afterPath="$PROJECT_DIR$/public/assets/icons/navbar/smile.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/DstSetting/index.jsx" afterDir="false" />
+    <list default="true" id="ee351fe7-866b-4478-876d-224c5f71f225" name="Changes" comment="添加userProfile">
+      <change afterPath="$PROJECT_DIR$/src/pages/Chart/EChartComponent.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Chart/RoleVisits.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Chart/UserStatistic.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/AccountPopover.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/AccountPopover.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/header/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/header/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/misc/dst_world_setting.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/misc/dst_world_setting.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/modApi.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/modApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/nav-section/NavSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav-section/NavSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/nav/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/nav/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/locales/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/locales/lang/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/locales/lang/zh.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/locales/lang/zh.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu/config.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/config.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/menu/config2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/config2.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Page404.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Page404.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/User/UserProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/User/UserProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/UserPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Backup/Statistic/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Backup/Statistic/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Backup/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Backup/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ClusterList/OS/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClusterList/OS/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ClusterList/Server/clusterCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClusterList/Server/clusterCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DashboardAppPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DashboardAppPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList/component/HomeModInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList/component/HomeModInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/DstServerList2/component/HomeModInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DstServerList2/component/HomeModInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/Blacklist/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/ClusterIni/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/ClusterIni/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/NameList/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/NameList/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/Token/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/Whitelist/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home2/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home2/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Levels/ConfigViewEditor/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Levels/ConfigViewEditor/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Levels/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Levels/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModConfigOptions/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModList/ModItem/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModList/ModItem/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/ModList/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/ModList/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/Workshop/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/Workshop/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Mod2/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mod2/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameArchive/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameArchive/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameLevels/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameLevels/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/GameOperator/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/GameOperator/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/OnlinePlayers/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/OnlinePlayers/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/Op/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/Op/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/ServerLog/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/ServerLog/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Panel/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Panel/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/PlayerLog.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/PlayerLog.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,30 +85,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "C:/Users/paratera/Desktop/我的/饥荒面板/dst-manage-web/public/assets/icons/navbar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "C:\\software\\GoLand 2023.1.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/paratera/Desktop/我的/饥荒面板/dst-manage-web/public/misc&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\software\\GoLand 2023.1.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\misc" />
       <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets\icons\navbar" />
       <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets" />
       <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets\illustrations" />
       <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web" />
-      <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\src\pages\ClusterList\Server" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\paratera\Desktop\我的\饥荒面板\dst-manage-web\public\assets" />
@@ -112,7 +147,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="调整菜单" />
     <MESSAGE value="调整clusterini页面" />
     <MESSAGE value="多层选择器放到世界设置里面" />
     <MESSAGE value="订阅模组失败增加提示" />
@@ -137,7 +171,8 @@
     <MESSAGE value="调整中英文" />
     <MESSAGE value="增加主题" />
     <MESSAGE value="改为vite" />
-    <option name="LAST_COMMIT_MESSAGE" value="改为vite" />
+    <MESSAGE value="添加userProfile" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加userProfile" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -1,6 +1,4 @@
-import {Button, Image, List, message, Tooltip} from 'antd';
-import {useState} from "react";
-import {getModInfo} from "../../../api/modApi";
+import {Image, List, Tooltip} from 'antd';
 
 const data = [
     [

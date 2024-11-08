@@ -4,66 +4,65 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 
 const navConfig = [
   {
-    title: '统计页面',
+    title: 'dashboard',
     path: '/dashboard/app',
     icon: icon('trending-up'),
   },
   {
-    title: '操作面板',
+    title: 'Panel',
     path: '/dashboard/panel',
     icon: icon('monitor'),
   },
   {
-    title: '房间设置',
+    title: 'Home',
     path: '/dashboard/cluster',
     icon: icon('home')
   },
   {
-    title: '世界设置',
+    title: 'Levels',
     path: '/dashboard/levels',
     icon: icon('layers')
   },
   {
-    title: '模组配置',
+    title: 'Mod',
     path: '/dashboard/mod2',
     icon: icon('package'),
   },
   {
-    title: '辅助功能',
-    path: '/dashboard/tool',
-    icon: icon('star')
-  },
-
-  {
-    title: '游戏备份',
+    title: 'Backup',
     path: '/dashboard/backup',
     icon: icon('folder')
   },
   {
-    title: '游戏日志',
+    title: 'Log',
     path: '/dashboard/log',
     icon: icon('database'),
   },
   {
-    title: '自动维护',
+    title: 'Setting',
     path: '/dashboard/setting',
     icon: icon('settings')
   },
   {
-    title: '大厅列表',
+    title: 'Lobby',
     path: '/dashboard/dst/server',
     icon: icon('server'),
   },
-  {
-    title: '帮助文档',
-    path: '/dashboard/help',
-    icon: icon('help-circle')
-  },
-  {
-    title: 'Github',
-    path: '/dashboard/github',
-    icon: icon('github')
-  },
+  // {
+  //   title: 'Link',
+  //   path: '/dashboard/link',
+  //   icon: icon('external-link')
+  // },
+  // {
+  //   title: 'Github',
+  //   path: '/dashboard/github',
+  //   icon: icon('github')
+  // },
+  // {
+  //   title: 'Help',
+  //   path: '/dashboard/help',
+  //   icon: icon('help-circle')
+  // },
 ];
 
 export default navConfig;

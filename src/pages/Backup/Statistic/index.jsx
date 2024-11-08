@@ -1,15 +1,16 @@
-
-import { useState } from 'react';
-import { StatisticCard } from '@ant-design/pro-components';
+import {useState} from 'react';
+import {StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
+import {useTranslation} from "react-i18next";
 
 import './index.css';
-import {useTheme} from "../../../hooks/useTheme";
+import {useTheme} from "@/hooks/useTheme";
 
-const {Divider } = StatisticCard;
+const {Divider} = StatisticCard;
 
 // eslint-disable-next-line react/prop-types
 const BackupStatistic = ({size, data}) => {
+    const {t} = useTranslation()
     const [responsive, setResponsive] = useState(false);
     const {theme} = useTheme();
 
@@ -23,13 +24,13 @@ const BackupStatistic = ({size, data}) => {
                     direction={responsive ? 'column' : 'row'}>
                     <StatisticCard
                         statistic={{
-                            title: '当前备份个数',
+                            title: t('backup.backup.number'),
                             value: size,
-                        }} />
-                    <Divider type={responsive ? 'horizontal' : 'vertical'} />
+                        }}/>
+                    <Divider type={responsive ? 'horizontal' : 'vertical'}/>
                     <StatisticCard statistic={{
-                        title: '备份大小',
-                        value: data > 1 ? `${data} GB`:`${data * 1024} MB`,
+                        title: t('backup.backup.size'),
+                        value: data > 1 ? `${data} GB` : `${data * 1024} MB`,
                     }}
                     />
                 </StatisticCard.Group>

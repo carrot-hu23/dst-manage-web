@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import {NavLink as RouterLink, useParams} from 'react-router-dom';
 // @mui
 import { Box, List, ListItemText } from '@mui/material';
-//
-import { StyledNavItem, StyledNavItemIcon } from './styles';
 
-// ----------------------------------------------------------------------
+import {useTranslation} from "react-i18next";
+
+import { StyledNavItem, StyledNavItemIcon } from './styles';
 
 NavSection.propTypes = {
   data: PropTypes.array,
@@ -37,6 +37,7 @@ NavItem.propTypes = {
 
 function NavItem({ item, cluster, name }) {
   const { title, path, icon, info } = item;
+    const { t } = useTranslation()
   let to = ""
   if (cluster === undefined || cluster === "") {
       to = path
@@ -57,7 +58,7 @@ function NavItem({ item, cluster, name }) {
     >
       <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
 
-      <ListItemText disableTypography primary={title} />
+      <ListItemText disableTypography primary={t(title)} />
 
       {info && info}
     </StyledNavItem>

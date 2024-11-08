@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import _ from "lodash";
-import {Row, Col, Button, Space, Tooltip, message, Alert, Popconfirm, Spin, Divider} from 'antd';
+import {Row, Col, Button, Space, Tooltip, message, Alert, Popconfirm, Spin} from 'antd';
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {format} from "lua-json";
@@ -75,7 +75,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
             })
         } catch (error) {
             console.log(error)
-            message.error("mod配置解析错误", error.message)
+            message.warning("mod配置解析错误", error.message)
             return "return { error }"
         }
     }
@@ -88,13 +88,13 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                 if (homeConfig.modData !== "return { error }") {
                     console.log(homeConfig)
                     saveHomeConfigApi(cluster, homeConfig).then(() => {
-                        message.info("保存mod成功")
+                        message.info(t('mod.save.ok'))
                     }).catch(error => {
                         console.log(error);
-                        message.error("保存mod失败")
+                        message.error(t('mod.save.error'))
                     })
                 } else {
-                    message.warning("模组解析失败")
+                    message.warning(t('mod.parse.error'))
                 }
             })
     }
@@ -104,9 +104,9 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
         updateModinfosApi()
             .then(data => {
                 if (data.code === 200) {
-                    message.success("更新模组配置成功，请刷新页面")
+                    message.success(t('mod.update.ok'))
                 } else {
-                    message.warning("更新模组配置失败")
+                    message.warning(t('mod.update.error'))
                 }
                 setConfirmLoading(false)
             })
@@ -132,7 +132,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
     return (
         <>
             <Spin spinning={confirmLoading} >
-                <Alert message={t('Please start the world first, the mod will be automatically downloaded, and the ugc module will be read first.')} type="warning" showIcon closable />
+                <Alert message={t('mod.tips1')} type="warning" showIcon closable />
                 <br/>
 
                 {updateModSize.length > 0 && <>
@@ -142,12 +142,12 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                 <Row gutter={24}>
                     <Col span={10} xs={24} md={10} lg={10}>
                         <div className={'scrollbar'} style={{
-                            height: '50vh',
+                            height: '52vh',
                             overflowY: 'auto',
                             overflowX: 'auto'
                         }}>
                             {modList.length > 0 && <div>
-                                {modList.map(item => <div key={item?.modid}>
+                                {modList.map(item => <>
                                     <ModItem
                                         key={item?.modid}
                                         mod={item}
@@ -157,7 +157,7 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                                         modList={modList}
                                         setModList={setModList}
                                     />
-                                </div>)}
+                                </>)}
                             </div>}
                         </div>
                         <br/>
@@ -173,23 +173,17 @@ export default ({modList, setModList,defaultConfigOptionsRef, modConfigOptionsRe
                     </Col>
                 </Row>
                 <div className={'dst'}>
-                    <Divider className={'dst'} />
                     <Space size={16} wrap>
-                        <Button color="primary" variant="filled" onClick={() => saveModConfig()}>{t('Save')}</Button>
+
+                        <Button type="primary" onClick={() => saveModConfig()}>{t('mod.save')}</Button>
                         <Popconfirm
-                            title={t('Whether to update all mod configurations')}
+                            title={t('mod.tips2')}
                             okText="Yes"
                             cancelText="No"
                             onConfirm={()=>updateModConfigOptions()}
                         >
-                            <Button color="primary" variant="filled" >更新所有</Button>
+                            <Button type="primary" >{t('mod.update.all')}</Button>
                         </Popconfirm>
-                        {/*
-                        <Tooltip
-                            title="手动上传modifo.lua文件。由于服务器网络问题，mod会经常下载失败，此时你可以把本地的模组modinfo上传到服务器">
-                            <Button type="primary" onClick={() => navigate(`/dashboard/${cluster}/${name}/mod/add/0`)}>{t('Upload Modinfo')}</Button>
-                        </Tooltip>
-                        */}
                     </Space>
                 </div>
             </Spin>

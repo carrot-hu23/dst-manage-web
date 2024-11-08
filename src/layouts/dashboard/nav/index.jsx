@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-// @mui
+import {useLocation, useNavigate} from 'react-router-dom';
+import {useTranslation} from "react-i18next";
+
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Drawer } from '@mui/material';
 import {Button } from "antd";
 import {LeftOutlined} from '@ant-design/icons';
-// mock
-// import account from '../../../_mock/account';
-// hooks
+
 import useResponsive from '../../../hooks/useResponsive';
-// components
-import Logo from '../../../components/logo';
+
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from '../../../menu/config';
+
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +36,10 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+
+  const {t} = useTranslation()
+
   const { pathname } = useLocation();
-  const {cluster} = useParams()
   const navigate = useNavigate();
   const isDesktop = useResponsive('up', 'lg');
 
@@ -75,57 +76,14 @@ export default function Nav({ openNav, onCloseNav }) {
     >
       <Box sx={{px: 2.5, py: 3, display: 'inline-flex'}}>
           <Button block color="primary" variant="filled"  icon={<LeftOutlined />} onClick={() => {navigate("/cluster")}}>
-            返回
+            {t('goBack')}
           </Button>
       </Box>
-
-      {/*
-            <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none">
-          <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
-
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
-
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </StyledAccount>
-        </Link>
-      </Box>
-      */}
 
       <NavSection data={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
 
-      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
-            component="img"
-            src="/assets/illustrations/illustration_avatar.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
-
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Get more?
-            </Typography>
-
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography>
-          </Box>
-
-          <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
-            Upgrade to Pro
-          </Button>
-        </Stack>
-      </Box> */}
     </Scrollbar>
   );
 

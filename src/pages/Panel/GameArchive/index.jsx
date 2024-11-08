@@ -4,13 +4,12 @@ import React, {useEffect, useState} from 'react';
 import {ProDescriptions} from "@ant-design/pro-components";
 
 import {useTranslation} from "react-i18next";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {archiveApi} from '../../../api/gameApi';
 
 import style from "../../DstServerList/index.module.css";
 import HiddenText from "../../Home2/HiddenText/HiddenText";
-import {dstSeason, dstSegs, getDstMod, getTimeStatus} from "../../../utils/dst";
-import {getAllOnlinePlayersApi} from "../../../api/8level";
+import {dstSeason, dstSegs, getDstMod} from "../../../utils/dst";
 
 import {usePlayerListStore} from "../../../store/usePlayerListStore";
 
@@ -25,6 +24,8 @@ export default () => {
     })
     const {cluster} = useParams()
     const {t} = useTranslation()
+    const {i18n} = useTranslation()
+    const lang = i18n.language
 
     useEffect(() => {
         archiveApi(cluster)
@@ -34,6 +35,25 @@ export default () => {
 
     }, [])
 
+    function getTimeStatus(daysElapsedInSeason, daysLeftInSeason) {
+        const totalDays = daysElapsedInSeason + daysLeftInSeason;
+        const thresholdEarly = totalDays / 3;
+
+        if (daysElapsedInSeason <= thresholdEarly) {
+            if (lang === "en") {
+                return "morning"
+            }
+            return '早';
+        }
+        if (daysLeftInSeason < thresholdEarly) {
+            if (lang === "en") {
+                return "evening"
+            }
+            return '晚';
+        }
+        return '';
+    }
+
     return (
         <>
             {archive.version !== archive.lastVersion &&
@@ -41,13 +61,19 @@ export default () => {
                     action={[
                         <>
                             <a target={'_blank'}
-                               href={'https://forums.kleientertainment.com/game-updates/dst/'} key="list-loadmore-edit"
+                               href={'https://forums.kleientertainment.com/game-updates/dst/'}
+                               key="list-loadmore-edit"
                                rel="noreferrer">
-                                查看
+                                {t('panel.new.version.read')}
                             </a>
                         </>
                     ]}
-                    message="饥荒有新的版本了，请点击更新" type="warning" showIcon closable />}
+                    message={t('panel.has.new.version')} type="warning" showIcon closable/>}
+            {archive?.version === 0 &&
+                <Alert
+                    action={[]}
+                    message={t('panel.dst.install.fail')} type="warning" showIcon closable/>
+            }
             <ProDescriptions
                 column={2}
             >
@@ -58,7 +84,7 @@ export default () => {
                         maxWidth: '80%',
                     }}
                     ellipsis
-                    label={t('ClusterName')}
+                    label={t('panel.clusterName')}
                 >
                     <span className={style.icon}>
                         {archive.clusterName}
@@ -67,43 +93,50 @@ export default () => {
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('GameMod')}
+                    label={t('panel.gameMod')}
                 >
                     {getDstMod("",archive.gameMod)}
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('Mods')}
+                    label={t('panel.mods')}
                 >
                     {archive.mods}
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('Season')}
+                    label={t('panel.season')}
                 >
-                    {archive?.meta?.Clock?.Cycles + 1}天/{dstSegs[archive?.meta?.Clock?.Phase]} {getTimeStatus("zh", archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)}{dstSeason[archive?.meta?.Seasons?.Season]}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                     <span>
+                        {lang === "en" && <span>
+                            {archive?.meta?.Clock?.Cycles + 1}/{archive?.meta?.Clock?.Phase}{" "}{getTimeStatus(archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)}{" "}{archive?.meta?.Seasons?.Season}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                        </span>}
+                         {lang !== "en" && <span>
+                            {archive?.meta?.Clock?.Cycles + 1}天/{dstSegs[archive?.meta?.Clock?.Phase]} {getTimeStatus(archive?.meta?.Seasons?.ElapsedDaysInSeason, archive?.meta?.Seasons?.RemainingDaysInSeason)}{dstSeason[archive?.meta?.Seasons?.Season]}({archive?.meta?.Seasons?.ElapsedDaysInSeason}/{archive?.meta?.Seasons?.ElapsedDaysInSeason + archive?.meta?.Seasons?.RemainingDaysInSeason})
+                        </span>}
 
+                    </span>
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('Players')}
+                    label={t('panel.players')}
                 >
                     <span>{`${playerList?.length}/${archive.maxPlayers}`}</span>
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('Version')}
+                    label={t('panel.version')}
                 >
                     {archive.version} / {archive.lastVersion}
                 </ProDescriptions.Item>
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('IpConnect')}
+                    label={t('panel.ipConnect')}
                 >
                     <Space size={8}>
                         <HiddenText text={archive.ipConnect}/>
@@ -116,10 +149,10 @@ export default () => {
                 <ProDescriptions.Item
                     span={2}
                     valueType="text"
-                    label={t('Password')}
+                    label={t('panel.password')}
                 >
                     <Space size={8}>
-                        <HiddenText text={archive.password}/>
+                        <HiddenText text={archive.clusterPassword}/>
                     </Space>
                 </ProDescriptions.Item>
             </ProDescriptions>

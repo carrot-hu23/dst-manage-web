@@ -1,8 +1,13 @@
 import {useParams} from "react-router-dom";
 import React, {useRef, useState} from 'react';
 import {ProTable} from '@ant-design/pro-components';
-import {Button, Image, message, Popconfirm, Space, Tag, Typography} from 'antd';
+import {Button, ConfigProvider, Image, message, Popconfirm, Space, Tag} from 'antd';
 import {Container, Box, Card} from '@mui/material';
+
+import {useTranslation} from "react-i18next";
+import i18n from "i18next";
+import zhCN from 'antd/es/locale/zh_CN';
+import enUS from 'antd/es/locale/en_US';
 
 import {deleteLogs, getPlayerLog} from '../api/playerLogApi';
 import {dstRoles, dstRolesMap} from '../utils/dst';
@@ -10,8 +15,6 @@ import {addBlackListPlayerListApi} from "../api/playerApi";
 import style from "./DstServerList2/index.module.css";
 import HiddenText from "./Home2/HiddenText/HiddenText";
 
-
-const { Text } = Typography;
 
 const playerActionEnum = {
     "[LeaveAnnouncement]": '离开房间',
@@ -22,7 +25,11 @@ const playerActionEnum = {
 }
 
 export default function PlayerLog() {
+
+    const {t} = useTranslation()
+
     const {cluster} = useParams()
+    const currentLocale = i18n.language.startsWith('zh') ? zhCN : enUS;
 
     const actionRef = useRef();
     const [currentPage, setCurrentPage] = useState(1);
@@ -65,7 +72,7 @@ export default function PlayerLog() {
             key: 'kuId',
             ellipsis: true,
             // <Text>{`${record.kuId.slice(0, 3)}***${record.kuId.slice(record.kuId.length - 2)}`}</Text>
-            render: (text, record, _, action) => <HiddenText text={record.kuId} />
+            render: (text, record, _, action) => <HiddenText text={record.kuId}/>
         },
         {
             title: 'SteamId',
@@ -77,7 +84,7 @@ export default function PlayerLog() {
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
                 <Space size={4}>
-                    <HiddenText text={record.steamId} />
+                    <HiddenText text={record.steamId}/>
                     <a
                         target={'_blank'}
                         href={`https://steamcommunity.com/profiles/${record.steamId}`}
@@ -104,15 +111,7 @@ export default function PlayerLog() {
             key: 'ip',
             valueType: 'string',
             search: false,
-            render: (text, record, _, action) => <HiddenText text={record.ip} />
-        },
-        {
-            title: '地区',
-            dataIndex: 'region',
-            key: 'region',
-            valueType: 'string',
-            search: false,
-            // render: (text, record, _, action) => <HiddenText text={record.ip} />
+            render: (text, record, _, action) => <HiddenText text={record.ip}/>
         },
         {
             title: 'Action',
@@ -122,7 +121,7 @@ export default function PlayerLog() {
             // eslint-disable-next-line no-unused-vars
             render: (text, record, _, action) => (<div>
                 {record.action === '[JoinAnnouncement]' && <Tag color="magenta">加入</Tag>}
-                {record.action === '[LeaveAnnouncement]' &&  <Tag>离开</Tag>}
+                {record.action === '[LeaveAnnouncement]' && <Tag>离开</Tag>}
                 {record.action === '[DeathAnnouncement]' && <Tag color="red">死亡</Tag>}
                 {record.action === '[ResurrectAnnouncement]' && <Tag color="green">复活</Tag>}
                 {record.action === '[Say]' && <Tag color="gold">聊天</Tag>}
@@ -138,6 +137,14 @@ export default function PlayerLog() {
                     {text}
                 </div>
             ),
+        },
+        {
+            title: 'Region',
+            dataIndex: 'region',
+            key: 'region',
+            valueType: 'string',
+            search: false,
+            // render: (text, record, _, action) => <HiddenText text={record.ip} />
         },
         {
             title: '操作',
@@ -160,7 +167,7 @@ export default function PlayerLog() {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button size={'small'} color="danger" variant="filled">拉黑</Button>
+                        <Button size={'small'} color="danger" variant="filled" >{t('player.log.block')}</Button>
                     </Popconfirm>
                 </div>)
         },
@@ -169,57 +176,58 @@ export default function PlayerLog() {
 
     return (
         <>
-            <Container maxWidth="xxl">
-                <Card>
-                    <Box sx={{p: 1}} dir="ltr">
+            <ConfigProvider locale={currentLocale}>
+                <Container maxWidth="xxl">
+                    <Card>
+                        <Box sx={{p: 1}} dir="ltr">
 
-                        <ProTable
-                            scroll={{
-                                x: 500,
-                            }}
-                            // cardBordered
-                            columns={columns}
-                            actionRef={actionRef}
-                            rowSelection={rowSelection}
-                            request={async (params = {}, sort, filter) => {
-                                // console.log(sort, filter);
-                                console.log('params', params)
-                                const resp = await getPlayerLog(cluster, params)
-                                setData(resp.data)
-                                return {
-                                    data: resp.data.data,
-                                    success: true,
-                                    total: resp.data.total
-                                };
-                            }}
-                            rowKey="ID"
-                            pagination={{
-                                current: currentPage,
-                                pageSize,
-                                total: data.total,
-                                onChange: setCurrentPage,
-                                showSizeChanger: true,
-                                onShowSizeChange: (current, size) => setPageSize(size),
-                            }}
-                            headerTitle="玩家日志"
-                            toolBarRender={() => [
-                                <Button color="danger" variant="filled" danger onClick={()=>{
-                                    deleteLogs("", {
-                                        ids: selectedRowKeys
-                                    }).then(resp=>{
-                                        if (resp.code === 200) {
-                                            message.success("删除成功")
-                                            actionRef.current?.reload();
-                                        }
-                                    })
-                                }}>
-                                    删除
-                                </Button>
-                            ]}
-                        />
-                    </Box>
-                </Card>
-            </Container>
+                            <ProTable
+                                scroll={{
+                                    x: 500,
+                                }}
+                                // cardBordered
+                                columns={columns}
+                                actionRef={actionRef}
+                                rowSelection={rowSelection}
+                                request={async (params = {}, sort, filter) => {
+                                    const resp = await getPlayerLog(cluster, params)
+                                    setData(resp.data)
+                                    return {
+                                        data: resp.data.data,
+                                        success: true,
+                                        total: resp.data.total
+                                    };
+                                }}
+                                rowKey="ID"
+                                pagination={{
+                                    current: currentPage,
+                                    pageSize,
+                                    total: data.total,
+                                    onChange: setCurrentPage,
+                                    showSizeChanger: true,
+                                    onShowSizeChange: (current, size) => setPageSize(size),
+                                    // pageSizeOptions: [5, 10, 20 ,50, 100]
+                                }}
+                                headerTitle={t('player.log.title')}
+                                toolBarRender={() => [
+                                    <Button color="danger" variant="filled" onClick={() => {
+                                        deleteLogs("", {
+                                            ids: selectedRowKeys
+                                        }).then(resp => {
+                                            if (resp.code === 200) {
+                                                message.success("删除成功")
+                                                actionRef.current?.reload();
+                                            }
+                                        })
+                                    }}>
+                                        {t('player.log.delete')}
+                                    </Button>
+                                ]}
+                            />
+                        </Box>
+                    </Card>
+                </Container>
+            </ConfigProvider>
         </>
     )
 }

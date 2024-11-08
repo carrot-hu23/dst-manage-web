@@ -1,8 +1,14 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Button, message, Popconfirm, Progress, Space, Spin, Switch, Table, Tag, Tooltip} from 'antd';
 import {ClearOutlined} from '@ant-design/icons';
-import {cleanAllLevelApi, cleanLevelApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+import {useLevelsStore} from "@/store/useLevelsStore";
+import {parse} from "lua-json";
+import {useTranslation} from "react-i18next";
+
+import {cleanAllLevelApi, cleanLevelApi, getLevelStatusApi, startAllLevelApi, startLevelApi} from "../../../api/8level";
+
+
 
 
 function formatData(data, num) {
@@ -10,37 +16,72 @@ function formatData(data, num) {
 }
 
 
-export default ({levels}) => {
+export default () => {
+    const {t} = useTranslation()
+
+    const levels = useLevelsStore((state) => state.levels)
+    const setLevels = useLevelsStore((state) => state.setLevels)
 
     const [spin, setSpin] = useState(false)
     const [startText, setStartText] = useState("")
     const {cluster} = useParams()
 
+    useEffect(() => {
+        const timerId = setInterval(() => {
+            getLevelStatusApi(cluster)
+                .then(resp => {
+                    if (resp.code === 200) {
+                        const levels = resp.data
+                        const items = []
+                        levels.forEach(level => {
+                            const item = {
+                                key: level.uuid,
+                                uuid: level.uuid,
+                                levelName: level.levelName,
+                                location: '未知',
+                                ps: level.ps,
+                                Ps: level.Ps,
+                                status: level.status
+                            }
+                            try {
+                                const data = parse(level.leveldataoverride)
+                                item.location = data.location
+                            } catch (error) {
+                                console.log(error)
+                            }
+                            items.push(item)
+                        })
+                        setLevels(items)
+                    }
+                })
+        }, 3000)
+
+        return () => {
+            clearInterval(timerId); // 组件卸载时清除定时器
+        };
+    }, [])
+
     const statusOnClick = (checked, event, levelName, uuid) => {
         let prefix
         if (checked) {
-            prefix = "启动"
-            setStartText(`正在启动${levelName}`)
+            prefix = t('panel.start.up')
         } else {
-            prefix = "关闭"
-            setStartText(`正在关闭${levelName}`)
+            prefix = t('panel.start.down')
         }
         setSpin(true)
         startLevelApi(cluster, uuid, checked).then(resp => {
             if (resp.code !== 200) {
-                message.error(`${prefix}${levelName}失败${resp.msg}`)
-                message.warning("请检查饥荒服务器路径是否设置正确")
+                message.error(`${prefix} ${levelName}失败${resp.msg}`)
             } else {
-                message.success(`正在${prefix}${levelName}`)
+                message.success(`${prefix} ${levelName}`)
             }
             setSpin(false)
-            setStartText("")
         })
     }
 
     const columns = [
         {
-            title: '世界名',
+            title: t('panel.levelName'),
             dataIndex: 'levelName',
             key: 'levelName',
             hideInSearch: true,
@@ -53,20 +94,20 @@ export default ({levels}) => {
                                          <span>{`内存: ${formatData((record.Ps !== undefined ? record.Ps.RSS : 0) / 1024, 2)}MB`}</span>
                                          <span>{`虚拟内存: ${formatData((record.Ps !== undefined ? record.Ps.VSZ : 0) / 1024, 2)}MB`}</span>
                                      </Space>
-                                     <Progress  percent={record.Ps.memUage} size={'small'} />
+                                     <Progress percent={record.Ps.memUage} size={'small'}/>
                                  </div>
                                  <div>
-                                     cpu: <Progress type="circle" percent={record.Ps.cpuUage} size={40} />
+                                     cpu: <Progress type="circle" percent={record.Ps.cpuUage} size={40}/>
                                  </div>
                              </div>)}>
-                        {record.status && <Tag color={'green'} >{text}</Tag>}
-                        {!record.status && <Tag color={'default'} >{text}</Tag>}
+                        {record.status && <Tag color={'green'}>{text}</Tag>}
+                        {!record.status && <Tag color={'default'}>{text}</Tag>}
                     </Tooltip>
                 </div>
             ),
         },
         {
-            title: '内存',
+            title: t('panel.mem'),
             dataIndex: 'mem',
             key: 'mem',
             render: (_, record) => (
@@ -76,27 +117,26 @@ export default ({levels}) => {
             ),
         },
         {
-            title: '操作',
+            title: t('panel.action'),
             key: 'action',
-            align: 'right',
             hideInSearch: true,
             render: (_, record) => (
                 <Space size="middle" wrap>
                     <Popconfirm
                         title={`清理 ${record.levelName} 世界`}
-                        description={"点击后，将删除存储的 session save 等文件，存储存档文件将会删除"}
+                        description="将会删除 save session 文件等内容，请自行做好备份"
                         onConfirm={() => {
                             const levels = []
                             levels.push(record.uuid)
                             cleanLevelApi(cluster, levels)
-                                .then(resp=>{
+                                .then(resp => {
                                     if (resp.code === 200) {
                                         message.success("清理成功")
                                     } else {
                                         message.error("清理失败")
                                     }
                                 })
-                                .catch(error=>{
+                                .catch(error => {
                                     console.log(error)
                                     message.error("清理失败")
                                 })
@@ -107,13 +147,12 @@ export default ({levels}) => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <ClearOutlined/>
-                        
+                        <Button icon={<ClearOutlined/>} danger size={'small'}>{t('panel.clear')}</Button>
                     </Popconfirm>
 
                     <Switch checked={record.status}
-                            checkedChildren="启动"
-                            unCheckedChildren="关闭"
+                            checkedChildren={t('panel.run')}
+                            unCheckedChildren={t('panel.stop')}
                             onClick={(checked, event) => {
                                 statusOnClick(checked, event, record.levelName, record.uuid)
                             }}
@@ -129,7 +168,7 @@ export default ({levels}) => {
                 paddingBottom: '16px',
             }} size={16}>
                 <Popconfirm
-                    title={`启动世界`}
+                    title={t('panel.start.all')}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键启动")
@@ -150,12 +189,12 @@ export default ({levels}) => {
                     <Button
                         color="primary" variant="filled"
                     >
-                        启动存档
+                        {t('panel.start.all')}
                     </Button>
                 </Popconfirm>
 
                 <Popconfirm
-                    title={`关闭世界`}
+                    title={t('panel.stop.all')}
                     onConfirm={() => {
                         setSpin(true)
                         setStartText("正在一键关闭")
@@ -176,7 +215,7 @@ export default ({levels}) => {
                     <Button
                         color="default" variant="filled"
                     >
-                        关闭存档
+                        {t('panel.stop.all')}
                     </Button>
                 </Popconfirm>
 
@@ -204,7 +243,7 @@ export default ({levels}) => {
                         color="default" variant="filled"
                         type={"primary"}
                     >
-                        删除存档
+                        {t('panel.delete')}
                     </Button>
                 </Popconfirm>
             </Space>
@@ -216,7 +255,6 @@ export default ({levels}) => {
                     }}
                     columns={columns}
                     dataSource={levels}
-                    headerTitle="世界列表"
                     showHeader={false}
                     pagination={levels?.length >= 10}
                 />

@@ -23,17 +23,18 @@ const ModInfo = ({mod}) => {
                         {mod?.name.slice(0, 20)}
                     </span>
                     <br/>
-                    <span>{t('modid')}:{mod?.modid}</span>
+                    <span>{t('mod.modid')}:{mod?.modid}</span>
                     <br/>
-                    <span>{t('author')}: {mod?.mod_config?.author !== undefined ? mod?.mod_config?.author.slice(0, 20) : ""}</span>
+                    <span>{t('mod.author')}: {mod?.mod_config?.author !== undefined ? mod?.mod_config?.author.slice(0, 20) : ""}</span>
                 </div>
                 <div>
-                    <span>{t('version')}: {mod?.mod_config?.version}</span>
-                    <div>{t('last time')}: {timestampToString(mod.last_time * 1000)}</div>
+                    <span>{t('mod.version')}: {mod?.mod_config?.version}</span>
+                    <div>{t('mod.lasttime')}: {timestampToString(mod.last_time * 1000)}</div>
                     <span>{mod?.mod_config?.dont_starve_compatible === true && <span>饥荒联机版兼容</span>}</span>
                     <span>{mod?.mod_config?.dont_starve_compatible === false && <span>-</span>}</span>
                 </div>
             </Space>
+            <br/><br/>
             <div>
                 <span>
                     {mod?.mod_config?.description}
@@ -74,7 +75,7 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                         return [...current]
                     })
                     setSpinning(false)
-                    message.success("更新成功")
+                    message.success(t('mod.update.ok'))
                 }
             })
     }
@@ -83,12 +84,12 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
         <>
             <Spin spinning={spinning}>
                 {!mod.installed && <>
-                    <span>{t('none mod')}</span>
+                    <span>{t('mod.none')}</span>
                 </>
                 }
 
                 {(mod.installed && mod.modid === null || mod.modid === undefined) ? (
-                    <span>请选择模组</span>
+                    <span>{t('mod.choose.please')}</span>
                 ) : (
                     <>
                         <div
@@ -101,12 +102,12 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                             <ModInfo mod={mod}/>
                         </div>
 
-                        <Space size={16} wrap>
-                            <Button color="primary" variant="filled" onClick={() => setOpen(true)}>
-                                {t('options')}
+                        <Space size={16}>
+                            <Button type="primary" onClick={() => setOpen(true)}>
+                                {t('mod.options')}
                             </Button>
                             <Popconfirm
-                                title={t('update mode configuration options')}
+                                title={t('mod.update.title')}
                                 okText="Yes"
                                 cancelText="No"
                                 onConfirm={() => updateMod()}
@@ -114,39 +115,37 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                                 {mod.update && <Badge dot>
                                     <Button style={{
                                         backgroundColor: "#149b6e"
-                                    }} color="primary" variant="filled" >
-                                        {t('Update Configuration')}
+                                    }} type="primary">
+                                        {t('mod.update')}
                                     </Button>
                                 </Badge>}
-                                {!mod.update && <Button color="primary" variant="filled">
-                                    {t('Update Configuration')}
+                                {!mod.update && <Button type="primary">
+                                    {t('mod.update')}
                                 </Button>}
                             </Popconfirm>
-                            <Button color="default" variant="filled">
+                            <Button>
                                 <a
                                     target={'_blank'}
                                     href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.modid}`}
                                     rel="noreferrer"
                                 >
-                                    {t('workshop')}
+                                    {t('mod.workshop')}
                                 </a>
                             </Button>
                         </Space>
-
-
                     </>
                 )}
 
                 <Modal
                     getContainer={document.body}
-                    title={`${mod?.name} 配置`}
+                    title={`${mod?.name}`}
                     // centered
                     open={open}
                     onOk={() => {
                         setOpen(false);
                     }}
                     onCancel={() => setOpen(false)}
-                    width={800}
+                    width={640}
                     destroyOnClose
                     footer={null}
                 >
@@ -176,7 +175,7 @@ export default ({mod, setModList, defaultConfigOptionsRef, modConfigOptionsRef})
                         {mod?.mod_config?.configuration_options === undefined && mod?.mod_config?.author !== undefined &&<>
                             <br/>
                             <br/>
-                            <span>{t('this mod dont have configuration options')}</span>
+                            <span>{t('mod.tips4')}</span>
                         </>}
                     </div>
                 </Modal>

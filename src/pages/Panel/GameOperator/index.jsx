@@ -1,6 +1,6 @@
 import React from "react";
-
 import {Box, Card, Grid} from "@mui/material";
+import {useLevelsStore} from "@/store/useLevelsStore";
 
 import GameArchive from "../GameArchive";
 
@@ -10,8 +10,11 @@ import ServerLog from "../ServerLog";
 import Op from "../Op";
 
 
-export default ({levels}) => {
+
+export default () => {
+    const levels = useLevelsStore((state) => state.levels)
     const levelSize = levels.length
+
     return (
         <>
             {levelSize >= 5 && (
@@ -31,18 +34,17 @@ export default ({levels}) => {
                         <br/>
                         <Card>
                             <Box sx={{p: 3}} dir="ltr">
-                                <GameLevels levels={levels}/>
+                                <GameLevels />
                             </Box>
                         </Card>
                     </Grid>
 
                     <Grid item xs={12} md={7} lg={7}>
-                        <ServerLog levels={levels}/>
+                        <ServerLog />
                         <br/>
                         <Card>
                             <Box sx={{p: 3}} dir="ltr">
-
-                                <OnlinePlayers levels={levels}/>
+                                <OnlinePlayers />
                             </Box>
                         </Card>
                     </Grid>
@@ -54,7 +56,7 @@ export default ({levels}) => {
                     <Grid item xs={12} md={5} lg={5}>
                         <Card>
                             <Box sx={{p: 3}} dir="ltr">
-                                <GameLevels levels={levels}/>
+                                <GameLevels />
                             </Box>
                         </Card>
                         <br/>
@@ -66,7 +68,7 @@ export default ({levels}) => {
                         <br/>
                         <Card>
                             <Box sx={{p: 3}} dir="ltr">
-                                <OnlinePlayers levels={levels}/>
+                                <OnlinePlayers />
                             </Box>
                         </Card>
                     </Grid>
@@ -78,7 +80,7 @@ export default ({levels}) => {
                             </Box>
                         </Card>
                         <br/>
-                        <ServerLog levels={levels}/>
+                        <ServerLog />
                     </Grid>
                 </Grid>
             )}
