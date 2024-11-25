@@ -31,7 +31,21 @@ export default () => {
     const {t} = useTranslation()
     const {cluster} = useParams()
     const {i18n} = useTranslation();
-    const lang = i18n.language;
+    const [lang, setLang] = useState('zh')
+
+    useEffect(() => {
+        const handleLanguageChange = (lng) => {
+            setLang(lng)
+            setActiveTab(lng === "en" ? "全部" : "默认");
+        };
+
+        i18n.on("languageChanged", handleLanguageChange);
+
+        // 清理事件监听器
+        return () => {
+            i18n.off("languageChanged", handleLanguageChange);
+        };
+    }, [i18n]);
 
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
