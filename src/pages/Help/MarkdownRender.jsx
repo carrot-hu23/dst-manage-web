@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter' // 代码高亮
 // 高亮的主题，还有很多别的主题，可以自行选择
 import {dark ,tomorrow} from 'react-syntax-highlighter/dist/esm/styles/prism'
-import 'github-markdown-css';
+// import 'github-markdown-css';
 
 import {useTheme} from "../../hooks/useTheme";
 
