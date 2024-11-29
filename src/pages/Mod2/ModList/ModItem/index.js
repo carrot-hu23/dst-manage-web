@@ -12,7 +12,7 @@ function subscribeMod(lang, t, modid, modList, setModList, setStartLoading) {
     getModInfo(lang, "", modid).then(data => {
         console.log(data.data);
         if (data.code !== 200) {
-            message.warning(t('"mod.subscribe.error"'))
+            message.warning(t('mod.subscribe.error'))
         } else {
             setStartLoading(false)
             setModList(current => {
